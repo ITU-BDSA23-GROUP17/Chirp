@@ -1,3 +1,5 @@
-﻿foreach (var arg in args)
-    Console.WriteLine(arg);
-    Console.WriteLine("Hello,World!");
+﻿if (args[0] == "read") {
+
+} else if (args[0] == "cheep") {
+
+}
