@@ -1,8 +1,11 @@
 ﻿using System.Text.RegularExpressions;
 
 var path = "chirp_cli_db.csv";
-
-if(args[0] == "read"){
+ if(args.Length == 0){
+    Console.WriteLine("Welcome to chirp_cli");
+    Console.WriteLine("To read chirps type: chirp_cli read");
+    Console.WriteLine("To chirp type: chirp_cli cheep <message>");
+} else if(args[0] == "read"){
     try
     {
         // Open the text file using a stream reader.
@@ -49,7 +52,7 @@ if(args[0] == "read"){
             Console.Write($"{user} @ {dateTime}: {message}");
         }
     }	
-}
+} 
  
 
 
