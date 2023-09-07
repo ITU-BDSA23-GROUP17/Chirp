@@ -7,7 +7,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aef6fa8a-9e65-4298-a15d-9d684f1b463b" name="Changes" comment="" />
+    <list default="true" id="aef6fa8a-9e65-4298-a15d-9d684f1b463b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Chirp.CLI.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Chirp.CLI.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chirp.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Chirp.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimpleDB/Class1.cs" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,9 +21,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="2V4LrDFBif6HdPwWvaLZbtxzWXq" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -29,7 +34,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "CSV-parser",
     "last_opened_file_path": "/home/hanan/Documents/BDSA",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -74,6 +79,7 @@
       <option name="presentableId" value="Default" />
       <updated>1694090604555</updated>
       <workItem from="1694090610604" duration="352000" />
+      <workItem from="1694092662193" duration="70000" />
     </task>
     <servers />
   </component>
