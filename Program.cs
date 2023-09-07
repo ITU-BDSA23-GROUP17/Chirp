@@ -1,6 +1,8 @@
 ﻿using System.Text.RegularExpressions;
 var path = "chirp_cli_db.csv";
 
+
+
 // main function
 if (!File.Exists(path))
 {
