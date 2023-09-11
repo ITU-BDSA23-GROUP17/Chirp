@@ -1,73 +1,39 @@
-﻿using System.Globalization;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
 using System.Text.RegularExpressions;
-using CsvHelper;
-using Namespace;
+using SimpleDB;
 
-var path = "chirp_cli_db.csv";
 
-// main function
-if (!File.Exists(path))
+if (args.Length == 0)
 {
-    Console.WriteLine("Does not exist");
+    Console.WriteLine("Welcome to chirp_cli");
+    Console.WriteLine("To read chirps type: chirp_cli read");
+    Console.WriteLine("To chirp type: chirp_cli cheep <message>");
 }
-else
+else if (args[0] == "read")
 {
-    if (args.Length == 0)
-    {
-        Console.WriteLine("Welcome to chirp_cli");
-        Console.WriteLine("To read chirps type: chirp_cli read");
-        Console.WriteLine("To chirp type: chirp_cli cheep <message>");
-    }
-    else if (args[0] == "read")
-    {
-        readFile();
-    }
-    else if (args[0] == "cheep")
-    {
-        appendFile(args);
-    }
+    readFile();
 }
+else if (args[0] == "cheep")
+{
+    
+};
+
 
 // functions to read file
 void readFile()
 {
-   /*  // Open the text file using a stream reader.
-    using (var sr = new StreamReader(path))
-    {
-        Regex regex = new Regex("(?<abc>[A-Za-z]+),\"(?<message>[^\"]*)\",(?<date>[0-9]+)", RegexOptions.IgnoreCase);
-        string data = sr.ReadLine();
-
-
-        while ((data = sr.ReadLine()) != null)
-        {
-            MatchCollection matches = regex.Matches(data);
-            foreach (Match match in matches)
-            {
-                DateTime dateTime = DateTimeOffset.FromUnixTimeSeconds(long.Parse(match.Groups[3].ToString())).UtcDateTime;
-                Console.WriteLine($"{match.Groups[1]} @ {dateTime}: {match.Groups[2]} ");
-            }
-        }
-    } */
-     // modified from source: https://joshclose.github.io/CsvHelper/getting-started/
-    using (var reader = new StreamReader(path))
-    using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-    {
-        
-        while (csv.Read())
-        {
-            var record = csv.GetRecord<Cheep>();
-            // test to see if it works
-            Console.WriteLine(record.Message);
-        }
-
+    var database = new CSVDatabase<Cheep>();
+    foreach(var cheep in database.Read()){
+            DateTime dateTime = DateTimeOffset.FromUnixTimeSeconds(long.Parse(cheep.Timestamp.ToString())).UtcDateTime;
+            Console.WriteLine($"{cheep.Author} @ {dateTime}: {cheep.Message} ");
     }
-
 }
 
 // function to append file
 void appendFile(string[] args)
 {
-    using (StreamWriter sw = File.AppendText(path))
+   /*  using (StreamWriter sw = File.AppendText(path))
     {
         if (args.Length == 1)
         {
@@ -87,9 +53,14 @@ void appendFile(string[] args)
             sw.WriteLine($"{user},{$"\"{message}\""},{unixDateTime}");
             Console.Write($"{user} @ {dateTime}: {message}");
         }
-    }
-}
+    } */
+};
 
 
 
+public record Cheep(){
+    public string Author { get; set; }
+    public string Message { get; set; }
+    public long Timestamp { get; set; }
 
+};
