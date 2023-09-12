@@ -1,5 +1,6 @@
 using System.Globalization;
 using CsvHelper;
+using CsvHelper.Configuration;
 
 namespace SimpleDB;
 
@@ -16,13 +17,22 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
         }
     }
 
+    // got a bit of help from source https://github.com/JoshClose/CsvHelper/issues/1726 as the library had been updated to use args
     public void Store(T record)
     {
-        using (var writer = new StreamWriter(path))
-        using (var csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture))
+        var config = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
-            csvWriter.WriteRecord(record);
-        }
+            ShouldQuote = args => args.Row.Index == 1,
+        };
+       using (var stream = File.Open(path, FileMode.Append))
+       using (var writer = new StreamWriter(stream))
+       
+       using (var csv = new CsvWriter(writer,  config))
+        {
+            
+            csv.WriteRecord(record);
+            writer.Write("\n");
+      }
     }
 }
 

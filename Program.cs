@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using SimpleDB;
 
+var database = new CSVDatabase<Cheep>();
 
 if (args.Length == 0)
 {
@@ -16,14 +17,13 @@ else if (args[0] == "read")
 }
 else if (args[0] == "cheep")
 {
-    
+    appendFile(args);
 };
 
 
 // functions to read file
 void readFile()
 {
-    var database = new CSVDatabase<Cheep>();
     foreach(var cheep in database.Read()){
             DateTime dateTime = DateTimeOffset.FromUnixTimeSeconds(long.Parse(cheep.Timestamp.ToString())).UtcDateTime;
             Console.WriteLine($"{cheep.Author} @ {dateTime}: {cheep.Message} ");
@@ -33,27 +33,21 @@ void readFile()
 // function to append file
 void appendFile(string[] args)
 {
-   /*  using (StreamWriter sw = File.AppendText(path))
+    string message = "";
+    var user = Environment.UserName;
+    DateTime dateTime = DateTime.Now;
+    DateTimeOffset dto = new DateTimeOffset(dateTime.ToUniversalTime());
+    long unixDateTime = dto.ToUnixTimeSeconds();
+    for (int i = 1; i < args.Length; i++)
     {
-        if (args.Length == 1)
-        {
-            Console.WriteLine("what do you want to chirp? because there is nothing :)");
-        }
-        else
-        {
-            string message = "";
-            var user = Environment.UserName;
-            DateTime dateTime = DateTime.Now;
-            DateTimeOffset dto = new DateTimeOffset(dateTime.ToUniversalTime());
-            long unixDateTime = dto.ToUnixTimeSeconds();
-            for (int i = 1; i < args.Length; i++)
-            {
-                message += i == 1 ? args[i] : $" {args[i]}";
-            }
-            sw.WriteLine($"{user},{$"\"{message}\""},{unixDateTime}");
-            Console.Write($"{user} @ {dateTime}: {message}");
-        }
-    } */
+        message += i == 1 ? args[i] : $" {args[i]}";
+    }
+    Cheep newCheep = new Cheep();
+    newCheep.Message = message;
+    newCheep.Author = user;
+    newCheep.Timestamp = unixDateTime;
+    database.Store(newCheep);
+    Console.Write($"{user} @ {dateTime}: { $"\"{message}\""}");
 };
 
 
