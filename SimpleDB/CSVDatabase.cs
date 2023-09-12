@@ -10,11 +10,36 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
 
     public IEnumerable<T> Read(int? limit = null)
     {
+        List<T> list = new List<T>();
         using (var reader = new StreamReader(path))
         using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
         {
-            return csv.GetRecords<T>().ToList();
+            if (limit != null )
+            {
+              try
+              {
+                for (int i = 0; i < limit; i++)
+               {
+                    csv.Read();
+                   list.Add(csv.GetRecord<T>());
+               }
+              }
+              catch (CsvHelper.MissingFieldException)
+              {
+                Console.WriteLine("There are not enough Cheeps see the ones we do have below:");
+              }
+               
+            }
+            else
+            {
+                while (csv.Read())
+                {
+                    list.Add(csv.GetRecord<T>());
+                }
+            }
+
         }
+        return list;
     }
 
     // got a bit of help from source https://github.com/JoshClose/CsvHelper/issues/1726 as the library had been updated to use args
@@ -24,15 +49,15 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
         {
             ShouldQuote = args => args.Row.Index == 1,
         };
-       using (var stream = File.Open(path, FileMode.Append))
-       using (var writer = new StreamWriter(stream))
-       
-       using (var csv = new CsvWriter(writer,  config))
+        using (var stream = File.Open(path, FileMode.Append))
+        using (var writer = new StreamWriter(stream))
+
+        using (var csv = new CsvWriter(writer, config))
         {
-            
+
             csv.WriteRecord(record);
             writer.Write("\n");
-      }
+        }
     }
 }
 

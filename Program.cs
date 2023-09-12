@@ -24,7 +24,7 @@ else if (args[0] == "cheep")
 // functions to read file
 void readFile()
 {
-    foreach(var cheep in database.Read()){
+    foreach(var cheep in database.Read(int.Parse(args[1]))){
             DateTime dateTime = DateTimeOffset.FromUnixTimeSeconds(long.Parse(cheep.Timestamp.ToString())).UtcDateTime;
             Console.WriteLine($"{cheep.Author} @ {dateTime}: {cheep.Message} ");
     }
