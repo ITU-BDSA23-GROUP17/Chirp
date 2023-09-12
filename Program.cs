@@ -18,7 +18,7 @@ const string help = @"chirp.
     ---h ---help     Show this screen.
 ";
 
-var arguments = new Docopt().Apply(help, args, version: "Naval Fate 2.0", exit: true)!;
+var arguments = new Docopt().Apply(help, args, version: "Chirp 1.0", exit: true)!;
 
 if (arguments["---help"].IsTrue | arguments["---h"].IsTrue)
         Console.WriteLine(help);
