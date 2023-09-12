@@ -13,7 +13,7 @@ if (args.Length == 0)
 }
 else if (args[0] == "read")
 {
-    readFile();
+    UserInterface.printCheeps(database.Read(int.Parse(args[1])));
 }
 else if (args[0] == "cheep")
 {
