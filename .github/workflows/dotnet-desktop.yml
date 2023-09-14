@@ -2,9 +2,9 @@ name: .NET Build and Test
 
 on:
   push:
-    branches: [ $default-branch ]
+    branches: ['workflowtest']
   pull_request:
-    branches: [ $default-branch ]
+    branches: ['workflowtest']
 
 jobs:
   build:
