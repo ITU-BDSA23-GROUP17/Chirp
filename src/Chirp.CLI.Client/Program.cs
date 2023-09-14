@@ -21,18 +21,23 @@ const string help = @"chirp.
 var arguments = new Docopt().Apply(help, args, version: "Chirp 1.0", exit: true)!;
 
 if (arguments["---help"].IsTrue | arguments["---h"].IsTrue)
-        Console.WriteLine(help);
+    Console.WriteLine(help);
 else if (arguments["read"].IsTrue)
-    if(arguments["<limit>"].ToString().Equals(""))
+    if (arguments["<limit>"].ToString().Equals(""))
         UserInterface.printCheeps(database.Read());
-    else{
+    else
+    {
         UserInterface.printCheeps(database.Read(int.Parse(arguments["<limit>"].ToString())));
     }
-else if (arguments["cheep"].IsTrue){
+else if (arguments["cheep"].IsTrue)
+{
     appendFile(arguments["<message>"].AsList.ToArray());
 }
 return 0;
 
+/// <summary>
+/// test
+/// </summary> ///
 void appendFile(object[] args)
 {
     string message = "";
@@ -49,14 +54,18 @@ void appendFile(object[] args)
     newCheep.Author = user;
     newCheep.Timestamp = unixDateTime;
     database.Store(newCheep);
-    Console.Write($"{user} @ {dateTime}: { $"\"{message}\""}");
+    Console.Write($"{user} @ {dateTime}: {$"\"{message}\""}");
 };
 
-
-
-public record Cheep(){
+static DateTime UnixTimeParser(long unixTime)
+{
+    return DateTimeOffset.FromUnixTimeSeconds(unixTime).UtcDateTime;
+};
+public record Cheep()
+{
     public string Author { get; set; }
     public string Message { get; set; }
     public long Timestamp { get; set; }
 
 };
+

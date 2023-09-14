@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.CLI", "src\Chirp.CLI.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleDB", "src\SimpleDB\SimpleDB.csproj", "{DBFDFAA2-A05E-4B55-A8DC-929EDD13982C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{3FB62EF7-10A0-430F-9D0C-E6D05A9CE90F}"
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +51,18 @@ Global
 		{DBFDFAA2-A05E-4B55-A8DC-929EDD13982C}.Release|x64.Build.0 = Release|Any CPU
 		{DBFDFAA2-A05E-4B55-A8DC-929EDD13982C}.Release|x86.ActiveCfg = Release|Any CPU
 		{DBFDFAA2-A05E-4B55-A8DC-929EDD13982C}.Release|x86.Build.0 = Release|Any CPU
+		{3FB62EF7-10A0-430F-9D0C-E6D05A9CE90F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FB62EF7-10A0-430F-9D0C-E6D05A9CE90F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FB62EF7-10A0-430F-9D0C-E6D05A9CE90F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3FB62EF7-10A0-430F-9D0C-E6D05A9CE90F}.Debug|x64.Build.0 = Debug|Any CPU
+		{3FB62EF7-10A0-430F-9D0C-E6D05A9CE90F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3FB62EF7-10A0-430F-9D0C-E6D05A9CE90F}.Debug|x86.Build.0 = Debug|Any CPU
+		{3FB62EF7-10A0-430F-9D0C-E6D05A9CE90F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FB62EF7-10A0-430F-9D0C-E6D05A9CE90F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FB62EF7-10A0-430F-9D0C-E6D05A9CE90F}.Release|x64.ActiveCfg = Release|Any CPU
+		{3FB62EF7-10A0-430F-9D0C-E6D05A9CE90F}.Release|x64.Build.0 = Release|Any CPU
+		{3FB62EF7-10A0-430F-9D0C-E6D05A9CE90F}.Release|x86.ActiveCfg = Release|Any CPU
+		{3FB62EF7-10A0-430F-9D0C-E6D05A9CE90F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{41E7C535-4F0E-4EB7-B9AB-D823077F6411} = {52B56DBC-2BF9-4ED8-99A5-1C136C2D441A}
