@@ -49,7 +49,7 @@ void appendFile(object[] args)
     newCheep.Author = user;
     newCheep.Timestamp = unixDateTime;
     database.Store(newCheep);
-    Console.Write($"{user} @ {dateTime}: { $"\"{message}\""}");
+    Console.Write($"{user} @ {dateTime}: { $"\"{message}\""} ");
 };
 
 
