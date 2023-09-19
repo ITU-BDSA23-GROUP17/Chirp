@@ -21,8 +21,8 @@ public class IntegrationTest1
     public void Test1()
     {
         // Arange
-        CSVDatabase<Cheep> database = new CSVDatabase<Cheep>();
-        var testCheep = new Cheep("Test","bla bla",1234567890);
+        CSVDatabase<Cheep> database = CSVDatabase<Cheep>.Instance;
+        var testCheep = new Cheep("Test", "bla bla", 1234567890);
 
         // Act
         database.Store(testCheep);
