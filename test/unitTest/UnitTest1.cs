@@ -11,7 +11,7 @@ public class UnitTest1
         // Act
         var result = UserInterface.UnixTimeParser(input);
         // Assert
-        Assert.Equal("08/02/2023 12.19.38", result.ToString());
+        Assert.Equal("08/02/2023 12:19:38", result.ToString());
     }
 }
 
