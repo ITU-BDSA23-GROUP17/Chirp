@@ -12,7 +12,7 @@ public class UnitTest1
         // Act
         var result = UserInterface.UnixTimeParser(input);
         // Assert
-        Assert.Equal("8/2/2023 12:19:38 PM", result.ToString());
+        Assert.Equal("8/2/2023 12:19:38", result.ToString());
     }
 }
 public class IntegrationTest1
@@ -22,12 +22,7 @@ public class IntegrationTest1
     {
         // Arange
         CSVDatabase<Cheep> database = new CSVDatabase<Cheep>();
-        var testCheep = new Cheep
-        {
-            Author = "Test",
-            Message = "bla bla",
-            Timestamp = 1234567890
-        };
+        var testCheep = new Cheep("Test","bla bla",1234567890);
 
         // Act
         database.Store(testCheep);
