@@ -6,13 +6,18 @@ namespace SimpleDB;
 
 public class CSVDatabase<T> : IDatabaseRepository<T>
 {
-    string path = "chirp_cli_db.csv";
+
+    private static string path = "chirp_cli_db.csv";
 
     public IEnumerable<T> Read(int? limit = null)
     {
         List<T> list = new List<T>();
+        var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+        {
+
+        };
         using (var reader = new StreamReader(path))
-        using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+        using (var csv = new CsvReader(reader, config))
         {
             if (limit != null )
             {
@@ -20,7 +25,7 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
               {
                 for (int i = 0; i < limit; i++)
                {
-                    csv.Read();
+                   csv.Read();
                    list.Add(csv.GetRecord<T>());
                }
               }
@@ -47,6 +52,8 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
     {
         var config = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
+            HeaderValidated = null,
+            Delimiter = ",",
             ShouldQuote = args => args.Row.Index == 1,
         };
         using (var stream = File.Open(path, FileMode.Append))
