@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Globalization;
-using System.Text.RegularExpressions;
-using SimpleDB;
+﻿using SimpleDB;
 using DocoptNet;
 
 var database = CSVDatabase<Cheep>.Instance;
