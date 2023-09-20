@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using SimpleDB;
 using DocoptNet;
 
-var database = new CSVDatabase<Cheep>();
+var database = CSVDatabase<Cheep>.Instance;
 
 const string help = @"chirp.
 
@@ -49,7 +49,7 @@ void appendFile(object[] args)
     {
         message += i == 0 ? args[i] : $" {args[i]}";
     }
-    Cheep newCheep = new Cheep(user,message,unixDateTime);
+    Cheep newCheep = new Cheep(user, message, unixDateTime);
     database.Store(newCheep);
     Console.Write($"added{user} @ {dateTime}: {$"\"{message}\""}");
 };

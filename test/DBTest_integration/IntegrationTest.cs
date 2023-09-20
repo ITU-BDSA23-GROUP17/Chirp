@@ -24,7 +24,7 @@ public class UnitTest1
 
         public CSVDatabase_IntegrationTest1()
         {
-            _csvDatabase = new CSVDatabase<Cheep>();
+            _csvDatabase = CSVDatabase<Cheep>.Instance;
         }
 
 

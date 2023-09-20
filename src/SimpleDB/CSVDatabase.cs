@@ -4,10 +4,35 @@ using CsvHelper.Configuration;
 
 namespace SimpleDB;
 
-public class CSVDatabase<T> : IDatabaseRepository<T>
+/*
+    This class is refactored to follow the Singleton Pattern. 
+    The refactoring is based upon the 'First version - not thread-safe'
+    -version of the article 'Implementing the Singleton Pattern in C#',
+    the companion website for 'C# in Depth' by Jon Skeet.
+    Source: https://csharpindepth.com/Articles/Singleton#unsafe
+*/
+public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
 
-    private static string path = "chirp_cli_db.csv";
+    private static CSVDatabase<T>? instance = null;
+
+    public static CSVDatabase<T> Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new CSVDatabase<T>();
+            }
+            return instance;
+        }
+    }
+
+    private CSVDatabase()
+    {
+    }
+
+    string path = "chirp_cli_db.csv";
 
     public IEnumerable<T> Read(int? limit = null)
     {
@@ -19,21 +44,21 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
         using (var reader = new StreamReader(path))
         using (var csv = new CsvReader(reader, config))
         {
-            if (limit != null )
+            if (limit != null)
             {
-              try
-              {
-                for (int i = 0; i < limit; i++)
-               {
-                   csv.Read();
-                   list.Add(csv.GetRecord<T>());
-               }
-              }
-              catch (CsvHelper.MissingFieldException)
-              {
-                Console.WriteLine("There are not enough Cheeps see the ones we do have below:");
-              }
-               
+                try
+                {
+                    for (int i = 0; i < limit; i++)
+                    {
+                        csv.Read();
+                        list.Add(csv.GetRecord<T>());
+                    }
+                }
+                catch (CsvHelper.MissingFieldException)
+                {
+                    Console.WriteLine("There are not enough Cheeps see the ones we do have below:");
+                }
+
             }
             else
             {
