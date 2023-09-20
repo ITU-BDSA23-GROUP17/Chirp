@@ -37,8 +37,12 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
     public IEnumerable<T> Read(int? limit = null)
     {
         List<T> list = new List<T>();
+        var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+        {
+
+        };
         using (var reader = new StreamReader(path))
-        using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+        using (var csv = new CsvReader(reader, config))
         {
             if (limit != null)
             {
@@ -73,6 +77,8 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
     {
         var config = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
+            HeaderValidated = null,
+            Delimiter = ",",
             ShouldQuote = args => args.Row.Index == 1,
         };
         using (var stream = File.Open(path, FileMode.Append))
