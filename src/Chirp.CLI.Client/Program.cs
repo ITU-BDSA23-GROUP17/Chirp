@@ -15,13 +15,16 @@ const string help = @"chirp.
     ---h ---help     Show this screen.
 ";
 
+
 var arguments = new Docopt().Apply(help, args, version: "Chirp 1.0", exit: true)!;
 
 if (arguments["---help"].IsTrue | arguments["---h"].IsTrue)
     Console.WriteLine(help);
 else if (arguments["read"].IsTrue)
     if (arguments["<limit>"].ToString().Equals(""))
-        UserInterface.printCheeps(database.Read());
+    {
+        await UserInterface.printCheeps(database.Read());
+    }
     else
     {
         UserInterface.printCheeps(database.Read(int.Parse(arguments["<limit>"].ToString())));
@@ -31,6 +34,7 @@ else if (arguments["cheep"].IsTrue)
     appendFile(arguments["<message>"].AsList.ToArray());
 }
 return 0;
+
 
 /// <summary>
 /// test
