@@ -1,6 +1,5 @@
 namespace E2ETest;
 
-using System.Collections;
 using System.Diagnostics;
 
 public class EndToEndTest1
@@ -16,7 +15,7 @@ public class EndToEndTest1
         var chirpTestStartInfo = new ProcessStartInfo
         {
             FileName = "dotnet",
-            Arguments = "Chirp.CLI.dll read",
+            Arguments = "Chirp.CLI.dll cheep hej!!!!",
             RedirectStandardOutput = true, //We need to redirect output in order to capture it and compare with expected
             WorkingDirectory = workingDirectory
         };
