@@ -34,13 +34,14 @@ jobs:
         run: |
           tag=$(git describe --tags --abbrev=0)
           release_name="Chirp-$tag-${{ matrix.target }}"
-          output_dir="$HOME/$release_name"
 
           # Build everything
           dotnet publish src/Chirp.CLI.Client/Chirp.CLI.csproj --framework net7.0 --runtime "${{ matrix.target }}" -c Release -o "$output_dir"
 
-
           7z a -tzip "${release_name}.zip" "./${release_name}/*"
+
+          rm -r "$release_name"
+
       - name: Upload Release Artifact
         uses: actions/upload-artifact@v2
         with:
