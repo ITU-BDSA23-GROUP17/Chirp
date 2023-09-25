@@ -1,5 +1,4 @@
-﻿namespace SimpleDB;
-
+﻿
 interface IDatabaseRepository<T>
 {
     public IEnumerable<T> Read(int? limit = null);
