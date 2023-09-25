@@ -58,49 +58,46 @@ public static class UserInterface
         }
     }
 
-    async  public static Task appendFile(object[] args) {
+    async public static Task appendFile(object[] args)
+    {
 
         // source https://stackoverflow.com/questions/68719641/send-json-data-in-http-post-request-c-sharp
         // UserInterface.printCheeps(database.Read());
         // URL of the JSON file
+
         string jsonUrl = "https://bdsagroup17chirpremotedb.azurewebsites.net/cheep";
 
- 
+
 
         try
         {
-        string message = "";
-        var user = Environment.UserName;
-        DateTime dateTime = DateTime.Now;
-        DateTimeOffset dto = new DateTimeOffset(dateTime.ToUniversalTime());
-        long unixDateTime = dto.ToUnixTimeSeconds();
-        for (int i = 0; i < args.Length; i++)
-        {
-            message += i == 0 ? args[i] : $" {args[i]}";
+            string message = "";
+            var user = Environment.UserName;
+            DateTime dateTime = DateTime.Now;
+            DateTimeOffset dto = new DateTimeOffset(dateTime.ToUniversalTime());
+            long unixDateTime = dto.ToUnixTimeSeconds();
+            for (int i = 0; i < args.Length; i++)
+            {
+                message += i == 0 ? args[i] : $" {args[i]}";
+            }
+            Cheep newCheep = new Cheep(user, message, unixDateTime);
+
+            // Create an instance of HttpClient
+            using HttpClient client = new HttpClient();
+
+            var response = client.PostAsJsonAsync(jsonUrl, newCheep).Result;
+
+
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine($"Added {user} @ {dateTime}: \"{message}\"");
+            }
+            else
+            {
+                Console.WriteLine($"Failed to add cheep. Status code: {response.StatusCode}");
+            }
         }
-        Cheep newCheep = new Cheep(user, message, unixDateTime);
-        
-        var jsonCheep = JsonConvert.SerializeObject(newCheep);
-        Console.WriteLine(jsonCheep);
-
-        var content = new StringContent(jsonCheep, Encoding.UTF8, "application/json");
-        
-        // Create an instance of HttpClient
-        using HttpClient client = new HttpClient();
-
-        HttpResponseMessage response = await client.PostAsync(jsonUrl, content);
-
-        Console.WriteLine(await response.Content.ReadAsStringAsync());
-
-        if (response.IsSuccessStatusCode)
-        {
-            Console.WriteLine($"Added {user} @ {dateTime}: \"{message}\"");
-        }
-        else
-        {
-            Console.WriteLine($"Failed to add cheep. Status code: {response.StatusCode}");
-        }        
-        } catch (HttpRequestException ex)
+        catch (HttpRequestException ex)
         {
             Console.WriteLine($"HTTP request error: {ex.Message}");
         }
