@@ -42,7 +42,7 @@ jobs:
           # Create a ZIP file for each platform
           cd "$HOME"
 
-          zip -r "$release_name.zip" "$release_name"
+          7z a -tzip "${release_name}.zip" "./${release_name}/*"
       - name: Upload Release Artifact
         uses: actions/upload-artifact@v2
         with:
