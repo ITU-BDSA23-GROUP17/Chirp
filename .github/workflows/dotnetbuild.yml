@@ -36,13 +36,9 @@ jobs:
           tag=$(git describe --tags --abbrev=0)
           release_name="Chirp-$tag-${{ matrix.target }}"
           # Build everything
-          dotnet publish src/Chirp.CLI.Client/Chirp.CLI.csproj --framework net7.0 --runtime "${{ matrix.target }}" -c Release -o "$release_name"
+          dotnet publish src/Chirp.CLI.Client/Chirp.CLI.csproj -r "${{ matrix.target }}" -p:PublishSingleFile=true --self-contained false -c Release -o "$release_name"
           # Pack files
-          if [ "${{ matrix.target }}" == "win-x64" ]; then
-            # Pack to zip for Windows
-            7z a -tzip "${release_name}.zip" "./${release_name}/*"
-          else
-            7z a -tzip "${release_name}.zip" "./${release_name}/*"
+          7z a -tzip "${release_name}.zip" "./${release_name}/*"
           fi
           # Delete output directory
           rm -r "$release_name"
