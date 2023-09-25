@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,16 +23,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\SimpleDB\SimpleDB.csproj" />
+    <ProjectReference Include="..\src\Chirp.CLI.Client\Chirp.CLI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\Chirp.CLI.Client\Chirp.CLI.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="../../data/" />
+    <Folder Include="../data/" />
   </ItemGroup>
-
-  <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
-    <Copy SourceFiles="../../data/chirp_cli_db.csv" DestinationFolder="$(OutDir)" />
-  </Target>
 
 </Project>

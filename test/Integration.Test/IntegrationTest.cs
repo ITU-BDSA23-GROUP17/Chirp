@@ -1,7 +1,6 @@
 namespace DBTest_integration;
 
 using System.Collections;
-using SimpleDB;
 
 public class UnitTest1
 {
@@ -27,17 +26,24 @@ public class UnitTest1
             _csvDatabase = CSVDatabase<Cheep>.Instance;
         }
 
+        #region Store_TestCode
+        [Fact]
+        public void check_that_database_contains_something()
+        {
+            Assert.NotEmpty(_csvDatabase.Read());
+        }
+        #endregion
 
 
         #region Store_TestCode
         [Theory]
         [ClassData(typeof(CheepRecordData))]
-        public void chek_that_database_contains_something(Cheep cheep)
+        public void check_that_database_has_added_the_new_cheep(Cheep cheep)
         {
             var input = cheep;
             _csvDatabase.Store(input);
 
-            Assert.NotEmpty(_csvDatabase.Read());
+            Assert.Contains( input,_csvDatabase.Read());
         }
         #endregion
     }
