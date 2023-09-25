@@ -15,7 +15,7 @@ public class EndToEndTest1
         var chirpTestStartInfo = new ProcessStartInfo
         {
             FileName = "dotnet",
-            Arguments = "Chirp.CLI.dll cheep hej!!!!",
+            Arguments = "Chirp.CLI.dll read",
             RedirectStandardOutput = true, //We need to redirect output in order to capture it and compare with expected
             WorkingDirectory = workingDirectory
         };
@@ -47,7 +47,7 @@ public class EndToEndTest1
 
             //Assert
             //We verify that the actual and expected outputs are equal.
-            Assert.Equal(expectedOutput,output);
+            Assert.Equal(expectedOutput, output);
         }
     }
 }

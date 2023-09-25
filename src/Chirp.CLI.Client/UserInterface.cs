@@ -62,8 +62,6 @@ public static class UserInterface
     {
 
         // source https://stackoverflow.com/questions/68719641/send-json-data-in-http-post-request-c-sharp
-        // UserInterface.printCheeps(database.Read());
-        // URL of the JSON file
 
         string jsonUrl = "https://bdsagroup17chirpremotedb.azurewebsites.net/cheep";
 
