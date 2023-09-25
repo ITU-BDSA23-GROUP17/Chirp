@@ -23,32 +23,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 7.0.x
 
-      - name: Build
-        shell: bash
+      - name: Build and Package
         run: |
           tag=$(git describe --tags --abbrev=0)
           release_name="Chirp-$tag-${{ matrix.target }}"
+          output_dir="$HOME/$release_name"
           # Build everything
-          dotnet publish src/Chirp.CLI.Client/Chirp.CLI.csproj --framework net7.0 --runtime "${{ matrix.target }}" -c Release -o "$release_name"
-          # Pack files
-          if [ "${{ matrix.target }}" == "win-x64" ]; then
-            # Pack to zip for Windows
-            7z a -tzip "${release_name}.zip" "./${release_name}/*"
-          else
-          tar czvf "${release_name}.tar.gz" "$release_name"
-          fi
-          # Delete output directory
-          rm -r "$release_name"
-      - name: Publish
+          dotnet publish src/Chirp.CLI.Client/Chirp.CLI.csproj --framework net7.0 --runtime "${{ matrix.target }}" -c Release -o "$output_dir"
+          # Create a ZIP file for each platform
+          cd "$HOME"
+
+          zip -r "$release_name.zip" "$release_name"
+      - name: Upload Release Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: chirp-artifact-${{ matrix.target }}
+          path: $HOME/Chirp-*.zip
+
+      - name: Publish Release
+        id: create-release
         uses: softprops/action-gh-release@v1
         with:
-          files: "Chirp*"
+          files: ${{ steps.upload-release-artifact.outputs.artifact_paths }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
