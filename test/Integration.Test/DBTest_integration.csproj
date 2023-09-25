@@ -22,12 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\SimpleDB\SimpleDB.csproj" />
-    <ProjectReference Include="..\..\src\Chirp.CLI.Client\Chirp.CLI.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="../../data/" />
+    <ProjectReference Include="..\..\src\Chirp.CSVDBService\Chirp.CSVDBService.csproj" />
   </ItemGroup>
 
   <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
