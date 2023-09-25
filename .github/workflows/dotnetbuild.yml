@@ -1,50 +1,54 @@
-#Sources: ChatGPT 4.0, https://patriksvensson.se/posts/2020/03/creating-release-artifacts-with-github-actions
-
-name: .NET Build and Release
+name: Publish
 
 on:
-  push:
-    tags:
-      - "v*.*.*"
+  release:
+    types: [published]
 
 jobs:
-  build-and-release:
-    name: Cross-Compile on ubuntu-latest and Release
+  release:
+    name: Release
+    strategy:
+      matrix:
+        kind: ["linux", "windows", "macOS"]
+        include:
+          - kind: linux
+            os: ubuntu-latest
+            target: linux-x64
+          - kind: windows
+            os: windows-latest
+            target: win-x64
+          - kind: macOS
+            os: macos-latest
+            target: osx-x64
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v1
 
-      - name: Setup .NET
+      - name: Setup dotnet
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: "7.0.x"
-
-      - name: Restore Dependencies
-        run: dotnet restore
+          dotnet-version: 7.0.x
 
       - name: Build
+        shell: bash
         run: |
           tag=$(git describe --tags --abbrev=0)
-
-          # Declare an array of runtime targets
-          targets=("osx-arm64" "osx-x64" "win-x64" "linux-x64")
-
-          # Iterate through the targets and create executables for each
-          for target in "${targets[@]}"
-          do
-            release_name="Chirp.CLI-$tag-$target"
-            dotnet publish src/Chirp.CLI/Chirp.CLI.csproj -c Release --framework net7.0 --runtime $target -o "$release_name"
-
+          release_name="Chirp-$tag-${{ matrix.target }}"
+          # Build everything
+          dotnet publish src/Chirp.CLI.Client/Chirp.CLI.csproj --framework net7.0 --runtime "${{ matrix.target }}" -c Release -o "$release_name"
+          # Pack files
+          if [ "${{ matrix.target }}" == "win-x64" ]; then
+            # Pack to zip for Windows
             7z a -tzip "${release_name}.zip" "./${release_name}/*"
-
-            rm -r "$release_name"
-          done
-
+          else
+          tar czvf "${release_name}.tar.gz" "$release_name"
+          fi
+          # Delete output directory
+          rm -r "$release_name"
       - name: Publish
         uses: softprops/action-gh-release@v1
         with:
-          files: |
-            Chirp.CLI*.zip
+          files: "Chirp*"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
