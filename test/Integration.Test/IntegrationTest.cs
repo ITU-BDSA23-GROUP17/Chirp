@@ -2,7 +2,7 @@ namespace DBTest_integration;
 
 using System.Collections;
 
-public class UnitTest1
+public class IntegrationTest1
 {
     //source for test https://stackoverflow.com/questions/22093843/pass-complex-parameters-to-theory
     public record CheepRecordData : IEnumerable<object[]>
