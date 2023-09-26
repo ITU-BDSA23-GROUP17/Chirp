@@ -34,7 +34,7 @@ jobs:
         run: |
           tag=$(git describe --tags --abbrev=0)
           release_name="Chirp-${{ matrix.target }}"
-          output_dir="$HOME/runner/$release_name"
+          output_dir="$HOME/$release_name"
           # Build everything
           dotnet publish src/Chirp.CLI.Client/Chirp.CLI.csproj --framework net7.0 --runtime "${{ matrix.target }}" -c Release -o "$output_dir"
           # Create a ZIP file for each platform
