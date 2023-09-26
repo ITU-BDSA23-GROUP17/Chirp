@@ -51,7 +51,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            /home/runner/Chirp-win-x64.zip
+            /home/runner/Chirp-linux-x64.zip
             /home/runner/Chirp-win-x64.zip
             /home/runner/Chirp-osx-x64.zip
         env:
