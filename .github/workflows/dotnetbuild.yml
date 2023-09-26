@@ -33,7 +33,7 @@ jobs:
       - name: Build and Package
         run: |
           tag=$(git describe --tags --abbrev=0)
-          release_name="Chirp-$tag-${{ matrix.target }}"
+          release_name="Chirp-${{ matrix.target }}"
           output_dir="$HOME/runner/$release_name"
           # Build everything
           dotnet publish src/Chirp.CLI.Client/Chirp.CLI.csproj --framework net7.0 --runtime "${{ matrix.target }}" -c Release -o "$output_dir"
@@ -44,7 +44,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: chirp-artifact-${{ matrix.target }}
-          path: $HOME/runner/Chirp-$tag-${{ matrix.target }}.zip
+          path: $HOME/runner/Chirp-${{ matrix.target }}.zip
 
       - name: Publish Release
         id: create-release
