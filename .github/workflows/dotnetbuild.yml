@@ -44,7 +44,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: chirp-artifact-${{ matrix.target }}
-          path: $HOME/runner/${{ matrix.target }}.zip
+          path: $HOME/runner/Chirp-$tag-${{ matrix.target }}.zip
 
       - name: Publish Release
         id: create-release
