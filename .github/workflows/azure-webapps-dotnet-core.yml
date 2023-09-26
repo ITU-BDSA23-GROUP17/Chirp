@@ -29,10 +29,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
 
       - name: Set up .NET Core
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v1
         with:
           dotnet-version: "7.x"
           include-prerelease: true
@@ -44,7 +44,7 @@ jobs:
         run: dotnet publish -c Release -o src/Chirp.CSVDBService
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: Chirp.CSVDBService
           path: src/Chirp.CSVDBService
@@ -58,7 +58,7 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v2
         with:
           name: Chirp.CSVDBService
 
