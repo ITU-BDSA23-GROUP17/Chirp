@@ -1,7 +1,7 @@
 using System.Collections;
 namespace test;
 
-public class UnitTest1
+public class UnitTest
 {
     [Fact]
     public void Test1()

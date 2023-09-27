@@ -1,50 +1,24 @@
-namespace DBTest_integration;
+namespace IntegrationTest;
 
 using System.Collections;
+using System.Net;
 
-public class UnitTest1
+public class IntegrationTest
 {
-    //source for test https://stackoverflow.com/questions/22093843/pass-complex-parameters-to-theory
-    public record CheepRecordData : IEnumerable<object[]>
-    {
-        public IEnumerator<object[]> GetEnumerator()
-        {
-            yield return new Cheep[] {
-                new Cheep("hanan","hej jj",1690978778)
-            };
-        }
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-    }
-
-    public class CSVDatabase_IntegrationTest1
+    [Fact]
+    public async void TestHTTPRequest()
     {
 
-        private readonly CSVDatabase<Cheep> _csvDatabase;
+        //Arrange
+        string jsonUrl = "https://bdsagroup17chirpremotedb.azurewebsites.net/cheeps";
+        using HttpClient client = new HttpClient();
 
-        public CSVDatabase_IntegrationTest1()
-        {
-            _csvDatabase = CSVDatabase<Cheep>.Instance;
-        }
+        //Act
+        HttpResponseMessage response = await client.GetAsync(jsonUrl);
+        var jsonContent = await response.Content.ReadAsStringAsync();
 
-        #region Store_TestCode
-        [Fact]
-        public void check_that_database_contains_something()
-        {
-            Assert.NotEmpty(_csvDatabase.Read());
-        }
-        #endregion
-
-
-        #region Store_TestCode
-        [Theory]
-        [ClassData(typeof(CheepRecordData))]
-        public void check_that_database_has_added_the_new_cheep(Cheep cheep)
-        {
-            var input = cheep;
-            _csvDatabase.Store(input);
-
-            Assert.Contains( input,_csvDatabase.Read());
-        }
-        #endregion
+        //Assert
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.NotEmpty(jsonContent);
     }
 }

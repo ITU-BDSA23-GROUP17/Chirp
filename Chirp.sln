@@ -9,9 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.CLI", "src\Chirp.CLI.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{2D552851-2280-40EE-9ADF-E07899A93FCB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBTest_integration", "test\Integration.Test\DBTest_integration.csproj", "{DE829972-147F-45F2-9B04-DD7E1AA2492C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTest", "test\Integration.Test\IntegrationTest.csproj", "{DE829972-147F-45F2-9B04-DD7E1AA2492C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\Unit.Test\test.csproj", "{A249119D-2E8D-4C40-9A4C-6419FFFB7D8A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "test\Unit.Test\UnitTest.csproj", "{A249119D-2E8D-4C40-9A4C-6419FFFB7D8A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.CSVDBService", "src\Chirp.CSVDBService\Chirp.CSVDBService.csproj", "{F990FCB8-7744-467F-BCBB-2D1A64730F76}"
 EndProject
