@@ -9,9 +9,15 @@ using Newtonsoft.Json;
 public static class UserInterface
 {
 
-    public static DateTime UnixTimeParser(long unixTime)
+    public static string UnixTimeParser(long unixTime)
     {
-        return DateTimeOffset.FromUnixTimeSeconds(unixTime).UtcDateTime;
+    // Convert Unix timestamp to a DateTimeOffset
+    DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(unixTime);
+
+    // Format the date-time string using the desired format
+    string formattedDateTime = dateTimeOffset.ToString("dd/MM/yyyy HH:mm:ss");
+
+    return formattedDateTime;
     }
 
     async public static Task printCheeps(int? limit = null)
@@ -43,7 +49,7 @@ public static class UserInterface
                 // using a JSON library like Newtonsoft.Json (Json.NET)
                 foreach (var cheep in cheeps)
                 {
-                    DateTime dateTime = UnixTimeParser(cheep.Timestamp);
+                    string dateTime = UnixTimeParser(cheep.Timestamp);
                     Console.WriteLine($"{cheep.Author} @ {dateTime}: {cheep.Message} ");
                 }
             }
