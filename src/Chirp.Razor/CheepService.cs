@@ -13,7 +13,7 @@ public class CheepService : ICheepService
     public List<CheepViewModel> GetCheeps()
     {
         // DBFacade DB = new DBFacade();
-        return DBFacade.DatabaseQuery(@"SELECT * FROM message");
+        return DBFacade.DatabaseQuery(@"SELECT username as Author, text as Message, pub_date as Timestamp FROM message JOIN user ON author_id = user_id");
     }
 
     public List<CheepViewModel> GetCheepsFromAuthor(string author)

@@ -10,6 +10,5 @@
     <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.11" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.11" />
     <EmbeddedResource Include="data/**/*" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.11" />
   </ItemGroup>
 </Project>
