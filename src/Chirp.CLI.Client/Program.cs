@@ -1,4 +1,46 @@
 ﻿using DocoptNet;
+using System.Net.Http.Json;
+
+async static Task appendFile(object[] args)
+{
+
+    // source https://stackoverflow.com/questions/68719641/send-json-data-in-http-post-request-c-sharp
+
+    string jsonUrl = "https://bdsagroup17chirpremotedb.azurewebsites.net/cheep";
+
+    try
+    {
+        string message = "";
+        var user = Environment.UserName;
+        DateTime dateTime = DateTime.Now;
+        DateTimeOffset dto = new DateTimeOffset(dateTime.ToUniversalTime());
+        long unixDateTime = dto.ToUnixTimeSeconds();
+        for (int i = 0; i < args.Length; i++)
+        {
+            message += i == 0 ? args[i] : $" {args[i]}";
+        }
+        Cheep newCheep = new Cheep(user, message, unixDateTime);
+
+        // Create an instance of HttpClient
+        using HttpClient client = new HttpClient();
+
+        var response = client.PostAsJsonAsync(jsonUrl, newCheep).Result;
+
+
+        if (response.IsSuccessStatusCode)
+        {
+            Console.WriteLine($"Added {user} @ {dateTime}: \"{message}\"");
+        }
+        else
+        {
+            Console.WriteLine($"Failed to add cheep. Status code: {response.StatusCode}");
+        }
+    }
+    catch (HttpRequestException ex)
+    {
+        Console.WriteLine($"HTTP request error: {ex.Message}");
+    }
+}
 
 
 const string help = @"chirp.
@@ -29,7 +71,7 @@ else if (arguments["read"].IsTrue)
     }
 else if (arguments["cheep"].IsTrue)
 {
-    UserInterface.appendFile(arguments["<message>"].AsList.ToArray());
+    appendFile(arguments["<message>"].AsList.ToArray());
 }
 
 
