@@ -67,7 +67,7 @@ else if (arguments["read"].IsTrue)
     }
     else
     {
-        UserInterface.printCheeps(int.Parse(arguments["<limit>"].ToString()));
+        await UserInterface.printCheeps(int.Parse(arguments["<limit>"].ToString()));
     }
 else if (arguments["cheep"].IsTrue)
 {
