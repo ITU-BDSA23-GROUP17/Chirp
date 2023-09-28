@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 public static class UserInterface
 {
     private static HttpClient? client;
+    public static string? dateTime;
 
     async public static Task printCheeps(int? limit = null)
     {
@@ -33,7 +34,7 @@ public static class UserInterface
 
                 foreach (var cheep in cheeps)
                 {
-                    string dateTime = DateTimeOffset.FromUnixTimeSeconds(cheep.Timestamp).ToString("dd/MM/yyyy HH:mm:ss");
+                    dateTime = DateTimeOffset.FromUnixTimeSeconds(cheep.Timestamp).ToString("dd/MM/yyyy HH:mm:ss");
                     Console.WriteLine($"{cheep.Author} @ {dateTime}: {cheep.Message} ");
                 }
             }
