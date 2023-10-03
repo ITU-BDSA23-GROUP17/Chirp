@@ -1,4 +1,5 @@
 using System.Data;
+using System.Reflection;
 using Microsoft.Data.Sqlite;
 
 // var sqlDBFilePath = "/tmp/chirp.db";
@@ -6,6 +7,7 @@ using Microsoft.Data.Sqlite;
 // https://stackoverflow.com/questions/34691378/creating-sqlite-database-using-dump-file-programmatically
 public class DBFacade
 {
+
     string connectionString;
 
     public DBFacade()
@@ -15,7 +17,6 @@ public class DBFacade
 
     void InitDatabase()
     {
-
         var builder = new SqliteConnectionStringBuilder
         {
             DataSource = GetEnvironmentVariable(),
@@ -23,43 +24,12 @@ public class DBFacade
 
         connectionString = builder.ToString();
 
-
-
-        using (var connection = new SqliteConnection(connectionString))
-        {
-            // open a connection
-            connection.Open();
-
-            var schemaCommand = connection.CreateCommand();
-
-            // schema for the database
-            string schemaFilePath = "./data/schema.sql";
-
-            // Read contents of the file
-            string schemaSql = File.ReadAllText(schemaFilePath);
-
-            schemaCommand.CommandText = schemaSql;
-
-            schemaCommand.ExecuteNonQuery();
-
-            // now add data dump
-
-            var dataDumpCommand = connection.CreateCommand();
-
-            // schema for the database
-            string dumpFilePath = "./data/dump.sql";
-
-            // Read contents of the file
-            string dumpSql = File.ReadAllText(dumpFilePath);
-
-            dataDumpCommand.CommandText = dumpSql;
-
-            dataDumpCommand.ExecuteNonQuery();
-
-        }
-
+        ExecuteSetupQuery("Chirp.Razor.data.schema.sql");
+        ExecuteSetupQuery("Chirp.Razor.data.dump.sql");
 
     }
+
+
 
     private string GetEnvironmentVariable()
     {
@@ -100,5 +70,23 @@ public class DBFacade
 
         return cheepList;
     }
+
+    public void ExecuteSetupQuery(string resourceName)
+    {
+        using (var connection = new SqliteConnection(connectionString))
+        {
+            // open a connection
+            connection.Open();
+
+            var command = connection.CreateCommand();
+
+            // schema for the database
+            command.CommandText = ResourceManager.GetEmbeddedResource(resourceName);
+
+            command.ExecuteNonQuery();
+
+        }
+    }
 }
+
 

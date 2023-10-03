@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 //this code is by chatgpt
+//source https://stackoverflow.com/questions/3314140/how-to-read-embedded-resource-text-file
 public class ResourceManager
 {
     public static string GetEmbeddedResource(string resourceName)
