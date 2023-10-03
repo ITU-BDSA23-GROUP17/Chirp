@@ -15,9 +15,10 @@ public class DBFacade
 
     void InitDatabase()
     {
+
         var builder = new SqliteConnectionStringBuilder
         {
-            DataSource = @"/tmp/chirp.db",
+            DataSource = GetEnvironmentVariable(),
         };
 
         connectionString = builder.ToString();
@@ -57,6 +58,20 @@ public class DBFacade
 
         }
 
+
+    }
+
+    private string GetEnvironmentVariable()
+    {
+        var dbpath = Environment.GetEnvironmentVariable("CHIRPDBPATH");
+
+        if (string.IsNullOrWhiteSpace(dbpath))
+        {
+            dbpath = Path.GetTempPath() + "chip.db";
+            Console.WriteLine(dbpath);
+        }
+
+        return dbpath;
 
     }
 
