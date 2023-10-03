@@ -20,7 +20,7 @@ public class CheepService : ICheepService
     public List<CheepViewModel> GetCheepsFromAuthor(string author)
     {
         // filter by the provided author name
-        return DB.DatabaseQuery($"SELECT username as Author, text as Message, pub_date as Timestamp FROM message JOIN user ON author_id = user_id WHERE \"{author}\" = Author");
+        return null;
     }
 
     public static string UnixTimeStampToDateTimeString(double unixTimeStamp)
