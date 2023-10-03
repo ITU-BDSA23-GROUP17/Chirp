@@ -3,18 +3,70 @@ using Microsoft.Data.Sqlite;
 
 // var sqlDBFilePath = "/tmp/chirp.db";
 // @"SELECT * FROM message ORDER by message.pub_date desc";
-
+// https://stackoverflow.com/questions/34691378/creating-sqlite-database-using-dump-file-programmatically
 public class DBFacade
 {
+    string connectionString;
+
+    public DBFacade()
+    {
+        InitDatabase();
+    }
+
+    void InitDatabase()
+    {
+        var builder = new SqliteConnectionStringBuilder
+        {
+            DataSource = @"/tmp/chirp.db",
+        };
+
+        connectionString = builder.ToString();
 
 
-    public static List<CheepViewModel> DatabaseQuery(string sqlQuery)
+
+        using (var connection = new SqliteConnection(connectionString))
+        {
+            // open a connection
+            connection.Open();
+
+            var schemaCommand = connection.CreateCommand();
+
+            // schema for the database
+            string schemaFilePath = "./data/schema.sql";
+
+            // Read contents of the file
+            string schemaSql = File.ReadAllText(schemaFilePath);
+
+            schemaCommand.CommandText = schemaSql;
+
+            schemaCommand.ExecuteNonQuery();
+
+            // now add data dump
+
+            var dataDumpCommand = connection.CreateCommand();
+
+            // schema for the database
+            string dumpFilePath = "./data/dump.sql";
+
+            // Read contents of the file
+            string dumpSql = File.ReadAllText(dumpFilePath);
+
+            dataDumpCommand.CommandText = dumpSql;
+
+            dataDumpCommand.ExecuteNonQuery();
+
+        }
+
+
+    }
+
+    public List<CheepViewModel> DatabaseQuery(string sqlQuery)
     {
         var cheepList = new List<CheepViewModel>();
-        var sqlDBFilePath = "/tmp/chirp.db";
+
         // var sqlQuery = @"SELECT * FROM message ORDER by message.pub_date desc";
 
-        using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
+        using (var connection = new SqliteConnection(connectionString))
         {
             connection.Open();
 
@@ -30,6 +82,7 @@ public class DBFacade
             }
 
         }
+
         return cheepList;
     }
 }
