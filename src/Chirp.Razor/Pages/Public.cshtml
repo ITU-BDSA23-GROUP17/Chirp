@@ -19,7 +19,7 @@
                             <a href="/@cheep.Author">@cheep.Author</a>
                         </strong>
                         @cheep.Message
-                        <small>&mdash; @cheep.Timestamp</small>
+                        <small>&mdash; @CheepService.UnixTimeStampToDateTimeString(double.Parse(cheep.Timestamp))</small>
                     </p>
                 </li>
             }
