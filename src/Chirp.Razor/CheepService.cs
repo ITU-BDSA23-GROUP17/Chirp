@@ -17,7 +17,7 @@ public class CheepService : ICheepService
         // calculate offset formula is - (pageNr - 1) * 10 = 20
         var offset = (pageNr - 1) * 10;
         // DBFacade DB = new DBFacade();
-        return DB.DatabaseQuery($@"SELECT username as Author, text as Message, pub_date as Timestamp FROM message JOIN user ON author_id = user_id LIMIT 32 OFFSET {offset}");
+        return DB.DatabaseQuery($@"SELECT username as Author, text as Message, pub_date as Timestamp FROM message JOIN user ON author_id = user_id LIMIT 31 OFFSET {offset}");
     }
 
     public List<CheepViewModel> GetCheepsFromAuthor(string author, int pageNr)
@@ -25,7 +25,7 @@ public class CheepService : ICheepService
         // calculate offset formula is - (pageNr - 1) * 10 = 20
         var offset = (pageNr - 1) * 10;
         // filter by the provided author name
-        return DB.DatabaseQuery($"SELECT username as Author, text as Message, pub_date as Timestamp FROM message JOIN user ON author_id = user_id WHERE \"{author}\" = Author LIMIT 32 OFFSET {offset}");
+        return DB.DatabaseQuery($"SELECT username as Author, text as Message, pub_date as Timestamp FROM message JOIN user ON author_id = user_id WHERE \"{author}\" = Author LIMIT 31 OFFSET {offset}");
     }
 
     public static string UnixTimeStampToDateTimeString(double unixTimeStamp)
