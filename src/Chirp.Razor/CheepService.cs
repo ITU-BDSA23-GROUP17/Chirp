@@ -2,8 +2,9 @@ public record CheepViewModel(string Author, string Message, string Timestamp);
 
 public interface ICheepService
 {
-    public List<CheepViewModel> GetCheeps();
-    public List<CheepViewModel> GetCheepsFromAuthor(string author);
+    public List<CheepViewModel> GetCheeps(int pageNr);
+    public List<CheepViewModel> GetCheepsFromAuthor(string author, int pageNr);
+    public int getPagesHome(bool isAuthorPage, string? author);
 }
 
 public class CheepService : ICheepService
@@ -11,16 +12,20 @@ public class CheepService : ICheepService
     // These would normally be loaded from a database for example
 
     DBFacade DB = new DBFacade();
-    public List<CheepViewModel> GetCheeps()
+    public List<CheepViewModel> GetCheeps(int pageNr)
     {
+        // calculate offset formula is - (pageNr - 1) * 10 = 20
+        var offset = (pageNr - 1) * 10;
         // DBFacade DB = new DBFacade();
-        return DB.DatabaseQuery(@"SELECT username as Author, text as Message, pub_date as Timestamp FROM message JOIN user ON author_id = user_id");
+        return DB.DatabaseQuery($@"SELECT username as Author, text as Message, pub_date as Timestamp FROM message JOIN user ON author_id = user_id LIMIT 32 OFFSET {offset}");
     }
 
-    public List<CheepViewModel> GetCheepsFromAuthor(string author)
+    public List<CheepViewModel> GetCheepsFromAuthor(string author, int pageNr)
     {
+        // calculate offset formula is - (pageNr - 1) * 10 = 20
+        var offset = (pageNr - 1) * 10;
         // filter by the provided author name
-        return DB.DatabaseQuery($"SELECT username as Author, text as Message, pub_date as Timestamp FROM message JOIN user ON author_id = user_id WHERE \"{author}\" = Author");
+        return DB.DatabaseQuery($"SELECT username as Author, text as Message, pub_date as Timestamp FROM message JOIN user ON author_id = user_id WHERE \"{author}\" = Author LIMIT 32 OFFSET {offset}");
     }
 
     public static string UnixTimeStampToDateTimeString(double unixTimeStamp)
@@ -31,4 +36,16 @@ public class CheepService : ICheepService
         return dateTime.ToString("MM/dd/yy H:mm:ss");
     }
 
+    public int getPagesHome(bool isAuthorPage, string? author)
+    {
+        if (isAuthorPage)
+        {
+            return DB.CountQuery($"SELECT CAST(COUNT(*) as float) / 32 AS CountDividedBy FROM message JOIN user ON author_id = user_id WHERE \"{author}\" = username ");
+        }
+        else
+        {
+            return DB.CountQuery(@"SELECT  CAST(COUNT(*) as float) / 32 AS CountDividedBy FROM message");
+        }
+
+    }
 }

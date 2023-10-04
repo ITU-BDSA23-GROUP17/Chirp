@@ -87,6 +87,33 @@ public class DBFacade
 
         }
     }
+
+    public int CountQuery(string query)
+    {
+        int rowCount = 0;
+
+        using (var connection = new SqliteConnection(connectionString))
+        {
+            // open a connection
+            connection.Open();
+
+            var command = connection.CreateCommand();
+
+            // query for the database
+            command.CommandText = query;
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                // See https://learn.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqldatareader.getvalues?view=dotnet-plat-ext-7.0
+                // for documentation on how to retrieve complete columns from query results
+                rowCount = (int)Math.Round(reader.GetFloat(0));
+
+            }
+
+        }
+        return rowCount;
+    }
 }
 
 

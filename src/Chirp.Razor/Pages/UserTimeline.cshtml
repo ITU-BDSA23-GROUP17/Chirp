@@ -8,7 +8,7 @@
 
 <div>
     <h2> @routeName's Timeline </h2>
-
+    <h1>@Model.pageNr</h1>
     @if (Model.Cheeps.Any())
     {
         <ul id="messagelist" class="cheeps">
@@ -30,4 +30,13 @@
     {
         <em>There are no cheeps so far.</em>
     }
+    <div class="pagination">
+        <a href="#">&laquo;</a>
+        @for (int i = 1; i < Model.pages + 1; i++)
+        {
+            @* to be aded later *@
+            <a href="#">@i</a>
+        }
+        <a href="#">&raquo;</a>
+    </div>
 </div>
