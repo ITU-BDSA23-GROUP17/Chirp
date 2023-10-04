@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6ED9D496-33B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.Razor", "src\Chirp.Razor\Chirp.Razor.csproj", "{735E64A6-D669-4F1B-9094-4A4B73ADA9DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTest", "test\IntegrationTest\IntegrationTest.csproj", "{8DE94BBF-86E4-4E67-85EC-0A52238F7B89}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,18 @@ Global
 		{735E64A6-D669-4F1B-9094-4A4B73ADA9DB}.Release|x64.Build.0 = Release|Any CPU
 		{735E64A6-D669-4F1B-9094-4A4B73ADA9DB}.Release|x86.ActiveCfg = Release|Any CPU
 		{735E64A6-D669-4F1B-9094-4A4B73ADA9DB}.Release|x86.Build.0 = Release|Any CPU
+		{8DE94BBF-86E4-4E67-85EC-0A52238F7B89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DE94BBF-86E4-4E67-85EC-0A52238F7B89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DE94BBF-86E4-4E67-85EC-0A52238F7B89}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8DE94BBF-86E4-4E67-85EC-0A52238F7B89}.Debug|x64.Build.0 = Debug|Any CPU
+		{8DE94BBF-86E4-4E67-85EC-0A52238F7B89}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8DE94BBF-86E4-4E67-85EC-0A52238F7B89}.Debug|x86.Build.0 = Debug|Any CPU
+		{8DE94BBF-86E4-4E67-85EC-0A52238F7B89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DE94BBF-86E4-4E67-85EC-0A52238F7B89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DE94BBF-86E4-4E67-85EC-0A52238F7B89}.Release|x64.ActiveCfg = Release|Any CPU
+		{8DE94BBF-86E4-4E67-85EC-0A52238F7B89}.Release|x64.Build.0 = Release|Any CPU
+		{8DE94BBF-86E4-4E67-85EC-0A52238F7B89}.Release|x86.ActiveCfg = Release|Any CPU
+		{8DE94BBF-86E4-4E67-85EC-0A52238F7B89}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,5 +69,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{A249119D-2E8D-4C40-9A4C-6419FFFB7D8A} = {2D552851-2280-40EE-9ADF-E07899A93FCB}
 		{735E64A6-D669-4F1B-9094-4A4B73ADA9DB} = {6ED9D496-33B2-410D-BCC9-5BC70933F4BC}
+		{8DE94BBF-86E4-4E67-85EC-0A52238F7B89} = {2D552851-2280-40EE-9ADF-E07899A93FCB}
 	EndGlobalSection
 EndGlobal
