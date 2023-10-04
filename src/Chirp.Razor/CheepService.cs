@@ -14,7 +14,7 @@ public class CheepService : ICheepService
     DBFacade DB = new DBFacade();
     public List<CheepViewModel> GetCheeps(int pageNr)
     {
-        // calculate offset formula is - (pageNr - 1) * 10 = 20
+        // calculate offset formula 
         var offset = pageNr * 32 - 32;
         // DBFacade DB = new DBFacade();
         return DB.DatabaseQuery($@"SELECT username as Author, text as Message, pub_date as Timestamp FROM message JOIN user ON author_id = user_id ORDER BY pub_date DESC LIMIT 32 OFFSET {offset}");
@@ -22,8 +22,8 @@ public class CheepService : ICheepService
 
     public List<CheepViewModel> GetCheepsFromAuthor(string author, int pageNr)
     {
-        // calculate offset formula is - (pageNr - 1) * 10 = 20
-        var offset = (pageNr - 1) * 32;
+        // calculate offset formula 
+        var offset = pageNr * 32 - 32;
         // filter by the provided author name
         return DB.DatabaseQuery($"SELECT username as Author, text as Message, pub_date as Timestamp FROM message JOIN user ON author_id = user_id WHERE \"{author}\" = Author ORDER BY pub_date DESC LIMIT 32 OFFSET {offset}");
     }
