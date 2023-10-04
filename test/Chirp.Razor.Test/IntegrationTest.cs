@@ -10,15 +10,15 @@ public class IntegrationTest
     public async void EndPointHelgeTest()
     {
         //Remember to dotnet run before you run this test
-        // Arrange
+//////// Arrange
         string stringURL = "http://localhost:5273/Helge";
         using HttpClient client = new HttpClient();
 
-        // Act
+//////// Act
         HttpResponseMessage response = await client.GetAsync(stringURL);
         string documentContents = await response.Content.ReadAsStringAsync();
 
-        // Assert
+//////// Assert
         Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
 
         // Parse the HTML document
@@ -53,15 +53,15 @@ public class IntegrationTest
     public async void EndPointRasmusTest()
     {
         //Remember to dotnet run before you run this test
-        // Arrange
+//////// Arrange
         string stringURL = "http://localhost:5273/Rasmus";
         using HttpClient client = new HttpClient();
 
-        // Act
+/////// Act
         HttpResponseMessage response = await client.GetAsync(stringURL);
         string documentContents = await response.Content.ReadAsStringAsync();
 
-        // Assert
+/////// Assert
         Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
 
         // Parse the HTML document
