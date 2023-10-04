@@ -38,16 +38,16 @@ jobs:
           include-prerelease: true
 
       - name: Build with dotnet
-        run: dotnet build -c Release src/Chirp.CSVDBService
+        run: dotnet build -c Release src/Chirp.Razor
 
       - name: dotnet publish
-        run: dotnet publish -c Release src/Chirp.CSVDBService
+        run: dotnet publish -c Release src/Chirp.Razor
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
-          name: Chirp.CSVDBService
-          path: src/Chirp.CSVDBService
+          name: Chirp.Razor
+          path: src/Chirp.Razor
 
   deploy:
     runs-on: ubuntu-latest
@@ -60,13 +60,13 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
-          name: Chirp.CSVDBService
+          name: Chirp.Razor
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: "bdsagroup17chirpremotedb"
+          app-name: "bdsagroup17chirprazor"
           slot-name: "Production"
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_RAZOR }}
           package: .
