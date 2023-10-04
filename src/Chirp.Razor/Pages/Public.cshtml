@@ -1,13 +1,13 @@
-﻿@page "/"
+﻿@page "/{page?}"
 @model Chirp.Razor.Pages.PublicModel
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
+
 }
 
 <div>
     <h2> Public Timeline </h2>
-
     @if (Model.Cheeps.Any())
     {
         <ul id="messagelist" class="cheeps">
@@ -29,4 +29,13 @@
     {
         <em>There are no cheeps so far.</em>
     }
+    <div class="pagination">
+        <a href="#">&laquo;</a>
+        @for (int i = 1; i < Model.pages + 1; i++)
+        {
+            <a href="?page=@i">@i</a>
+        }
+        <a href="#">&raquo;</a>
+    </div>
+
 </div>
