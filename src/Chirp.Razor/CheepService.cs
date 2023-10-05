@@ -52,6 +52,7 @@ public class CheepService : ICheepService
 
 public class Author {
 
+    public int Id {get; set;}
     public string Name {get; set;}
     public string Email {get; set;}
 
@@ -59,8 +60,11 @@ public class Author {
 
 public class Cheep {
 
-    public string Text {get; set;}
+    public int Id {get; set;}
 
+    public string Text {get; set;}
     public DateTime TimeStamp {get; set;}
-    
+
+    public int AuthorId {get; set;}
+
 }
