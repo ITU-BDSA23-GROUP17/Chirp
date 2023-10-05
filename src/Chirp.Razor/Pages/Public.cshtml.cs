@@ -19,7 +19,7 @@ public class PublicModel : PageModel
     public ActionResult OnGet()
     {
         pages = _service.getPagesHome(false, null);
-        pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
+        pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "0"));
         Cheeps = _service.GetCheeps(pageNr);
         return Page();
 
