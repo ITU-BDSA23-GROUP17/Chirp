@@ -11,7 +11,7 @@ public class IntegrationTest
     {
         //Remember to dotnet run before you run this test
 //////// Arrange
-        string stringURL = "http://localhost:5273/Helge";
+        string stringURL = "https://bdsagroup17chirprazor.azurewebsites.net/Helge";
         using HttpClient client = new HttpClient();
 
 //////// Act
@@ -54,7 +54,7 @@ public class IntegrationTest
     {
         //Remember to dotnet run before you run this test
 //////// Arrange
-        string stringURL = "http://localhost:5273/Rasmus";
+        string stringURL = "https://bdsagroup17chirprazor.azurewebsites.net/Rasmus";
         using HttpClient client = new HttpClient();
 
 /////// Act
@@ -90,5 +90,6 @@ public class IntegrationTest
         Assert.Equal("Rasmus", getName);
         Assert.Equal("Hej, velkommen til kurset.", getMessage);
         Assert.Equal("— 08/01/23 13:08:28", getDate);
+
     }
 }
