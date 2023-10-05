@@ -49,3 +49,18 @@ public class CheepService : ICheepService
 
     }
 }
+
+public class Author {
+
+    public string Name {get; set;}
+    public string Email {get; set;}
+
+}
+
+public class Cheep {
+
+    public string Text {get; set;}
+
+    public DateTime TimeStamp {get; set;}
+    
+}
