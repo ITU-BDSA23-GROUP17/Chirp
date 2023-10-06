@@ -10,15 +10,15 @@ public class IntegrationTest
     public async void EndPointHelgeTest()
     {
         //Remember to dotnet run before you run this test
-        // Arrange
-        string stringURL = "http://localhost:5273/Helge";
+//////// Arrange
+        string stringURL = "https://bdsagroup17chirprazor.azurewebsites.net/Helge";
         using HttpClient client = new HttpClient();
 
-        // Act
+//////// Act
         HttpResponseMessage response = await client.GetAsync(stringURL);
         string documentContents = await response.Content.ReadAsStringAsync();
 
-        // Assert
+//////// Assert
         Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
 
         // Parse the HTML document
@@ -53,15 +53,15 @@ public class IntegrationTest
     public async void EndPointRasmusTest()
     {
         //Remember to dotnet run before you run this test
-        // Arrange
-        string stringURL = "http://localhost:5273/Rasmus";
+//////// Arrange
+        string stringURL = "https://bdsagroup17chirprazor.azurewebsites.net/Rasmus";
         using HttpClient client = new HttpClient();
 
-        // Act
+/////// Act
         HttpResponseMessage response = await client.GetAsync(stringURL);
         string documentContents = await response.Content.ReadAsStringAsync();
 
-        // Assert
+/////// Assert
         Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
 
         // Parse the HTML document
@@ -90,5 +90,6 @@ public class IntegrationTest
         Assert.Equal("Rasmus", getName);
         Assert.Equal("Hej, velkommen til kurset.", getMessage);
         Assert.Equal("— 08/01/23 13:08:28", getDate);
+
     }
 }
