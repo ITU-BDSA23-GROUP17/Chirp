@@ -11,4 +11,8 @@
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.11" />
     <EmbeddedResource Include="data/**/*" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Objects.Chirp\Objects.Chirp.csproj" />
+  </ItemGroup>
 </Project>
