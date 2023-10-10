@@ -65,7 +65,7 @@ public class DBFacade
                 // for documentation on how to retrieve complete columns from query results
                 cheepList.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
             }
-
+ 
         }
 
         return cheepList;
