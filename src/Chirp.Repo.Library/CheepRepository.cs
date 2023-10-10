@@ -8,9 +8,9 @@ namespace Chirp.Repo.Library
 {
     public class CheepRepository : ICheepRepository, IDisposable
     {
-        private CheepContext context;
+        private ChirpDBContext context;
 
-        public CheepRepository(CheepContext context)
+        public CheepRepository(ChirpDBContext context)
         {
             this.context = context ;
         }
