@@ -14,5 +14,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Objects.Chirp\Objects.Chirp.csproj" />
+    <ProjectReference Include="..\Chirp.Objects\Chirp.Objects.csproj" />
+    <ProjectReference Include="..\Chirp.Repo.Library\Chirp.Repo.Library.csproj" />
+    <ProjectReference Include="..\Chirp.DTO\Chirp.DTO.csproj" />
   </ItemGroup>
 </Project>

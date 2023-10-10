@@ -1,31 +1,43 @@
-public record CheepViewModel(string Author, string Message, string Timestamp);
+using Chirp.DTO;
+using Chirp.Objects;
+using Chirp.Repo.Library;
 
 public interface ICheepService
 {
-    public List<CheepViewModel> GetCheeps(int pageNr);
-    public List<CheepViewModel> GetCheepsFromAuthor(string author, int pageNr);
+    public IEnumerable<CheepDto> GetCheeps(int pageNr);
+    public IEnumerable<CheepDto> GetCheepsFromAuthor(string author, int pageNr);
     public int getPagesHome(bool isAuthorPage, string? author);
 }
 
 public class CheepService : ICheepService
 {
-    // These would normally be loaded from a database for example
+    // These woul normally be loaded from a database for example
 
-    DBFacade DB = new DBFacade();
-    public List<CheepViewModel> GetCheeps(int pageNr)
+
+    public IEnumerable<CheepDto> GetCheeps(int pageNr)
     {
-        // calculate offset formula 
-        var offset = pageNr * 32;
-        // DBFacade DB = new DBFacade();
-        return DB.DatabaseQuery($@"SELECT username as Author, text as Message, pub_date as Timestamp FROM message JOIN user ON author_id = user_id ORDER BY pub_date DESC LIMIT 32 OFFSET {offset}");
+        using (var context = new ChirpDBContext())
+        {
+            CheepRepository CR = new CheepRepository(context);
+
+            var cheeps = from c in CR.GetCheeps()
+                         select new CheepDto()
+                         {
+                             Id = c.CheepId,
+                             Message = c.Text,
+                             Author = c.Author.Name,
+                             TimeStamp = c.TimeStamp
+                         };
+
+            return cheeps;
+        }
+
     }
 
-    public List<CheepViewModel> GetCheepsFromAuthor(string author, int pageNr)
+    public IEnumerable<CheepDto> GetCheepsFromAuthor(string author, int pageNr)
     {
-        // calculate offset formula 
-        var offset = pageNr * 32;
-        // filter by the provided author name
-        return DB.DatabaseQuery($"SELECT username as Author, text as Message, pub_date as Timestamp FROM message JOIN user ON author_id = user_id WHERE \"{author}\" = Author ORDER BY pub_date DESC LIMIT 32 OFFSET {offset}");
+        Console.WriteLine("hej");
+        return null;
     }
 
     public static string UnixTimeStampToDateTimeString(double unixTimeStamp)
@@ -38,14 +50,7 @@ public class CheepService : ICheepService
 
     public int getPagesHome(bool isAuthorPage, string? author)
     {
-        if (isAuthorPage)
-        {
-            return DB.CountQuery($"SELECT CAST(COUNT(*) as float) / 32 AS CountDividedBy FROM message JOIN user ON author_id = user_id WHERE \"{author}\" = username ");
-        }
-        else
-        {
-            return DB.CountQuery(@"SELECT  CAST(COUNT(*) as float) / 32 AS CountDividedBy FROM message");
-        }
-
+        Console.WriteLine("hej");
+        return 0;
     }
 }
