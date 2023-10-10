@@ -22,7 +22,7 @@ public class UserTimelineModel : PageModel
     {
         //source https://stackoverflow.com/questions/6514292/c-sharp-razor-url-parameter-from-view 
         pages = _service.getPagesHome(true, author);
-        pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "0"));
+        pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
         Cheeps = _service.GetCheepsFromAuthor(author, pageNr);
         return Page();
     }
