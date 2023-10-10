@@ -1,6 +1,6 @@
 using Chirp.Objects;
 
-namespace cheepRepoLibrary
+namespace Chirp.Repo.Library
 {
     public interface ICheepRepository : IDisposable
     {

@@ -1,4 +1,4 @@
-﻿namespace Objects.Chirp;
+﻿namespace Chirp.Objects;
 
 public class Author
 {
