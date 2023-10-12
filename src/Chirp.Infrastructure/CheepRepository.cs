@@ -46,7 +46,7 @@ namespace Chirp.Infrastructure
                 .OrderByDescending(c => c.TimeStamp)
                 .Skip(page * 10)
                 .Take(10)
-                .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name))
+                .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.AuthorId ))
                 .ToList();
             return cheeps;
         }
