@@ -1,4 +1,4 @@
-namespace Chirp.Razor.Test;
+namespace Chirp.Web.Test;
 
 using System.Collections;
 using System.Net;
