@@ -1,6 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+
 using System.Data;
 using Chirp.Core;
 
@@ -13,7 +11,6 @@ namespace Chirp.Infrastructure
         public CheepRepository(ChirpDBContext context)
         {
             this.context = context;
-            DbInitializer.SeedDatabase(context);
         }
 
 
@@ -56,7 +53,8 @@ namespace Chirp.Infrastructure
 
         CheepDTO ICheepRepository.GetCheepByID(int cheepId)
         {
-            throw new NotImplementedException();
+            var cheep = context.Cheeps.Find(cheepId);
+            return new CheepDTO(cheep.CheepId, cheep.Text, cheep.TimeStamp, cheep.Author.Name);
         }
 
         void ICheepRepository.InsertCheep(CheepDTO Cheep)
@@ -66,7 +64,7 @@ namespace Chirp.Infrastructure
 
         void ICheepRepository.DeleteCheep(int cheepId)
         {
-            throw new NotImplementedException();
+            context.Cheeps.Remove(context.Cheeps.Find(cheepId));
         }
 
         void ICheepRepository.UpdateCheep(CheepDTO Cheep)

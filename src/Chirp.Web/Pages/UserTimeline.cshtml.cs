@@ -1,5 +1,5 @@
-﻿using System.Web;
-using Chirp.DTO;
+﻿
+using Chirp.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using static System.Web.HttpUtility;
@@ -9,7 +9,7 @@ namespace Chirp.Web.Pages;
 public class UserTimelineModel : PageModel
 {
     private readonly ICheepService _service;
-    public IEnumerable<CheepDto> Cheeps { get; set; }
+    public IEnumerable<CheepDTO> Cheeps { get; set; }
     public int pageNr { get; set; }
     public int pages { get; set; }
 

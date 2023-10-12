@@ -1,4 +1,4 @@
-﻿namespace Chirp.Model;
+﻿namespace Chirp.Infrastructure;
 
 public class Author
 {
