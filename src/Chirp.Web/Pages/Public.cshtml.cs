@@ -1,4 +1,5 @@
 ﻿using Chirp.DTO;
+using Chirp.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using static System.Web.HttpUtility;
@@ -8,7 +9,7 @@ namespace Chirp.Razor.Pages;
 public class PublicModel : PageModel
 {
     private readonly ICheepService _service;
-    public IEnumerable<CheepDto> Cheeps { get; set; }
+    public IEnumerable<Cheep> Cheeps { get; set; }
     public int pageNr { get; set; }
     public int pages { get; set; }
 
