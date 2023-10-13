@@ -42,11 +42,13 @@ namespace Chirp.Infrastructure
 
         IEnumerable<CheepDTO> ICheepRepository.GetCheeps(int page)
         {
+            //minus by 1 so pages start from 1
+            page = page - 1;
             var cheeps = context.Cheeps
                 .OrderByDescending(c => c.TimeStamp)
-                .Skip(page * 10)
-                .Take(10)
-                .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.AuthorId ))
+                .Skip(page * 32)
+                .Take(32)
+                .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name))
                 .ToList();
             return cheeps;
         }
@@ -78,6 +80,31 @@ namespace Chirp.Infrastructure
             cheep.Text = Cheep.Message;
             cheep.TimeStamp = Cheep.TimeStamp;
             cheep.Author = context.Authors.Find(Cheep.Author);
+        }
+
+        IEnumerable<CheepDTO> ICheepRepository.GetCheepsByAuthor(string authorName, int page)
+        {
+            var cheeps = context.Cheeps
+                .Where(c => c.Author.Name == authorName)
+                .OrderByDescending(c => c.TimeStamp)
+                .Skip(page * 32)
+                .Take(32)
+                .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name))
+                .ToList();
+            return cheeps;
+        }
+
+        // for home page
+        int ICheepRepository.getPages()
+        {
+            return (int)Math.Ceiling(context.Cheeps.Count() / 32.0);
+        }
+
+        // get pages for user timeline
+        int ICheepRepository.getPagesUser(string author)
+        {
+
+            return (int)Math.Ceiling(context.Cheeps.Where(c => c.Author.Name == author).Count() / 32.0);
         }
     }
 }

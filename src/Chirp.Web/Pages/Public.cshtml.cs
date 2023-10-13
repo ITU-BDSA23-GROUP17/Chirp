@@ -24,6 +24,7 @@ public class PublicModel : PageModel
     public ActionResult OnGet()
     {
         // pages = _service.getPagesHome(false, null);
+        pages = _cheepRepository.getPages();
         pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
         Cheeps = _cheepRepository.GetCheeps(pageNr);
         return Page();
