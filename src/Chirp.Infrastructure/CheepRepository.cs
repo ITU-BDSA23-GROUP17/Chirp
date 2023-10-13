@@ -59,7 +59,12 @@ namespace Chirp.Infrastructure
 
         void ICheepRepository.InsertCheep(CheepDTO Cheep)
         {
-            throw new NotImplementedException();
+            context.Cheeps.Add(new Cheep
+            {
+                Text = Cheep.Message,
+                TimeStamp = Cheep.TimeStamp,
+                Author = context.Authors.Find(Cheep.Author)
+            });
         }
 
         void ICheepRepository.DeleteCheep(int cheepId)
@@ -69,7 +74,10 @@ namespace Chirp.Infrastructure
 
         void ICheepRepository.UpdateCheep(CheepDTO Cheep)
         {
-            throw new NotImplementedException();
+            var cheep = context.Cheeps.Find(Cheep.Id);
+            cheep.Text = Cheep.Message;
+            cheep.TimeStamp = Cheep.TimeStamp;
+            cheep.Author = context.Authors.Find(Cheep.Author);
         }
     }
 }
