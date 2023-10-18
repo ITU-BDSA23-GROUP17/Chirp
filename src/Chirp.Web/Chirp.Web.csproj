@@ -4,7 +4,6 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <PublishSingleFile>true</PublishSingleFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,4 +20,5 @@
     <ProjectReference Include="..\Chirp.Core\Chirp.Core.csproj" />
     <ProjectReference Include="..\Chirp.Infrastructure\Chirp.Infrastructure.csproj" />
   </ItemGroup>
+
 </Project>
