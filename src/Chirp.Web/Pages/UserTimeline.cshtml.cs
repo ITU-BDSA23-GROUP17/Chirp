@@ -1,29 +1,32 @@
-﻿using System.Web;
+﻿
+using Chirp.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using static System.Web.HttpUtility;
 
-namespace Chirp.Razor.Pages;
+namespace Chirp.Web.Pages;
 
 public class UserTimelineModel : PageModel
 {
-    private readonly ICheepService _service;
-    public List<CheepViewModel> Cheeps { get; set; }
+    public IEnumerable<CheepDTO> Cheeps { get; set; }
     public int pageNr { get; set; }
     public int pages { get; set; }
 
 
-    public UserTimelineModel(ICheepService service)
-    {
-        _service = service;
-    }
+    private readonly ICheepRepository _cheepRepository;
 
+    public UserTimelineModel(ICheepRepository cheepRepository)
+    {
+        _cheepRepository = cheepRepository;
+    }
     public ActionResult OnGet(string author)
     {
         //source https://stackoverflow.com/questions/6514292/c-sharp-razor-url-parameter-from-view 
-        pages = _service.getPagesHome(true, author);
+        // pages = _service.getPagesHome(true, author);
+        pages = _cheepRepository.getPagesUser(author);
         pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "0"));
-        Cheeps = _service.GetCheepsFromAuthor(author, pageNr);
+        Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
+
         return Page();
     }
 

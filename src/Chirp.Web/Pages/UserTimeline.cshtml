@@ -1,13 +1,13 @@
-﻿@page "/{page?}"
-@model Chirp.Razor.Pages.PublicModel
+﻿@page "/{author}"
+@model Chirp.Web.Pages.UserTimelineModel
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
-
+    var routeName = HttpContext.GetRouteValue("author");
 }
 
 <div>
-    <h2> Public Timeline </h2>
+    <h2> @routeName's Timeline </h2>
     @if (Model.Cheeps.Any())
     {
         <ul id="messagelist" class="cheeps">
@@ -19,7 +19,7 @@
                             <a href="/@cheep.Author">@cheep.Author</a>
                         </strong>
                         @cheep.Message
-                        <small>&mdash; @CheepService.UnixTimeStampToDateTimeString(double.Parse(cheep.Timestamp))</small>
+                        <small>&mdash; @cheep.TimeStamp</small>
                     </p>
                 </li>
             }
@@ -31,11 +31,10 @@
     }
     <div class="pagination">
         <a href="#">&laquo;</a>
-        @for (int i = 0; i < Model.pages + 1; i++)
+        @for (int i = 0; i < Model.pages; i++)
         {
-            <a href="?page=@i">@(i + 1)</a>
+            <a href="?page=@(i)">@(i + 1)</a>
         }
         <a href="#">&raquo;</a>
     </div>
-
 </div>
