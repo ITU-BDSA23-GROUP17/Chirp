@@ -7,3 +7,5 @@ Chirp for BDSA 2023
 
 -If you are fixing an issue, create a branch fix/<fix-name>
 
+-If you are testing a feature, create a branch testing/<feat-name>
+
