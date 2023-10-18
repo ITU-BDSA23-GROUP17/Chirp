@@ -47,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Chirp.Web
-          path: src/Chirp.Web/bin/Debug/net7.0/linux-x64/publish
+          path: src/
 
   deploy:
     runs-on: ubuntu-latest
