@@ -84,6 +84,8 @@ namespace Chirp.Infrastructure
 
         IEnumerable<CheepDTO> ICheepRepository.GetCheepsByAuthor(string authorName, int page)
         {
+            //minus by 1 so pages start from 1
+            page = page - 1;
             var cheeps = context.Cheeps
                 .Where(c => c.Author.Name == authorName)
                 .OrderByDescending(c => c.TimeStamp)
