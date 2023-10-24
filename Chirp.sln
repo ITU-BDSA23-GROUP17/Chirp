@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.Core.Test", "test\Chi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.Web.Test", "test\Chirp.Web.Test\Chirp.Web.Test.csproj", "{41A62881-16BE-440E-A8CD-64FEBEE84C3C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.Infrastructure.Test", "test\Chirp.Infrastructure.Test\Chirp.Infrastructure.Test.csproj", "{27CD3FCC-790B-4AF5-B0B8-388DB1AC19B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,18 @@ Global
 		{41A62881-16BE-440E-A8CD-64FEBEE84C3C}.Release|x64.Build.0 = Release|Any CPU
 		{41A62881-16BE-440E-A8CD-64FEBEE84C3C}.Release|x86.ActiveCfg = Release|Any CPU
 		{41A62881-16BE-440E-A8CD-64FEBEE84C3C}.Release|x86.Build.0 = Release|Any CPU
+		{27CD3FCC-790B-4AF5-B0B8-388DB1AC19B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27CD3FCC-790B-4AF5-B0B8-388DB1AC19B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27CD3FCC-790B-4AF5-B0B8-388DB1AC19B1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{27CD3FCC-790B-4AF5-B0B8-388DB1AC19B1}.Debug|x64.Build.0 = Debug|Any CPU
+		{27CD3FCC-790B-4AF5-B0B8-388DB1AC19B1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{27CD3FCC-790B-4AF5-B0B8-388DB1AC19B1}.Debug|x86.Build.0 = Debug|Any CPU
+		{27CD3FCC-790B-4AF5-B0B8-388DB1AC19B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27CD3FCC-790B-4AF5-B0B8-388DB1AC19B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27CD3FCC-790B-4AF5-B0B8-388DB1AC19B1}.Release|x64.ActiveCfg = Release|Any CPU
+		{27CD3FCC-790B-4AF5-B0B8-388DB1AC19B1}.Release|x64.Build.0 = Release|Any CPU
+		{27CD3FCC-790B-4AF5-B0B8-388DB1AC19B1}.Release|x86.ActiveCfg = Release|Any CPU
+		{27CD3FCC-790B-4AF5-B0B8-388DB1AC19B1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +111,7 @@ Global
 		{69D1AD3E-187C-4724-AD5E-4E9FD211D971} = {3FBE2F5D-DE41-4AF6-8CA6-EC5CE4B4E724}
 		{B572C255-7E3C-4059-9313-5B1F6DCE93BF} = {54B28CCC-5DA6-4415-A77B-9FF65A77D06B}
 		{41A62881-16BE-440E-A8CD-64FEBEE84C3C} = {54B28CCC-5DA6-4415-A77B-9FF65A77D06B}
+		{27CD3FCC-790B-4AF5-B0B8-388DB1AC19B1} = {54B28CCC-5DA6-4415-A77B-9FF65A77D06B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6353F4A1-6F94-471B-8642-05FB81B13BE7}
