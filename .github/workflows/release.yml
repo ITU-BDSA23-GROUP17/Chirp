@@ -37,8 +37,8 @@ jobs:
           output_dir="$HOME/$release_name"
 
           # Build everything
-          dotnet publish src/Chirp.Web/Chirp.Web.csproj --framework net7.0 --runtime "${{ matrix.target }}"  -c Release -o "$output_dir" -p:PublishSingleFile=true
-          
+          dotnet publish src/Chirp.Web/Chirp.Web.csproj --framework net7.0 --runtime "${{ matrix.target }}"  -c Release -o "$output_dir" -p:PublishSingleFile=true --self-contained false
+
           # Create a ZIP file for each platform
           cd "$HOME/"
           7z a -tzip "${release_name}.zip" "./${release_name}/*"
