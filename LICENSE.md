@@ -1,6 +1,9 @@
 MIT License
 
-Copyright (c) [2023] [GROUP 17 - BDSA - Software Development IT University of Copenhagen - abha@itu.dk, buoe@itu.dk, jcal@itu.dk, jube@itu.dk,tanda@itu.dk ]
+Copyright (c) [2023] [GROUP 17 - BDSA - Software Development IT University of Copenhagen - Burak Özdemir, Hanan Choudhary Hadayat, 
+Joshua James Calba, Julius Dalsgaard Bertelsen
+Tan Dang
+ ]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
