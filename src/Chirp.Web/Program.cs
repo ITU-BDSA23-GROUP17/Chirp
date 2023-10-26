@@ -7,7 +7,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<ChirpDBContext>();
+
+builder.Services.AddDbContext<ChirpDBContext>(options =>
+{
+    var folder = Environment.SpecialFolder.LocalApplicationData;
+    var path = Environment.GetFolderPath(folder);
+    var DBPATH = Path.Join(path, "chirp.db");
+    options.UseSqlite($"Data Source={DBPATH}");
+});
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 
 var app = builder.Build();
