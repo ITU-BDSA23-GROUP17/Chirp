@@ -59,15 +59,20 @@ namespace Chirp.Infrastructure
             return new CheepDTO(cheep.CheepId, cheep.Text, cheep.TimeStamp, cheep.Author.Name);
         }
 
-        void ICheepRepository.InsertCheep(CheepDTO Cheep)
+        void ICheepRepository.InsertCheep(CheepDTO CheepDTO)
         {
+            var author = context.Authors.Find(CheepDTO.Author);
+            if (author == null) { throw new Exception("Oh no!"); }
             context.Cheeps.Add(new Cheep
             {
-                Text = Cheep.Message,
-                TimeStamp = Cheep.TimeStamp,
-                Author = context.Authors.Find(Cheep.Author)
+                CheepId = CheepDTO.Id,
+                Text = CheepDTO.Message,
+                TimeStamp = CheepDTO.TimeStamp,
+                Author = author,
+                AuthorId = author.AuthorId
             });
         }
+
 
         void ICheepRepository.DeleteCheep(int cheepId)
         {

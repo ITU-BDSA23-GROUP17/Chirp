@@ -7,4 +7,10 @@ public class ChirpDBContext : DbContext
 
     // source https://learn.microsoft.com/en-us/ef/core/get-started/overview/first-app?tabs=netcore-cli
     public ChirpDBContext(DbContextOptions<ChirpDBContext> options) : base(options) { }
+
+    public void initializeDB()
+    {
+        Database.EnsureCreated(); //Ensures all tables are created!
+        DbInitializer.SeedDatabase(this);
+    }
 }
