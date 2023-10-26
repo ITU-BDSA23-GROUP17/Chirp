@@ -46,7 +46,7 @@ public class IntegrationTest
 
                 Assert.Equal("Helge", getName);
                 Assert.Equal("Hello, BDSA students!", getMessage);
-                Assert.Equal("— 08/01/23 12:16:48", getDate);
+                Assert.Equal("— 08/01/2023 12:16:48", getDate);
         }
 
         [Fact]
@@ -89,7 +89,7 @@ public class IntegrationTest
 
                 Assert.Equal("Rasmus", getName);
                 Assert.Equal("Hej, velkommen til kurset.", getMessage);
-                Assert.Equal("— 08/01/23 13:08:28", getDate);
+                Assert.Equal("— 08/01/2023 13:08:28", getDate);
 
         }
 }
