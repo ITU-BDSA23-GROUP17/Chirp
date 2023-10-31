@@ -48,7 +48,7 @@ namespace Chirp.Infrastructure
                 .OrderByDescending(c => c.TimeStamp)
                 .Skip(page * 32)
                 .Take(32)
-                .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name))
+                .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId))
                 .ToList();
             return cheeps;
         }
@@ -56,13 +56,13 @@ namespace Chirp.Infrastructure
         CheepDTO ICheepRepository.GetCheepByID(int cheepId)
         {
             var cheep = context.Cheeps.Find(cheepId);
-            return new CheepDTO(cheep.CheepId, cheep.Text, cheep.TimeStamp, cheep.Author.Name);
+            return new CheepDTO(cheep.CheepId, cheep.Text, cheep.TimeStamp, cheep.Author.Name,cheep.AuthorId);
         }
 
         void ICheepRepository.InsertCheep(CheepDTO CheepDTO)
         {
-            var author = context.Authors.Find(CheepDTO.Author);
-            if (author == null) { throw new Exception("Oh no!"); }
+            var author = context.Authors.Find(CheepDTO.AuthorId);
+            if (author == null) { throw new Exception("Oh no! "); }
             context.Cheeps.Add(new Cheep
             {
                 CheepId = CheepDTO.Id,
@@ -84,7 +84,7 @@ namespace Chirp.Infrastructure
             var cheep = context.Cheeps.Find(Cheep.Id);
             cheep.Text = Cheep.Message;
             cheep.TimeStamp = Cheep.TimeStamp;
-            cheep.Author = context.Authors.Find(Cheep.Author);
+            cheep.Author = context.Authors.Find(Cheep.AuthorId);
         }
 
         IEnumerable<CheepDTO> ICheepRepository.GetCheepsByAuthor(string authorName, int page)
@@ -96,7 +96,7 @@ namespace Chirp.Infrastructure
                 .OrderByDescending(c => c.TimeStamp)
                 .Skip(page * 32)
                 .Take(32)
-                .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name))
+                .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name,c.Author.AuthorId))
                 .ToList();
             return cheeps;
         }

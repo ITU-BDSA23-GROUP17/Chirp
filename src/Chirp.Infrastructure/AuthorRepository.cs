@@ -35,19 +35,19 @@ namespace Chirp.Infrastructure
         public AuthorDTO GetAuthorByEmail(string Email)
         {
             var Author = context.Authors.Where(a => a.Email == Email).FirstOrDefault();
-            return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name)).ToList());
+            return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList());
         }
 
         public AuthorDTO GetAuthorById(string AuthorId)
         {
             var Author = context.Authors.Find(AuthorId);
-            return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name)).ToList());
+            return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList());
         }
 
         public AuthorDTO GetAuthorByName(string Name)
         {
             var Author = context.Authors.Where(a => a.Name == Name).FirstOrDefault();
-            return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name)).ToList());
+            return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name,c.Author.AuthorId)).ToList());
         }
 #nullable enable
         void IAuthorRepository.DeleteAuthor(int authorId)

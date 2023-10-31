@@ -45,7 +45,7 @@ public class InfrastructureUnitTests
         Assert.Equal("Author Authorson", insertedAuthor.Name); //check that we have the right author
 
     }
-    /*
+    
     [Fact]
     public void InsertCheepAddsCheepToDatabase()
     {
@@ -64,8 +64,9 @@ public class InfrastructureUnitTests
                 Id: "asdasd",
                 Message: "test",
                 TimeStamp: DateTime.Now,
-                Author: "Helge");
-
+                AuthorName: "Helge",
+                AuthorId: "dfdsfsefs"
+                );
 
             // Act
             cheepRepository.InsertCheep(cheepDto);
@@ -76,5 +77,5 @@ public class InfrastructureUnitTests
             Assert.NotNull(insertedCheep); // Check that we get a cheep
             Assert.Equal("This is a test cheep", insertedCheep.Text); // Check that we have the right cheep
         }
-    }*/
+    }
 }
