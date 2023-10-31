@@ -66,7 +66,7 @@ public class InfrastructureUnitTests
             //We create a cheep
             var cheepDto = new CheepDTO(
                 Id: "asdasd",
-                Message: "test",
+                Message: "test message cheep",
                 TimeStamp: DateTime.Now,
                 AuthorName: "Helge",
                 AuthorId: authorId
@@ -77,9 +77,9 @@ public class InfrastructureUnitTests
             context.SaveChanges(); // Save changes to in-memory database
 
             // Assert
-            var insertedCheep = context.Cheeps.FirstOrDefault(c => c.Text == "test");
+            var insertedCheep = context.Cheeps.FirstOrDefault(c => c.Text == "test message cheep");
             Assert.NotNull(insertedCheep); // Check that we get a cheep
-            Assert.Equal("test", insertedCheep.Text); // Check that we have the right cheep
+            Assert.Equal("test message cheep", insertedCheep.Text); // Check that we have the right cheep
         }
     }
 }
