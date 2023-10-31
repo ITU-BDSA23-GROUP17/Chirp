@@ -58,7 +58,7 @@ public class InfrastructureUnitTests
             using var context = new ChirpDBContext(builder.Options);
             context.initializeDB(); //ensure all tables are created
 
-
+            //Cheep and author repository created
             ICheepRepository cheepRepository = new CheepRepository(context);
             IAuthorRepository authorRepository = new AuthorRepository(context);
 
