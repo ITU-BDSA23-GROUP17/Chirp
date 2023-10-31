@@ -14,6 +14,29 @@
             <h1><img src="/images/icon1.png" alt="Icon1" />Chirp!
             </h1>
         </a>
+        <div class=navigation>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div>
+                    <a href="/@(User.Identity.Name)">my timeline</a> |
+                    <span class="navbar-text text-dark">Hello @User.Identity?.Name!</span>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="MicrosoftIdentity" asp-controller="Account"
+                            asp-action="SignOut">Sign out</a>
+                    </li>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <a href="/">public timeline</a> |
+                    <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">Sign in</a>
+                </div>
+            }
+        </div>
+
+
+        <partial name="_LoginPartial" />
 
         <div class=body>
             @RenderBody()
