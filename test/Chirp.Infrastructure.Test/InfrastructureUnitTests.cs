@@ -57,10 +57,14 @@ public class InfrastructureUnitTests
 
             using var context = new ChirpDBContext(builder.Options);
             context.initializeDB(); //ensure all tables are created
+
+
             ICheepRepository cheepRepository = new CheepRepository(context);
             IAuthorRepository authorRepository = new AuthorRepository(context);
 
+            //Getting authorDTO by the name Helge
             var authorDTOTest = authorRepository.GetAuthorByName("Helge");
+            //Getting the authorID from AuthorDTO
             var authorId = authorDTOTest.AuthorId;
 
             //We create a cheep
