@@ -10,14 +10,7 @@ using Microsoft.VisualBasic;
 using Xunit;
 namespace Chirp.Infrastructure.Test;
 
-
-
-
 //help from https://learn.microsoft.com/en-us/ef/core/testing/testing-without-the-database
-
-
-
-
 
 public class InfrastructureUnitTests
 {
