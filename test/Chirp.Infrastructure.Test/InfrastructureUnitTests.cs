@@ -60,17 +60,16 @@ public class InfrastructureUnitTests
             ICheepRepository cheepRepository = new CheepRepository(context);
             IAuthorRepository authorRepository = new AuthorRepository(context);
 
-            var authorDTO = new AuthorDTO("TestId", "TestName", "TestEmail", new List<CheepDTO> {}) ;
-            authorRepository.GetAuthorByName("Helge");
-            
+            var authorDTOTest = authorRepository.GetAuthorByName("Helge");
+            var authorId = authorDTOTest.AuthorId;
 
             //We create a cheep
             var cheepDto = new CheepDTO(
                 Id: "asdasd",
                 Message: "test",
                 TimeStamp: DateTime.Now,
-                AuthorName: "TestName",
-                AuthorId: "bfd"
+                AuthorName: "Helge",
+                AuthorId: authorId
                 );
 
             // Act
@@ -78,9 +77,9 @@ public class InfrastructureUnitTests
             context.SaveChanges(); // Save changes to in-memory database
 
             // Assert
-            var insertedCheep = context.Cheeps.FirstOrDefault(c => c.Text == "This is a test cheep");
+            var insertedCheep = context.Cheeps.FirstOrDefault(c => c.Text == "test");
             Assert.NotNull(insertedCheep); // Check that we get a cheep
-            Assert.Equal("This is a test cheep", insertedCheep.Text); // Check that we have the right cheep
+            Assert.Equal("test", insertedCheep.Text); // Check that we have the right cheep
         }
     }
 }
