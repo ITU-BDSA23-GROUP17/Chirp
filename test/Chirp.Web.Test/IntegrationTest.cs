@@ -26,18 +26,33 @@ public class IntegrationTest
                 var htmlDocument = await parser.ParseDocumentAsync(documentContents);
 
                 //get name Helge from the html. Since the name is inside <strong> we can query select it and remove all spaces and \n to only get his name
-                string htmlStrong = htmlDocument.QuerySelector("strong").TextContent;
+                var querySelectorElementStrong = htmlDocument.QuerySelector("strong");
+                if (querySelectorElementStrong == null)
+                {
+                        throw new Exception("QuerySelector returned null!");
+                }
+                string htmlStrong = querySelectorElementStrong.TextContent;
                 string getName = htmlStrong.Replace(" ", "");
                 getName = getName.Replace("\n", "");
 
                 //Get the date, same principle as above
-                string htmlSmall = htmlDocument.QuerySelector("small").TextContent;
+                var querySelectorElementSmall = htmlDocument.QuerySelector("small");
+                if (querySelectorElementStrong == null)
+                {
+                        throw new Exception("QuerySelector returned null!");
+                }
+                string htmlSmall = querySelectorElementStrong.TextContent;
                 string getDate = htmlSmall.Trim();
                 getDate = getDate.Replace("\n", "");
 
                 //Get the first message of Helge, same principle as above
                 //Will need to replace Helge and Date, since they both are also in the p tag
-                string htmlP = htmlDocument.QuerySelector("p").TextContent;
+                var querySelectorElementP = htmlDocument.QuerySelector("p");
+                if (querySelectorElementStrong == null)
+                {
+                        throw new Exception("QuerySelector returned null!");
+                }
+                string htmlP = querySelectorElementStrong.TextContent;
                 string getMessage = htmlP.Replace("\n", "");
                 getMessage = getMessage.Trim();
                 getMessage = getMessage.Replace(getName, "");
@@ -69,18 +84,33 @@ public class IntegrationTest
                 var htmlDocument = await parser.ParseDocumentAsync(documentContents);
 
                 //get name Helge from the html. Since the name is inside <strong> we can query select it and remove all spaces and \n to only get his name
-                string htmlStrong = htmlDocument.QuerySelector("strong").TextContent;
+                var querySelectorElementStrong = htmlDocument.QuerySelector("strong");
+                if (querySelectorElementStrong == null)
+                {
+                        throw new Exception("QuerySelector returned null!");
+                }
+                string htmlStrong = querySelectorElementStrong.TextContent;
                 string getName = htmlStrong.Replace(" ", "");
                 getName = getName.Replace("\n", "");
 
                 //Get the date, same principle as above
-                string htmlSmall = htmlDocument.QuerySelector("small").TextContent;
+                var querySelectorElementSmall = htmlDocument.QuerySelector("small");
+                if (querySelectorElementSmall == null)
+                {
+                        throw new Exception("QuerySelector returned null!");
+                }
+                string htmlSmall = querySelectorElementSmall.TextContent;
                 string getDate = htmlSmall.Trim();
                 getDate = getDate.Replace("\n", "");
 
                 //Get the first message of Helge, same principle as above
                 //Will need to replace Helge and Date, since they both are also in the p tag
-                string htmlP = htmlDocument.QuerySelector("p").TextContent;
+                var querySelectorElementP = htmlDocument.QuerySelector("p");
+                if (querySelectorElementP == null)
+                {
+                        throw new Exception("QuerySelector returned null!");
+                }
+                string htmlP = querySelectorElementP.TextContent;
                 string getMessage = htmlP.Replace("\n", "");
                 getMessage = getMessage.Trim();
                 getMessage = getMessage.Replace(getName, "");
