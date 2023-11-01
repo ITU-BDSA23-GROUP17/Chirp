@@ -7,7 +7,7 @@
 }
 
 <div>
-    <h2> Public Timeline </h2>
+
     @if (Model.Cheeps.Any())
     {
         <ul id="messagelist" class="cheeps">
@@ -30,8 +30,9 @@
         <em>There are no cheeps so far.</em>
     }
     <div class="pagination">
-        @if(Model.pageNr > 1){
-        <a href="?page=@(Model.pageNr - 1)">&laquo;</a>
+        @if (Model.pageNr > 1)
+        {
+            <a href="?page=@(Model.pageNr - 1)">&laquo;</a>
         }
         @for (int i = 0; i < Model.pages; i++)
         {

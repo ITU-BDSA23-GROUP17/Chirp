@@ -5,11 +5,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.Extensions.Options;
 var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAdB2C"));
+builder.Services.AddRazorPages()
+    .AddMicrosoftIdentityUI();
 
 builder.Services.AddDbContext<ChirpDBContext>(options =>
 {
@@ -20,21 +26,9 @@ builder.Services.AddDbContext<ChirpDBContext>(options =>
 });
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 
-builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-        .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureADB2C"));
 
-builder.Services.AddAuthorization(options =>
-{
-    // By default, all incoming requests will be authorized according to 
-    // the default policy
-    options.FallbackPolicy = options.DefaultPolicy;
-});
-builder.Services.AddRazorPages(options =>
-{
-    options.Conventions.AllowAnonymousToPage("/Index");
-})
-.AddMvcOptions(options => { })
-.AddMicrosoftIdentityUI();
+
+
 
 var app = builder.Build();
 
@@ -61,9 +55,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseAuthorization();
 
 app.MapRazorPages();
+app.MapControllers();
 
 app.Run();
