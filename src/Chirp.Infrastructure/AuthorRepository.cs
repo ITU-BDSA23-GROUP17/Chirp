@@ -30,29 +30,53 @@ namespace Chirp.Infrastructure
         {
             throw new NotImplementedException();
         }
-#nullable disable
-        // We want null to be returned, if no author is found
-        public AuthorDTO GetAuthorByEmail(string Email)
+
+        public AuthorDTO? GetAuthorByEmail(string Email)
         {
             var Author = context.Authors.Where(a => a.Email == Email).FirstOrDefault();
-            return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList());
+            if (Author != null)
+            {
+                return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList());
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public AuthorDTO GetAuthorById(string AuthorId)
+        public AuthorDTO? GetAuthorById(string AuthorId)
         {
             var Author = context.Authors.Find(AuthorId);
-            return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList());
+            if (Author != null)
+            {
+                return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList());
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public AuthorDTO GetAuthorByName(string Name)
+        public AuthorDTO? GetAuthorByName(string Name)
         {
             var Author = context.Authors.Where(a => a.Name == Name).FirstOrDefault();
-            return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name,c.Author.AuthorId)).ToList());
+            if (Author != null)
+            {
+                return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList());
+            }
+            else
+            {
+                return null;
+            }
         }
 #nullable enable
         void IAuthorRepository.DeleteAuthor(int authorId)
         {
-            context.Remove(context.Authors.Find(authorId));
+            var author = context.Authors.Find(authorId);
+            if (author != null)
+            {
+                context.Remove(author);
+            }
         }
 
         void IAuthorRepository.UpdateAuthor(AuthorDTO author)

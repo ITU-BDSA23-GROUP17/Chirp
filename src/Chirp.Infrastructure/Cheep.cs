@@ -6,10 +6,10 @@ namespace Chirp.Infrastructure;
 
 public class Cheep
 {
-    public string CheepId { get; set; }
-    public Author Author { get; set; }
-    public string Text { get; set; }
+    public required string CheepId { get; set; }
+    public required Author Author { get; set; }
+    public required string Text { get; set; }
     public DateTime TimeStamp { get; set; }
-    public string AuthorId { get; set; }
+    public required string AuthorId { get; set; }
 
 }

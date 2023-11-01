@@ -1,6 +1,7 @@
 
 using System.Data;
 using Chirp.Core;
+using SQLitePCL;
 
 namespace Chirp.Infrastructure
 {
@@ -53,16 +54,22 @@ namespace Chirp.Infrastructure
             return cheeps;
         }
 
-        CheepDTO ICheepRepository.GetCheepByID(int cheepId)
+        CheepDTO? ICheepRepository.GetCheepByID(int cheepId)
         {
             var cheep = context.Cheeps.Find(cheepId);
-            return new CheepDTO(cheep.CheepId, cheep.Text, cheep.TimeStamp, cheep.Author.Name,cheep.AuthorId);
+            if (cheep != null)
+            {
+                return new CheepDTO(cheep.CheepId, cheep.Text, cheep.TimeStamp, cheep.Author.Name, cheep.AuthorId);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         void ICheepRepository.InsertCheep(CheepDTO CheepDTO)
         {
-            var author = context.Authors.Find(CheepDTO.AuthorId);
-            if (author == null) { throw new Exception("Oh no! "); }
+            var author = context.Authors.Find(CheepDTO.AuthorId) ?? throw new Exception("Author could not be found by AuthorID");
             context.Cheeps.Add(new Cheep
             {
                 CheepId = CheepDTO.Id,
@@ -76,15 +83,31 @@ namespace Chirp.Infrastructure
 
         void ICheepRepository.DeleteCheep(int cheepId)
         {
-            context.Cheeps.Remove(context.Cheeps.Find(cheepId));
+            var cheep = context.Cheeps.Find(cheepId);
+            if (cheep != null)
+            {
+                context.Cheeps.Remove(cheep);
+            }
         }
 
         void ICheepRepository.UpdateCheep(CheepDTO Cheep)
         {
             var cheep = context.Cheeps.Find(Cheep.Id);
-            cheep.Text = Cheep.Message;
-            cheep.TimeStamp = Cheep.TimeStamp;
-            cheep.Author = context.Authors.Find(Cheep.AuthorId);
+            var author = context.Authors.Find(Cheep.AuthorId);
+            if (author == null)
+            {
+                throw new Exception("Failed to update Cheep. Failed to find author by the CheepDTO AuthorID");
+            }
+            if (cheep != null)
+            {
+                cheep.Text = Cheep.Message;
+                cheep.TimeStamp = Cheep.TimeStamp;
+                cheep.Author = author;
+            }
+            else
+            {
+                throw new Exception("Failed to Update cheep. Failed to find Cheep from provided CheepDTO");
+            }
         }
 
         IEnumerable<CheepDTO> ICheepRepository.GetCheepsByAuthor(string authorName, int page)
@@ -96,7 +119,7 @@ namespace Chirp.Infrastructure
                 .OrderByDescending(c => c.TimeStamp)
                 .Skip(page * 32)
                 .Take(32)
-                .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name,c.Author.AuthorId))
+                .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId))
                 .ToList();
             return cheeps;
         }

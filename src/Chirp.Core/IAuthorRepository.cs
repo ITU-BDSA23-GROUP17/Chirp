@@ -4,11 +4,11 @@ namespace Chirp.Core
 {
     public interface IAuthorRepository : IDisposable
     {
-        AuthorDTO GetAuthorByName(string name);
+        AuthorDTO? GetAuthorByName(string name);
 
-        AuthorDTO GetAuthorByEmail(string email);
+        AuthorDTO? GetAuthorByEmail(string email);
 
-        AuthorDTO GetAuthorById(string authorId);
+        AuthorDTO? GetAuthorById(string authorId);
 
         void InsertAuthor(string name, string email);
         void DeleteAuthor(int authorId);

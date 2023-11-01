@@ -38,7 +38,7 @@ public class InfrastructureUnitTests
         Assert.Equal("Author Authorson", insertedAuthor.Name); //check that we have the right author
 
     }
-    
+
     [Fact]
     public void InsertCheepAddsCheepToDatabase()
     {
@@ -57,6 +57,10 @@ public class InfrastructureUnitTests
 
             //Getting authorDTO by the name Helge
             var authorDTOTest = authorRepository.GetAuthorByName("Helge");
+            if (authorDTOTest == null)
+            {
+                throw new Exception("Could not find author Helge");
+            }
             //Getting the authorID from AuthorDTO
             var authorId = authorDTOTest.AuthorId;
 

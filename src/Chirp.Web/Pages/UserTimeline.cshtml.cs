@@ -8,9 +8,11 @@ namespace Chirp.Web.Pages;
 
 public class UserTimelineModel : PageModel
 {
-    public IEnumerable<CheepDTO> Cheeps { get; set; }
-    public int pageNr { get; set; }
-    public int pages { get; set; }
+    //(We initialize with standard placeholder values to be overwritten later, to avoid
+    //'Non-nullable property must contain a non-null value when exiting constructor.' warning'))
+    public IEnumerable<CheepDTO> Cheeps { get; set; } = new List<CheepDTO>();
+    public int pageNr { get; set; } = 0;
+    public int pages { get; set; } = 0;
 
 
     private readonly ICheepRepository _cheepRepository;
@@ -25,7 +27,15 @@ public class UserTimelineModel : PageModel
         // pages = _service.getPagesHome(true, author);
         pages = _cheepRepository.getPagesUser(author);
         pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "0"));
-        Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
+        var recievedCheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
+        if (recievedCheeps != null)
+        {
+            Cheeps = recievedCheeps;
+        }
+        else
+        {
+            Cheeps = new List<CheepDTO>();
+        }
 
         return Page();
     }
