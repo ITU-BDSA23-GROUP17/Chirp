@@ -1,0 +1,29 @@
+@using System.Security.Principal
+@using Microsoft.Extensions.Options
+@using Microsoft.Identity.Web
+@inject IOptions<MicrosoftIdentityOptions> AzureADB2COptions
+@{
+    var options = AzureADB2COptions.Value;
+}
+<ul class="navbar-nav">
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <div>
+            <a href="/@(User.Identity.Name)">my timeline</a> |
+            <span class="navbar-text text-dark">Hello @User.Identity?.Name!</span>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="MicrosoftIdentity" asp-controller="Account"
+                    asp-action="SignOut">Sign out</a>
+            </li>
+        </div>
+    }
+    else
+    {
+        <div>
+            <a href="/">public timeline</a> |
+            <a class="nav-link text-dark" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">Sign
+                in</a>
+        </div>
+
+    }
+</ul>

@@ -9,14 +9,24 @@
 
 
 <body>
+
     <div class=page>
-        <a href="/">
-            <h1><img src="/images/icon1.png" alt="Icon1" />Chirp!
-            </h1>
-        </a>
+        <header>
+            <a href="/">
+                <h1><img src="/images/icon1.png" alt="Icon1" />Chirp!
+                </h1>
+                <div class=navigation>
+                    <partial name="_LoginPartial" />
+
+                </div>
+            </a>
+        </header>
+
 
         <div class=body>
+
             @RenderBody()
+
         </div>
         <div class=footer>
             Chirp &mdash; An ASP.NET Application
@@ -24,5 +34,6 @@
     </div>
 
 </body>
+@await RenderSectionAsync("Scripts", required: false)
 
 </html>

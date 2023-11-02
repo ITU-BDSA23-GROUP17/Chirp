@@ -2,11 +2,20 @@ using Chirp.Core;
 using Chirp.Infrastructure;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.UI;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.Extensions.Options;
 var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAdB2C"));
+builder.Services.AddRazorPages()
+    .AddMicrosoftIdentityUI();
 
 builder.Services.AddDbContext<ChirpDBContext>(options =>
 {
@@ -16,6 +25,10 @@ builder.Services.AddDbContext<ChirpDBContext>(options =>
     options.UseSqlite($"Data Source={DBPATH}");
 });
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
+
+
+
+
 
 var app = builder.Build();
 
@@ -42,6 +55,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+
+app.UseAuthorization();
+app.UseAuthentication();
+
 app.MapRazorPages();
+app.MapControllers();
 
 app.Run();
