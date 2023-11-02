@@ -1,11 +1,11 @@
 body {
   background: #eccaca;
-  font-family: 'Trebuchet MS', sans-serif;
+  font-family: "Trebuchet MS", sans-serif;
   font-size: 14px;
 }
 
 a {
-  color: #26776F;
+  color: #26776f;
 }
 
 a:hover {
@@ -17,7 +17,7 @@ input[type="password"] {
   background: white;
   border: 1px solid #e6c0bf;
   padding: 2px;
-  font-family: 'Trebuchet MS', sans-serif;
+  font-family: "Trebuchet MS", sans-serif;
   font-size: 14px;
   border-radius: 2px;
   -moz-border-radius: 2px;
@@ -29,7 +29,7 @@ input[type="submit"] {
   background: #571010;
   border: 1px solid #3b0707;
   padding: 1px 3px;
-  font-family: 'Trebuchet MS', sans-serif;
+  font-family: "Trebuchet MS", sans-serif;
   font-size: 14px;
   font-weight: bold;
   border-radius: 2px;
@@ -45,23 +45,8 @@ div.page {
   margin: 30px auto;
 }
 
-div.page h1 {
-  background: #cc6e6e;
-  margin: 0;
-  padding: 10px 14px;
-  color: white;
-  letter-spacing: 1px;
-  text-shadow: 0 0 3px #772424;
-  font-weight: normal;
-  font-size: 80px;
-}
-
-div.page h1 img {
-  height: 1em;
-}
-
 div.page div.navigation {
-  background: #DEE9E8;
+  background: #cc6e6e;
   padding: 4px 10px;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #eee;
@@ -94,7 +79,7 @@ div.page div.footer {
 
 div.page div.followstatus {
   border: 1px solid #ccc;
-  background: #E3EBEA;
+  background: #e3ebea;
   border-radius: 2px;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
@@ -111,8 +96,8 @@ div.page ul.cheeps {
 div.page ul.cheeps li {
   margin: 10px 0;
   padding: 5px;
-  background: #F0FAF9;
-  border: 1px solid #DBF3F1;
+  background: #f0faf9;
+  border: 1px solid #dbf3f1;
   border-radius: 2px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -136,7 +121,7 @@ div.page ul.cheeps li small {
 div.page div.cheepbox {
   margin: 10px 0;
   padding: 5px;
-  background: #F0FAF9;
+  background: #f0faf9;
   border: 1px solid #e29494;
   border-radius: 2px;
   -moz-border-radius: 5px;
@@ -187,8 +172,8 @@ ul.message li {
 
 div.error {
   margin: 10px 0;
-  background: #FAE4E4;
-  border: 1px solid #DD6F6F;
+  background: #fae4e4;
+  border: 1px solid #dd6f6f;
   border-radius: 2px;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
@@ -219,8 +204,8 @@ ul.topic {
 li.topic {
   margin: 10px 0;
   padding: 5px;
-  background: #F0FAF9;
-  border: 1px solid #DBF3F1;
+  background: #f0faf9;
+  border: 1px solid #dbf3f1;
   border-radius: 2px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
