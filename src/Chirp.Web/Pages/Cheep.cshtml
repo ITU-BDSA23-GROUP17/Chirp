@@ -8,12 +8,7 @@
 
 
 
-<form id="newCheepForm">
-    <div class="d-flex  flex-column ">
-
-        <textarea id="cheep" rows="5" cols="50"></textarea>
-
-        <a href="/@User.Identity?.Name" id="cheepButton" class="btn btn-primary">Cheep!</a>
-
-    </div>
+<form method="post">
+    <textarea id="cheep" name="getNewCheepText" class="form-control" rows="5" cols="50"></textarea>
+    <button type="submit" class="btn btn-primary">Chirp!</button>
 </form>
