@@ -10,9 +10,9 @@
     {
         <div>
             <a href="/@(User.Identity.Name)">my timeline</a> |
-            <span class="navbar-text text-dark">Hello @User.Identity?.Name!</span>
+            <span class="navbar-text text-white font-sans">Hello @User.Identity?.Name!</span>
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="MicrosoftIdentity" asp-controller="Account"
+                <a class="nav-link text-white" asp-area="MicrosoftIdentity" asp-controller="Account"
                     asp-action="SignOut">Sign out</a>
             </li>
         </div>
@@ -21,7 +21,7 @@
     {
         <div>
             <a href="/">public timeline</a> |
-            <a class="nav-link text-dark" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">Sign
+            <a class="nav-link text-white" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">Sign
                 in</a>
         </div>
 

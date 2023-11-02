@@ -4,23 +4,42 @@
 <head>
     <title>@ViewData["Title"]</title>
     <link href="/css/style.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        clifford: '#da373d',
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="icon" type="image/png" href="/favicon/favicon.ico">
 </head>
 
 
-<body>
+<body class="">
 
     <div class=page>
-        <header>
-            <a href="/">
-                <h1><img src="/images/icon1.png" alt="Icon1" />Chirp!
-                </h1>
-                <div class=navigation>
-                    <partial name="_LoginPartial" />
+        <navbar>
+            <div class="navigation">
 
+                <div class="flex flex-row items-center justify-center">
+
+                    <h1 class="text-black text-4xl font-sans">Chirp!
+                    </h1>
+                    <a href="/">
+                        <img class="h-2/5 w-2/5" src="/images/icon1.png" alt="Icon1" />
+                    </a>
                 </div>
-            </a>
-        </header>
+                <partial name="_LoginPartial" />
+
+
+            </div>
+
+        </navbar>
 
 
         <div class=body>
