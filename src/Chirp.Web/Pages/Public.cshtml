@@ -6,21 +6,31 @@
 
 }
 
-<div class=" text-white">
+<div class="flex flex-col text-white gap-10 mt-10">
+    <div>
+        <h2 class="text-3xl font-semibold"> Home </h2>
+    </div>
 
     @if (Model.Cheeps.Any())
     {
-        <ul id="messagelist" class="cheeps">
+        <ul class="flex flex-col gap-5  ">
             @foreach (var cheep in Model.Cheeps)
             {
-                <li>
-                    <p>
+
+
+                <li
+                    class="max-w-xl lg:max-w-3xl rounded overflow-hidden shadow-lg text-3xl lg:text-lg border border-white rounded-[10px] ">
+                    <p class="text-white text-sm font-semibold hover:underline">
                         <strong>
                             <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
                         </strong>
-                        @cheep.Message
-                        <small>&mdash; @cheep.TimeStamp</small>
                     </p>
+                    <p class="text-neutral-200 text-md font-medium">
+
+                        @cheep.Message
+                    </p>
+                    <small>&mdash; @cheep.TimeStamp</small>
+
                 </li>
             }
         </ul>

@@ -5,6 +5,9 @@
     <title>@ViewData["Title"]</title>
     <link href="/css/style.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+
     <script>
         tailwind.config = {
             theme: {
@@ -22,13 +25,13 @@
 
 <body class="bg-black">
 
-    <div class=" flex flex-row space-x-4 ml-10 items-center justify-center mt-10">
+    <div class=" flex flex-col lg:flex-row   ">
 
 
 
-        <navbar class="border-2 border-white rounded-[40px] h-[]">
+        <navbar>
 
-            <div class="flex items-center justify-center ">
+            <div class=" flex items-center justify-center">
 
                 <h1 class="text-white text-4xl font-sans">Chirp!
                 </h1>
@@ -48,11 +51,11 @@
             @RenderBody()
 
         </div>
-        <div class=footer>
-            Chirp &mdash; An ASP.NET Application
-        </div>
-    </div>
 
+    </div>
+    <div class=" text-white w-full ">
+        Chirp &mdash; An ASP.NET Application
+    </div>
 </body>
 @await RenderSectionAsync("Scripts", required: false)
 
