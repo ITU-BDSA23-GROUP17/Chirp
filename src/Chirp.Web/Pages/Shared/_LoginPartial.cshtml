@@ -8,20 +8,32 @@
 <ul class="navbar-nav">
     @if (User.Identity?.IsAuthenticated == true)
     {
-        <div>
-            <a href="/@(User.Identity.Name)">my timeline</a> |
-            <span class="navbar-text text-white font-sans">Hello @User.Identity?.Name!</span>
-            <li class="nav-item">
-                <a class="nav-link text-white" asp-area="MicrosoftIdentity" asp-controller="Account"
-                    asp-action="SignOut">Sign out</a>
+        <div class="text-white font-sans flex flex-col gap-10 text-2xl text-blue-600 dark:text-white">
+            <li>
+                <a class=" hover:underline" href="/@(User.Identity.Name)">
+                    my timeline</a>
             </li>
+            <li class="">
+                <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignOut">Sign out</a>
+            </li>
+
+            <div class="w-3/5 h-24 bg-stone-300 bg-opacity-60 rounded-[48px] flex  items-center justify-center">
+                <span class="navbar-text  ">
+                    <h1 class=" text-2xl font-bold ">Hello</h1>
+                    <h1>
+                        @User.Identity?.Name!</h1>
+                </span>
+
+            </div>
+
         </div>
     }
     else
     {
-        <div>
-            <a href="/">public timeline</a> |
-            <a class="nav-link text-white" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">Sign
+        <div class="text-white font-sans flex flex-col">
+            <a href="/">public timeline</a>
+            <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline " asp-area="MicrosoftIdentity"
+                asp-controller="Account" asp-action="SignIn">Sign
                 in</a>
         </div>
 
