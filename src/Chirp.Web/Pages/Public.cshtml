@@ -6,32 +6,48 @@
 
 }
 
-<div class="flex flex-col text-white gap-10 mt-10  items-center justify-center">
+<div class="flex flex-col text-white gap-10 mt-5  items-center justify-center">
     <div>
-        <h2 class="text-3xl font-semibold"> Home </h2>
+        <h2 class="text-3xl font-semibold"> Public Timeline </h2>
     </div>
 
     @if (Model.Cheeps.Any())
     {
-        <ul class="flex flex-col gap-5  ">
+        <hr class=" border-gray-600 ">
+        <ul class="flex flex-col gap-5 border border-t-[0px] border-black">
             @foreach (var cheep in Model.Cheeps)
             {
+                <hr class="border-gray-600">
 
-
-                <li
-                    class="max-w-4xl lg:max-w-7xl rounded overflow-hidden shadow-lg text-3xl lg:text-lg border border-white rounded-[10px] ">
-                    <p class="text-white text-sm font-semibold hover:underline">
-                        <strong>
-                            <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
-                        </strong>
-                    </p>
-                    <p class="text-neutral-200 text-md font-medium">
-
+                <div class="flex flex-shrink-0 p-4 pb-0 ">
+                    <a href="#" class="flex-shrink-0 group block ">
+                        <div class="flex items-center">
+                            <div>
+                                <img class="inline-block h-10 w-10 rounded-full"
+                                    src="https://assets.phillips.com/image/upload/t_Website_LotDetailMainImage/v1/auctions/NY000208/52_001.jpg"
+                                    alt="" />
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-base leading-6 font-medium text-white">
+                                    <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
+                                    -
+                                    <span
+                                        class="text-sm leading-5 font-medium text-black-400 group-hover:text-black-300 transition ease-in-out duration-150">
+                                        @cheep.TimeStamp
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div>
+                    <p class="text-base width-auto font-medium text-white flex-shrink">
                         @cheep.Message
                     </p>
-                    <small>&mdash; @cheep.TimeStamp</small>
+                </div>
 
-                </li>
+
+
             }
         </ul>
     }
