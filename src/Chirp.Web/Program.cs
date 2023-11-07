@@ -51,12 +51,9 @@ var app = builder.Build();
         var services = scope.ServiceProvider;
         var context = services.GetRequiredService<ChirpDBContext>();
         //003fd7fc-7841-4cd0-abae-98f088a22b8b
-        var allCheeps = context.Cheeps.ToList();
-
-        foreach (var item in allCheeps)
-        {
-            Console.WriteLine(item.Text);
-        }
+        var b = context.Database.CanConnect();
+        Console.WriteLine(context.Cheeps.Count());
+        Console.WriteLine(b);
     }
 
 // Configure the HTTP request pipeline.
