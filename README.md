@@ -9,3 +9,6 @@ Chirp for BDSA 2023
 
 -If you are testing a feature, create a branch testing/<feat-name>
 
+-If a version is old, create a branch deprecated/<old-deprecated-version-name>
+
+
