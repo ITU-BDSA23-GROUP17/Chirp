@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using Chirp.Core;
+﻿using Chirp.Core;
 using Chirp.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,13 +12,10 @@ public class PublicModel : PageModel
     private readonly IAuthorRepository _authorRepository;
 
 
-    public PublicModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
+    public PublicModel(ICheepRepository cheepRepository)
     {
         _cheepRepository = cheepRepository;
-        _authorRepository = authorRepository;
-
     }
-
 
 
 
@@ -33,16 +29,9 @@ public class PublicModel : PageModel
 
     public ActionResult OnGet()
     {
-        // get user
-        var userName = User.Identity?.Name;
-        var email = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                Console.WriteLine(email);
-
-        // if user does not exist create a new one
-        if (User.Identity?.IsAuthenticated == true && _authorRepository.GetAuthorByName(userName) == null )
+        if (User.Identity?.IsAuthenticated == true)
         {
-                _authorRepository.InsertAuthor(userName,email);
-                Console.WriteLine(email);
+
         }
 
         // pages = _service.getPagesHome(false, null);

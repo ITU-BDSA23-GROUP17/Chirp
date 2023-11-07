@@ -15,30 +15,20 @@ namespace Chirp.Infrastructure
             this.context = context;
         }
 
-        public void InsertAuthor(string? Name, string Email)
+        public void InsertAuthor(string Name, string Email)
         {
-            context.Authors.Add(new Author() { AuthorId = Guid.NewGuid().ToString(), Name = Name, Email = Email });
+            Guid guid = Guid.NewGuid();
+            context.Authors.Add(new Author() { AuthorId = guid.ToString(), Name = Name, Email = Email });
         }
 
-
-        private bool disposed = false;
-
-        protected virtual void Dispose(bool disposing)
+        public CheepDTO CreateNewCheepAsAuthor(string AuthorId, AuthorDTO Author, string Text)
         {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    context.Dispose();
-                }
-            }
-            this.disposed = true;
+            throw new NotImplementedException();
         }
 
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            throw new NotImplementedException();
         }
 
         public AuthorDTO? GetAuthorByEmail(string Email)
@@ -67,7 +57,7 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public AuthorDTO? GetAuthorByName(string? Name)
+        public AuthorDTO? GetAuthorByName(string Name)
         {
             var Author = context.Authors.Where(a => a.Name == Name).FirstOrDefault();
             if (Author != null)
