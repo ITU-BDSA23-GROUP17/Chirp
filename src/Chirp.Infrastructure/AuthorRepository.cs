@@ -69,7 +69,7 @@ namespace Chirp.Infrastructure
                 return null;
             }
         }
-#nullable enable
+
         void IAuthorRepository.DeleteAuthor(int authorId)
         {
             var author = context.Authors.Find(authorId);
