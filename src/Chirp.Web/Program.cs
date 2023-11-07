@@ -17,14 +17,26 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
 builder.Services.AddRazorPages()
     .AddMicrosoftIdentityUI();
 
-
+//Code from https://learn.microsoft.com/da-dk/azure/azure-sql/database/azure-sql-dotnet-entity-framework-core-quickstart?view=azuresql&tabs=visual-studio%2Cservice-connector%2Cportal 
+var connection = String.Empty;
+if (builder.Environment.IsDevelopment())
+{
+    builder.Configuration.AddEnvironmentVariables().AddJsonFile("appsettings.Development.json");
+    connection = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING");
+}
+else
+{
+    connection = Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTIONSTRING");
+}
+builder.Services.AddDbContext<ChirpDBContext>(options =>
+    options.UseSqlServer(connection));
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
+
 
 
 var app = builder.Build();
 
 // seed the database with some data
-
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
