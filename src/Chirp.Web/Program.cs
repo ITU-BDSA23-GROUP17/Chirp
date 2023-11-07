@@ -33,9 +33,20 @@ else
 builder.Services.AddDbContext<ChirpDBContext>(options =>
     options.UseSqlServer(connection));
 
+
 var app = builder.Build();
 
-// seed the database with some data
+
+//Do not uncomment this code since this will add duplicate data to the database
+    // seed the database with some data
+    // using (var scope = app.Services.CreateScope())
+    // {
+    //     var services = scope.ServiceProvider;
+    //     var context = services.GetRequiredService<ChirpDBContext>();
+    //     context.Database.EnsureCreated();
+    //     context.initializeDB();
+    // }
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
