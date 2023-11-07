@@ -35,14 +35,15 @@ public class PublicModel : PageModel
     {
         // get user
         var userName = User.Identity?.Name;
-        var email = User.FindFirstValue(ClaimTypes.CookiePath);
-                Console.WriteLine(email);
+        var Claims = User.Claims;
+        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
 
         // if user does not exist create a new one
-        if (User.Identity?.IsAuthenticated == true && _authorRepository.GetAuthorByName(userName) == null )
+        if (User.Identity?.IsAuthenticated == true && _authorRepository.GetAuthorByName(userName).Name == null)
         {
-                _authorRepository.InsertAuthor(userName,email);
-                Console.WriteLine(email);
+
+            _authorRepository.InsertAuthor(userName, email);
+            _authorRepository.Save();
         }
 
         // pages = _service.getPagesHome(false, null);

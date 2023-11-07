@@ -9,6 +9,7 @@ namespace Chirp.Core
         AuthorDTO? GetAuthorByEmail(string email);
 
         AuthorDTO? GetAuthorById(string authorId);
+        void Save();
 
         void InsertAuthor(string name, string email);
         void DeleteAuthor(int authorId);
