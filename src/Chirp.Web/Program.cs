@@ -17,17 +17,8 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
 builder.Services.AddRazorPages()
     .AddMicrosoftIdentityUI();
 
-builder.Services.AddDbContext<ChirpDBContext>(options =>
-{
-    var folder = Environment.SpecialFolder.LocalApplicationData;
-    var path = Environment.GetFolderPath(folder);
-    var DBPATH = Path.Join(path, "chirp.db");
-    options.UseSqlite($"Data Source={DBPATH}");
-});
+
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
-
-
-
 
 
 var app = builder.Build();
