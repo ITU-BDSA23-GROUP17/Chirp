@@ -1,59 +1,73 @@
 using Chirp.Core;
 using Chirp.Infrastructure;
-using Microsoft.Data.Sqlite;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.Extensions.Options;
-var builder = WebApplication.CreateBuilder(args);
+using DotNetEnv;
 
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAdB2C"));
 builder.Services.AddRazorPages()
     .AddMicrosoftIdentityUI();
 
-//Code from https://learn.microsoft.com/da-dk/azure/azure-sql/database/azure-sql-dotnet-entity-framework-core-quickstart?view=azuresql&tabs=visual-studio%2Cservice-connector%2Cportal 
-var connection = String.Empty;
+builder.Services.AddScoped<ICheepRepository, CheepRepository>();
+
+builder.Configuration.AddEnvironmentVariables();
+
+
+// Connection string setup
+DotNetEnv.Env.Load();
+string connectionString = String.Empty;
 if (builder.Environment.IsDevelopment())
 {
-    builder.Configuration.AddEnvironmentVariables().AddJsonFile("appsettings.Development.json");
-    connection = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING");
+var azureServer = DotNetEnv.Env.GetString("AZURE_SQL_SERVER");
+var azureIntialCatalog = DotNetEnv.Env.GetString("AZURE_SQL_INITIAL_CATALOG");
+var azureUser = DotNetEnv.Env.GetString("AZURE_SQL_USER");
+var azurePassword = DotNetEnv.Env.GetString("AZURE_SQL_PASSWORD");
+connectionString = "Server="+azureServer+";Initial Catalog="+azureIntialCatalog+";Persist Security Info=False;User ID="+azureUser+";Password="+azurePassword+";MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 }
 else
 {
-    connection = Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTIONSTRING");
 }
+
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new InvalidOperationException("Connection string is null or empty. Please check your configuration.");
+}
+
+// Make sure to register your DbContext here
 builder.Services.AddDbContext<ChirpDBContext>(options =>
-    options.UseSqlServer(connection));
-builder.Services.AddScoped<ICheepRepository, CheepRepository>();
-
-
+    options.UseSqlServer(connectionString));
 
 var app = builder.Build();
 
-// seed the database with some data
-//!!!!!! Delete if we can post to the database via the webapp !!!!!!!!
-//Do not uncomment this code since this will add duplicate data to the database
-    // seed the database with some data
-    // using (var scope = app.Services.CreateScope())
-    // {
-    //     var services = scope.ServiceProvider;
-    //     var context = services.GetRequiredService<ChirpDBContext>();
-    //     context.Database.EnsureCreated();
-    //     context.initializeDB();
-    // }
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        var context = services.GetRequiredService<ChirpDBContext>();
+        //003fd7fc-7841-4cd0-abae-98f088a22b8b
+        var allCheeps = context.Cheeps.ToList();
+
+        foreach (var item in allCheeps)
+        {
+            Console.WriteLine(item.Text);
+        }
+    }
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+}
+else
+{
+    builder.Configuration.AddEnvironmentVariables().AddJsonFile("appsettings.Development.json");
 }
 
 app.UseHttpsRedirection();
@@ -61,9 +75,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapRazorPages();
 app.MapControllers();
