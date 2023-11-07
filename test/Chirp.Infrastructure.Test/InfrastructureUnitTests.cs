@@ -82,5 +82,8 @@ public class InfrastructureUnitTests
             Assert.NotNull(insertedCheep); // Check that we get a cheep
             Assert.Equal("test message cheep", insertedCheep.Text); // Check that we have the right cheep
         }
+
     }
+
+
 }
