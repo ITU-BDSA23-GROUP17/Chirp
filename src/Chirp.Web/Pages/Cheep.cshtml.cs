@@ -8,11 +8,9 @@ namespace Chirp.Web.Pages
     public class CheepModel : PageModel
     {
         private ICheepRepository _cheepRepository;
-        private IAuthorRepository _authorRepository;
-        public CheepModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
+        public CheepModel(ICheepRepository cheepRepository)
         {
             _cheepRepository = cheepRepository;
-            _authorRepository = authorRepository;
         }
 
         [BindProperty]
@@ -20,18 +18,7 @@ namespace Chirp.Web.Pages
 
         public void OnPost()
         {
-            var currentUser = _authorRepository.GetAuthorByName(User.Identity.Name);
-
-            //We create a cheep
-            var cheepDto = new CheepDTO(
-                Id: Guid.NewGuid().ToString(),
-                Message: GetNewCheepText,
-                TimeStamp: DateTime.Now,
-                AuthorName: User.Identity.Name,
-                AuthorId: currentUser.AuthorId
-                );
-
-            _cheepRepository.InsertCheep(cheepDto);
+            _cheepRepository.SendCheep(GetNewCheepText);
 
             // Redirect in the end
             Response.Redirect("/");
