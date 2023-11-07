@@ -25,10 +25,29 @@ namespace Chirp.Infrastructure
         {
             throw new NotImplementedException();
         }
+        public void Save()
+        {
+            context.SaveChanges();
+        }
+
+        private bool disposed = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    context.Dispose();
+                }
+            }
+            this.disposed = true;
+        }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         public AuthorDTO? GetAuthorByEmail(string Email)
@@ -69,7 +88,7 @@ namespace Chirp.Infrastructure
                 return null;
             }
         }
-#nullable enable
+
         void IAuthorRepository.DeleteAuthor(int authorId)
         {
             var author = context.Authors.Find(authorId);
