@@ -37,13 +37,16 @@ builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 var app = builder.Build();
 
 // seed the database with some data
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<ChirpDBContext>();
-    context.Database.EnsureCreated();
-    DbInitializer.SeedDatabase(context);
-}
+//!!!!!! Delete if we can post to the database via the webapp !!!!!!!!
+//Do not uncomment this code since this will add duplicate data to the database
+    // seed the database with some data
+    // using (var scope = app.Services.CreateScope())
+    // {
+    //     var services = scope.ServiceProvider;
+    //     var context = services.GetRequiredService<ChirpDBContext>();
+    //     context.Database.EnsureCreated();
+    //     context.initializeDB();
+    // }
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
