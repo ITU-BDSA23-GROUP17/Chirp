@@ -6,37 +6,46 @@
     var routeName = HttpContext.GetRouteValue("author");
 }
 
-<div>
-    <h2> @routeName's Timeline </h2>
-    @if (Model.Cheeps.Any())
-    {
-        <ul id="messagelist" class="cheeps">
-            @foreach (var cheep in Model.Cheeps)
-            {
-                <li>
-                    <p>
-                        <strong>
-                            <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
-                        </strong>
-                        @cheep.Message
-                        <small>&mdash; @cheep.TimeStamp</small>
-                    </p>
-                </li>
-            }
-        </ul>
-    }
-    else
-    {
-        <em>There are no cheeps so far.</em>
-    }
-    <div class="pagination">
-        @if(Model.pageNr > 1){
-        <a href="?page=@(Model.pageNr - 1)">&laquo;</a>
-        }
-        @for (int i = 0; i < Model.pages; i++)
+<h2 class="text-3xl font-semibold"> @routeName's Timeline </h2>
+@if (Model.Cheeps.Any())
+{
+    <ul class="flex flex-col gap-5">
+    @foreach (var cheep in Model.Cheeps)
         {
-            <a href="?page=@(i+1)">@(i + 1)</a>
+            <li
+                class="border-2 border-black resize-none shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline flex flex-col gap-4">
+
+                <p class="text-black text-sm font-semibold hover:underline">
+                    <img class="inline-block h-10 w-10 rounded-full"
+                        src="https://assets.phillips.com/image/upload/t_Website_LotDetailMainImage/v1/auctions/NY000208/52_001.jpg"
+                        alt="" />
+                    <strong>
+                        <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
+                    </strong>
+                    <span
+                        class="text-sm leading-5 font-medium text-black-400 group-hover:text-black-300 transition ease-in-out duration-150">
+                        @cheep.TimeStamp
+                    </span>
+                </p>
+                <p class="text-blue-400 text-md font-medium">
+                    @cheep.Message
+                </p>
+            </li>
         }
-        <a href="?page=@(Model.pageNr + 1)">&raquo;</a>
-    </div>
+    </ul>
+}
+else
+{
+    <p>No cheeps yet!</p>
+}
+<div class="pagination">
+    @if (Model.pageNr > 1)
+    {
+        <a href="?page=@(Model.pageNr - 1)">&laquo;</a>
+    }
+    @for (int i = 0; i < Model.pages; i++)
+    {
+        <a href="?page=@(i+1)">@(i + 1)</a>
+    }
+    <a href="?page=@(Model.pageNr + 1)">&raquo;</a>
 </div>
