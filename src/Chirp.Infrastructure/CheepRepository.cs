@@ -138,14 +138,7 @@ namespace Chirp.Infrastructure
 
         public void SendCheep(string getNewCheepText)
         {
-            ICheepRepository.InsertCheep(new Cheep
-            {
-                CheepId = Guid.NewGuid().ToString(),
-                Text = getNewCheepText,
-                TimeStamp = DateTime.Now,
-                Author = author,
-                AuthorId = author.AuthorId
-            });
+           
         }
     }
 }

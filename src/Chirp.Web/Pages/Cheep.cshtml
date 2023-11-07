@@ -9,9 +9,23 @@
 <form method="post">
     <div class="flex  flex-col  gap-4">
 
-        <textarea id="cheep" name="getNewCheepText" rows="5" cols="50" class="border-2 border-black "></textarea>
+        <textarea id="cheepTextArea" maxlength="10" oninput="showWordsLeft()"></textarea>
 
-        <button id="cheepButton"
-            type="submit" class="border-2 border-black hover:bg-black text-black hover:text-white">Cheep!</button>
+        <div id="charactersLeft">Characters left: 10</div>
+
+        <button id="cheepButton" type="submit"
+            class="border-2 border-black hover:bg-black text-black hover:text-white">Cheep!</button>
+
+        <script>
+            // function shortened thanks to ChatGPT
+            function showWordsLeft() {
+                var cheepTextAreaElement = document.getElementById("cheepTextArea");
+                var charactersLeftElement = document.getElementById("charactersLeft");
+                var cheepButtonElement = document.getElementById("cheepButton");
+                var textFromTextArea = cheepTextAreaElement.value;
+                charactersLeftElement.textContent = "Character left: " + (10 - textFromTextArea.length);
+            }
+
+        </script>
     </div>
 </form>
