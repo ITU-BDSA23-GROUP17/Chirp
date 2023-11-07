@@ -19,6 +19,7 @@ builder.Services.AddRazorPages()
 
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 
+//Code from https://learn.microsoft.com/da-dk/azure/azure-sql/database/azure-sql-dotnet-entity-framework-core-quickstart?view=azuresql&tabs=visual-studio%2Cservice-connector%2Cportal 
 var connection = String.Empty;
 if (builder.Environment.IsDevelopment())
 {
