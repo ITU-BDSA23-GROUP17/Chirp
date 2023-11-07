@@ -24,7 +24,7 @@ namespace Chirp.Web.Pages
 
             //We create a cheep
             var cheepDto = new CheepDTO(
-                Id: "",
+                Id: Guid.NewGuid().ToString(),
                 Message: GetNewCheepText,
                 TimeStamp: DateTime.Now,
                 AuthorName: User.Identity.Name,
