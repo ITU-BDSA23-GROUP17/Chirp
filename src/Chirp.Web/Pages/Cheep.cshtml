@@ -22,11 +22,14 @@
         <script>
             // function shortened thanks to ChatGPT
             function showWordsLeft() {
+
+                // get the html elements
                 var cheepTextAreaElement = document.getElementById("cheepTextArea");
                 var charactersLeftElement = document.getElementById("charactersLeft");
                 var cheepButtonElement = document.getElementById("cheepButton");
                 var textFromTextArea = cheepTextAreaElement.value;
 
+                // lisen for changes to see if text field is empty or not
                 cheepTextAreaElement.addEventListener("input", () => {
                     if (textFromTextArea.length > 0) {
                         cheepButtonElement.disabled = false;
