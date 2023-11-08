@@ -21,5 +21,20 @@ public class EnvFileManager
             // Provide an alternative connection string for non-development environments if needed.
             throw new NotImplementedException("Non-development connection string not implemented.");
         }
+
+    }
+
+    //Don't know where to use it
+    public static void GetAzureADB2C()
+    {
+        DotNetEnv.Env.Load();
+        string instance = DotNetEnv.Env.GetString("AZUREAD_B2C_INSTANCE");
+        string clientId = DotNetEnv.Env.GetString("AZUREAD_B2C_CLIENTID");
+        string domain = DotNetEnv.Env.GetString("AZUREAD_B2C_DOMAIN");
+        string signedOutCallbackPath = DotNetEnv.Env.GetString("AZUREAD_B2C_SIGNEDOUTCALLBACKPATH");
+        string signUpSignInPolicyId = DotNetEnv.Env.GetString("AZUREAD_B2C_SIGNUPSIGNINPOLICYID");
+        string clientSecret = DotNetEnv.Env.GetString("AZUREAD_B2C_CLIENTSECRET");
+        string callbackPath = DotNetEnv.Env.GetString("AZUREAD_B2C_CALLBACKPATH");
+
     }
 }
