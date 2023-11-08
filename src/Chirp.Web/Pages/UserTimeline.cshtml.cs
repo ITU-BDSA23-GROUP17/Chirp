@@ -35,16 +35,8 @@ public class UserTimelineModel : PageModel
 
         pages = _cheepRepository.getPagesUser(author);
         pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "0"));
-        var recievedCheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
+        Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
 
-        if (recievedCheeps != null)
-        {
-            Cheeps = recievedCheeps;
-        }
-        else
-        {
-            Cheeps = new List<CheepDTO>();
-        }
 
         return Page();
     }

@@ -37,15 +37,23 @@
 else
 {
     <p>No cheeps yet!</p>
-}
-<div class="pagination">
+    <a href="/cheep">
+    <button
+        class=" bg-blue-400 hover:bg-red-200 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-400 rounded">
+        Post your first Cheep!!</button>
+</a>
+
+
+
+    <div class="pagination">
     @if (Model.pageNr > 1)
-    {
-        <a href="?page=@(Model.pageNr - 1)">&laquo;</a>
-    }
-    @for (int i = 0; i < Model.pages; i++)
-    {
-        <a href="?page=@(i+1)">@(i + 1)</a>
-    }
-    <a href="?page=@(Model.pageNr + 1)">&raquo;</a>
-</div>
+        {
+            <a href="?page=@(Model.pageNr - 1)">&laquo;</a>
+        }
+        @for (int i = 0; i < Model.pages; i++)
+        {
+            <a href="?page=@(i+1)">@(i + 1)</a>
+        }
+        <a href="?page=@(Model.pageNr + 1)">&raquo;</a>
+    </div>
+}
