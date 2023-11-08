@@ -103,5 +103,33 @@ namespace Chirp.Infrastructure
         {
             throw new NotImplementedException();
         }
+
+        void IAuthorRepository.SendCheep(string message, AuthorInfoDTO authorInfoDTO)
+        {
+            var guid = Guid.NewGuid().ToString();
+            var newCheepDTO = new CheepDTO(guid, message, DateTime.Now, authorInfoDTO.Name, authorInfoDTO.AuthorId);
+            var author = context.Authors.Find(authorInfoDTO.AuthorId);
+
+
+            if (author == null)
+            {
+                // Handle the case when the author is not found
+                throw new Exception($"Author with id {authorInfoDTO.AuthorId} not found");
+            }
+
+
+            author.Cheeps.Add(new Cheep
+            {
+                CheepId = newCheepDTO.Id,
+                Text = newCheepDTO.Message,
+                TimeStamp = newCheepDTO.TimeStamp,
+                Author = author,
+                AuthorId = author.AuthorId
+
+            });
+
+            context.Authors.Update(author);
+            context.SaveChanges();
+        }
     }
 }

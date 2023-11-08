@@ -80,6 +80,7 @@ namespace Chirp.Infrastructure
         }
 
 
+
         void ICheepRepository.DeleteCheep(int cheepId)
         {
             var cheep = context.Cheeps.Find(cheepId);
@@ -136,9 +137,6 @@ namespace Chirp.Infrastructure
             return (int)Math.Ceiling(context.Cheeps.Where(c => c.Author.Name == author).Count() / 32.0);
         }
 
-        public void SendCheep(string getNewCheepText)
-        {
-           
-        }
+
     }
 }

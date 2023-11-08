@@ -12,8 +12,8 @@ namespace Chirp.Core
         void InsertCheep(CheepDTO Cheep);
         void DeleteCheep(int cheepId);
         void UpdateCheep(CheepDTO Cheep);
+
         void Save();
-        void SendCheep(string cheepText);
 
     }
 }
