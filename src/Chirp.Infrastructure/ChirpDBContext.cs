@@ -10,7 +10,7 @@ public class ChirpDBContext : DbContext
 
     public void initializeDB()
     {
-
         Database.EnsureCreated(); //Ensures all tables are created!
+        DbInitializer.SeedDatabase(this);
     }
 }

@@ -46,8 +46,8 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<ChirpDBContext>();
-        context.initializeDB();
         DbInitializer.SeedDatabase(context);
+        context.SaveChanges();
     }
     catch (Exception ex)
     {
