@@ -13,6 +13,5 @@ public class ChirpDBContext : DbContext
         Database.Migrate();
 
         Database.EnsureCreated(); //Ensures all tables are created!
-        DbInitializer.SeedDatabase(this);
     }
 }
