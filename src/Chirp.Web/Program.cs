@@ -22,7 +22,10 @@ builder.Services.AddDbContext<ChirpDBContext>(options =>
     var folder = Environment.SpecialFolder.LocalApplicationData;
     var path = Environment.GetFolderPath(folder);
     var DBPATH = Path.Join(path, "chirp.db");
+
     options.UseSqlite($"Data Source={DBPATH}");
+
+
 });
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
@@ -39,10 +42,17 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<ChirpDBContext>();
-    context.Database.Migrate();
-    context.Database.EnsureCreated();
-    DbInitializer.SeedDatabase(context);
+
+    try
+    {
+        var context = services.GetRequiredService<ChirpDBContext>();
+        context.initializeDB();
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while migrating the database.");
+    }
 }
 
 // Configure the HTTP request pipeline.

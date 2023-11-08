@@ -37,15 +37,13 @@ public class PublicModel : PageModel
         var userName = User.Identity?.Name;
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        var author = _authorRepository.GetAuthorByName(userName);
 
-        // if user does not exist create a new one
-        if (User.Identity?.IsAuthenticated == true && _authorRepository.GetAuthorByName(userName).Name == null)
+        if (User.Identity?.IsAuthenticated == true && (author == null || author.Name == null))
         {
-
             _authorRepository.InsertAuthor(userName, email);
             _authorRepository.Save();
         }
-
         // pages = _service.getPagesHome(false, null);
         pages = _cheepRepository.getPages();
         pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
