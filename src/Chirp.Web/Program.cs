@@ -21,24 +21,7 @@ builder.Configuration.AddEnvironmentVariables();
 
 
 // Connection string setup
-DotNetEnv.Env.Load();
-string connectionString = String.Empty;
-if (builder.Environment.IsDevelopment())
-{
-var azureServer = DotNetEnv.Env.GetString("AZURE_SQL_SERVER");
-var azureIntialCatalog = DotNetEnv.Env.GetString("AZURE_SQL_INITIAL_CATALOG");
-var azureUser = DotNetEnv.Env.GetString("AZURE_SQL_USER");
-var azurePassword = DotNetEnv.Env.GetString("AZURE_SQL_PASSWORD");
-connectionString = "Server="+azureServer+";Initial Catalog="+azureIntialCatalog+";Persist Security Info=False;User ID="+azureUser+";Password="+azurePassword+";MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-}
-else
-{
-}
-
-if (string.IsNullOrEmpty(connectionString))
-{
-    throw new InvalidOperationException("Connection string is null or empty. Please check your configuration.");
-}
+var connectionString = EnvFileManager.GetConnectionString(builder.Environment.IsDevelopment());
 
 // Make sure to register your DbContext here
 builder.Services.AddDbContext<ChirpDBContext>(options =>
@@ -46,15 +29,21 @@ builder.Services.AddDbContext<ChirpDBContext>(options =>
 
 var app = builder.Build();
 
-    using (var scope = app.Services.CreateScope())
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ChirpDBContext>();
+    //003fd7fc-7841-4cd0-abae-98f088a22b8b
+    var tableNames = context.Model.GetEntityTypes()
+        .Select(t => t.GetTableName())
+        .Distinct()
+        .ToList();
+
+    foreach (var tableName in tableNames)
     {
-        var services = scope.ServiceProvider;
-        var context = services.GetRequiredService<ChirpDBContext>();
-        //003fd7fc-7841-4cd0-abae-98f088a22b8b
-        var b = context.Database.CanConnect();
-        Console.WriteLine(context.Cheeps.Count());
-        Console.WriteLine(b);
+        context.Database.ExecuteSqlRaw($"TRUNCATE TABLE `{tableName}`;");
     }
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
