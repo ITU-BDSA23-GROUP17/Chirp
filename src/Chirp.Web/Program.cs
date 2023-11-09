@@ -10,6 +10,18 @@ using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var azureAdB2COptions = builder.Configuration.GetSection("AzureADB2C");
+// Connection string setup 
+//Will move this in another cs file later, for more responsibility separation 
+var kvUri = $"https://chirprazor.vault.azure.net/";
+var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
+var connectionString = String.Empty;
+KeyVaultSecret clientSecret = client.GetSecret("ClientSecret");
+
+// Add the ClientSecret to the AzureADB2C configuration
+azureAdB2COptions["ClientSecret"] = clientSecret.Value;
+
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
@@ -21,58 +33,55 @@ builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 
 
-// Connection string setup 
-//Will move this in another cs file later, for more responsibility separation 
-var kvUri = $"https://chirprazor.vault.azure.net/";
-var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
-var connectionString = String.Empty;
+
 if (builder.Environment.IsDevelopment())
 {
     KeyVaultSecret secret = client.GetSecret("azure-sql-test-connectionstring-test");
     connectionString = secret.Value;
 }
-else{
+else
+{
     KeyVaultSecret secret = client.GetSecret("azure-sql-connectionstring");
     connectionString = secret.Value;
 }
 
 
-    // Make sure to register your DbContext here
-    builder.Services.AddDbContext<ChirpDBContext>(options =>
-        options.UseSqlServer(connectionString));
+// Make sure to register your DbContext here
+builder.Services.AddDbContext<ChirpDBContext>(options =>
+    options.UseSqlServer(connectionString));
 
-    var app = builder.Build();
+var app = builder.Build();
 
-    using (var scope = app.Services.CreateScope())
-    {
-        var services = scope.ServiceProvider;
-        var context = services.GetRequiredService<ChirpDBContext>();
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ChirpDBContext>();
 
-        context.Database.Migrate();
-        // context.Database.EnsureCreated(); //Ensures all tables are created!
-        // context.initializeDB();
-    }
+    context.Database.Migrate();
+    // context.Database.EnsureCreated(); //Ensures all tables are created!
+    // context.initializeDB();
+}
 
-    // Configure the HTTP request pipeline.
-    if (!app.Environment.IsDevelopment())
-    {
-        app.UseExceptionHandler("/Error");
-        app.UseHsts();
-    }
-    else
-    {
-        builder.Configuration.AddEnvironmentVariables().AddJsonFile("appsettings.Development.json");
-    }
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
+else
+{
+    builder.Configuration.AddEnvironmentVariables().AddJsonFile("appsettings.Development.json");
+}
 
-    app.UseHttpsRedirection();
-    app.UseStaticFiles();
+app.UseHttpsRedirection();
+app.UseStaticFiles();
 
-    app.UseRouting();
+app.UseRouting();
 
-    app.UseAuthentication();
-    app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();
 
-    app.MapRazorPages();
-    app.MapControllers();
+app.MapRazorPages();
+app.MapControllers();
 
-    app.Run();
+app.Run();
