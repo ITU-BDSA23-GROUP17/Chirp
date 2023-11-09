@@ -15,6 +15,7 @@ public class UserTimelineModel : PageModel
     public int pageNr { get; set; } = 0;
     public int pages { get; set; } = 0;
 
+
     [BindProperty]
     public IFormFile Upload { get; set; }
 
@@ -54,6 +55,9 @@ public class UserTimelineModel : PageModel
 
     }
 
+    public string getPageName(){
+        return  HttpContext.GetRouteValue("author").ToString();
+    } 
 
 
 }
