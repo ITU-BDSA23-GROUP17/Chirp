@@ -1,4 +1,5 @@
 ﻿
+using System.Drawing;
 using Chirp.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,6 +14,9 @@ public class UserTimelineModel : PageModel
     public IEnumerable<CheepDTO> Cheeps { get; set; } = new List<CheepDTO>();
     public int pageNr { get; set; } = 0;
     public int pages { get; set; } = 0;
+
+    [BindProperty]
+    public IFormFile Upload { get; set; }
 
 
     private readonly ICheepRepository _cheepRepository;
@@ -39,6 +43,15 @@ public class UserTimelineModel : PageModel
 
 
         return Page();
+    }
+
+    public void OnPost(){
+        // save image to database ? or maybe po
+        Console.WriteLine(Upload.FileName);
+
+
+
+
     }
 
 

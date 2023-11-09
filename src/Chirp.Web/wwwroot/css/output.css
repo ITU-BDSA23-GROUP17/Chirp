@@ -677,6 +677,14 @@ video {
   gap: 1.25rem;
 }
 
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.text-clip {
+  text-overflow: clip;
+}
+
 .rounded {
   border-radius: 0.25rem;
 }
