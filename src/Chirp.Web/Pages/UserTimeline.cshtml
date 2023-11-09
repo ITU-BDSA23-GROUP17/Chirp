@@ -6,7 +6,8 @@
     var routeName = HttpContext.GetRouteValue("author");
 }
 
-<h2 class="text-3xl font-semibold"> @routeName's Timeline </h2>
+<partial name="_ProfilePartial" />
+
 @if (Model.Cheeps.Any())
 {
     <ul class="flex flex-col gap-5">
