@@ -41,9 +41,17 @@ public class PublicModel : PageModel
 
         if (User.Identity?.IsAuthenticated == true && (author == null || author.Name == null))
         {
-            _authorRepository.InsertAuthor(userName, email);
-            _authorRepository.Save();
+            try
+            {
+                _authorRepository.InsertAuthor(userName, email);
+                _authorRepository.Save();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
+
         // pages = _service.getPagesHome(false, null);
         pages = _cheepRepository.getPages();
         pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
