@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using Chirp.Core;
-using SQLitePCL;
 
 namespace Chirp.Infrastructure
 {
@@ -80,6 +79,7 @@ namespace Chirp.Infrastructure
         }
 
 
+
         void ICheepRepository.DeleteCheep(int cheepId)
         {
             var cheep = context.Cheeps.Find(cheepId);
@@ -136,9 +136,6 @@ namespace Chirp.Infrastructure
             return (int)Math.Ceiling(context.Cheeps.Where(c => c.Author.Name == author).Count() / 32.0);
         }
 
-        public void SendCheep(string getNewCheepText)
-        {
-           
-        }
+
     }
 }

@@ -37,13 +37,23 @@ public class PublicModel : PageModel
         var userName = User.Identity?.Name;
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        var author = _authorRepository.GetAuthorByName(userName);
 
-        // if user does not exist create a new one
-        if (User.Identity?.IsAuthenticated == true && _authorRepository.GetAuthorByName(userName).Name == null)
+        if (User.Identity?.IsAuthenticated == true && (author == null || author.Name == null))
         {
+            try
+            {
+                if (email != null)
+                {
+                    _authorRepository.InsertAuthor(userName, email);
+                    _authorRepository.Save();
+                }
 
-            _authorRepository.InsertAuthor(userName, email);
-            _authorRepository.Save();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("author insert failed");
+            }
         }
 
         // pages = _service.getPagesHome(false, null);

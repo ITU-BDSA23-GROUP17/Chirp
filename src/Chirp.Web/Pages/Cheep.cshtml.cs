@@ -7,10 +7,10 @@ namespace Chirp.Web.Pages
 {
     public class CheepModel : PageModel
     {
-        private ICheepRepository _cheepRepository;
-        public CheepModel(ICheepRepository cheepRepository)
+        private IAuthorRepository _authorRepository;
+        public CheepModel(IAuthorRepository authorRepository)
         {
-            _cheepRepository = cheepRepository;
+            _authorRepository = authorRepository;
         }
 
         [BindProperty]
@@ -18,8 +18,12 @@ namespace Chirp.Web.Pages
 
         public void OnPost()
         {
-            _cheepRepository.SendCheep(GetNewCheepText);
 
+            Console.WriteLine(GetNewCheepText);
+            var Claims = User.Claims;
+            var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+            var author = _authorRepository.GetAuthorByEmail(email);
+            _authorRepository.SendCheep(GetNewCheepText, new AuthorInfoDTO(author.AuthorId, author.Name, author.Email));
             // Redirect in the end
             Response.Redirect("/");
         }

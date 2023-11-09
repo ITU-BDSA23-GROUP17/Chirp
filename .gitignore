@@ -9,7 +9,7 @@
 *.user
 *.userosscache
 *.sln.docstates
-
+*.env
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -475,3 +475,4 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+src/Chirp.Web/.env

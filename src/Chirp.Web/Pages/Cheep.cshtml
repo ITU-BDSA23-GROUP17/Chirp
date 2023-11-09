@@ -9,38 +9,16 @@
 <form method="post">
     <div class="flex  flex-col  gap-4">
 
-        <textarea id="cheepTextArea" maxlength="160" oninput="showWordsLeft()"  rows="5" cols="50"
-        class="border-2 border-black resize-none shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+        <textarea asp-for="GetNewCheepText" id="cheepTextArea" maxlength="160" oninput="showWordsLeft()" rows="5"
+            cols="50"
+            class="border-2 border-black resize-none shadow appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
 
         <div id="charactersLeft">Characters left: 160</div>
 
-         <button id="cheepButton"
-        class="border-2 border-black hover:bg-black text-black hover:text-white bg-transparent hover:bg-black text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded w-full md:w-auto" disabled="true">
-        Cheep!
-    </button>
+        <button id="cheepButton"
+            class="border-2 border-black hover:bg-black text-black hover:text-white bg-transparent  py-2 px-4 hover:border-transparent rounded w-full md:w-auto"
+            disabled="true">
+            Cheep!
+        </button </div>
 
-        <script>
-            // function shortened thanks to ChatGPT
-            function showWordsLeft() {
-
-                // get the html elements
-                var cheepTextAreaElement = document.getElementById("cheepTextArea");
-                var charactersLeftElement = document.getElementById("charactersLeft");
-                var cheepButtonElement = document.getElementById("cheepButton");
-                var textFromTextArea = cheepTextAreaElement.value;
-
-                // lisen for changes to see if text field is empty or not
-                cheepTextAreaElement.addEventListener("input", () => {
-                    if (textFromTextArea.length > 0) {
-                        cheepButtonElement.disabled = false;
-                    } else {
-                        cheepButtonElement.disabled = true;
-                    }
-                });
-
-                charactersLeftElement.textContent = "Character left: " + (160 - textFromTextArea.length);
-            }
-
-        </script>
-    </div>
 </form>
