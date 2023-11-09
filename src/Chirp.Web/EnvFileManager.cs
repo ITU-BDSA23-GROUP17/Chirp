@@ -6,22 +6,21 @@ public class EnvFileManager
     public static string GetConnectionString(bool isDevelopment)
     {
         DotNetEnv.Env.Load();
-
+        var azureServer = DotNetEnv.Env.GetString("AZURE_SQL_SERVER");
+        var azureUser = DotNetEnv.Env.GetString("AZURE_SQL_USER");
+        var azurePassword = DotNetEnv.Env.GetString("AZURE_SQL_PASSWORD");
+        var azureInitialCatalog = "";
         if (isDevelopment)
         {
-            var azureServer = DotNetEnv.Env.GetString("AZURE_SQL_SERVER");
-            var azureInitialCatalog = DotNetEnv.Env.GetString("AZURE_SQL_INITIAL_CATALOG");
-            var azureUser = DotNetEnv.Env.GetString("AZURE_SQL_USER");
-            var azurePassword = DotNetEnv.Env.GetString("AZURE_SQL_PASSWORD");
-
-            return $"Server={azureServer};Initial Catalog={azureInitialCatalog};Persist Security Info=False;User ID={azureUser};Password={azurePassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            //Running the sql test database
+             azureInitialCatalog = DotNetEnv.Env.GetString("AZURE_SQL_INITIAL_CATALOG_TEST");
         }
         else
         {
-            // Provide an alternative connection string for non-development environments if needed.
-            throw new NotImplementedException("Non-development connection string not implemented.");
+            //Running the sql production database
+             azureInitialCatalog = DotNetEnv.Env.GetString("AZURE_SQL_INITIAL_CATALOG");
         }
-
+        return $"Server={azureServer};Initial Catalog={azureInitialCatalog};Persist Security Info=False;User ID={azureUser};Password={azurePassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
     }
 
     //Don't know where to use it
