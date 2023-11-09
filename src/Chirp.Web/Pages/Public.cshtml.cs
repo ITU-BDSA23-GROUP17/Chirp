@@ -43,12 +43,16 @@ public class PublicModel : PageModel
         {
             try
             {
-                _authorRepository.InsertAuthor(userName, email);
-                _authorRepository.Save();
+                if (email != null)
+                {
+                    _authorRepository.InsertAuthor(userName, email);
+                    _authorRepository.Save();
+                }
+
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("author insert failed");
             }
         }
 

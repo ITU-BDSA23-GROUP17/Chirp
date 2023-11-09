@@ -6,6 +6,7 @@ namespace Chirp.Core
         public IEnumerable<CheepDTO> GetCheeps(int page);
         CheepDTO? GetCheepByID(int cheepId);
         IEnumerable<CheepDTO>? GetCheepsByAuthor(string authorName, int page);
+        
 
         int getPages();
         int getPagesUser(string author);

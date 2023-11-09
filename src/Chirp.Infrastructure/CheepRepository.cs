@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using Chirp.Core;
-using SQLitePCL;
 
 namespace Chirp.Infrastructure
 {
