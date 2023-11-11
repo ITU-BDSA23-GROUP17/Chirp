@@ -11,7 +11,7 @@ public class IntegrationTest
         {
                 //Remember to dotnet run before you run this test
                 //////// Arrange
-                string stringURL = "https://localhost:7102/Helge";
+                string stringURL = "https://bdsagroup17chirprazor.azurewebsites.net/Helge";
                 using HttpClient client = new HttpClient();
 
                 //////// Act
