@@ -17,6 +17,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+          log-level: debug
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
