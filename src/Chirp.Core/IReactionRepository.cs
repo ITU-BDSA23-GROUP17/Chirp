@@ -1,7 +1,7 @@
 
 namespace Chirp.Core
 {
-    public interface IReactionRepository : IDisposable
+    public interface IReactionRepository
     {
 
         public IEnumerable<ReactionDTO> GetReactionsFromCheepId(string cheepId);
