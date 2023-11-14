@@ -5,6 +5,8 @@ public class ChirpDBContext : DbContext
     public DbSet<Author> Authors { get; set; }
     public DbSet<Cheep> Cheeps { get; set; }
 
+    public DbSet<Reaction> Reactions { get; set; }
+
     // source https://learn.microsoft.com/en-us/ef/core/get-started/overview/first-app?tabs=netcore-cli
     public ChirpDBContext(DbContextOptions<ChirpDBContext> options) : base(options) { }
 
