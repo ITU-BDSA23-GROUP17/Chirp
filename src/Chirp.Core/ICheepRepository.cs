@@ -1,7 +1,7 @@
 
 namespace Chirp.Core
 {
-    public interface ICheepRepository
+    public interface ICheepRepository : IDisposable
     {
         public IEnumerable<CheepDTO> GetCheeps(int page);
         CheepDTO? GetCheepByID(int cheepId);

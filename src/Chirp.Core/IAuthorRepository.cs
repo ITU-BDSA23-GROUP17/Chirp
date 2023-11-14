@@ -2,7 +2,7 @@ using System.Security.AccessControl;
 
 namespace Chirp.Core
 {
-    public interface IAuthorRepository
+    public interface IAuthorRepository : IDisposable
     {
         AuthorDTO? GetAuthorByName(string name);
 

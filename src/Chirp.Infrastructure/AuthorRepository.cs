@@ -5,7 +5,7 @@ using Microsoft.VisualBasic;
 
 namespace Chirp.Infrastructure
 {
-    public class AuthorRepository : IAuthorRepository
+    public class AuthorRepository : IAuthorRepository, IDisposable
     {
 
         private ChirpDBContext context;
@@ -31,8 +31,25 @@ namespace Chirp.Infrastructure
             context.SaveChanges();
         }
 
+        private bool disposed = false;
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    context.Dispose();
+                }
+            }
+            this.disposed = true;
+        }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         public AuthorDTO? GetAuthorByEmail(string Email)
         {
