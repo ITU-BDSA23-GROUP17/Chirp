@@ -57,8 +57,8 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<ChirpDBContext>();
 
-    context.Database.Migrate();
-    context.Database.EnsureCreated(); //Ensures all tables are created!
+    // context.Database.Migrate();
+    // context.Database.EnsureCreated(); //Ensures all tables are created!
     context.initializeDB();
 }
 
