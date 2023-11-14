@@ -5,7 +5,7 @@ using Chirp.Core;
 
 namespace Chirp.Infrastructure
 {
-    public class ReactionRepository : IReactionRepository, 
+    public class ReactionRepository : IReactionRepository
     {
 
         private ChirpDBContext context;
