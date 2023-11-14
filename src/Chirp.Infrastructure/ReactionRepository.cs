@@ -10,6 +10,11 @@ namespace Chirp.Infrastructure
 
         private ChirpDBContext context;
 
+        public ReactionRepository(ChirpDBContext context)
+        {
+            this.context = context;
+        }
+
         public void DeleteReaction(string cheepId, string authorId)
         {
             throw new NotImplementedException();
@@ -38,6 +43,11 @@ namespace Chirp.Infrastructure
         public void UpdateReaction(string cheepId, string authorId)
         {
             throw new NotImplementedException();
+        }
+
+        public void Save()
+        {
+            context.SaveChanges();
         }
     }
 }
