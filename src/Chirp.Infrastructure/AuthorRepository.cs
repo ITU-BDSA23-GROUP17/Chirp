@@ -45,12 +45,6 @@ namespace Chirp.Infrastructure
             this.disposed = true;
         }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
         public AuthorDTO? GetAuthorByEmail(string Email)
         {
             var Author = context.Authors.Where(a => a.Email == Email).FirstOrDefault();
