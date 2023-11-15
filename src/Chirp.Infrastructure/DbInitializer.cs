@@ -693,9 +693,15 @@ public static class DbInitializer
             a11.Cheeps = new List<Cheep>() { c656 };
             a12.Cheeps = new List<Cheep>() { c657 };
 
+            var r1 = new Reaction() { AuthorId = a1.AuthorId, CheepId = c1.CheepId, ReactionTypeId = "like" };
+
+            var reactions = new List<Reaction>() { r1 };
+
             chirpContext.Authors.AddRange(authors);
             chirpContext.Cheeps.AddRange(cheeps);
+            chirpContext.Reactions.AddRange(reactions);
             chirpContext.SaveChanges();
         }
     }
+
 }
