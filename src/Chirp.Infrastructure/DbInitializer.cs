@@ -697,6 +697,9 @@ public static class DbInitializer
             a12.Cheeps = new List<Cheep>() { c657 };
             #endregion
 
+            #region ReactionTypes added
+
+            #endregion
             #region Reactions added
             var r1 = new Reaction() { AuthorId = a1.AuthorId, CheepId = c1.CheepId, ReactionTypeId = "like" };
             var reactions = new List<Reaction>() { r1 };
@@ -709,18 +712,5 @@ public static class DbInitializer
         }
     }
 
-    public static void createReactionTable(ChirpDBContext chirpContext)
-    {
-        if (!chirpContext.Reactions.Any())
-        {
-            var r1 = new Reaction() { AuthorId = a1.AuthorId, CheepId = c1.CheepId, ReactionTypeId = "like" };
-
-            var reactions = new List<Reaction>() { r1 };
-
-            chirpContext.Reactions.AddRange(reactions);
-            chirpContext.SaveChanges();
-        }
-
-    }
 
 }
