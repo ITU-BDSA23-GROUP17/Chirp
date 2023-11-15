@@ -704,6 +704,7 @@ public static class DbInitializer
             var rt4 = new ReactionType() {Id = Guid.NewGuid().ToString(), Name = "hate", Icon = "heart-broken"};
             var reactionTypes = new List<ReactionType>() { rt1, rt2, rt3, rt4 };
             #endregion
+            
             #region Reactions added
             var r1 = new Reaction() { AuthorId = a1.AuthorId, CheepId = c1.CheepId, ReactionTypeId = "like" };
             var reactions = new List<Reaction>() { r1 };
