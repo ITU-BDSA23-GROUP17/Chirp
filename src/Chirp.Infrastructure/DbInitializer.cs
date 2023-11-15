@@ -698,7 +698,11 @@ public static class DbInitializer
             #endregion
 
             #region ReactionTypes added
-
+            var rt1 = new ReactionType() {Id = Guid.NewGuid().ToString(), Name = "like", Icon = "thumbs-up"};
+            var rt2 = new ReactionType() {Id = Guid.NewGuid().ToString(), Name = "dislike", Icon = "thumbs-down"};
+            var rt3 = new ReactionType() {Id = Guid.NewGuid().ToString(), Name = "love", Icon = "heart"};
+            var rt4 = new ReactionType() {Id = Guid.NewGuid().ToString(), Name = "hate", Icon = "heart-broken"};
+            var reactionTypes = new List<ReactionType>() { rt1, rt2, rt3, rt4 };
             #endregion
             #region Reactions added
             var r1 = new Reaction() { AuthorId = a1.AuthorId, CheepId = c1.CheepId, ReactionTypeId = "like" };
@@ -707,6 +711,7 @@ public static class DbInitializer
 
             chirpContext.Authors.AddRange(authors);
             chirpContext.Cheeps.AddRange(cheeps);
+            chirpContext.ReactionTypes.AddRange(reactionTypes);
             chirpContext.Reactions.AddRange(reactions);
             chirpContext.SaveChanges();
         }
