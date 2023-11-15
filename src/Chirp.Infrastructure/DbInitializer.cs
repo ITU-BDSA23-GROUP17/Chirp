@@ -4,7 +4,8 @@ public static class DbInitializer
 {
     public static void SeedDatabase(ChirpDBContext chirpContext)
     {
-        if (!(chirpContext.Authors.Any())){
+        if (!(chirpContext.Authors.Any()) && !(chirpContext.Cheeps.Any()))
+        {
             #region Authors added
             var a1 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Roger Histand", Email = "Roger+Histand@hotmail.com", Cheeps = new List<Cheep>() };
             var a2 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Luanna Muro", Email = "Luanna-Muro@ku.dk", Cheeps = new List<Cheep>() };
@@ -20,10 +21,8 @@ public static class DbInitializer
             var a12 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Rasmus", Email = "rnie@itu.dk", Cheeps = new List<Cheep>() };
 
             var authors = new List<Author>() { a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12 };
-            chirpContext.Authors.AddRange(authors);
             #endregion
-        }
-        if (!(chirpContext.Cheeps.Any())) {
+
             #region Cheeps added
             var c1 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "They were married in Chicago, with old Smith, and was expected aboard every day; meantime, the two went past me.", TimeStamp = DateTime.Parse("2023-08-01 13:14:37") };
             var c2 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "And then, as he listened to all that''s left o'' twenty-one people.", TimeStamp = DateTime.Parse("2023-08-01 13:15:21") };
@@ -697,20 +696,24 @@ public static class DbInitializer
             a11.Cheeps = new List<Cheep>() { c656 };
             a12.Cheeps = new List<Cheep>() { c657 };
             #endregion
-        }
+
             #region ReactionTypes added
-            var rt1 = new ReactionType() {Id = Guid.NewGuid().ToString(), Name = "like", Icon = "thumbs-up"};
-            var rt2 = new ReactionType() {Id = Guid.NewGuid().ToString(), Name = "dislike", Icon = "thumbs-down"};
-            var rt3 = new ReactionType() {Id = Guid.NewGuid().ToString(), Name = "love", Icon = "heart"};
-            var rt4 = new ReactionType() {Id = Guid.NewGuid().ToString(), Name = "hate", Icon = "heart-broken"};
+            var rt1 = new ReactionType() { Id = Guid.NewGuid().ToString(), Name = "like", Icon = "thumbs-up" };
+            var rt2 = new ReactionType() { Id = Guid.NewGuid().ToString(), Name = "dislike", Icon = "thumbs-down" };
+            var rt3 = new ReactionType() { Id = Guid.NewGuid().ToString(), Name = "love", Icon = "heart" };
+            var rt4 = new ReactionType() { Id = Guid.NewGuid().ToString(), Name = "hate", Icon = "heart-broken" };
             var reactionTypes = new List<ReactionType>() { rt1, rt2, rt3, rt4 };
             #endregion
 
             #region Reactions added
             var r1 = new Reaction() { AuthorId = a1.AuthorId, CheepId = c1.CheepId, ReactionTypeId = "like" };
-            var reactions = new List<Reaction>() { r1 };
+            var r2 = new Reaction() { AuthorId = a2.AuthorId, CheepId = c1.CheepId, ReactionTypeId = "like" };
+            var r3 = new Reaction() { AuthorId = a3.AuthorId, CheepId = c1.CheepId, ReactionTypeId = "like" };
+            var r4 = new Reaction() { AuthorId = a4.AuthorId, CheepId = c1.CheepId, ReactionTypeId = "like" };
+            var r5 = new Reaction() { AuthorId = a5.AuthorId, CheepId = c1.CheepId, ReactionTypeId = "like" };
+            var reactions = new List<Reaction>() { r1, r2, r3, r4, r5 };
             #endregion
-
+            chirpContext.Authors.AddRange(authors);
             chirpContext.Cheeps.AddRange(cheeps);
             chirpContext.ReactionTypes.AddRange(reactionTypes);
             chirpContext.Reactions.AddRange(reactions);
