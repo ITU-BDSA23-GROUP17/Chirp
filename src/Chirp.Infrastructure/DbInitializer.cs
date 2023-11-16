@@ -713,10 +713,18 @@ public static class DbInitializer
             var r5 = new Reaction() { AuthorId = a5.AuthorId, CheepId = c1.CheepId, ReactionTypeId = "like" };
             var reactions = new List<Reaction>() { r1, r2, r3, r4, r5 };
             #endregion
+
+            #region Followings added
+            var f1 = new Follow() { FollowerId = a1.AuthorId, FollowingId = a2.AuthorId, Timestamp = DateTime.Now };
+            var followings = new List<Follow>() { f1 };
+            #endregion
+
+
             chirpContext.Authors.AddRange(authors);
             chirpContext.Cheeps.AddRange(cheeps);
             chirpContext.ReactionTypes.AddRange(reactionTypes);
             chirpContext.Reactions.AddRange(reactions);
+            chirpContext.Followings.AddRange(followings);
             chirpContext.SaveChanges();
         }
     }
