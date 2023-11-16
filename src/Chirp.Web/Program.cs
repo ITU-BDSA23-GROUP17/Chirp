@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
-using DotNetEnv;
 using Azure.Security.KeyVault.Secrets;
 using Azure.Identity;
 
@@ -60,6 +59,9 @@ using (var scope = app.Services.CreateScope())
     // context.Database.Migrate();
     // context.Database.EnsureCreated(); //Ensures all tables are created!
     context.initializeDB();
+
+    
+    //context.Database.ExecuteSqlRaw("DROP TABLE [dbo].[__EFMigrationsHistory]"); // If a new table is added or column is added, uncomment this
 }
 
 // Configure the HTTP request pipeline.

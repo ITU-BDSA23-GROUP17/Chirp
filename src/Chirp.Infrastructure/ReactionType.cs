@@ -6,10 +6,10 @@ namespace Chirp.Infrastructure;
 
 public class ReactionType
 {
-    public required string ReactionTypeId { get; set; }
+    public required string Id { get; set; }
    
-    public required string ReactionTypeName { get; set; }
+    public required string Name { get; set; }
 
-    public required string ReactionTypeIcon { get; set; }
+    public required string Icon { get; set; }
 
 }

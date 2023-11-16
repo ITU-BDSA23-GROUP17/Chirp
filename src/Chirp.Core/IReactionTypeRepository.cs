@@ -4,7 +4,9 @@ namespace Chirp.Core
     public interface IReactionTypeRepository : IDisposable
     {
 
-        void GetReactionTypeById(string reactionTypeId);
+        string GetReactionTypeNameById(string reactionTypeId);
+
+        string GetReactionTypeIconById(string reactionTypeId);
 
     }
 }

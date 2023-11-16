@@ -83,6 +83,24 @@ namespace Chirp.Infrastructure.Migrations
                     b.ToTable("Reactions");
                 });
 
+            modelBuilder.Entity("Chirp.Infrastructure.ReactionType", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Icon")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ReactionTypes");
+                });
+
             modelBuilder.Entity("Chirp.Infrastructure.Cheep", b =>
                 {
                     b.HasOne("Chirp.Infrastructure.Author", "Author")
