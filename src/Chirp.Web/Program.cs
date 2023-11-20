@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 var azureAdB2COptions = builder.Configuration.GetSection("AzureADB2C");
 // Connection string setup 
 //Will move this in another cs file later, for more responsibility separation 
-var kvUri = $"https://chirprazor.vault.azure.net/";
+var kvUri = $"https://chirp-keys.vault.azure.net/";
 var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
 var connectionString = String.Empty;
 KeyVaultSecret clientSecret = client.GetSecret("ClientSecret");
@@ -36,12 +36,12 @@ builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 
 if (builder.Environment.IsDevelopment())
 {
-    KeyVaultSecret secret = client.GetSecret("azure-sql-test-connectionstring-test");
+    KeyVaultSecret secret = client.GetSecret("connectionstring");
     connectionString = secret.Value;
 }
 else
 {
-    KeyVaultSecret secret = client.GetSecret("azure-sql-connectionstring");
+    KeyVaultSecret secret = client.GetSecret("prod-connectionstring");
     connectionString = secret.Value;
 }
 
