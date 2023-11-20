@@ -33,19 +33,25 @@ public class UserTimelineModel : PageModel
         _authorRepository = authorRepository;
 
     }
-    public ActionResult OnGet(string author)
+ public IActionResult OnGet(string author)
+{
+    // Initialize your models here...
+    var authorDTO = _authorRepository.GetAuthorByName(author);
+    pages = _cheepRepository.getPagesUser(authorDTO.Name);
+    pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
+    Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
+
+    var viewModel = new ViewModel
     {
-        // get user
-        var authorDTO = _authorRepository.GetAuthorByName(author);
-        //source https://stackoverflow.com/questions/6514292/c-sharp-razor-url-parameter-from-view 
-        // pages = _service.getPagesHome(true, author);
-        pages = _cheepRepository.getPagesUser(authorDTO.Name);
-        pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
-        Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
+        Cheeps = Cheeps,
+        pageNr = pageNr,
+        pages = pages,      
+    };
+    
+    ViewData["ViewModel"] = viewModel;
 
-
-        return Page();
-    }
+    return Page();
+}
 
     public void OnPost()
     {
