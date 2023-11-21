@@ -15,7 +15,7 @@ public class UserTimelineModel : PageModel
     //(We initialize with standard placeholder values to be overwritten later, to avoid
     //'Non-nullable property must contain a non-null value when exiting constructor.' warning'))
     public IEnumerable<CheepDTO> Cheeps { get; set; } = new List<CheepDTO>();
-    public IEnumerable<CheepViewModel> Cheeps { get; set; } = new List<CheepDTO>();
+    public IEnumerable<CheepInfoDTO> CheepInfos { get; set; } = new List<CheepInfoDTO>();
     public int pageNr { get; set; } = 0;
     public int pages { get; set; } = 0;
 
@@ -72,7 +72,12 @@ public class UserTimelineModel : PageModel
             Cheeps = _cheepRepository.GetCheepsByAuthors(authors, pageNr);
         }
 
-        CheepViewModels =
+        CheepInfos = Cheeps.Select(cheep => new CheepInfoDTO
+        {
+            Cheep = cheep,
+            UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorName)
+
+        }).ToList();
         return Page();
     }
 

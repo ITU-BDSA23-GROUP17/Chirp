@@ -1,3 +1,3 @@
 namespace Chirp.Core;
-public record CheepInfoDTO(string Message, DateTime TimeStamp, string AuthorName, bool UserIsFollowingAuthor);
+public record CheepInfoDTO(CheepDTO Cheep, bool UserIsFollowingAuthor);
 //Why is this called DTO...?
