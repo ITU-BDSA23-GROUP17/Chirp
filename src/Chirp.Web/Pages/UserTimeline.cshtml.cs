@@ -81,14 +81,19 @@ public class UserTimelineModel : PageModel
         return Page();
     }
 
+    public bool IsUserFollowingAuthor(string authorName)
+    {
+        var followingIDs = _followRepository.GetFollowingIDsByAuthorID(User.Identity.Name);
+        {
+            return followingIDs.Contains(authorName);
+        }
+    }
+
+
     public void OnPost()
     {
         // save image to database ? or maybe po
         Console.WriteLine(Upload.FileName);
-
-
-
-
     }
 
     public string getPageName()
