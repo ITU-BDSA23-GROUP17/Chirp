@@ -32,7 +32,8 @@ namespace Chirp.Infrastructure
 
         public IEnumerable<ReactionDTO> GetReactionsFromCheepId(string cheepId)
         {
-            throw new NotImplementedException();
+         return context.Reactions.Where(r => r.CheepId == cheepId).Select(r => new ReactionDTO(r.CheepId, r.AuthorId, r.TimeStamp,r.ReactionTypeId)).ToList();
+
         }
 
         public void InsertReaction(ReactionDTO reaction)
