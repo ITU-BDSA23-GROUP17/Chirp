@@ -11,12 +11,16 @@ public class PublicModel : PageModel
 {
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authorRepository;
+    private readonly IFollowRepository _followRepository;
+    private readonly IReactionRepository _reactionRepository;
 
 
-    public PublicModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
+    public PublicModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository, IReactionRepository reactionRepository)
     {
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
+        _followRepository = followRepository;
+        _reactionRepository = reactionRepository;
 
     }
 
