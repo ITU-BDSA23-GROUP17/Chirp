@@ -28,9 +28,18 @@ public class FollowRepository : IFollowRepository, IDisposable
     }
 
 
-    public List<AuthorDTO> GetFollowingsByAuthorID(string AuthorID)
+    public List<AuthorDTO> GetFollowsByAuthorID(string AuthorID)
     {
-        throw new NotImplementedException();
+        var followingIDs = context.Followings
+         .Where(f => f.FollowerId == AuthorID)
+         .Select(f => f.FollowingId)
+         .ToList();
+
+        using (var authorRepository = new AuthorRepository(context))
+        {
+            var follows = authorRepository.GetAuthorsByIds(followingIDs);
+            return follows;
+        }
     }
 
     public void InsertNewFollow(string FollowerID, string FollowingID)
