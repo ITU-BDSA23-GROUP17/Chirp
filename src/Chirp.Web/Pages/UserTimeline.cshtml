@@ -36,11 +36,22 @@
                         <!-- we only want to add a button if the cheep is not by the user currently logged in-->
                         @if (User.Identity.IsAuthenticated && cheep.AuthorName != User.Identity.Name)
                         {
-                            <button id="cheepButton"
-                                class="border-2 border-black hover:bg-black text-black hover:text-white bg-transparent pl-2 py-1 px-2 hover:border-transparent rounded"
-                                disabled="true">
-                                Follow
-                            </button>
+                            @if (!cheep.isUserFollowingAuthor)
+                            {
+                                <button id="cheepButton"
+                                    class="border-2 border-black hover:bg-black text-black hover:text-white bg-transparent pl-2 py-1 px-2 hover:border-transparent rounded"
+                                    disabled="true">
+                                    Follow
+                                </button>
+                            }
+                            else
+                            {
+                                <button id="cheepButton"
+                                    class="border-2 border-black hover:bg-black text-black hover:text-white bg-transparent pl-2 py-1 px-2 hover:border-transparent rounded"
+                                    disabled="true">
+                                    Unfollow
+                                </button>
+                            }
                         }
                     </div>
                 </div>
