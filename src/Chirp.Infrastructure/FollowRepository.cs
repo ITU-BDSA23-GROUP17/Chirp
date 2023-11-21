@@ -8,10 +8,31 @@ namespace Chirp.Infrastructure;
 public class FollowRepository : IFollowRepository, IDisposable
 {
     private ChirpDBContext context;
+
+    public FollowRepository(ChirpDBContext context)
+    {
+        this.context = context;
+    }
+    private bool disposed = false;
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!this.disposed)
+        {
+            if (disposing)
+            {
+                context.Dispose();
+            }
+        }
+        this.disposed = true;
+    }
+
     public void Dispose()
     {
-        throw new NotImplementedException();
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
+
 
     public List<AuthorDTO> GetFollowersByAuthorID(string AuthorID)
     {
@@ -29,10 +50,7 @@ public class FollowRepository : IFollowRepository, IDisposable
 
     public List<AuthorDTO> GetFollowsByAuthorID(string AuthorID)
     {
-        var followingIDs = context.Followings
-         .Where(f => f.FollowerId == AuthorID)
-         .Select(f => f.FollowingId)
-         .ToList();
+        var followingIDs = context.Followings.Where(f => f.FollowerId == AuthorID).Select(f => f.FollowingId).ToList();
 
         using (var authorRepository = new AuthorRepository(context))
         {
