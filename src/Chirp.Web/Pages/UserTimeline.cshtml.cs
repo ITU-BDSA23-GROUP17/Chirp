@@ -76,8 +76,8 @@ public class UserTimelineModel : PageModel
         {
             Cheep = cheep,
             UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorName)
-
         }).ToList();
+
         return Page();
     }
 

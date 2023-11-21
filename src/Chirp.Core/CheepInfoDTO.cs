@@ -1,3 +1,8 @@
-namespace Chirp.Core;
-public record CheepInfoDTO(CheepDTO Cheep, bool UserIsFollowingAuthor);
-//Why is this called DTO...?
+namespace Chirp.Core
+{
+    public record CheepInfoDTO
+    {
+        public CheepDTO Cheep { get; init; }
+        public bool UserIsFollowingAuthor { get; init; }
+    }
+}
