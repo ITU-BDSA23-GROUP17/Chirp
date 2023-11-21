@@ -36,22 +36,22 @@
                         <!-- we only want to add a button if the cheep is not by the user currently logged in-->
                         @if (User.Identity.IsAuthenticated && cheepInfo.Cheep.AuthorName != User.Identity.Name)
                         {
-                            @if (!cheepInfo.UserIsFollowingAuthor)
-                            {
-                                <button id="cheepButton"
+
+                            <form method="post">
+                                <button id="followUnfollowButton"
                                     class="border-2 border-black hover:bg-black text-black hover:text-white bg-transparent pl-2 py-1 px-2 hover:border-transparent rounded"
                                     disabled="true">
-                                    Follow
-                                </button>
-                            }
-                            else
-                            {
-                                <button id="cheepButton"
-                                    class="border-2 border-black hover:bg-black text-black hover:text-white bg-transparent pl-2 py-1 px-2 hover:border-transparent rounded"
-                                    disabled="true">
-                                    Unfollow
-                                </button>
-                            }
+                                    @if (!cheepInfo.UserIsFollowingAuthor)
+                                    {
+                                        <input type="submit" name="follow" value="Follow" />
+                                    }
+                                    else
+                                    {
+                                        <input type="submit" name="unfollow" value="Unfollow" />
+                                    }
+                                    <button />
+                                    <input type="hidden" name=@cheepInfo.Cheep.AuthorId value="@cheepInfo.Cheep.AuthorName" />
+                            </form>
                         }
                     </div>
                 </div>

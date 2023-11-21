@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Diagnostics;
+using System.Security.Claims;
 using Chirp.Core;
 using Chirp.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -11,35 +12,34 @@ public class PublicModel : PageModel
 {
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authorRepository;
+    private readonly IFollowRepository _followRepository;
+    private AuthorDTO currentlyLoggedInUser;
 
 
-    public PublicModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
+    public PublicModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository)
     {
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
-
+        _followRepository = followRepository;
     }
 
-
-
-
-
-
     public IEnumerable<CheepDTO> Cheeps { get; set; }
+    public IEnumerable<CheepInfoDTO> CheepInfos { get; set; }
     public int pageNr { get; set; }
     public int pages { get; set; }
-
 
 
     public ActionResult OnGet()
     {
         // get user
-        var userName = User.Identity?.Name;
+
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        var author = _authorRepository.GetAuthorByName(userName);
+        currentlyLoggedInUser = _authorRepository.GetAuthorByEmail(email);
+        var userName = currentlyLoggedInUser.Name;
 
-        if (User.Identity?.IsAuthenticated == true && (author == null || author.Name == null))
+
+        if (User.Identity?.IsAuthenticated == true && (currentlyLoggedInUser == null || currentlyLoggedInUser.Name == null))
         {
             try
             {
@@ -60,7 +60,33 @@ public class PublicModel : PageModel
         pages = _cheepRepository.getPages();
         pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
         Cheeps = _cheepRepository.GetCheeps(pageNr);
-        return Page();
+        CheepInfos = Cheeps.Select(cheep => new CheepInfoDTO
+        {
+            Cheep = cheep,
+            UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorName)
+        }).ToList();
 
+        return Page();
+    }
+
+    //Right now this method is on both public and user timeline. In general there is a lot of repeated code between the two. Seems silly...?
+    public bool IsUserFollowingAuthor(string authorName)
+    {
+        var followingIDs = _followRepository.GetFollowingIDsByAuthorID(User.Identity.Name);
+        {
+            return followingIDs.Contains(authorName);
+        }
+    }
+
+    public void OnPost(string authorName, string follow, string unfollow)
+    {
+        if (follow != null)
+        {
+            _followRepository.InsertNewFollow(currentlyLoggedInUser.AuthorId, authorName);
+        }
+        if (unfollow != null)
+        {
+            _followRepository.RemoveFollow(currentlyLoggedInUser.AuthorId, authorName);
+        }
     }
 }

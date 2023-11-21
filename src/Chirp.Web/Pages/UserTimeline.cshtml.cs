@@ -20,6 +20,7 @@ public class UserTimelineModel : PageModel
     public int pages { get; set; } = 0;
 
     public AuthorDTO authorDTO { get; set; } = null;
+    private AuthorDTO currentlyLoggedInUser;
 
 
     [BindProperty]
@@ -45,7 +46,7 @@ public class UserTimelineModel : PageModel
         //get the user currently logged in:
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        var currentlyLoggedInUser = _authorRepository.GetAuthorByEmail(email);
+        currentlyLoggedInUser = _authorRepository.GetAuthorByEmail(email);
         //compare the user of the page and the currently logged in user to decide which cheeps to show...
         bool isOwnTimeline = currentlyLoggedInUser != null && authorDTO != null && currentlyLoggedInUser.AuthorId == authorDTO.AuthorId;
 
@@ -89,11 +90,17 @@ public class UserTimelineModel : PageModel
         }
     }
 
-
-    public void OnPost()
+    //source https://www.learnrazorpages.com/razor-pages/handler-methods
+    public void OnPost(string authorName, string follow, string unfollow)
     {
-        // save image to database ? or maybe po
-        Console.WriteLine(Upload.FileName);
+        if (follow != null)
+        {
+            _followRepository.InsertNewFollow(currentlyLoggedInUser.AuthorId, authorName);
+        }
+        if (unfollow != null)
+        {
+            _followRepository.RemoveFollow(currentlyLoggedInUser.AuthorId, authorName);
+        }
     }
 
     public string getPageName()
