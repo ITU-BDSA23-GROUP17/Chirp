@@ -7,6 +7,7 @@ namespace Chirp.Infrastructure;
 
 public class FollowRepository : IFollowRepository, IDisposable
 {
+    private ChirpDBContext context;
     public void Dispose()
     {
         throw new NotImplementedException();
@@ -24,6 +25,10 @@ public class FollowRepository : IFollowRepository, IDisposable
 
     public void RemoveFollow(string FollowerID, string FollowingID)
     {
-        throw new NotImplementedException();
+        var follow = context.Followings.Find(FollowerID, FollowingID);
+        if (follow != null)
+        {
+            context.Remove(follow);
+        }
     }
 }
