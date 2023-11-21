@@ -136,6 +136,9 @@ namespace Chirp.Infrastructure
             return (int)Math.Ceiling(context.Cheeps.Where(c => c.Author.Name == author).Count() / 32.0);
         }
 
-
+        public IEnumerable<CheepDTO>? GetCheepsByAuthors(string authorName, int page)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
