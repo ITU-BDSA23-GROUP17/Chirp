@@ -55,14 +55,12 @@ public class FollowRepository : IFollowRepository, IDisposable
 
     public void InsertNewFollow(string FollowerID, string FollowingID)
     {
-        Console.WriteLine("HELLO! I AM INSERTING A FOLLOW! I AM EXECUTING!");
         context.Followings.Add(new Follow() { FollowerId = FollowerID, FollowingId = FollowingID, Timestamp = DateTime.Now });
         context.SaveChanges();
     }
 
     public void RemoveFollow(string FollowerID, string FollowingID)
     {
-        Console.WriteLine("HELLO! I AM REMOOOVING A FOLLOW! I AM EXECUTING!");
         var follow = context.Followings.Find(FollowerID, FollowingID);
         if (follow != null)
         {
