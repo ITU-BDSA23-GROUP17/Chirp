@@ -140,8 +140,9 @@ namespace Chirp.Infrastructure
         {
             //minus by 1 so pages start from 1
             page = page - 1;
+
             var cheeps = context.Cheeps
-                .Where(c => c.Author.Name == authorName)
+                .Where(c => authorNames.Contains(c.Author.Name))
                 .OrderByDescending(c => c.TimeStamp)
                 .Skip(page * 32)
                 .Take(32)
