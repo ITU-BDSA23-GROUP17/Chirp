@@ -3,6 +3,7 @@ using System.Drawing;
 using Chirp.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Identity.Web;
 using Microsoft.VisualBasic;
 using static System.Web.HttpUtility;
 
@@ -37,11 +38,28 @@ public class UserTimelineModel : PageModel
     {
         // get user
         var authorDTO = _authorRepository.GetAuthorByName(author);
+        //get the user currently logged in:
+        var Claims = User.Claims;
+        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        var currentlyLoggedInUser = _authorRepository.GetAuthorByEmail(email);
+        //compare the user of the page and the currently logged in user to decide which cheeps to show...
+        bool isOwnTimeline = currentlyLoggedInUser != null && authorDTO != null && currentlyLoggedInUser.AuthorId == authorDTO.AuthorId;
+
+
+
         //source https://stackoverflow.com/questions/6514292/c-sharp-razor-url-parameter-from-view 
         // pages = _service.getPagesHome(true, author);
         pages = _cheepRepository.getPagesUser(authorDTO.Name);
         pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
-        Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
+
+        if (!isOwnTimeline)
+        {
+            Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
+        }
+        else
+        {
+            //...
+        }
 
 
         return Page();
