@@ -18,6 +18,11 @@ public class FollowRepository : IFollowRepository, IDisposable
         throw new NotImplementedException();
     }
 
+    public List<AuthorDTO> GetFollowingsByAuthorID(string AuthorID)
+    {
+        throw new NotImplementedException();
+    }
+
     public void InsertNewFollow(string FollowerID, string FollowingID)
     {
         context.Followings.Add(new Follow() { FollowerId = FollowerID, FollowingId = FollowingID, Timestamp = DateTime.Now });
