@@ -45,7 +45,10 @@ public class FollowRepository : IFollowRepository, IDisposable
 
     public List<string> GetFollowingIDsByAuthorID(string AuthorID)
     {
-        var followingIDs = context.Followings.Where(f => f.FollowerId == AuthorID).Select(f => f.FollowingId).ToList();
+        var followingIDs = context.Followings
+        .Where(f => f.FollowerId == AuthorID)
+        .Select(f => f.FollowingId)
+        .ToList();
 
         return followingIDs;
     }
