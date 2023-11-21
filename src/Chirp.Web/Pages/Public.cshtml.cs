@@ -36,10 +36,6 @@ public class PublicModel : PageModel
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
         currentlyLoggedInUser = _authorRepository.GetAuthorByEmail(email);
-        if (this.currentlyLoggedInUser == null)
-        {
-            throw new Exception("USER LOGGED IN IS NULL AAAAH");
-        }
         var userName = currentlyLoggedInUser.Name;
 
 
@@ -65,21 +61,40 @@ public class PublicModel : PageModel
         pages = _cheepRepository.getPages();
         pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
         Cheeps = _cheepRepository.GetCheeps(pageNr);
-        CheepInfos = Cheeps.Select(cheep => new CheepInfoDTO
+        //To get the CheepInfos we need to do some work...
+        List<string> followingIDs = _followRepository.GetFollowingIDsByAuthorID(currentlyLoggedInUser.AuthorId);
+        Console.Write("THE LENGTH OF THE FOLLOWINGIDS LIST IS ");
+        Console.WriteLine((followingIDs).Count);
+        List<CheepInfoDTO> CheepInfoList = new List<CheepInfoDTO>();
+        foreach (CheepDTO cheep in Cheeps)
         {
-            Cheep = cheep,
-            UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorName)
-        }).ToList();
+            CheepInfoDTO cheepInfoDTO = new CheepInfoDTO { Cheep = cheep, UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorName, followingIDs) };
+            CheepInfoList.Add(cheepInfoDTO);
+        }
 
+        CheepInfos = CheepInfoList;
+
+        if (Cheeps == null)
+        {
+            throw new Exception("CHEEPS ARE NULL NOW! ");
+        }
         return Page();
     }
 
     //Right now this method is on both public and user timeline. In general there is a lot of repeated code between the two. Seems silly...?
-    public bool IsUserFollowingAuthor(string authorName)
+    public bool IsUserFollowingAuthor(string authorName, List<string> followingIDs)
     {
-        var followingIDs = _followRepository.GetFollowingIDsByAuthorID(User.Identity.Name);
         {
-            return followingIDs.Contains(authorName);
+            bool isFollowing = followingIDs.Contains(authorName);
+            if (isFollowing)
+            {
+                Console.WriteLine("THE USER IS ALREADY FOLLOWING THIS PERSON!");
+            }
+            else
+            {
+                Console.WriteLine("NOT FOLLOWING THIS PERSON!");
+            }
+            return isFollowing;
         }
     }
 
@@ -98,5 +113,7 @@ public class PublicModel : PageModel
         {
             _followRepository.RemoveFollow(currentlyLoggedInUser.AuthorId, authorName);
         }
+        // Redirect in the end
+        Response.Redirect("/");
     }
 }
