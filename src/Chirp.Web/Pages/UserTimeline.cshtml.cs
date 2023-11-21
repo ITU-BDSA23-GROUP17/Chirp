@@ -57,6 +57,9 @@ public class UserTimelineModel : PageModel
         pages = _cheepRepository.getPagesUser(authorDTO.Name);
         pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
 
+        //We need to do some work to get the CheepInfo. First find Cheeps, then make CheepInfoDTOs.
+        //We need the following ids in the else statement and below therefore it's here....
+        List<string> followingIDs = _followRepository.GetFollowingIDsByAuthorID(currentlyLoggedInUser.AuthorId);
         if (!isOwnTimeline)
         {
             Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
@@ -64,7 +67,7 @@ public class UserTimelineModel : PageModel
         else
         {
             List<string> authors = new List<string> { currentlyLoggedInUser.Name };
-            List<string> followingIDs = _followRepository.GetFollowingIDsByAuthorID(currentlyLoggedInUser.AuthorId);
+
             List<AuthorDTO> follows = _authorRepository.GetAuthorsByIds(followingIDs);
             foreach (var followedAuthor in follows)
             {
@@ -72,35 +75,43 @@ public class UserTimelineModel : PageModel
             }
             Cheeps = _cheepRepository.GetCheepsByAuthors(authors, pageNr);
         }
-
-        CheepInfos = Cheeps.Select(cheep => new CheepInfoDTO
+        //To get the CheepInfos we need to do some work...
+        List<CheepInfoDTO> CheepInfoList = new List<CheepInfoDTO>();
+        foreach (CheepDTO cheep in Cheeps)
         {
-            Cheep = cheep,
-            UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorName)
-        }).ToList();
+            CheepInfoDTO cheepInfoDTO = new CheepInfoDTO { Cheep = cheep, UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs) };
+            CheepInfoList.Add(cheepInfoDTO);
+        }
+
+        CheepInfos = CheepInfoList;
 
         return Page();
     }
 
-    public bool IsUserFollowingAuthor(string authorName)
+    public bool IsUserFollowingAuthor(string authorID, List<string> followingIDs)
     {
-        var followingIDs = _followRepository.GetFollowingIDsByAuthorID(User.Identity.Name);
         {
-            return followingIDs.Contains(authorName);
+            return followingIDs.Contains(authorID);
         }
     }
 
     //source https://www.learnrazorpages.com/razor-pages/handler-methods
-    public void OnPost(string authorName, string follow, string unfollow)
+    public void OnPost(string authorId, string authorName, string follow, string unfollow)
     {
+        //We do this in OnGet (retrieve current user). Surely there is a way to save that and reuse it here? but we can't just save it as a field in this class. That doesn't work....
+        var Claims = User.Claims;
+        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        currentlyLoggedInUser = _authorRepository.GetAuthorByEmail(email);
+
         if (follow != null)
         {
-            _followRepository.InsertNewFollow(currentlyLoggedInUser.AuthorId, authorName);
+            _followRepository.InsertNewFollow(currentlyLoggedInUser.AuthorId, authorId);
         }
         if (unfollow != null)
         {
-            _followRepository.RemoveFollow(currentlyLoggedInUser.AuthorId, authorName);
+            _followRepository.RemoveFollow(currentlyLoggedInUser.AuthorId, authorId);
         }
+        Response.Redirect("/" + authorName);
     }
 
     public string getPageName()

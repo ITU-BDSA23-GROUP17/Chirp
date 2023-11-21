@@ -63,8 +63,6 @@ public class PublicModel : PageModel
         Cheeps = _cheepRepository.GetCheeps(pageNr);
         //To get the CheepInfos we need to do some work...
         List<string> followingIDs = _followRepository.GetFollowingIDsByAuthorID(currentlyLoggedInUser.AuthorId);
-        Console.Write("THE LENGTH OF THE FOLLOWINGIDS LIST IS ");
-        Console.WriteLine((followingIDs).Count);
         List<CheepInfoDTO> CheepInfoList = new List<CheepInfoDTO>();
         foreach (CheepDTO cheep in Cheeps)
         {
@@ -73,11 +71,6 @@ public class PublicModel : PageModel
         }
 
         CheepInfos = CheepInfoList;
-
-        if (Cheeps == null)
-        {
-            throw new Exception("CHEEPS ARE NULL NOW! ");
-        }
         return Page();
     }
 
@@ -85,17 +78,7 @@ public class PublicModel : PageModel
     public bool IsUserFollowingAuthor(string authorID, List<string> followingIDs)
     {
         {
-            bool isFollowing = followingIDs.Contains(authorID);
-            if (isFollowing)
-            {
-                Console.WriteLine(authorID);
-                Console.WriteLine("THE USER IS ALREADY FOLLOWING THIS PERSON!");
-            }
-            else
-            {
-                Console.WriteLine("NOT FOLLOWING THIS PERSON!");
-            }
-            return isFollowing;
+            return followingIDs.Contains(authorID);
         }
     }
 
