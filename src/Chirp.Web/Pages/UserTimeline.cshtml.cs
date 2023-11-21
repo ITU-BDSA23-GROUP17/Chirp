@@ -62,7 +62,8 @@ public class UserTimelineModel : PageModel
         else
         {
             List<string> authors = new List<string> { currentlyLoggedInUser.Name };
-            List<AuthorDTO> follows = _followRepository.GetFollowsByAuthorID(currentlyLoggedInUser.AuthorId);
+            List<string> followingIDs = _followRepository.GetFollowingIDsByAuthorID(currentlyLoggedInUser.AuthorId);
+            List<AuthorDTO> follows = _authorRepository.GetAuthorsByIds(followingIDs);
             foreach (var followedAuthor in follows)
             {
                 authors.Add(followedAuthor.Name);
