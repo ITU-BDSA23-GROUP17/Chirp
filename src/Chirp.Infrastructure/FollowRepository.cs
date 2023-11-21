@@ -27,7 +27,6 @@ public class FollowRepository : IFollowRepository, IDisposable
         }
     }
 
-
     public List<AuthorDTO> GetFollowsByAuthorID(string AuthorID)
     {
         var followingIDs = context.Followings

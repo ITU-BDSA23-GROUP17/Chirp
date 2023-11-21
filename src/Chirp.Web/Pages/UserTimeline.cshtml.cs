@@ -1,6 +1,7 @@
 ﻿
 using System.Drawing;
 using Chirp.Core;
+using Chirp.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Identity.Web;
@@ -26,12 +27,14 @@ public class UserTimelineModel : PageModel
 
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authorRepository;
+    private readonly IFollowRepository _followRepository;
 
 
-    public UserTimelineModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
+    public UserTimelineModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository)
     {
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
+        _followRepository = followRepository;
 
     }
     public ActionResult OnGet(string author)
@@ -58,10 +61,14 @@ public class UserTimelineModel : PageModel
         }
         else
         {
-            //...
+            List<string> authors = new List<string> { currentlyLoggedInUser.Name };
+            List<AuthorDTO> follows = _followRepository.GetFollowsByAuthorID(currentlyLoggedInUser.AuthorId);
+            foreach (var followedAuthor in follows)
+            {
+                authors.Add(followedAuthor.Name);
+            }
+            Cheeps = _cheepRepository.GetCheepsByAuthors(authors, pageNr);
         }
-
-
         return Page();
     }
 
