@@ -20,7 +20,7 @@ public class FollowRepository : IFollowRepository, IDisposable
 
     public void InsertNewFollow(string FollowerID, string FollowingID)
     {
-        throw new NotImplementedException();
+        context.Followings.Add(new Follow() { FollowerId = FollowerID, FollowingId = FollowingID, Timestamp = DateTime.Now });
     }
 
     public void RemoveFollow(string FollowerID, string FollowingID)
