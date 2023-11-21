@@ -34,29 +34,20 @@ public class FollowRepository : IFollowRepository, IDisposable
     }
 
 
-    public List<AuthorDTO> GetFollowersByAuthorID(string AuthorID)
+    public List<string> GetFollowerIDsByAuthorID(string AuthorID)
     {
         var followerIDs = context.Followings
         .Where(f => f.FollowingId == AuthorID)
         .Select(f => f.FollowerId)
         .ToList();
-
-        using (var authorRepository = new AuthorRepository(context))
-        {
-            var followers = authorRepository.GetAuthorsByIds(followerIDs);
-            return followers;
-        }
+        return followerIDs;
     }
 
-    public List<AuthorDTO> GetFollowsByAuthorID(string AuthorID)
+    public List<string> GetFollowingIDsByAuthorID(string AuthorID)
     {
         var followingIDs = context.Followings.Where(f => f.FollowerId == AuthorID).Select(f => f.FollowingId).ToList();
 
-        using (var authorRepository = new AuthorRepository(context))
-        {
-            var follows = authorRepository.GetAuthorsByIds(followingIDs);
-            return follows;
-        }
+        return followingIDs;
     }
 
     public void InsertNewFollow(string FollowerID, string FollowingID)
