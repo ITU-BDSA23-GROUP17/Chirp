@@ -131,5 +131,16 @@ namespace Chirp.Infrastructure
             context.Authors.Update(author);
             context.SaveChanges();
         }
+
+        public List<AuthorDTO> GetAuthorsByIds(List<string> authorIDs)
+        {
+            var authors = context.Authors
+                 .Where(a => authorIDs
+                 .Contains(a.AuthorId))
+                 .ToList();
+
+            var authorDTOs = authors.Select(a => new AuthorDTO(a.AuthorId, a.Name, a.Email, a.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList())).ToList();
+            return authorDTOs;
+        }
     }
 }
