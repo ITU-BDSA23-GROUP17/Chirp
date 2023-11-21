@@ -68,7 +68,7 @@ public class PublicModel : PageModel
         List<CheepInfoDTO> CheepInfoList = new List<CheepInfoDTO>();
         foreach (CheepDTO cheep in Cheeps)
         {
-            CheepInfoDTO cheepInfoDTO = new CheepInfoDTO { Cheep = cheep, UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorName, followingIDs) };
+            CheepInfoDTO cheepInfoDTO = new CheepInfoDTO { Cheep = cheep, UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs) };
             CheepInfoList.Add(cheepInfoDTO);
         }
 
@@ -82,12 +82,13 @@ public class PublicModel : PageModel
     }
 
     //Right now this method is on both public and user timeline. In general there is a lot of repeated code between the two. Seems silly...?
-    public bool IsUserFollowingAuthor(string authorName, List<string> followingIDs)
+    public bool IsUserFollowingAuthor(string authorID, List<string> followingIDs)
     {
         {
-            bool isFollowing = followingIDs.Contains(authorName);
+            bool isFollowing = followingIDs.Contains(authorID);
             if (isFollowing)
             {
+                Console.WriteLine(authorID);
                 Console.WriteLine("THE USER IS ALREADY FOLLOWING THIS PERSON!");
             }
             else
