@@ -9,7 +9,7 @@
 <h2 class="text-3xl font-semibold"> Public Timeline </h2>
 
 
-@if (Model.Cheeps.Any())
+@if (Model.Cheeps != null && Model.Cheeps.Any())
 {
     <ul class="flex flex-col gap-5">
     @foreach (var cheepInfo in Model.CheepInfos)
@@ -50,8 +50,8 @@
                                     {
                                         <input type="submit" name="unfollow" value="Unfollow" />
                                     }
-                                    <button />
-                                    <input type="hidden" name=@cheepInfo.Cheep.AuthorId value="@cheepInfo.Cheep.AuthorName" />
+                                </button>
+                                <input type="hidden" name="authorName" value="@cheepInfo.Cheep.AuthorId" />
                             </form>
                         }
                     </div>

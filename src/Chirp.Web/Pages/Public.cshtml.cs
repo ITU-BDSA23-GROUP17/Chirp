@@ -36,7 +36,12 @@ public class PublicModel : PageModel
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
         currentlyLoggedInUser = _authorRepository.GetAuthorByEmail(email);
+        if (this.currentlyLoggedInUser == null)
+        {
+            throw new Exception("USER LOGGED IN IS NULL AAAAH");
+        }
         var userName = currentlyLoggedInUser.Name;
+
 
 
         if (User.Identity?.IsAuthenticated == true && (currentlyLoggedInUser == null || currentlyLoggedInUser.Name == null))
@@ -80,6 +85,11 @@ public class PublicModel : PageModel
 
     public void OnPost(string authorName, string follow, string unfollow)
     {
+        //We do this in OnGet (retrieve current user). Surely there is a way to save that and reuse it here? but we can't just save it as a field in this class. That doesn't work....
+        var Claims = User.Claims;
+        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        currentlyLoggedInUser = _authorRepository.GetAuthorByEmail(email);
+
         if (follow != null)
         {
             _followRepository.InsertNewFollow(currentlyLoggedInUser.AuthorId, authorName);
