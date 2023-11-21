@@ -20,16 +20,9 @@ public class PublicModel : PageModel
 
     }
 
-
-
-
-
-
     public IEnumerable<CheepDTO> Cheeps { get; set; }
     public int pageNr { get; set; }
     public int pages { get; set; }
-
-
 
     public ActionResult OnGet()
     {
@@ -60,6 +53,16 @@ public class PublicModel : PageModel
         pages = _cheepRepository.getPages();
         pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
         Cheeps = _cheepRepository.GetCheeps(pageNr);
+
+        var viewModel = new ViewModel
+        {
+            Cheeps = Cheeps,
+            pageNr = pageNr,
+            pages = pages,      
+        };
+    
+        ViewData["ViewModel"] = viewModel;
+        
         return Page();
 
     }
