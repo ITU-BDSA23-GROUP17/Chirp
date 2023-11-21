@@ -15,8 +15,18 @@ public class FollowRepository : IFollowRepository, IDisposable
 
     public List<AuthorDTO> GetFollowersByAuthorID(string AuthorID)
     {
-        throw new NotImplementedException();
+        var followerIDs = context.Followings
+        .Where(f => f.FollowingId == AuthorID)
+        .Select(f => f.FollowerId)
+        .ToList();
+
+        using (var authorRepository = new AuthorRepository(context))
+        {
+            var followers = authorRepository.GetAuthorsByIds(followerIDs);
+            return followers;
+        }
     }
+
 
     public List<AuthorDTO> GetFollowingsByAuthorID(string AuthorID)
     {
