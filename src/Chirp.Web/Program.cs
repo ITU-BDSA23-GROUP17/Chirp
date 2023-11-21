@@ -35,12 +35,12 @@ builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 
 if (builder.Environment.IsDevelopment())
 {
-    KeyVaultSecret secret = client.GetSecret("connectionstring");
+    KeyVaultSecret secret = client.GetSecret("prod-connectionstring");
     connectionString = secret.Value;
 }
 else
 {
-    KeyVaultSecret secret = client.GetSecret("prod-connectionstring");
+    KeyVaultSecret secret = client.GetSecret("connectionstring");
     connectionString = secret.Value;
 }
 
