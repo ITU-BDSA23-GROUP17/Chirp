@@ -39,10 +39,10 @@ public class UserTimelineModel : PageModel
         _followRepository = followRepository;
 
     }
-    public IActionResult OnGet(string author)
+    public async Task<IActionResult> OnGet(string author)
     {
         // Initialize your models here...
-        var authorDTO = _authorRepository.GetAuthorByName(author);
+        var authorDTO = await _authorRepository.GetAuthorByNameAsync(author);
         pages = _cheepRepository.getPagesUser(authorDTO.Name);
         pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
         Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
@@ -71,7 +71,7 @@ public class UserTimelineModel : PageModel
         {
             List<string> authors = new List<string> { currentlyLoggedInUser.Name };
 
-            List<AuthorDTO> follows = _authorRepository.GetAuthorsByIds(followingIDs);
+            List<AuthorDTO> follows = await _authorRepository.GetAuthorsByIdsAsync(followingIDs);
             foreach (var followedAuthor in follows)
             {
                 authors.Add(followedAuthor.Name);
@@ -110,12 +110,12 @@ public class UserTimelineModel : PageModel
     }
 
     //source https://www.learnrazorpages.com/razor-pages/handler-methods
-    public void OnPost(string authorId, string authorName, string follow, string unfollow)
+    public async void OnPost(string authorId, string authorName, string follow, string unfollow)
     {
         //We do this in OnGet (retrieve current user). Surely there is a way to save that and reuse it here? but we can't just save it as a field in this class. That doesn't work....
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        currentlyLoggedInUser = _authorRepository.GetAuthorByEmail(email);
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
         if (follow != null)
         {
