@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure
 {
-    public class AuthorRepository : IAuthorRepository, IDisposable
+    public class AuthorRepository : IAuthorRepository
     {
         private ChirpDBContext context;
 
@@ -108,6 +108,17 @@ namespace Chirp.Infrastructure
 
             var authorDTOs = authors.Select(a => new AuthorDTO(a.AuthorId, a.Name, a.Email, a.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList())).ToList();
             return authorDTOs;
+        }
+
+        public async Task UpdateAuthorAsync(AuthorDTO author)
+        {
+            var authorToUpdate = await context.Authors.FindAsync(author.AuthorId);
+            if (authorToUpdate != null)
+            {
+                authorToUpdate.Name = author.Name;
+                authorToUpdate.Email = author.Email;
+                context.Authors.Update(authorToUpdate);
+            }
         }
     }
 }

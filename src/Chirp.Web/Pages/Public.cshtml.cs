@@ -78,11 +78,11 @@ public class PublicModel : PageModel
             Cheeps = Cheeps,
             pageNr = pageNr,
             pages = pages,
+            CheepInfos = CheepInfoList
         };
 
         ViewData["ViewModel"] = viewModel;
 
-        CheepInfos = CheepInfoList;
 
         return Page();
     }
@@ -95,12 +95,11 @@ public class PublicModel : PageModel
         }
     }
 
-    public void OnPost(string authorName, string follow, string unfollow)
+    public async Task<IActionResult> OnPost(string authorName, string follow, string unfollow)
     {
-        //We do this in OnGet (retrieve current user). Surely there is a way to save that and reuse it here? but we can't just save it as a field in this class. That doesn't work....
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        currentlyLoggedInUser = _authorRepository.GetAuthorByEmail(email);
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByIdAsync(email);
 
         if (follow != null)
         {
@@ -110,7 +109,8 @@ public class PublicModel : PageModel
         {
             _followRepository.RemoveFollow(currentlyLoggedInUser.AuthorId, authorName);
         }
+
         // Redirect in the end
-        Response.Redirect("/");
+        return Redirect("/");
     }
 }
