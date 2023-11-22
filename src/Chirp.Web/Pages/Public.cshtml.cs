@@ -28,7 +28,6 @@ public class PublicModel : PageModel
     public int pageNr { get; set; }
     public int pages { get; set; }
 
-
     public ActionResult OnGet()
     {
         // get user
@@ -70,7 +69,17 @@ public class PublicModel : PageModel
             CheepInfoList.Add(cheepInfoDTO);
         }
 
+        var viewModel = new ViewModel
+        {
+            Cheeps = Cheeps,
+            pageNr = pageNr,
+            pages = pages,
+        };
+
+        ViewData["ViewModel"] = viewModel;
+
         CheepInfos = CheepInfoList;
+
         return Page();
     }
 

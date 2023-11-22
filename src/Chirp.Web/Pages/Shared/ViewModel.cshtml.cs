@@ -1,7 +1,11 @@
-using Chirp.Web.Pages;
+using Chirp.Core;
 
 public class ViewModel
 {
-    public PublicModel publicModel { get; set; }
-    public UserTimelineModel userTimelineModel { get; set; }
+    public IEnumerable<CheepDTO> Cheeps { get; set; }
+    public IEnumerable<CheepInfoDTO> CheepInfos { get; set; }
+
+    public int pageNr { get; set; }
+    public int pages { get; set; }
+
 }

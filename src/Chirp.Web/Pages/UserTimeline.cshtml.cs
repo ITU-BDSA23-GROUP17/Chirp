@@ -39,16 +39,19 @@ public class UserTimelineModel : PageModel
         _followRepository = followRepository;
 
     }
-    public ActionResult OnGet(string author)
+    public IActionResult OnGet(string author)
     {
-        // get user
+        // Initialize your models here...
         var authorDTO = _authorRepository.GetAuthorByName(author);
+        pages = _cheepRepository.getPagesUser(authorDTO.Name);
+        pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
+        Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
+
+        // get user
         //get the user currently logged in:
-        var Claims = User.Claims;
-        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        currentlyLoggedInUser = _authorRepository.GetAuthorByEmail(email);
+        var email = User.Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
         //compare the user of the page and the currently logged in user to decide which cheeps to show...
-        bool isOwnTimeline = currentlyLoggedInUser != null && authorDTO != null && currentlyLoggedInUser.AuthorId == authorDTO.AuthorId;
+        bool isOwnTimeline = email != null && authorDTO != null && currentlyLoggedInUser.AuthorId == authorDTO.AuthorId;
 
 
 
@@ -84,6 +87,17 @@ public class UserTimelineModel : PageModel
         }
 
         CheepInfos = CheepInfoList;
+
+        var viewModel = new ViewModel
+        {
+            Cheeps = Cheeps,
+            pageNr = pageNr,
+            pages = pages,
+            CheepInfos = CheepInfos,
+        };
+
+
+        ViewData["ViewModel"] = viewModel;
 
         return Page();
     }
