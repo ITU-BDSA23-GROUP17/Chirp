@@ -32,12 +32,15 @@ namespace Chirp.Infrastructure
 
         public IEnumerable<ReactionDTO> GetReactionsFromCheepId(string cheepId)
         {
-         return context.Reactions.Where(r => r.CheepId == cheepId).Select(r => new ReactionDTO(r.CheepId, r.AuthorId, r.TimeStamp,r.ReactionTypeId)).ToList();
+            return context.Reactions.Where(r => r.CheepId == cheepId).Select(r => new ReactionDTO(r.CheepId, r.AuthorId, r.TimeStamp, r.ReactionTypeId)).ToList();
 
         }
 
-        public void InsertReaction(ReactionDTO reaction)
+        public void InsertReaction(CheepDTO CheepDTO, AuthorDTO AuthorDTO, ReactionTypeDTO ReactionTypeDTO)
         {
+            var author = context.Authors.Find(CheepDTO.AuthorId) ?? throw new Exception("Author could not be found by AuthorID");
+            var cheep = context.Cheeps.Find(CheepDTO.Id) ?? throw new Exception("Cheep could not be found by CheepID");
+            var reactionType = context.ReactionTypes.Find(ReactionTypeDTO.Id) ?? throw new Exception("ReactionType could not be found by ReactionTypeID");
             throw new NotImplementedException();
         }
 

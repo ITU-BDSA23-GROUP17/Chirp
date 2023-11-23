@@ -8,7 +8,7 @@ namespace Chirp.Core
 
         public IEnumerable<ReactionDTO> GetReactionsFromAuthorId(string authorId);
 
-        void InsertReaction(ReactionDTO reaction);
+        void InsertReaction(CheepDTO CheepDTO, AuthorDTO AuthorDTO, ReactionTypeDTO ReactionTypeDTO);
         void DeleteReaction(string cheepId, string authorId);
 
         void UpdateReaction(string cheepId, string authorId);
