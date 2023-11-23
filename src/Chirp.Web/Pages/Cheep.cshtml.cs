@@ -16,14 +16,14 @@ namespace Chirp.Web.Pages
         [BindProperty]
         public string GetNewCheepText { get; set; }
 
-        public void OnPost()
+        public async void OnPost()
         {
 
             Console.WriteLine(GetNewCheepText);
             var Claims = User.Claims;
             var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-            var author = _authorRepository.GetAuthorByEmail(email);
-            _authorRepository.SendCheep(GetNewCheepText, new AuthorInfoDTO(author.AuthorId, author.Name, author.Email));
+            var author = await _authorRepository.GetAuthorByEmailAsync(email);
+            await _authorRepository.SendCheepAsync(GetNewCheepText, new AuthorInfoDTO(author.AuthorId, author.Name, author.Email));
             // Redirect in the end
             Response.Redirect("/");
         }
