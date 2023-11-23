@@ -20,6 +20,14 @@ function showWordsLeft() {
     }
   });
 
+  cheepTextAreaElement.addEventListener("change", () => {
+    if (textFromTextArea.length > 0) {
+      cheepButtonElement.disabled = false;
+    } else {
+      cheepButtonElement.disabled = true;
+    }
+  });
+
   charactersLeftElement.textContent =
     "Character left: " + (160 - textFromTextArea.length);
 }
