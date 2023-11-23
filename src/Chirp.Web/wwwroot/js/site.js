@@ -14,16 +14,24 @@ function showWordsLeft() {
 
   cheepTextAreaElement.addEventListener("input", () => {
     if (textFromTextArea.length > 0) {
+      cheepButtonElement.classList.remove("text-red", "border-red", "hover:bg-red-200");
+      cheepButtonElement.classList.add("text-black", "border-black", "hover:bg-black");
       cheepButtonElement.disabled = false;
     } else {
+      cheepButtonElement.classList.remove("text-black", "border-black", "hover:bg-black");
+      cheepButtonElement.classList.add("text-red", "border-red", "hover:bg-red-200");
       cheepButtonElement.disabled = true;
     }
   });
 
   cheepTextAreaElement.addEventListener("change", () => {
     if (textFromTextArea.length > 0) {
+      cheepButtonElement.classList.remove("text-red", "border-red", "hover:bg-red-200");
+      cheepButtonElement.classList.add("text-black", "border-black", "hover:bg-black");
       cheepButtonElement.disabled = false;
     } else {
+      cheepButtonElement.classList.remove("text-black", "border-black", "hover:bg-black");
+      cheepButtonElement.classList.add("text-red", "border-red", "hover:bg-red-200");
       cheepButtonElement.disabled = true;
     }
   });
