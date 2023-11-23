@@ -41,6 +41,8 @@ public class UserTimelineModel : PageModel
     }
     public async Task<IActionResult> OnGet(string author)
     {
+        List<CheepInfoDTO> CheepInfoList = new List<CheepInfoDTO>();
+
         // Initialize your models here...
         var authorDTO = await _authorRepository.GetAuthorByNameAsync(author);
         pages = _cheepRepository.getPagesUser(authorDTO.Name);
@@ -62,31 +64,33 @@ public class UserTimelineModel : PageModel
         // pages = _service.getPagesHome(true, author);
         pages = _cheepRepository.getPagesUser(authorDTO.Name);
         pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
-
-        //We need to do some work to get the CheepInfo. First find Cheeps, then make CheepInfoDTOs.
-        //We need the following ids in the else statement and below therefore it's here....
-        List<string> followingIDs = await _followRepository.GetFollowingIDsByAuthorIDAsync(currentlyLoggedInUser.AuthorId);
-        if (!isOwnTimeline)
+        if (currentlyLoggedInUser != null)
         {
-            Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
-        }
-        else
-        {
-            List<string> authors = new List<string> { currentlyLoggedInUser.Name };
-
-            List<AuthorDTO> follows = await _authorRepository.GetAuthorsByIdsAsync(followingIDs);
-            foreach (var followedAuthor in follows)
+            //We need to do some work to get the CheepInfo. First find Cheeps, then make CheepInfoDTOs.
+            //We need the following ids in the else statement and below therefore it's here....
+            List<string> followingIDs = await _followRepository.GetFollowingIDsByAuthorIDAsync(currentlyLoggedInUser.AuthorId);
+            if (!isOwnTimeline)
             {
-                authors.Add(followedAuthor.Name);
+                Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
             }
-            Cheeps = _cheepRepository.GetCheepsByAuthors(authors, pageNr);
-        }
-        //To get the CheepInfos we need to do some work...
-        List<CheepInfoDTO> CheepInfoList = new List<CheepInfoDTO>();
-        foreach (CheepDTO cheep in Cheeps)
-        {
-            CheepInfoDTO cheepInfoDTO = new CheepInfoDTO { Cheep = cheep, UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs) };
-            CheepInfoList.Add(cheepInfoDTO);
+            else
+            {
+                List<string> authors = new List<string> { currentlyLoggedInUser.Name };
+
+                List<AuthorDTO> follows = await _authorRepository.GetAuthorsByIdsAsync(followingIDs);
+                foreach (var followedAuthor in follows)
+                {
+                    authors.Add(followedAuthor.Name);
+                }
+                Cheeps = _cheepRepository.GetCheepsByAuthors(authors, pageNr);
+            }
+            //To get the CheepInfos we need to do some work...
+            foreach (CheepDTO cheep in Cheeps)
+            {
+                CheepInfoDTO cheepInfoDTO = new CheepInfoDTO { Cheep = cheep, UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs) };
+                CheepInfoList.Add(cheepInfoDTO);
+            }
+
         }
 
 
@@ -96,6 +100,7 @@ public class UserTimelineModel : PageModel
             pageNr = pageNr,
             pages = pages,
             CheepInfos = CheepInfoList,
+            Cheeps = Cheeps
         };
 
 
