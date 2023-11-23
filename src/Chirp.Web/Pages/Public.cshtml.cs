@@ -5,7 +5,6 @@ using Chirp.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using static System.Web.HttpUtility;
-using Slugify;
 
 namespace Chirp.Web.Pages;
 
