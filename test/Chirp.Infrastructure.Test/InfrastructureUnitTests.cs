@@ -34,7 +34,7 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         IAuthorRepository authorRepository = new AuthorRepository(context);
 
         // Act
-        authorRepository.InsertAuthor("Author Authorson", "authorson@author.com");
+        await authorRepository.InsertAuthorAsync("Author Authorson", "authorson@author.com");
         await context.SaveChangesAsync(); //save changes to in container database 
 
         // Assert
@@ -47,10 +47,10 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task InsertCheepAddsCheepToDatabase() 
+    public async Task InsertCheepAddsCheepToDatabase()
     {
-          // Arrange
-          // Start the container
+        // Arrange
+        // Start the container
         await _msSqlContainer.StartAsync();
 
         // Arrange
@@ -63,7 +63,7 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         IAuthorRepository authorRepository = new AuthorRepository(context);
 
         //Getting authorDTO by the name Helge
-        var authorDTOTest = authorRepository.GetAuthorByName("Helge");
+        var authorDTOTest = await authorRepository.GetAuthorByNameAsync("Helge");
         if (authorDTOTest == null)
         {
             throw new Exception("Could not find author Helge");

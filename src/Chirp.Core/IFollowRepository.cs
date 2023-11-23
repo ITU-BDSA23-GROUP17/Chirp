@@ -1,11 +1,10 @@
-using System.Security.AccessControl;
-
 namespace Chirp.Core
 {
-    public interface IFollowRepository : IDisposable
+    public interface IFollowRepository
     {
-        List<AuthorDTO> GetFollowersByAuthorID(string AuthorID);
-        void InsertNewFollow(string FollowerID, string FollowingID);
-        void RemoveFollow(string FollowerID, string FollowingID);
+        Task<List<string>> GetFollowerIDsByAuthorIDAsync(string AuthorID);
+        Task<List<string>> GetFollowingIDsByAuthorIDAsync(string AuthorID);
+        Task InsertNewFollowAsync(string FollowerID, string FollowingID);
+        Task RemoveFollowAsync(string FollowerID, string FollowingID);
     }
 }

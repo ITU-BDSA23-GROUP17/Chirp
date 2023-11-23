@@ -1,13 +1,13 @@
 using System.Data;
 using Chirp.Core;
 using Microsoft.VisualBasic;
-
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure
 {
-    public class AuthorRepository : IAuthorRepository, IDisposable
+    public class AuthorRepository : IAuthorRepository
     {
-
         private ChirpDBContext context;
 
         public AuthorRepository(ChirpDBContext context)
@@ -15,45 +15,20 @@ namespace Chirp.Infrastructure
             this.context = context;
         }
 
-        public void InsertAuthor(string Name, string Email)
+        public async Task InsertAuthorAsync(string Name, string Email)
         {
             Guid guid = Guid.NewGuid();
-            context.Authors.Add(new Author() { AuthorId = guid.ToString(), Name = Name, Email = Email });
+            await context.Authors.AddAsync(new Author() { AuthorId = guid.ToString(), Name = Name, Email = Email });
         }
 
-        public CheepDTO CreateNewCheepAsAuthor(string AuthorId, AuthorDTO Author, string Text)
+        public async Task SaveAsync()
         {
-            throw new NotImplementedException();
+            await context.SaveChangesAsync();
         }
 
-        public void Save()
+        public async Task<AuthorDTO?> GetAuthorByEmailAsync(string Email)
         {
-            context.SaveChanges();
-        }
-
-        private bool disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    context.Dispose();
-                }
-            }
-            this.disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        public AuthorDTO? GetAuthorByEmail(string Email)
-        {
-            var Author = context.Authors.Where(a => a.Email == Email).FirstOrDefault();
+            var Author = await context.Authors.Where(a => a.Email == Email).FirstOrDefaultAsync();
             if (Author != null)
             {
                 return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList());
@@ -64,9 +39,9 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public AuthorDTO? GetAuthorById(string AuthorId)
+        public async Task<AuthorDTO?> GetAuthorByIdAsync(string AuthorId)
         {
-            var Author = context.Authors.Find(AuthorId);
+            var Author = await context.Authors.FindAsync(AuthorId);
             if (Author != null)
             {
                 return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList());
@@ -77,9 +52,9 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public AuthorDTO? GetAuthorByName(string Name)
+        public async Task<AuthorDTO?> GetAuthorByNameAsync(string Name)
         {
-            var Author = context.Authors.Where(a => a.Name == Name).FirstOrDefault();
+            var Author = await context.Authors.Where(a => a.Name == Name).FirstOrDefaultAsync();
             if (Author != null)
             {
                 return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList());
@@ -90,33 +65,26 @@ namespace Chirp.Infrastructure
             }
         }
 
-        void IAuthorRepository.DeleteAuthor(int authorId)
+        public async Task DeleteAuthorAsync(int authorId)
         {
-            var author = context.Authors.Find(authorId);
+            var author = await context.Authors.FindAsync(authorId);
             if (author != null)
             {
                 context.Remove(author);
             }
         }
 
-        void IAuthorRepository.UpdateAuthor(AuthorDTO author)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IAuthorRepository.SendCheep(string message, AuthorInfoDTO authorInfoDTO)
+        public async Task SendCheepAsync(string message, AuthorInfoDTO authorInfoDTO)
         {
             var guid = Guid.NewGuid().ToString();
             var newCheepDTO = new CheepDTO(guid, message, DateTime.Now, authorInfoDTO.Name, authorInfoDTO.AuthorId);
-            var author = context.Authors.Find(authorInfoDTO.AuthorId);
-
+            var author = await context.Authors.FindAsync(authorInfoDTO.AuthorId);
 
             if (author == null)
             {
                 // Handle the case when the author is not found
                 throw new Exception($"Author with id {authorInfoDTO.AuthorId} not found");
             }
-
 
             author.Cheeps.Add(new Cheep
             {
@@ -125,11 +93,32 @@ namespace Chirp.Infrastructure
                 TimeStamp = newCheepDTO.TimeStamp,
                 Author = author,
                 AuthorId = author.AuthorId
-
             });
 
             context.Authors.Update(author);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<List<AuthorDTO>> GetAuthorsByIdsAsync(List<string> authorIDs)
+        {
+            var authors = await context.Authors
+                 .Where(a => authorIDs
+                 .Contains(a.AuthorId))
+                 .ToListAsync();
+
+            var authorDTOs = authors.Select(a => new AuthorDTO(a.AuthorId, a.Name, a.Email, a.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList())).ToList();
+            return authorDTOs;
+        }
+
+        public async Task UpdateAuthorAsync(AuthorDTO author)
+        {
+            var authorToUpdate = await context.Authors.FindAsync(author.AuthorId);
+            if (authorToUpdate != null)
+            {
+                authorToUpdate.Name = author.Name;
+                authorToUpdate.Email = author.Email;
+                context.Authors.Update(authorToUpdate);
+            }
         }
     }
 }
