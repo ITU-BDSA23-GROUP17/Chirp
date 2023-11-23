@@ -5,7 +5,7 @@ button.addEventListener("click", () => {
   menu.classList.toggle("hidden");
 });
 
-// function shortened thanks to ChatGPT
+// parts of function shortened thanks to ChatGPT
 function showWordsLeft() {
   var cheepTextAreaElement = document.getElementById("cheepTextArea");
   var charactersLeftElement = document.getElementById("charactersLeft");
@@ -14,8 +14,24 @@ function showWordsLeft() {
 
   cheepTextAreaElement.addEventListener("input", () => {
     if (textFromTextArea.length > 0) {
+      cheepButtonElement.classList.remove("text-red", "border-red", "hover:bg-red-200");
+      cheepButtonElement.classList.add("text-black", "border-black", "hover:bg-black");
       cheepButtonElement.disabled = false;
     } else {
+      cheepButtonElement.classList.remove("text-black", "border-black", "hover:bg-black");
+      cheepButtonElement.classList.add("text-red", "border-red", "hover:bg-red-200");
+      cheepButtonElement.disabled = true;
+    }
+  });
+
+  cheepTextAreaElement.addEventListener("change", () => {
+    if (textFromTextArea.length > 0) {
+      cheepButtonElement.classList.remove("text-red", "border-red", "hover:bg-red-200");
+      cheepButtonElement.classList.add("text-black", "border-black", "hover:bg-black");
+      cheepButtonElement.disabled = false;
+    } else {
+      cheepButtonElement.classList.remove("text-black", "border-black", "hover:bg-black");
+      cheepButtonElement.classList.add("text-red", "border-red", "hover:bg-red-200");
       cheepButtonElement.disabled = true;
     }
   });
