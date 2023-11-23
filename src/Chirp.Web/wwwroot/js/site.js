@@ -13,7 +13,7 @@ function showWordsLeft() {
   var textFromTextArea = cheepTextAreaElement.value;
 
   cheepTextAreaElement.addEventListener("input", () => {
-    if (textFromTextArea.length > 0 || textFromTextArea.length <= 160) {
+    if (textFromTextArea.length > 0) {
       cheepButtonElement.classList.remove("text-red", "border-red", "hover:bg-red-200");
       cheepButtonElement.classList.add("text-black", "border-black", "hover:bg-black");
       cheepButtonElement.disabled = false;
@@ -25,7 +25,7 @@ function showWordsLeft() {
   });
 
   cheepTextAreaElement.addEventListener("change", () => {
-    if (textFromTextArea.length > 0 || textFromTextArea.length <= 160) {
+    if (textFromTextArea.length > 0) {
       cheepButtonElement.classList.remove("text-red", "border-red", "hover:bg-red-200");
       cheepButtonElement.classList.add("text-black", "border-black", "hover:bg-black");
       cheepButtonElement.disabled = false;
