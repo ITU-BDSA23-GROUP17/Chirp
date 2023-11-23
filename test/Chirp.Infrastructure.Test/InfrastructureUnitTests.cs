@@ -86,7 +86,7 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
 
         // Assert
         var insertedCheep = context.Cheeps.FirstOrDefault(c => c.Text == "test message cheep");
-        Assert.NotNull(insertedCheep); // Check that we get a cheep
+        
         Assert.Equal("test message cheep", insertedCheep.Text);
     }
 
