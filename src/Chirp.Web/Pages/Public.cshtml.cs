@@ -5,6 +5,7 @@ using Chirp.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using static System.Web.HttpUtility;
+using Slugify;
 
 namespace Chirp.Web.Pages;
 
@@ -72,7 +73,7 @@ public class PublicModel : PageModel
             currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
             //To get the CheepInfos we need to do some work...
-            List<string> followingIDs = _followRepository.GetFollowingIDsByAuthorID(currentlyLoggedInUser.AuthorId);
+            List<string> followingIDs = await _followRepository.GetFollowingIDsByAuthorIDAsync(currentlyLoggedInUser.AuthorId);
 
             foreach (CheepDTO cheep in Cheeps)
             {
@@ -106,25 +107,26 @@ public class PublicModel : PageModel
     }
 
 
-    public async Task OnPost(string authorId, string authorName, string follow, string unfollow)
+    public async Task<IActionResult> OnPost(string authorName, string follow, string? unfollow)
     {
-        //We do this in OnGet (retrieve current user). Surely there is a way to save that and reuse it here? but we can't just save it as a field in this class. That doesn't work....
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
         currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+        var isUserFollowingAuthor = await _authorRepository.GetAuthorByIdAsync(authorName);
 
         Console.WriteLine(currentlyLoggedInUser);
 
-
         if (follow != null)
         {
-            _followRepository.InsertNewFollow(currentlyLoggedInUser.AuthorId, authorId);
+            await _followRepository.InsertNewFollowAsync(currentlyLoggedInUser.AuthorId, authorName);
         }
         if (unfollow != null)
         {
-            _followRepository.RemoveFollow(currentlyLoggedInUser.AuthorId, authorId);
+            await _followRepository.RemoveFollowAsync(currentlyLoggedInUser.AuthorId, authorName);
         }
-        Response.Redirect("/" + authorName);
+
+
+        return Redirect("/" + isUserFollowingAuthor.Name.Replace(" ", "%20"));
     }
 
 

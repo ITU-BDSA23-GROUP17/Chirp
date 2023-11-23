@@ -1,71 +1,53 @@
-using System.Xml.Serialization;
-using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Chirp.Core;
 
-namespace Chirp.Infrastructure;
-
-public class FollowRepository : IFollowRepository, IDisposable
+namespace Chirp.Infrastructure
 {
-    private ChirpDBContext context;
-
-    public FollowRepository(ChirpDBContext context)
+    public class FollowRepository : IFollowRepository
     {
-        this.context = context;
-    }
-    private bool disposed = false;
+        private ChirpDBContext context;
 
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!this.disposed)
+        public FollowRepository(ChirpDBContext context)
         {
-            if (disposing)
-            {
-                context.Dispose();
-            }
+            this.context = context;
         }
-        this.disposed = true;
-    }
-
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
 
 
-    public List<string> GetFollowerIDsByAuthorID(string AuthorID)
-    {
-        var followerIDs = context.Followings
-        .Where(f => f.FollowingId == AuthorID)
-        .Select(f => f.FollowerId)
-        .ToList();
-        return followerIDs;
-    }
-
-    public List<string> GetFollowingIDsByAuthorID(string AuthorID)
-    {
-        var followingIDs = context.Followings
-        .Where(f => f.FollowerId == AuthorID)
-        .Select(f => f.FollowingId)
-        .ToList();
-
-        return followingIDs;
-    }
-
-    public void InsertNewFollow(string FollowerID, string FollowingID)
-    {
-        context.Followings.Add(new Follow() { FollowerId = FollowerID, FollowingId = FollowingID, Timestamp = DateTime.Now });
-        context.SaveChanges();
-    }
-
-    public void RemoveFollow(string FollowerID, string FollowingID)
-    {
-        var follow = context.Followings.Find(FollowerID, FollowingID);
-        if (follow != null)
+        public async Task<List<string>> GetFollowerIDsByAuthorIDAsync(string AuthorID)
         {
-            context.Remove(follow);
-            context.SaveChanges();
+            var followerIDs = await context.Followings
+            .Where(f => f.FollowingId == AuthorID)
+            .Select(f => f.FollowerId)
+            .ToListAsync();
+            return followerIDs;
+        }
+
+        public async Task<List<string>> GetFollowingIDsByAuthorIDAsync(string AuthorID)
+        {
+            var followingIDs = await context.Followings
+            .Where(f => f.FollowerId == AuthorID)
+            .Select(f => f.FollowingId)
+            .ToListAsync();
+
+            return followingIDs;
+        }
+
+        public async Task InsertNewFollowAsync(string FollowerID, string FollowingID)
+        {
+            context.Followings.Add(new Follow() { FollowerId = FollowerID, FollowingId = FollowingID, Timestamp = DateTime.Now });
+            await context.SaveChangesAsync();
+        }
+
+        public async Task RemoveFollowAsync(string FollowerID, string FollowingID)
+        {
+            var follow = await context.Followings.FindAsync(FollowerID, FollowingID);
+            if (follow != null)
+            {
+                context.Remove(follow);
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

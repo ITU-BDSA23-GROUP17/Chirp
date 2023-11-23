@@ -18,7 +18,7 @@ public class UserTimelineModel : PageModel
     public IEnumerable<CheepInfoDTO> CheepInfos { get; set; } = new List<CheepInfoDTO>();
     public int pageNr { get; set; } = 0;
     public int pages { get; set; } = 0;
-
+    private bool isOwnTimeline;
     public AuthorDTO authorDTO { get; set; } = null;
     private AuthorDTO currentlyLoggedInUser;
 
@@ -48,10 +48,13 @@ public class UserTimelineModel : PageModel
         Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
 
         // get user
-        //get the user currently logged in:
+
+
         var email = User.Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
         //compare the user of the page and the currently logged in user to decide which cheeps to show...
-        bool isOwnTimeline = email != null && authorDTO != null && currentlyLoggedInUser.AuthorId == authorDTO.AuthorId;
+
+        isOwnTimeline = email != null && authorDTO != null && currentlyLoggedInUser.AuthorId == authorDTO.AuthorId;
 
 
 
@@ -62,7 +65,7 @@ public class UserTimelineModel : PageModel
 
         //We need to do some work to get the CheepInfo. First find Cheeps, then make CheepInfoDTOs.
         //We need the following ids in the else statement and below therefore it's here....
-        List<string> followingIDs = _followRepository.GetFollowingIDsByAuthorID(currentlyLoggedInUser.AuthorId);
+        List<string> followingIDs = await _followRepository.GetFollowingIDsByAuthorIDAsync(currentlyLoggedInUser.AuthorId);
         if (!isOwnTimeline)
         {
             Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
@@ -86,12 +89,13 @@ public class UserTimelineModel : PageModel
             CheepInfoList.Add(cheepInfoDTO);
         }
 
-        CheepInfos = CheepInfoList;
+
 
         var viewModel = new ViewModel
         {
             pageNr = pageNr,
             pages = pages,
+            CheepInfos = CheepInfoList,
         };
 
 
@@ -114,7 +118,27 @@ public class UserTimelineModel : PageModel
         return HttpContext.GetRouteValue("author").ToString();
     }
 
+    public async Task<IActionResult> OnPost(string authorName, string follow, string? unfollow)
+    {
+        var Claims = User.Claims;
+        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+        var isUserFollowingAuthor = await _authorRepository.GetAuthorByIdAsync(authorName);
 
+        Console.WriteLine(currentlyLoggedInUser);
+
+        if (follow != null)
+        {
+            await _followRepository.InsertNewFollowAsync(currentlyLoggedInUser.AuthorId, authorName);
+        }
+        if (unfollow != null)
+        {
+            await _followRepository.RemoveFollowAsync(currentlyLoggedInUser.AuthorId, authorName);
+        }
+
+
+        return Redirect("/" + isUserFollowingAuthor.Name.Replace(" ", "%20"));
+    }
 
 
 }
