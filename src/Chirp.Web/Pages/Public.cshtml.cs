@@ -36,10 +36,7 @@ public class PublicModel : PageModel
         // get user
 
         var Claims = User.Claims;
-        foreach (var claim in Claims)
-        {
-            Console.WriteLine(claim.Type + " " + claim.Value);
-        }
+
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
         var username = Claims.FirstOrDefault(c => c.Type == "name")?.Value;
 
