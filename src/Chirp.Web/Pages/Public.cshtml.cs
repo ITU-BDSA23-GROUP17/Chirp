@@ -48,18 +48,10 @@ public class PublicModel : PageModel
             {
                 if (email != null)
                 {
-                    Console.WriteLine(username);
                     await _authorRepository.InsertAuthorAsync(username, email);
                     await _authorRepository.SaveAsync();
                     currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
-                    var author = await _authorRepository.GetAuthorByEmailAsync(email);
-                    //To get the CheepInfos we need to do some work...
-                    List<string> followingIDs = _followRepository.GetFollowingIDsByAuthorID(author.AuthorId);
-                    foreach (CheepDTO cheep in Cheeps)
-                    {
-                        CheepInfoDTO cheepInfoDTO = new CheepInfoDTO { Cheep = cheep, UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs) };
-                        CheepInfoList.Add(cheepInfoDTO);
-                    }
+
                 }
             }
             catch (Exception ex)
@@ -68,17 +60,35 @@ public class PublicModel : PageModel
             }
         }
 
+
+
+
         // pages = _service.getPagesHome(false, null);
         pages = _cheepRepository.getPages();
         pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
         Cheeps = _cheepRepository.GetCheeps(pageNr);
+        if (currentlyLoggedInUser != null)
+        {
+            currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+            //To get the CheepInfos we need to do some work...
+            List<string> followingIDs = _followRepository.GetFollowingIDsByAuthorID(currentlyLoggedInUser.AuthorId);
+
+            foreach (CheepDTO cheep in Cheeps)
+            {
+                CheepInfoDTO cheepInfoDTO = new CheepInfoDTO { Cheep = cheep, UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs) };
+                CheepInfoList.Add(cheepInfoDTO);
+            }
+
+        }
 
         var viewModel = new ViewModel
         {
-            Cheeps = Cheeps,
             pageNr = pageNr,
             pages = pages,
-            CheepInfos = CheepInfoList
+            CheepInfos = CheepInfoList,
+            Cheeps = Cheeps,
+            User = currentlyLoggedInUser
         };
 
         ViewData["ViewModel"] = viewModel;
@@ -95,22 +105,28 @@ public class PublicModel : PageModel
         }
     }
 
-    public async Task<IActionResult> OnPost(string authorName, string follow, string unfollow)
+
+    public async Task OnPost(string authorId, string authorName, string follow, string unfollow)
     {
+        //We do this in OnGet (retrieve current user). Surely there is a way to save that and reuse it here? but we can't just save it as a field in this class. That doesn't work....
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        currentlyLoggedInUser = await _authorRepository.GetAuthorByIdAsync(email);
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+        Console.WriteLine(currentlyLoggedInUser);
+
 
         if (follow != null)
         {
-            _followRepository.InsertNewFollow(currentlyLoggedInUser.AuthorId, authorName);
+            _followRepository.InsertNewFollow(currentlyLoggedInUser.AuthorId, authorId);
         }
         if (unfollow != null)
         {
-            _followRepository.RemoveFollow(currentlyLoggedInUser.AuthorId, authorName);
+            _followRepository.RemoveFollow(currentlyLoggedInUser.AuthorId, authorId);
         }
-
-        // Redirect in the end
-        return Redirect("/");
+        Response.Redirect("/" + authorName);
     }
+
+
+
 }

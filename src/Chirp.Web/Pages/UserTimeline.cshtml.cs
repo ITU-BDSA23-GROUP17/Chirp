@@ -90,10 +90,8 @@ public class UserTimelineModel : PageModel
 
         var viewModel = new ViewModel
         {
-            Cheeps = Cheeps,
             pageNr = pageNr,
             pages = pages,
-            CheepInfos = CheepInfos,
         };
 
 
@@ -109,24 +107,7 @@ public class UserTimelineModel : PageModel
         }
     }
 
-    //source https://www.learnrazorpages.com/razor-pages/handler-methods
-    public async void OnPost(string authorId, string authorName, string follow, string unfollow)
-    {
-        //We do this in OnGet (retrieve current user). Surely there is a way to save that and reuse it here? but we can't just save it as a field in this class. That doesn't work....
-        var Claims = User.Claims;
-        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
-        if (follow != null)
-        {
-            _followRepository.InsertNewFollow(currentlyLoggedInUser.AuthorId, authorId);
-        }
-        if (unfollow != null)
-        {
-            _followRepository.RemoveFollow(currentlyLoggedInUser.AuthorId, authorId);
-        }
-        Response.Redirect("/" + authorName);
-    }
 
     public string getPageName()
     {

@@ -4,7 +4,40 @@
 }
 
 
-@if (viewModel.Cheeps != null && viewModel.Cheeps.Any())
+@if (viewModel.Cheeps != null && viewModel.Cheeps.Any() && viewModel.CheepInfos.Count() == 0)
+{
+
+    <ul class="flex flex-col gap-5">
+        @foreach (var cheep in viewModel.Cheeps)
+        {
+            <div
+                class="border-2 border-black resize-none shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline flex flex-col gap-4">
+                <li>
+
+                    <p class="text-black text-sm font-semibold hover:underline">
+                        <img class="inline-block h-10 w-10 rounded-full"
+                            src="https://assets.phillips.com/image/upload/t_Website_LotDetailMainImage/v1/auctions/NY000208/52_001.jpg"
+                            alt="" />
+                        <strong>
+                            <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
+                        </strong>
+                        <span
+                            class="text-sm leading-5 font-medium text-black-400 group-hover:text-black-300 transition ease-in-out duration-150">
+                            @cheep.TimeStamp
+                        </span>
+                    </p>
+                    <p class="text-blue-400 text-sm font-medium text-clip overflow-hidden">
+                        <small class="text-blue-400 text-sm font-medium text-clip overflow-hidden">@cheep.Message</small </p>
+                </li>
+            </div>
+
+
+
+
+        }
+    </ul>
+}
+else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
 {
     <ul class="flex flex-col gap-5">
         @foreach (var cheepInfo in viewModel.CheepInfos)
