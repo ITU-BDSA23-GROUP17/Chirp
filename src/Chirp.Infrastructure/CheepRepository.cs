@@ -67,15 +67,26 @@ namespace Chirp.Infrastructure
 
         void ICheepRepository.InsertCheep(CheepDTO CheepDTO)
         {
-            var author = context.Authors.Find(CheepDTO.AuthorId) ?? throw new Exception("Author could not be found by AuthorID");
-            context.Cheeps.Add(new Cheep
+            if (CheepDTO.Message.Length > 160)
             {
-                CheepId = CheepDTO.Id,
-                Text = CheepDTO.Message,
-                TimeStamp = CheepDTO.TimeStamp,
-                Author = author,
-                AuthorId = author.AuthorId
-            });
+                throw new Exception("Cheep length is too long");
+            }
+            else if (CheepDTO.Message.Length == 0)
+            {
+                throw new Exception("Cheep is empty");
+            }
+            else
+            {
+                var author = context.Authors.Find(CheepDTO.AuthorId) ?? throw new Exception("Author could not be found by AuthorID");
+                context.Cheeps.Add(new Cheep
+                {
+                    CheepId = CheepDTO.Id,
+                    Text = CheepDTO.Message,
+                    TimeStamp = CheepDTO.TimeStamp,
+                    Author = author,
+                    AuthorId = author.AuthorId
+                });
+            }
         }
 
 
