@@ -86,7 +86,7 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
 
         // Assert
         var insertedCheep = context.Cheeps.FirstOrDefault(c => c.Text == "test message cheep");
-        
+        Assert.NotNull(insertedCheep); // Check that we get a cheep
         Assert.Equal("test message cheep", insertedCheep.Text);
     }
 
@@ -139,8 +139,10 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         });
 
         // Assert
+        // Assert
+        var notInsertedCheep = context.Cheeps.FirstOrDefault(c => c.Text == cheepOverCharLimit);
         Assert.Equal("Cheep length is too long", longCheepInsertionError.Message);
-        Assert.Null(longCheepDto); 
+        Assert.Null(notInsertedCheep); 
 
     }
 
@@ -187,8 +189,9 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         });
 
         // Assert
+        var notInsertedCheep = context.Cheeps.FirstOrDefault(c => c.Text == "");
         Assert.Equal("Cheep is empty", emptyCheepInsertionError.Message);
-        Assert.Null(emptyCheepDto); 
+        Assert.Null(notInsertedCheep); 
 
     }
 }
