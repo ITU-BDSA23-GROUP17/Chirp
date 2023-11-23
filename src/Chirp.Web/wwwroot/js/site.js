@@ -5,7 +5,7 @@ button.addEventListener("click", () => {
   menu.classList.toggle("hidden");
 });
 
-// function shortened thanks to ChatGPT
+// parts of function shortened thanks to ChatGPT
 function showWordsLeft() {
   var cheepTextAreaElement = document.getElementById("cheepTextArea");
   var charactersLeftElement = document.getElementById("charactersLeft");
