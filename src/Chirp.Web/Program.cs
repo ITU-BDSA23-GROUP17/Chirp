@@ -30,6 +30,7 @@ builder.Services.AddRazorPages()
 
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+builder.Services.AddScoped<IFollowRepository, FollowRepository>();
 
 
 
@@ -58,6 +59,9 @@ using (var scope = app.Services.CreateScope())
     var context = services.GetRequiredService<ChirpDBContext>();
 
     context.initializeDB();
+
+
+    //context.Database.ExecuteSqlRaw("DROP TABLE [dbo].[__EFMigrationsHistory]"); // If a new table is added or column is added, uncomment this
 }
 
 // Configure the HTTP request pipeline.

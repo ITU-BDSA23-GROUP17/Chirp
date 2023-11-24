@@ -1,21 +1,22 @@
 using System.Security.AccessControl;
+using System.Threading.Tasks;
 
 namespace Chirp.Core
 {
-    public interface IAuthorRepository : IDisposable
+    public interface IAuthorRepository
     {
-        AuthorDTO? GetAuthorByName(string name);
+        Task<AuthorDTO?> GetAuthorByNameAsync(string name);
 
-        AuthorDTO? GetAuthorByEmail(string email);
+        Task<AuthorDTO?> GetAuthorByEmailAsync(string email);
 
-        AuthorDTO? GetAuthorById(string authorId);
-        void Save();
+        Task<AuthorDTO?> GetAuthorByIdAsync(string authorId);
+        Task<List<AuthorDTO>> GetAuthorsByIdsAsync(List<string> authorIDs);
+        Task SaveAsync();
 
-        void InsertAuthor(string name, string email);
-        void DeleteAuthor(int authorId);
-        void UpdateAuthor(AuthorDTO author);
+        Task InsertAuthorAsync(string name, string email);
+        Task DeleteAuthorAsync(int authorId);
+        Task UpdateAuthorAsync(AuthorDTO author);
 
-        void SendCheep(string message, AuthorInfoDTO author);
-        //var c9 = new Cheep() { CheepId = 9, AuthorId = a10.AuthorId, Author = a10, Text = "The folk on trust in me!", TimeStamp = DateTime.Parse("2023-08-01 13:15:30") };
+        Task SendCheepAsync(string message, AuthorInfoDTO author);
     }
 }
