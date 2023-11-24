@@ -18,6 +18,6 @@ namespace Chirp.Core
         Task UpdateAuthorAsync(AuthorDTO author);
 
         Task SendCheepAsync(string message, AuthorInfoDTO author);
-        string GetStatusByAuthorID(string authorId);
+        Task<AuthorDTO?> GetStatusByAuthorID(string authorId);
     }
 }

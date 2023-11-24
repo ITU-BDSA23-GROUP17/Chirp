@@ -215,15 +215,16 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         {
             throw new Exception("Could not find author Helge");
         }
+
         //Getting the authorID from AuthorDTO
         var authorId = authorDTOTest.AuthorId;
 
 
         // Act
-        string statusOnline = authorRepository.GetStatusByAuthorID(authorId);
+        var statusOnline = await authorRepository.GetStatusByAuthorID(authorId);
         
 
         // Assert
-        Assert.Equal("ONLINE", statusOnline);
+        Assert.Equal("ONLINE", statusOnline?.Status);
     }
 }
