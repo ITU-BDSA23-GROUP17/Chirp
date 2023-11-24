@@ -17,11 +17,13 @@ public class PublicModel : PageModel
     private AuthorDTO currentlyLoggedInUser;
 
 
-    public PublicModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository )
+    public PublicModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository,
+IReactionRepository reactionRepository)
     {
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
         _followRepository = followRepository;
+        _reactionRepository = reactionRepository;
     }
 
     public IEnumerable<CheepDTO> Cheeps { get; set; }
