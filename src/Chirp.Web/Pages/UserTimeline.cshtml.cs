@@ -157,16 +157,6 @@ IReactionRepository reactionRepository)
     
         currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
-        Console.WriteLine("cheepId: " + cheepId);
-        Console.WriteLine("authorId: " + authorId);
-        Console.WriteLine("reaction: " + reaction);
-        Console.WriteLine("From UserTimeline.cshtml.cs");
-        Console.WriteLine("Name: " + currentlyLoggedInUser.Name);
-        Console.WriteLine("ID: " + currentlyLoggedInUser.AuthorId);
-        Console.WriteLine("Email: " + currentlyLoggedInUser.Email);
-        Console.WriteLine(email);
-        Console.WriteLine(currentlyLoggedInUser);
-
         var likeID = "fbd9ecd2-283b-48d2-b82a-544b232d6244";
         await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId,likeID );
 
