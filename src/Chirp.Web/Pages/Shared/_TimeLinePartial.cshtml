@@ -82,7 +82,14 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                                 <input type="hidden" name="authorName" value="@cheepInfo.Cheep.AuthorId" />
                             </form>
                         }
-                            <!-- Reaction button -->
+                    </div>
+                </div>
+
+                <!-- cheep text -->
+                <p class="text-black text-sm font-semibold hover:underline">
+                    <small class="text-blue-400 text-sm font-medium text-clip overflow-hidden">@cheepInfo.Cheep.Message</small>
+                </p>
+        <!-- Reaction button -->
     @if (User.Identity.IsAuthenticated)
     {
         <form method="post">
@@ -93,13 +100,6 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
             <!-- Add additional hidden inputs for reaction type or other relevant data -->
         </form>
     }
-                    </div>
-                </div>
-
-                <!-- cheep text -->
-                <p class="text-black text-sm font-semibold hover:underline">
-                    <small class="text-blue-400 text-sm font-medium text-clip overflow-hidden">@cheepInfo.Cheep.Message</small>
-                </p>
             </li>
         }
     </ul>
