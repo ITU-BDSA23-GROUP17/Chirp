@@ -94,6 +94,8 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                             <input type="submit" name="react" value="Like" />
                         </button>
                         <input type="hidden" name="authorName" value="@cheepInfo.Cheep.AuthorId" />
+                        <input type="hidden" name="cheepId" value="@cheepInfo.Cheep.Id" />
+
                     </form>
                 }
             </li>
