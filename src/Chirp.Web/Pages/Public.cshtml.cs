@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Drawing;
 using System.Security.Claims;
 using Chirp.Core;
 using Chirp.Infrastructure;
@@ -128,5 +129,11 @@ IReactionRepository reactionRepository)
         return Redirect("/" + isUserFollowingAuthor.Name.Replace(" ", "%20"));
     }
 
+    public async Task<IActionResult> OnPostReaction(string cheepId, string authorId, string reaction)
+    {
+        Console.WriteLine("reaction: " + reaction);
+
+        return null;
+    }
 
 }
