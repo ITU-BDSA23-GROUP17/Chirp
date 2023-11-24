@@ -22,6 +22,7 @@ public class PublicModel : PageModel
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
         _followRepository = followRepository;
+        _reactionRepository = reactionRepository;
     }
 
     public IEnumerable<CheepDTO> Cheeps { get; set; }
