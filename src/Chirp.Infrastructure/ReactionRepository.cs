@@ -12,7 +12,8 @@ namespace Chirp.Infrastructure
 
         public Task InsertNewReactionAsync(string CheepId, string AuthorId, string ReactionTypeId)
         {
-            throw new NotImplementedException();
+            context.Reactions.Add(new Reaction() { CheepId = CheepId, AuthorId = AuthorId, ReactionTypeId = ReactionTypeId, TimeStamp = DateTime.Now });
+            return context.SaveChangesAsync();
         }
 
         public Task RemoveReactionAsync(string CheepId, string AuthorId)
