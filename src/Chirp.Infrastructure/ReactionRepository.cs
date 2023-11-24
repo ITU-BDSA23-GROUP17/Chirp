@@ -9,11 +9,14 @@ namespace Chirp.Infrastructure
     {
 
         private ChirpDBContext context;
-
-        public Task InsertNewReactionAsync(string CheepId, string AuthorId, string ReactionTypeId)
+        public ReactionRepository(ChirpDBContext dbContext)
         {
-            context.Reactions.Add(new Reaction() { CheepId = CheepId, AuthorId = AuthorId, ReactionTypeId = ReactionTypeId, TimeStamp = DateTime.Now });
-            return context.SaveChangesAsync();
+            context = dbContext;
+        }
+        public async Task InsertNewReactionAsync(string CheepId, string AuthorId, string ReactionTypeId)
+        {
+            context.Reactions.AddAsync(new Reaction() { CheepId = CheepId, AuthorId = AuthorId, ReactionTypeId = ReactionTypeId, TimeStamp = DateTime.Now });
+            await context.SaveChangesAsync();
         }
 
         public Task RemoveReactionAsync(string CheepId, string AuthorId)
