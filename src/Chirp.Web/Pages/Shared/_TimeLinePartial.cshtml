@@ -66,7 +66,7 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                         @if (User.Identity.IsAuthenticated && cheepInfo.Cheep.AuthorName != User.Identity.Name)
                         {
 
-                            <form method="post">
+                            <form method="post" asp-page-handler="Follow">
                                 <button id="followUnfollowButton"
                                     class="border-2 border-black hover:bg-black text-black hover:text-white bg-transparent pl-2 py-1 px-2 hover:border-transparent rounded"
                                     disabled="true">
