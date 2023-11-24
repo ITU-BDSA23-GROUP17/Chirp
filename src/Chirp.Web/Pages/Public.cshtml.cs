@@ -13,6 +13,7 @@ public class PublicModel : PageModel
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authorRepository;
     private readonly IFollowRepository _followRepository;
+    private readonly IReactionRepository _reactionRepository;
     private AuthorDTO currentlyLoggedInUser;
 
 
