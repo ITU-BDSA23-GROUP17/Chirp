@@ -82,6 +82,17 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                                 <input type="hidden" name="authorName" value="@cheepInfo.Cheep.AuthorId" />
                             </form>
                         }
+                            <!-- Reaction button -->
+    @if (User.Identity.IsAuthenticated)
+    {
+        <form method="post">
+            <button id="reactionButton"
+                class="border-2 border-black hover:bg-black text-black hover:text-white bg-transparent pl-2 py-1 px-2 hover:border-transparent rounded">
+                <input type="submit" name="react" value="Like" />
+            </button>
+            <!-- Add additional hidden inputs for reaction type or other relevant data -->
+        </form>
+    }
                     </div>
                 </div>
 
