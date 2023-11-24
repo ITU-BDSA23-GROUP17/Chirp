@@ -128,7 +128,7 @@ IReactionRepository reactionRepository)
         return HttpContext.GetRouteValue("author").ToString();
     }
 
-    public async Task<IActionResult> OnPost(string authorName, string follow, string? unfollow)
+    public async Task<IActionResult> OnPostFollow(string authorName, string follow, string? unfollow)
     {
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
