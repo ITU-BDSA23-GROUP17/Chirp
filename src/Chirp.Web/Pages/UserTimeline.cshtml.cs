@@ -150,5 +150,14 @@ IReactionRepository reactionRepository)
         return Redirect("/" + isUserFollowingAuthor.Name.Replace(" ", "%20"));
     }
 
+    public async Task<IActionResult> OnPostReaction(string cheepId, string authorId, string reaction)
+    {
+        Console.WriteLine("cheepId: " + cheepId);
+        Console.WriteLine("authorId: " + authorId);
+        Console.WriteLine("reaction: " + reaction);
+        Console.WriteLine("From UserTimeline.cshtml.cs");
+
+        return Redirect("/");
+    }
 
 }

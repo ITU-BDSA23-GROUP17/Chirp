@@ -4,7 +4,7 @@
 }
 
 
-@if (viewModel.Cheeps != null && viewModel.Cheeps.Any() && viewModel.CheepInfos.Count() == 0)
+@if (viewModel.Cheeps != null && viewModel.Cheeps.Any() && viewModel.CheepInfos?.Count() == 0)
 {
 
     <ul class="flex flex-col gap-5">
@@ -91,11 +91,10 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                     <form method="post" asp-page-handler="Reaction">
                         <button id="reactionButton"
                             class="border-2 border-black hover:bg-black text-black hover:text-white bg-transparent pl-2 py-1 px-2 hover:border-transparent rounded">
-                            <input type="submit" name="react" value="Like" />
+                            <input type="submit" name="reaction" value="Like" />
                         </button>
-                        <input type="hidden" name="authorName" value="@cheepInfo.Cheep.AuthorId" />
+                        <input type="hidden" name="authorId" value="@cheepInfo.Cheep.AuthorId" />
                         <input type="hidden" name="cheepId" value="@cheepInfo.Cheep.Id" />
-
                     </form>
                 }
             </li>
