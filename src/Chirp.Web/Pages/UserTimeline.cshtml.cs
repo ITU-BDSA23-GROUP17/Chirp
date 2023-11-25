@@ -50,10 +50,19 @@ IReactionRepository reactionRepository)
 
         // Initialize your models here...
         var authorDTO = await _authorRepository.GetAuthorByNameAsync(author);
-        pages = _cheepRepository.getPagesUser(authorDTO.Name);
-        pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
-        Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
 
+        if (authorDTO != null)
+        {
+            pages = _cheepRepository.getPagesUser(authorDTO.Name);
+            pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
+            Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
+        }
+        else
+        {
+            // Handle the case when authorDTO is null (author not found)
+            // For example, you might return a 404 Not Found response.
+            return NotFound();
+        }
         // get user
 
 
@@ -154,12 +163,13 @@ IReactionRepository reactionRepository)
     {
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-    
+
         currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
         var likeID = "fbd9ecd2-283b-48d2-b82a-544b232d6244";
-        await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId,likeID );
+        await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId, likeID);
 
+        Console.WriteLine("Added like on " + cheepId);
 
         return Redirect("/");
     }
