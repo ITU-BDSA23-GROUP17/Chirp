@@ -89,8 +89,7 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         Assert.NotNull(insertedCheep); // Check that we get a cheep
         Assert.Equal("test message cheep", insertedCheep.Text);
     }
-
-    [Fact]
+[Fact]
     public async Task CheepOverCharacterLimitNotAllowed()
     {
          // Arrange
