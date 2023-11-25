@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using Chirp.Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure
 {
@@ -13,6 +14,16 @@ namespace Chirp.Infrastructure
         {
             context = dbContext;
         }
+
+        public async Task<List<string>> GetReactionOnCheepByAuthorId(string CheepId)
+        {
+            var getAuthorIdOnCheep = await context.Reactions
+            .Where(r => r.CheepId == CheepId)
+            .Select(r => r.AuthorId)
+            .ToListAsync();
+            return getAuthorIdOnCheep;
+        }
+
         public async Task InsertNewReactionAsync(string CheepId, string AuthorId, string ReactionTypeId)
         {
             context.Reactions.AddAsync(new Reaction() { CheepId = CheepId, AuthorId = AuthorId, ReactionTypeId = ReactionTypeId, TimeStamp = DateTime.Now });
