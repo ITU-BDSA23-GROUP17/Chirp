@@ -101,7 +101,11 @@ IReactionRepository reactionRepository)
             //To get the CheepInfos we need to do some work...
             foreach (CheepDTO cheep in Cheeps)
             {
-                CheepInfoDTO cheepInfoDTO = new CheepInfoDTO { Cheep = cheep, UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs) };
+                CheepInfoDTO cheepInfoDTO = new CheepInfoDTO
+                {
+                    Cheep = cheep,
+                    UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
+                };
                 CheepInfoList.Add(cheepInfoDTO);
             }
 
@@ -129,6 +133,8 @@ IReactionRepository reactionRepository)
             return followingIDs.Contains(authorID);
         }
     }
+
+    public bool IsUserReactionCheep(string authorId, List<string> reactionAuthorId) => reactionAuthorId.Contains(authorId);
 
 
 

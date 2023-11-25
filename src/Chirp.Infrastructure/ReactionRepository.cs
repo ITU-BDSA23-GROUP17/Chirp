@@ -15,7 +15,7 @@ namespace Chirp.Infrastructure
             context = dbContext;
         }
 
-        public async Task<List<string>> GetReactionOnCheepByAuthorId(string CheepId)
+        public async Task<List<string>> GetAuthorListReactionByCheepId(string CheepId)
         {
             var getAuthorIdOnCheep = await context.Reactions
             .Where(r => r.CheepId == CheepId)
