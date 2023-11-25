@@ -120,5 +120,12 @@ namespace Chirp.Infrastructure
                 context.Authors.Update(authorToUpdate);
             }
         }
+
+        public Task<AuthorDTO?> GetStatusByAuthorID(string authorId)
+        {
+            var Author = GetAuthorByIdAsync(authorId);
+            var Status = Author.Status;
+            context.Authors.ChangeStatus(Status);
+        }
     }
 }
