@@ -19,9 +19,14 @@ namespace Chirp.Infrastructure
             await context.SaveChangesAsync();
         }
 
-        public Task RemoveReactionAsync(string CheepId, string AuthorId)
+        public async Task RemoveReactionAsync(string CheepId, string AuthorId)
         {
-            throw new NotImplementedException();
+            var reaction = await context.Reactions.FindAsync(CheepId, AuthorId);
+            if (reaction != null)
+            {
+                context.Remove(reaction);
+                await context.SaveChangesAsync();
+            }
         }
 
         public void Save()
