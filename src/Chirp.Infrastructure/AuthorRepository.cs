@@ -18,7 +18,7 @@ namespace Chirp.Infrastructure
         public async Task InsertAuthorAsync(string Name, string Email)
         {
             Guid guid = Guid.NewGuid();
-            await context.Authors.AddAsync(new Author() { AuthorId = guid.ToString(), Name = Name, Email = Email });
+            await context.Authors.AddAsync(new Author() { AuthorId = guid.ToString(), Name = Name, Email = Email, Status = "OFFLINE" });
         }
 
         public async Task SaveAsync()
@@ -71,6 +71,16 @@ namespace Chirp.Infrastructure
             if (author != null)
             {
                 context.Remove(author);
+            }
+        }
+
+        public async Task<string> GetStatusOfAuthorByID(int authorId)
+        {
+            var author = await context.Authors.FindAsync(authorId);
+            if (author != null){
+                return author.Status;
+            } else {
+                return null;
             }
         }
 
