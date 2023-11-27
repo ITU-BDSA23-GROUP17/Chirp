@@ -123,6 +123,14 @@ public class UserTimelineModel : PageModel
         return HttpContext.GetRouteValue("author").ToString();
     }
 
+    public async Task<string> getStatus(){
+        string viewedUser = HttpContext.GetRouteValue("author").ToString();
+        var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(viewedUser);
+        var Status = StatusAuthorDTO.Status;
+
+        return Status;
+    }
+
     public async Task<IActionResult> OnPost(string authorName, string follow, string? unfollow)
     {
         var Claims = User.Claims;

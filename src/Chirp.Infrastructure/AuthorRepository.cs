@@ -31,7 +31,7 @@ namespace Chirp.Infrastructure
             var Author = await context.Authors.Where(a => a.Email == Email).FirstOrDefaultAsync();
             if (Author != null)
             {
-                return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList());
+                return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, "OFFLINE", Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList());
             }
             else
             {
@@ -44,7 +44,7 @@ namespace Chirp.Infrastructure
             var Author = await context.Authors.FindAsync(AuthorId);
             if (Author != null)
             {
-                return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList());
+                return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, "OFFLINE", Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList());
             }
             else
             {
@@ -57,7 +57,7 @@ namespace Chirp.Infrastructure
             var Author = await context.Authors.Where(a => a.Name == Name).FirstOrDefaultAsync();
             if (Author != null)
             {
-                return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList());
+                return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, "OFFLINE", Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList());
             }
             else
             {
@@ -116,7 +116,7 @@ namespace Chirp.Infrastructure
                  .Contains(a.AuthorId))
                  .ToListAsync();
 
-            var authorDTOs = authors.Select(a => new AuthorDTO(a.AuthorId, a.Name, a.Email, a.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList())).ToList();
+            var authorDTOs = authors.Select(a => new AuthorDTO(a.AuthorId, a.Name, a.Email, "OFFLINE", a.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList())).ToList();
             return authorDTOs;
         }
 

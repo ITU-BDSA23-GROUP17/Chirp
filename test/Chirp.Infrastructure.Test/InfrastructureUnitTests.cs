@@ -89,4 +89,33 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         Assert.NotNull(insertedCheep); // Check that we get a cheep
         Assert.Equal("test message cheep", insertedCheep.Text);
     }
+
+    [Fact]
+    public async Task GetStatusOfUserOffline()
+    {
+        // Arrange
+
+        // Start the container
+        await _msSqlContainer.StartAsync();
+
+        var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
+        using var context = new ChirpDBContext(builder.Options);
+        context.initializeDB(); //ensure all tables are created
+
+        // initialize author repo
+        IAuthorRepository authorRepository = new AuthorRepository(context);
+
+        //Getting authorDTO by the name Helge
+        var authorDTOTest = await authorRepository.GetAuthorByNameAsync("Helge");
+        if (authorDTOTest == null)
+        {
+            throw new Exception("Could not find author Helge");
+        }
+
+        // Act 
+        var User = context.Authors.FirstOrDefault(a => a.Name == "Helge");
+
+        // Assert
+        Assert.Equal("OFFLINE", User?.Status);
+    }
 }
