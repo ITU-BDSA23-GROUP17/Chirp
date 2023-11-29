@@ -43,8 +43,8 @@ namespace Chirp.Infrastructure.Migrations
                 {
                     CheepId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AuthorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ReactionTypeId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ReactionTypeId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {

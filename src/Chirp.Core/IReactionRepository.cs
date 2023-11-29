@@ -8,8 +8,11 @@ namespace Chirp.Core
 
         Task RemoveReactionAsync(string CheepId, string AuthorId);
 
-        Task<List<string>> GetAuthorListReactionByCheepId(string CheepId);
+        Task<List<AuthorDTO>> GetAuthorListReactionByCheepId(string CheepId);
 
+        Task<List<string>> GetCheepIdsByAuthorId(string AuthorId);
+
+        Task<Boolean> CheckIfAuthorReactedToCheep(string CheepId, string AuthorId);
 
 
         void Save();

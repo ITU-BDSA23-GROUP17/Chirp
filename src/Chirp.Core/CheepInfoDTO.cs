@@ -5,6 +5,6 @@ namespace Chirp.Core
         public CheepDTO Cheep { get; init; }
         public bool UserIsFollowingAuthor { get; init; }
 
-        public bool UserReactToCheep {get; init;}
+        public bool UserReactToCheep {get; set;}
     }
 }

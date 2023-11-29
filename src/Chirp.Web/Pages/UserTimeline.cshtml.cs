@@ -5,6 +5,7 @@ using Chirp.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Identity.Web;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualBasic;
 using static System.Web.HttpUtility;
 
@@ -83,6 +84,9 @@ IReactionRepository reactionRepository)
             //We need to do some work to get the CheepInfo. First find Cheeps, then make CheepInfoDTOs.
             //We need the following ids in the else statement and below therefore it's here....
             List<string> followingIDs = await _followRepository.GetFollowingIDsByAuthorIDAsync(currentlyLoggedInUser.AuthorId);
+            List<string> reactionCheepIds = await _reactionRepository.GetCheepIdsByAuthorId(currentlyLoggedInUser.AuthorId);
+
+
             if (!isOwnTimeline)
             {
                 Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
@@ -92,12 +96,17 @@ IReactionRepository reactionRepository)
                 List<string> authors = new List<string> { currentlyLoggedInUser.Name };
 
                 List<AuthorDTO> follows = await _authorRepository.GetAuthorsByIdsAsync(followingIDs);
+
+                reactionCheepIds = await _reactionRepository.GetCheepIdsByAuthorId(currentlyLoggedInUser.AuthorId);
+
                 foreach (var followedAuthor in follows)
                 {
                     authors.Add(followedAuthor.Name);
                 }
                 Cheeps = _cheepRepository.GetCheepsByAuthors(authors, pageNr);
+
             }
+
             //To get the CheepInfos we need to do some work...
             foreach (CheepDTO cheep in Cheeps)
             {
@@ -105,7 +114,20 @@ IReactionRepository reactionRepository)
                 {
                     Cheep = cheep,
                     UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
+                    UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds)
                 };
+                if (reactionCheepIds == null)
+                {
+                    Console.WriteLine("reactionCheepIds is null");
+                }
+                else
+                {
+                    foreach (var reactionCheepId in reactionCheepIds)
+                    {
+                        Console.WriteLine("reactionCheepId: " + reactionCheepId);
+                    }
+                    Console.WriteLine(reactionCheepIds.Count);
+                }
                 CheepInfoList.Add(cheepInfoDTO);
             }
 
@@ -134,7 +156,12 @@ IReactionRepository reactionRepository)
         }
     }
 
-    public bool IsUserReactionCheep(string authorId, List<string> reactionAuthorId) => reactionAuthorId.Contains(authorId);
+    public bool IsUserReactionCheep(string cheepId, List<string> reactionAuthorId)
+    {
+        {
+            return reactionAuthorId.Contains(cheepId);
+        }
+    }
 
 
 
@@ -173,11 +200,25 @@ IReactionRepository reactionRepository)
         currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
         var likeID = "fbd9ecd2-283b-48d2-b82a-544b232d6244";
-        await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId, likeID);
 
-        Console.WriteLine("Added like on " + cheepId);
-
+        if(currentlyLoggedInUser == null)
+        {
+            Console.WriteLine("Can not react to cheep, user is not logged in");
+            return Redirect("/");
+        }
+        bool hasReacted = await _reactionRepository.CheckIfAuthorReactedToCheep(cheepId, currentlyLoggedInUser.AuthorId);
+        if (hasReacted)
+        {
+            Console.WriteLine("Removed like on " + cheepId);
+            await _reactionRepository.RemoveReactionAsync(cheepId, currentlyLoggedInUser.AuthorId);
+        }
+        else
+        {
+            Console.WriteLine("Added like on " + cheepId);
+            await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId, likeID);
+        }
         return Redirect("/");
+
     }
 
 }

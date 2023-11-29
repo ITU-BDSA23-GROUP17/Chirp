@@ -24,6 +24,15 @@ namespace Chirp.Infrastructure
             return getAuthorIdOnCheep;
         }
 
+        public async Task<List<string>> GetCheepIdsByAuthorId(string AuthorId)
+        {
+            var getCheepIdsOnAuthor = await context.Reactions
+            .Where(r => r.AuthorId == AuthorId)
+            .Select(r => r.CheepId)
+            .ToListAsync();
+            return getCheepIdsOnAuthor;
+        }
+
         public async Task InsertNewReactionAsync(string CheepId, string AuthorId, string ReactionTypeId)
         {
             context.Reactions.AddAsync(new Reaction() { CheepId = CheepId, AuthorId = AuthorId, ReactionTypeId = ReactionTypeId, TimeStamp = DateTime.Now });
@@ -40,9 +49,27 @@ namespace Chirp.Infrastructure
             }
         }
 
+        public async Task<Boolean> CheckIfAuthorReactedToCheep(string CheepId, string AuthorId)
+        {
+            var reaction = await context.Reactions.FindAsync(CheepId, AuthorId);
+            if (reaction != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public void Save()
         {
             context.SaveChanges();
+        }
+
+        Task<List<AuthorDTO>> IReactionRepository.GetAuthorListReactionByCheepId(string CheepId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

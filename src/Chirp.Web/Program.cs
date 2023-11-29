@@ -61,7 +61,6 @@ using (var scope = app.Services.CreateScope())
 
     context.initializeDB();
 
-
     //context.Database.ExecuteSqlRaw("DROP TABLE [dbo].[__EFMigrationsHistory]"); // If a new table is added or column is added, uncomment this
 }
 

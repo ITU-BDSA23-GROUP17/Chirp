@@ -4,7 +4,7 @@ public static class DbInitializer
 {
     public static void SeedDatabase(ChirpDBContext chirpContext)
     {
-        if (!(chirpContext.Authors.Any()) && !(chirpContext.Cheeps.Any()) && !(chirpContext.Reactions.Any()) && !(chirpContext.ReactionTypes.Any()))
+        if (!(chirpContext.Authors.Any()) || !(chirpContext.Cheeps.Any()) || !(chirpContext.Reactions.Any()) || !(chirpContext.ReactionTypes.Any()))
         {
             #region Authors added
             var a1 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Roger Histand", Email = "Roger+Histand@hotmail.com", Cheeps = new List<Cheep>() };
