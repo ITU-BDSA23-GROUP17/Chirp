@@ -8,18 +8,18 @@ public static class DbInitializer
         {
             #region Authors added
             GithubClaims githubclaims = new GithubClaims();
-            var a1 = CreateAuthor(githubclaims, "Roger Histand", "Roger+Histand@hotmail.com");
-            var a2 = CreateAuthor(githubclaims, "Luanna Muro", "Luanna-Muro@ku.dk");
-            var a3 = CreateAuthor(githubclaims, "Wendell Ballan", "Wendell-Ballan@gmail.com");
-            var a4 = CreateAuthor(githubclaims, "Nathan Sirmon", "Nathan+Sirmon@dtu.dk");
-            var a5 = CreateAuthor(githubclaims, "Quintin Sitts", "Quintin+Sitts@itu.dk");
-            var a6 = CreateAuthor(githubclaims, "Mellie Yost", "Mellie+Yost@ku.dk");
-            var a7 = CreateAuthor(githubclaims, "Malcolm Janski", "Malcolm-Janski@gmail.com");
-            var a8 = CreateAuthor(githubclaims, "Octavio Wagganer", "Octavio.Wagganer@dtu.dk");
-            var a9 = CreateAuthor(githubclaims, "Johnnie Calixto", "Johnnie+Calixto@itu.dk");
-            var a10 = CreateAuthor(githubclaims, "Jacqualine Gilcoine", "Jacqualine.Gilcoine@gmail.com");
-            var a11 = CreateAuthor(githubclaims, "Helge", "ropf@itu.dk");
-            var a12 = CreateAuthor(githubclaims, "Rasmus", "rnie@itu.dk");
+            var a1 = CreateAuthor("https://assets.phillips.com/image/upload/t_Website_LotDetailMainImage/v1/auctions/NY000208/52_001.png", "Roger Histand", "Roger+Histand@hotmail.com");
+            var a2 = CreateAuthor("https://assets.phillips.com/image/upload/t_Website_LotDetailMainImage/v1/auctions/NY000208/52_001.png", "Luanna Muro", "Luanna-Muro@ku.dk");
+            var a3 = CreateAuthor("https://assets.phillips.com/image/upload/t_Website_LotDetailMainImage/v1/auctions/NY000208/52_001.png", "Wendell Ballan", "Wendell-Ballan@gmail.com");
+            var a4 = CreateAuthor("https://assets.phillips.com/image/upload/t_Website_LotDetailMainImage/v1/auctions/NY000208/52_001.png", "Nathan Sirmon", "Nathan+Sirmon@dtu.dk");
+            var a5 = CreateAuthor("https://assets.phillips.com/image/upload/t_Website_LotDetailMainImage/v1/auctions/NY000208/52_001.png", "Quintin Sitts", "Quintin+Sitts@itu.dk");
+            var a6 = CreateAuthor("https://assets.phillips.com/image/upload/t_Website_LotDetailMainImage/v1/auctions/NY000208/52_001.png", "Mellie Yost", "Mellie+Yost@ku.dk");
+            var a7 = CreateAuthor("https://assets.phillips.com/image/upload/t_Website_LotDetailMainImage/v1/auctions/NY000208/52_001.png", "Malcolm Janski", "Malcolm-Janski@gmail.com");
+            var a8 = CreateAuthor("https://assets.phillips.com/image/upload/t_Website_LotDetailMainImage/v1/auctions/NY000208/52_001.png", "Octavio Wagganer", "Octavio.Wagganer@dtu.dk");
+            var a9 = CreateAuthor("https://avatars.githubusercontent.com/u/18956?v=4", "Johnnie Calixto", "Johnnie+Calixto@itu.dk");
+            var a10 = CreateAuthor("https://avatars.githubusercontent.com/u/102250?v=4", "Jacqualine Gilcoine", "Jacqualine.Gilcoine@gmail.com");
+            var a11 = CreateAuthor("https://avatars.githubusercontent.com/u/21216985?v=4", "Helge", "ropf@itu.dk");
+            var a12 = CreateAuthor("https://assets.phillips.com/image/upload/t_Website_LotDetailMainImage/v1/auctions/NY000208/52_001.png", "Rasmus", "rnie@itu.dk");
 
 
             var authors = new List<Author>() { a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12 };
@@ -734,7 +734,7 @@ public static class DbInitializer
 
         }
     }
-    private static Author CreateAuthor(GithubClaims githubclaims, string name, string email)
+    private static Author CreateAuthor(string Image, string name, string email)
     {
         return new Author()
         {
@@ -742,7 +742,7 @@ public static class DbInitializer
             Name = name,
             Email = email,
             Cheeps = new List<Cheep>(),
-            Image = ""
+            Image = Image
         };
     }
 

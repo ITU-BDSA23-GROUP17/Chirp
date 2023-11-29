@@ -85,7 +85,7 @@ public class PublicModel : PageModel
             pages = pages,
             CheepInfos = CheepInfoList,
             Cheeps = Cheeps,
-            User = currentlyLoggedInUser
+            User = currentlyLoggedInUser,
         };
 
         ViewData["ViewModel"] = viewModel;

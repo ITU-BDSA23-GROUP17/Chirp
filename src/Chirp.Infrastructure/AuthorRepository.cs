@@ -32,7 +32,7 @@ namespace Chirp.Infrastructure
             var Author = await context.Authors.Where(a => a.Email == Email).FirstOrDefaultAsync();
             if (Author != null)
             {
-                return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList(), Author.Image);
+                return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image)).ToList(), Author.Image);
             }
             else
             {
@@ -45,7 +45,7 @@ namespace Chirp.Infrastructure
             var Author = await context.Authors.FindAsync(AuthorId);
             if (Author != null)
             {
-                return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList(), Author.Image);
+                return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image)).ToList(), Author.Image);
             }
             else
             {
@@ -58,7 +58,7 @@ namespace Chirp.Infrastructure
             var Author = await context.Authors.Where(a => a.Name == Name).FirstOrDefaultAsync();
             if (Author != null)
             {
-                return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList(), Author.Image);
+                return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image)).ToList(), Author.Image);
             }
             else
             {
@@ -78,7 +78,7 @@ namespace Chirp.Infrastructure
         public async Task SendCheepAsync(string message, AuthorInfoDTO authorInfoDTO)
         {
             var guid = Guid.NewGuid().ToString();
-            var newCheepDTO = new CheepDTO(guid, message, DateTime.Now, authorInfoDTO.Name, authorInfoDTO.AuthorId);
+            var newCheepDTO = new CheepDTO(guid, message, DateTime.Now, authorInfoDTO.Name, authorInfoDTO.AuthorId, "");
             var author = await context.Authors.FindAsync(authorInfoDTO.AuthorId);
 
             if (author == null)
@@ -107,7 +107,7 @@ namespace Chirp.Infrastructure
                  .Contains(a.AuthorId))
                  .ToListAsync();
 
-            var authorDTOs = authors.Select(a => new AuthorDTO(a.AuthorId, a.Name, a.Email, a.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId)).ToList(), a.Name)).ToList();
+            var authorDTOs = authors.Select(a => new AuthorDTO(a.AuthorId, a.Name, a.Email, a.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image)).ToList(), a.Name)).ToList();
             return authorDTOs;
         }
 
@@ -121,5 +121,8 @@ namespace Chirp.Infrastructure
                 context.Authors.Update(authorToUpdate);
             }
         }
+
+        // get all authors
+
     }
 }

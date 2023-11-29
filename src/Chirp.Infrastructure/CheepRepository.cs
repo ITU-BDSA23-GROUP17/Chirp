@@ -47,7 +47,7 @@ namespace Chirp.Infrastructure
                 .OrderByDescending(c => c.TimeStamp)
                 .Skip(page * 32)
                 .Take(32)
-                .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId))
+                .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image))
                 .ToList();
             return cheeps;
         }
@@ -57,7 +57,7 @@ namespace Chirp.Infrastructure
             var cheep = context.Cheeps.Find(cheepId);
             if (cheep != null)
             {
-                return new CheepDTO(cheep.CheepId, cheep.Text, cheep.TimeStamp, cheep.Author.Name, cheep.AuthorId);
+                return new CheepDTO(cheep.CheepId, cheep.Text, cheep.TimeStamp, cheep.Author.Name, cheep.AuthorId, cheep.Author.Image);
             }
             else
             {
@@ -118,7 +118,7 @@ namespace Chirp.Infrastructure
                 .OrderByDescending(c => c.TimeStamp)
                 .Skip(page * 32)
                 .Take(32)
-                .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId))
+                .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image))
                 .ToList();
             return cheeps;
         }
@@ -131,7 +131,7 @@ namespace Chirp.Infrastructure
             .Contains(c.Author.Name))
             .OrderByDescending(c => c.TimeStamp)
             .Skip(page * 32).Take(32)
-            .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId))
+            .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image))
             .ToList();
             return cheeps;
         }
