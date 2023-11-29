@@ -17,7 +17,7 @@ public static class DbInitializer
             var a8 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Octavio Wagganer", Email = "Octavio.Wagganer@dtu.dk", Status = "OFFLINE", Cheeps = new List<Cheep>() };
             var a9 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Johnnie Calixto", Email = "Johnnie+Calixto@itu.dk", Status = "OFFLINE", Cheeps = new List<Cheep>() };
             var a10 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Jacqualine Gilcoine", Email = "Jacqualine.Gilcoine@gmail.com", Status = "OFFLINE", Cheeps = new List<Cheep>() };
-            var a11 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Helge", Email = "ropf@itu.dk", Status = "OFFLINE", Cheeps = new List<Cheep>() };
+            var a11 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Helge", Email = "ropf@itu.dk", Status = "ONLINE", Cheeps = new List<Cheep>() };
             var a12 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Rasmus", Email = "rnie@itu.dk", Status = "OFFLINE", Cheeps = new List<Cheep>() };
 
             var authors = new List<Author>() { a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12 };
