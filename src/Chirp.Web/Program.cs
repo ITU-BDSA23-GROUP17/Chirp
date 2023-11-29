@@ -37,12 +37,11 @@ builder.Services.AddScoped<IFollowRepository, FollowRepository>();
 if (builder.Environment.IsDevelopment())
 {
     KeyVaultSecret secret = client.GetSecret("prod-connectionstring");
-    connectionString = secret.Value;
+    connectionString = "Server=tcp:chirp17pro.database.windows.net,1433;Initial Catalog=Hanan-chirp;Persist Security Info=False;User ID=chirpadmin;Password=Nasd!234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 }
 else
 {
-    KeyVaultSecret secret = client.GetSecret("connectionstring");
-    connectionString = secret.Value;
+    connectionString = "Server=tcp:chirp17pro.database.windows.net,1433;Initial Catalog=Hanan-chirp;Persist Security Info=False;User ID=chirpadmin;Password=Nasd!234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 }
 
 
@@ -59,10 +58,11 @@ using (var scope = app.Services.CreateScope())
 
     // context.Database.Migrate();
     // context.Database.EnsureCreated(); //Ensures all tables are created!
+
+
     context.initializeDB();
 
 
-    //context.Database.ExecuteSqlRaw("DROP TABLE [dbo].[__EFMigrationsHistory]"); // If a new table is added or column is added, uncomment this
 }
 
 // Configure the HTTP request pipeline.
