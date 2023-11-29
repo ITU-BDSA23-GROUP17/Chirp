@@ -7,18 +7,18 @@ public static class DbInitializer
         if (!(chirpContext.Authors.Any()) && !(chirpContext.Cheeps.Any()) && !(chirpContext.Reactions.Any()) && !(chirpContext.ReactionTypes.Any()))
         {
             #region Authors added
-            var a1 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Roger Histand", Email = "Roger+Histand@hotmail.com", Cheeps = new List<Cheep>() };
-            var a2 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Luanna Muro", Email = "Luanna-Muro@ku.dk", Cheeps = new List<Cheep>() };
-            var a3 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Wendell Ballan", Email = "Wendell-Ballan@gmail.com", Cheeps = new List<Cheep>() };
-            var a4 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Nathan Sirmon", Email = "Nathan+Sirmon@dtu.dk", Cheeps = new List<Cheep>() };
-            var a5 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Quintin Sitts", Email = "Quintin+Sitts@itu.dk", Cheeps = new List<Cheep>() };
-            var a6 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Mellie Yost", Email = "Mellie+Yost@ku.dk", Cheeps = new List<Cheep>() };
-            var a7 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Malcolm Janski", Email = "Malcolm-Janski@gmail.com", Cheeps = new List<Cheep>() };
-            var a8 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Octavio Wagganer", Email = "Octavio.Wagganer@dtu.dk", Cheeps = new List<Cheep>() };
-            var a9 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Johnnie Calixto", Email = "Johnnie+Calixto@itu.dk", Cheeps = new List<Cheep>() };
-            var a10 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Jacqualine Gilcoine", Email = "Jacqualine.Gilcoine@gmail.com", Cheeps = new List<Cheep>() };
-            var a11 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Helge", Email = "ropf@itu.dk", Cheeps = new List<Cheep>() };
-            var a12 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Rasmus", Email = "rnie@itu.dk", Cheeps = new List<Cheep>() };
+            var a1 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Roger Histand", Email = "Roger+Histand@hotmail.com", Status = "OFFLINE", Cheeps = new List<Cheep>() };
+            var a2 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Luanna Muro", Email = "Luanna-Muro@ku.dk", Status = "OFFLINE", Cheeps = new List<Cheep>() };
+            var a3 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Wendell Ballan", Email = "Wendell-Ballan@gmail.com", Status = "OFFLINE", Cheeps = new List<Cheep>() };
+            var a4 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Nathan Sirmon", Email = "Nathan+Sirmon@dtu.dk", Status = "OFFLINE", Cheeps = new List<Cheep>() };
+            var a5 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Quintin Sitts", Email = "Quintin+Sitts@itu.dk", Status = "OFFLINE", Cheeps = new List<Cheep>() };
+            var a6 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Mellie Yost", Email = "Mellie+Yost@ku.dk", Status = "OFFLINE", Cheeps = new List<Cheep>() };
+            var a7 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Malcolm Janski", Email = "Malcolm-Janski@gmail.com", Status = "OFFLINE", Cheeps = new List<Cheep>() };
+            var a8 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Octavio Wagganer", Email = "Octavio.Wagganer@dtu.dk", Status = "OFFLINE", Cheeps = new List<Cheep>() };
+            var a9 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Johnnie Calixto", Email = "Johnnie+Calixto@itu.dk", Status = "OFFLINE", Cheeps = new List<Cheep>() };
+            var a10 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Jacqualine Gilcoine", Email = "Jacqualine.Gilcoine@gmail.com", Status = "OFFLINE", Cheeps = new List<Cheep>() };
+            var a11 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Helge", Email = "ropf@itu.dk", Status = "OFFLINE", Cheeps = new List<Cheep>() };
+            var a12 = new Author() { AuthorId = Guid.NewGuid().ToString(), Name = "Rasmus", Email = "rnie@itu.dk", Status = "OFFLINE", Cheeps = new List<Cheep>() };
 
             var authors = new List<Author>() { a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12 };
             #endregion
