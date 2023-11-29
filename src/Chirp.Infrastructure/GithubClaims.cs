@@ -23,18 +23,23 @@ public class GithubClaims
 
     public async Task<string> GetGitHubClaimsUserImageAsync(string username)
     {
-        string ImageUrl = null;
-        JObject claims = await GetGitHubClaimsAsync(username);
+        string ImageUrl = "https://assets.phillips.com/image/upload/t_Website_LotDetailMainImage/v1/auctions/NY000208/52_001.png";
 
-
-        if (claims.Value<string>("message") != "not found")
+        try
         {
+
+            JObject claims = await GetGitHubClaimsAsync(username);
+
             ImageUrl = claims.Value<string>("avatar_url");
+
         }
-        else
+        catch (System.Exception)
         {
-            ImageUrl = "https://assets.phillips.com/image/upload/t_Website_LotDetailMainImage/v1/auctions/NY000208/52_001.png";
+            Console.WriteLine("user does not have a git profile");
         }
+
         return ImageUrl;
+
+
     }
 }
