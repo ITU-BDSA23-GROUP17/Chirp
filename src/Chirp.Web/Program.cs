@@ -36,7 +36,7 @@ builder.Services.AddScoped<IFollowRepository, FollowRepository>();
 
 if (builder.Environment.IsDevelopment())
 {
-    KeyVaultSecret secret = client.GetSecret("connectionstring");
+    KeyVaultSecret secret = client.GetSecret("burak-connectionstring");
     connectionString = secret.Value;
 }
 else
