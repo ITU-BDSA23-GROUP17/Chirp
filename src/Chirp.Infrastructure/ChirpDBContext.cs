@@ -10,8 +10,6 @@ public class ChirpDBContext : DbContext
 
     // source https://learn.microsoft.com/en-us/ef/core/get-started/overview/first-app?tabs=netcore-cli
 
-    public ChirpDBContext() { }
-
     public ChirpDBContext(DbContextOptions<ChirpDBContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

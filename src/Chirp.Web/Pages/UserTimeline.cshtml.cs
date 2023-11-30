@@ -127,7 +127,8 @@ public class UserTimelineModel : PageModel
         string viewedUser = HttpContext.GetRouteValue("author").ToString();
         var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(viewedUser);
         var Status = StatusAuthorDTO.Status;
-
+        Console.WriteLine(viewedUser);
+        Console.WriteLine(Status);
         return Status;
     }
 
