@@ -37,4 +37,5 @@ public class ChirpDBContext : DbContext
         Database.EnsureCreated(); //Ensures all tables are created!
         DbInitializer.SeedDatabase(this);
     }
+
 }

@@ -77,7 +77,8 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
             Message: "test message cheep",
             TimeStamp: DateTime.Now,
             AuthorName: "Helge",
-            AuthorId: authorId
+            AuthorId: authorId,
+            AuthorImage: ""
             );
 
         // Act
