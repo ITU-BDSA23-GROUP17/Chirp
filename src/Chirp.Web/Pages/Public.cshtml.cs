@@ -55,7 +55,7 @@ public class PublicModel : PageModel
             {
                 Console.WriteLine("author insert failed");
             }
-        } else {
+        } else if (User.Identity?.IsAuthenticated == true){
             await _authorRepository.UpdateAuthorStatusAsync(email);
         }
 
