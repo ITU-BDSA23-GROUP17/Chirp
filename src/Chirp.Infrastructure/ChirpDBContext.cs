@@ -7,6 +7,7 @@ public class ChirpDBContext : DbContext
     public DbSet<Reaction> Reactions { get; set; }
     public DbSet<ReactionType> ReactionTypes { get; set; }
     public DbSet<Follow> Followings { get; set; }
+    public DbSet<Hashtag> Hashtags { get; set; }
 
     // source https://learn.microsoft.com/en-us/ef/core/get-started/overview/first-app?tabs=netcore-cli
     public ChirpDBContext(DbContextOptions<ChirpDBContext> options) : base(options) { }
