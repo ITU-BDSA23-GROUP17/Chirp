@@ -131,5 +131,18 @@ namespace Chirp.Infrastructure
             }
         }
 
+        public async Task UpdateAuthorStatusAsync(string Email)
+        {
+            var authorToUpdate = await context.Authors.Where(a => a.Email == Email).FirstOrDefaultAsync();
+            if (authorToUpdate.Status.Equals("OFFLINE"))
+            {
+                authorToUpdate.Status = "ONLINE";
+                context.Authors.Update(authorToUpdate);
+            } else {
+                authorToUpdate.Status = "OFFLINE";
+                context.Authors.Update(authorToUpdate);
+            }
+        }
+
     }
 }
