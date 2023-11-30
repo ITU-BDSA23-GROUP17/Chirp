@@ -116,18 +116,6 @@ IReactionRepository reactionRepository)
                     UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
                     UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds)
                 };
-                if (reactionCheepIds == null)
-                {
-                    Console.WriteLine("reactionCheepIds is null");
-                }
-                else
-                {
-                    foreach (var reactionCheepId in reactionCheepIds)
-                    {
-                        Console.WriteLine("reactionCheepId: " + reactionCheepId);
-                    }
-                    Console.WriteLine(reactionCheepIds.Count);
-                }
                 CheepInfoList.Add(cheepInfoDTO);
             }
 
