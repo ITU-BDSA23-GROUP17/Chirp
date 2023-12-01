@@ -151,10 +151,20 @@ public class UserTimelineModel : PageModel
             await _followRepository.RemoveFollowAsync(currentlyLoggedInUser.AuthorId, authorName);
         }
 
-         await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
+        await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
 
         return Redirect("/");
     }
 
+    public async Task<IActionResult> OnPostStatusAsync()
+    {
+        var Claims = User.Claims;
+        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+        await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
+
+        return Redirect("/");
+    }
 
 }
