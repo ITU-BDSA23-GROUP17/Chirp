@@ -8,8 +8,6 @@
         @{
             string status = await Model.getStatus();
 
-
-
             if (status.Equals("ONLINE"))
             {
                 <svg xmlns="http://www.w3.org/2000/svg" fill="green" viewBox="0 0 24 24" stroke-width="1.5"
@@ -21,18 +19,17 @@
 
                 @if (User?.Identity.IsAuthenticated == true && User.Identity.Name.Equals(Model.getPageName()))
                 {
-                    <a>
-                        <button class="bg-orange-a hover:bg-red-200 text-white font-bold py-2 px-4 rounded"
-                            onclick=@Model.setStatus("UNAVAILABLE")>
+                    <form method="post" asp-page-handler="setStatusUnavailable">
+                        <button type="submit" class="bg-orange-a hover:bg-red-200 text-white font-bold py-2 px-4 rounded">
                             Set to UNAVAILABLE
                         </button>
-                    </a>
+                    </form>
 
-                    <a asp-page-handler="SetStatusOffline" class="text-red-500 hover:text-red-700">
-                        <button class="bg-red-500 hover:bg-red-200 text-white font-bold py-2 px-4 rounded">
+                    <form method="post" asp-page-handler="setStatusOffline">
+                        <button type="submit" class="bg-red-500 hover:bg-red-200 text-white font-bold py-2 px-4 rounded">
                             Set to OFFLINE
                         </button>
-                    </a>
+                    </form>
                 }
 
             }

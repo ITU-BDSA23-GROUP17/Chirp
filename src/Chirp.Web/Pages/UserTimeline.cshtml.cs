@@ -123,7 +123,8 @@ public class UserTimelineModel : PageModel
         return HttpContext.GetRouteValue("author").ToString();
     }
 
-    public async Task<string> getStatus(){
+    public async Task<string> getStatus()
+    {
         string? viewedUser = HttpContext?.GetRouteValue("author")?.ToString();
         var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(viewedUser);
         var Status = StatusAuthorDTO?.Status;
@@ -132,7 +133,8 @@ public class UserTimelineModel : PageModel
         return Status;
     }
 
-    public async Task setStatus(string status){
+    public async Task setStatus(string status)
+    {
         string? viewedUser = HttpContext.GetRouteValue("author")?.ToString();
         var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(viewedUser);
         var Email = StatusAuthorDTO?.Email;
@@ -140,14 +142,32 @@ public class UserTimelineModel : PageModel
         Console.WriteLine("User status set to: " + status);
     }
 
-    public async Task setStatusOffline(){
+    public async Task OnPostSetStatusOffline()
+    {
         Console.WriteLine("User status set to: OFFLINE");
         string? viewedUser = HttpContext.GetRouteValue("author")?.ToString();
-        var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(viewedUser);
-        var Email = StatusAuthorDTO?.Email;
-        await _authorRepository.UpdateAuthorStatusAsync(Email, "OFFLINE");
+        var statusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(viewedUser);
+        var email = statusAuthorDTO?.Email;
+        await _authorRepository.UpdateAuthorStatusAsync(email, "OFFLINE");
     }
 
+    public async Task OnPostSetStatusUnavailable()
+    {
+        Console.WriteLine("User status set to: UNAVAILABLE");
+        string? viewedUser = HttpContext.GetRouteValue("author")?.ToString();
+        var statusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(viewedUser);
+        var email = statusAuthorDTO?.Email;
+        await _authorRepository.UpdateAuthorStatusAsync(email, "UNAVAILABLE");
+    }
+
+    public async Task OnPostSetStatusOnline()
+    {
+        Console.WriteLine("User status set to: ONLINE");
+        string? viewedUser = HttpContext.GetRouteValue("author")?.ToString();
+        var statusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(viewedUser);
+        var email = statusAuthorDTO?.Email;
+        await _authorRepository.UpdateAuthorStatusAsync(email, "ONLINE");
+    }
     public async Task<IActionResult> OnPost(string authorName, string follow, string? unfollow)
     {
         var Claims = User.Claims;
