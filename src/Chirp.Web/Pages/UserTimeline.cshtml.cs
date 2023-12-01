@@ -133,41 +133,6 @@ public class UserTimelineModel : PageModel
         return Status;
     }
 
-    public async Task setStatus(string status)
-    {
-        string? viewedUser = HttpContext.GetRouteValue("author")?.ToString();
-        var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(viewedUser);
-        var Email = StatusAuthorDTO?.Email;
-        _authorRepository.UpdateAuthorStatusAsync(Email, status);
-        Console.WriteLine("User status set to: " + status);
-    }
-
-    public async Task OnPostSetStatusOffline()
-    {
-        Console.WriteLine("User status set to: OFFLINE");
-        string? viewedUser = HttpContext.GetRouteValue("author")?.ToString();
-        var statusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(viewedUser);
-        var email = statusAuthorDTO?.Email;
-        await _authorRepository.UpdateAuthorStatusAsync(email, "OFFLINE");
-    }
-
-    public async Task OnPostSetStatusUnavailable()
-    {
-        Console.WriteLine("User status set to: UNAVAILABLE");
-        string? viewedUser = HttpContext.GetRouteValue("author")?.ToString();
-        var statusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(viewedUser);
-        var email = statusAuthorDTO?.Email;
-        await _authorRepository.UpdateAuthorStatusAsync(email, "UNAVAILABLE");
-    }
-
-    public async Task OnPostSetStatusOnline()
-    {
-        Console.WriteLine("User status set to: ONLINE");
-        string? viewedUser = HttpContext.GetRouteValue("author")?.ToString();
-        var statusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(viewedUser);
-        var email = statusAuthorDTO?.Email;
-        await _authorRepository.UpdateAuthorStatusAsync(email, "ONLINE");
-    }
     public async Task<IActionResult> OnPost(string authorName, string follow, string? unfollow)
     {
         var Claims = User.Claims;
@@ -186,8 +151,9 @@ public class UserTimelineModel : PageModel
             await _followRepository.RemoveFollowAsync(currentlyLoggedInUser.AuthorId, authorName);
         }
 
+         await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
 
-        return Redirect("/" + isUserFollowingAuthor.Name.Replace(" ", "%20"));
+        return Redirect("/");
     }
 
 

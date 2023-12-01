@@ -141,11 +141,15 @@ namespace Chirp.Infrastructure
             {
                 authorToUpdate.Status = "ONLINE";
                 context.Authors.Update(authorToUpdate);
+                Console.WriteLine("NEW STATUS:" + authorToUpdate.Status);
+                await context.SaveChangesAsync();
             }
             else
             {
                 authorToUpdate.Status = "OFFLINE";
                 context.Authors.Update(authorToUpdate);
+                Console.WriteLine("NEW STATUS:" + authorToUpdate.Status);
+                await context.SaveChangesAsync();
             }
         }
 
