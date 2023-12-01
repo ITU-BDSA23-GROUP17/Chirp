@@ -77,9 +77,12 @@ namespace Chirp.Infrastructure
         public async Task<string> GetStatusOfAuthorByID(int authorId)
         {
             var author = await context.Authors.FindAsync(authorId);
-            if (author != null){
+            if (author != null)
+            {
                 return author.Status;
-            } else {
+            }
+            else
+            {
                 return null;
             }
         }
@@ -138,10 +141,19 @@ namespace Chirp.Infrastructure
             {
                 authorToUpdate.Status = "ONLINE";
                 context.Authors.Update(authorToUpdate);
-            } else {
+            }
+            else
+            {
                 authorToUpdate.Status = "OFFLINE";
                 context.Authors.Update(authorToUpdate);
             }
+        }
+
+        public async Task UpdateAuthorStatusAsync(string Email, string newStatus)
+        {
+            var authorToUpdate = await context.Authors.Where(a => a.Email == Email).FirstOrDefaultAsync();
+            authorToUpdate.Status = newStatus;
+            context.Authors.Update(authorToUpdate);
         }
 
     }

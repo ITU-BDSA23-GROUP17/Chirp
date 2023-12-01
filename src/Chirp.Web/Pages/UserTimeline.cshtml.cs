@@ -124,12 +124,28 @@ public class UserTimelineModel : PageModel
     }
 
     public async Task<string> getStatus(){
-        string viewedUser = HttpContext.GetRouteValue("author").ToString();
+        string? viewedUser = HttpContext?.GetRouteValue("author")?.ToString();
         var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(viewedUser);
-        var Status = StatusAuthorDTO.Status;
+        var Status = StatusAuthorDTO?.Status;
         Console.WriteLine(viewedUser);
         Console.WriteLine(Status);
         return Status;
+    }
+
+    public async Task setStatus(string status){
+        string? viewedUser = HttpContext.GetRouteValue("author")?.ToString();
+        var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(viewedUser);
+        var Email = StatusAuthorDTO?.Email;
+        _authorRepository.UpdateAuthorStatusAsync(Email, status);
+        Console.WriteLine("User status set to: " + status);
+    }
+
+    public async Task setStatusOffline(){
+        Console.WriteLine("User status set to: OFFLINE");
+        string? viewedUser = HttpContext.GetRouteValue("author")?.ToString();
+        var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(viewedUser);
+        var Email = StatusAuthorDTO?.Email;
+        await _authorRepository.UpdateAuthorStatusAsync(Email, "OFFLINE");
     }
 
     public async Task<IActionResult> OnPost(string authorName, string follow, string? unfollow)
