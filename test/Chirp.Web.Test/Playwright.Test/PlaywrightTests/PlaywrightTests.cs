@@ -13,8 +13,8 @@ public class PlaywrightTests : PageTest
     [Test]
     public async Task CheckElementPresence()
     {
+        // get the website 
         await Page.GotoAsync("https://bdsagroup17chirprazor.azurewebsites.net/");
-
 
         // Expect a title to have title Chirp!.
         await Expect(Page).ToHaveTitleAsync(new Regex("Chirp!"));
@@ -28,12 +28,15 @@ public class PlaywrightTests : PageTest
         Assert.That(cheepText, Is.EqualTo("Hello josh"));
 
         // i want to see if the page has a url is present 
-        var check = await Page.GetByRole(AriaRole.Link, new() { Name = "hananinas" }).IsVisibleAsync();
+        var checkLink = await Page.GetByRole(AriaRole.Link, new() { Name = "hananinas" }).IsVisibleAsync();
 
-        Assert.True(check);
+        Assert.True(checkLink);
 
         // check if the link is clickable
         await Page.GetByRole(AriaRole.Link, new() { Name = "hananinas" }).ClickAsync();
+
+
+
 
     }
 }
