@@ -209,7 +209,18 @@ IReactionRepository reactionRepository)
             await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId, likeID);
         }
 
-        return RedirectToPage();
+        Console.WriteLine(HttpContext.Request.Path);
+
+        //When using RedirectToPage() in / root and in public timline it will redirect to /Public, and /public is not a valid page. 
+        if (HttpContext.Request.Path == "/Public")
+        {
+            return Redirect("/");
+        }
+        else
+        {
+            return RedirectToPage();
+        }
+
     }
 
 }

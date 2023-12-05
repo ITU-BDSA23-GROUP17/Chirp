@@ -147,4 +147,34 @@ IReactionRepository reactionRepository)
 
         return Redirect("/" + isUserFollowingAuthor.Name.Replace(" ", "%20"));
     }
+
+        public async Task<IActionResult> OnPostReactionP(string cheepId, string authorId, string reaction)
+    {
+        var Claims = User.Claims;
+        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+        var likeID = "fbd9ecd2-283b-48d2-b82a-544b232d6244";
+
+        if (currentlyLoggedInUser == null)
+        {
+            Console.WriteLine("Can not react to cheep, user is not logged in");
+        }
+        bool hasReacted = await _reactionRepository.CheckIfAuthorReactedToCheep(cheepId, currentlyLoggedInUser.AuthorId);
+        if (hasReacted)
+        {
+            Console.WriteLine("Removed like on " + cheepId);
+            await _reactionRepository.RemoveReactionAsync(cheepId, currentlyLoggedInUser.AuthorId);
+        }
+        else
+        {
+            Console.WriteLine("Added like on " + cheepId);
+            await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId, likeID);
+        }
+
+        Console.WriteLine("Redirecting to /");
+
+        return Redirect("/");
+    }
 }
