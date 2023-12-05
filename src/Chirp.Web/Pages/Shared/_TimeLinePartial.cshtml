@@ -8,7 +8,7 @@
 {
 
     <ul class="flex flex-col gap-5">
-        @foreach (var cheep in viewModel.Cheeps)
+    @foreach (var cheep in viewModel.Cheeps)
         {
             <div
                 class="border-2 border-black resize-none shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline flex flex-col gap-4">
@@ -38,7 +38,7 @@
 else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
 {
     <ul class="flex flex-col gap-5">
-        @foreach (var cheepInfo in viewModel.CheepInfos)
+    @foreach (var cheepInfo in viewModel.CheepInfos)
         {
             <li
                 class="border-2 border-black resize-none shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline flex flex-col gap-4">
@@ -47,8 +47,7 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                     <!-- container for profile picture, name, date -->
                     <div class="flex items-center">
                         <img style="margin-right: 8px;" class="inline-block h-10 w-10 rounded-full mr-2"
-                            src="@cheepInfo.Cheep.AuthorImage"
-                            alt="" />
+                            src="@cheepInfo.Cheep.AuthorImage" alt="" />
                         <strong style="margin-right: 8px;">
                             <a href="/@cheepInfo.Cheep.AuthorName">@cheepInfo.Cheep.AuthorName</a>
                         </strong>
@@ -85,7 +84,12 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
 
                 <!-- cheep text -->
                 <p class="text-black text-sm font-semibold hover:underline">
-                    <small class="text-blue-400 text-sm font-medium text-clip overflow-hidden">@cheepInfo.Cheep.Message</small>
+
+                    @{
+                        // Use regex to find hashtags and replace them with blue text
+                        string cheepMessageWithLinks = System.Text.RegularExpressions.Regex.Replace(cheepInfo.Cheep.Message,
+                        @"#\w+", match => $"<a href=\"/hashtag/{match.Value}\" class=\"text-blue-400\">{match.Value}</a>");
+                    }
                 </p>
             </li>
         }

@@ -14,6 +14,11 @@ namespace Chirp.Infrastructure
             this.context = context;
         }
 
+        public async Task SaveAsync()
+        {
+            await context.SaveChangesAsync();
+        }
+
         public void Dispose()
         {
             throw new NotImplementedException();
@@ -24,7 +29,7 @@ namespace Chirp.Infrastructure
             throw new NotImplementedException();
         }
 
-        public async Task InsertNewHashtagFromCheep(string HashtagText, string CheepID)
+        public async Task InsertNewHashtagCheepPairingAsync(string HashtagText, string CheepID)
         {
             context.Hashtags.Add(new Hashtag() { HashtagText = HashtagText, CheepID = CheepID });
             await context.SaveChangesAsync();

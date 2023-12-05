@@ -18,6 +18,9 @@ public class ChirpDBContext : DbContext
             .HasKey(r => new { r.CheepId, r.AuthorId }); // Composite primary key
         modelBuilder.Entity<Follow>()
            .HasKey(f => new { f.FollowerId, f.FollowingId }); // Composite primary key
+        modelBuilder.Entity<Hashtag>()
+           .HasKey(h => new { h.CheepID, h.HashtagText }); // Composite primary key
+
 
 
         // Other configurations if needed
