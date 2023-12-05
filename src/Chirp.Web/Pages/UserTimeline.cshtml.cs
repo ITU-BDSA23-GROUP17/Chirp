@@ -4,10 +4,14 @@ using Chirp.Core;
 using Chirp.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.ViewComponents;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.Identity.Web;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualBasic;
 using static System.Web.HttpUtility;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Chirp.Web.Pages;
 
@@ -189,10 +193,9 @@ IReactionRepository reactionRepository)
 
         var likeID = "fbd9ecd2-283b-48d2-b82a-544b232d6244";
 
-        if(currentlyLoggedInUser == null)
+        if (currentlyLoggedInUser == null)
         {
             Console.WriteLine("Can not react to cheep, user is not logged in");
-            return Redirect("/");
         }
         bool hasReacted = await _reactionRepository.CheckIfAuthorReactedToCheep(cheepId, currentlyLoggedInUser.AuthorId);
         if (hasReacted)
@@ -205,8 +208,8 @@ IReactionRepository reactionRepository)
             Console.WriteLine("Added like on " + cheepId);
             await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId, likeID);
         }
-        return Redirect("/");
 
+        return RedirectToPage();
     }
 
 }

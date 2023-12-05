@@ -63,25 +63,36 @@ IReactionRepository reactionRepository)
 
 
 
-
         // pages = _service.getPagesHome(false, null);
         pages = _cheepRepository.getPages();
         pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
         Cheeps = _cheepRepository.GetCheeps(pageNr);
+
+
+
         if (currentlyLoggedInUser != null)
         {
             currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
             //To get the CheepInfos we need to do some work...
             List<string> followingIDs = await _followRepository.GetFollowingIDsByAuthorIDAsync(currentlyLoggedInUser.AuthorId);
+            List<string> reactionCheepIds = await _reactionRepository.GetCheepIdsByAuthorId(currentlyLoggedInUser.AuthorId);
+
 
             foreach (CheepDTO cheep in Cheeps)
             {
-                CheepInfoDTO cheepInfoDTO = new CheepInfoDTO { Cheep = cheep, UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs) };
+                CheepInfoDTO cheepInfoDTO = new CheepInfoDTO
+                {
+                    Cheep = cheep,
+                    UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
+                    UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds)
+                };
                 CheepInfoList.Add(cheepInfoDTO);
             }
 
         }
+
+
 
         var viewModel = new ViewModel
         {
@@ -105,6 +116,14 @@ IReactionRepository reactionRepository)
             return followingIDs.Contains(authorID);
         }
     }
+
+    public bool IsUserReactionCheep(string cheepId, List<string> reactionAuthorId)
+    {
+        {
+            return reactionAuthorId.Contains(cheepId);
+        }
+    }
+
 
 
     public async Task<IActionResult> OnPostFollow(string authorName, string follow, string? unfollow)
