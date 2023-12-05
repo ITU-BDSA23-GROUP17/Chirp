@@ -43,8 +43,7 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                     <!-- container for profile picture, name, date -->
                     <div class="flex items-center">
                         <img style="margin-right: 8px;" class="inline-block h-10 w-10 rounded-full mr-2"
-                            src="@cheepInfo.Cheep.AuthorImage"
-                            alt="" />
+                            src="@cheepInfo.Cheep.AuthorImage" alt="" />
                         <strong style="margin-right: 8px;">
                             <a href="/@cheepInfo.Cheep.AuthorName">@cheepInfo.Cheep.AuthorName</a>
                         </strong>
@@ -80,21 +79,25 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                 </div>
 
                 <!-- cheep text -->
-                <p class="text-black text-sm font-semibold hover:underline">
+                <p class="text-blue-400 text-sm font-medium text-clip overflow-hidden">
                     <small class="text-blue-400 text-sm font-medium text-clip overflow-hidden">@cheepInfo.Cheep.Message</small>
                 </p>
-                    <!-- Reaction button -->
+                <!-- Reaction button -->
                 @if (User.Identity.IsAuthenticated)
                 {
                     <form method="post" asp-page-handler="Reaction">
-                        <button id="reactionButton" class="border-2 border-black hover:bg-black text-black hover:text-white bg-transparent pl-2 py-1 px-2 hover:border-transparent rounded">
-                        @* <p>@cheepInfo.Cheep.Id</p>
-                        <p>@cheepInfo.UserReactToCheep</p> *@
-                    @if (cheepInfo.UserReactToCheep){
-                            <input type="submit" name="unreaction" value="Unlike" />
-                    } else {
-                            <input type="submit" name="Like" value="Like" />
-                    }
+                        <button id="reactionButton"
+                            class="border-2 border-black hover:bg-black text-black hover:text-white bg-transparent pl-2 py-1 px-2 hover:border-transparent rounded">
+                            @* <p>@cheepInfo.Cheep.Id</p>
+                <p>@cheepInfo.UserReactToCheep</p> *@
+                            @if (cheepInfo.UserReactToCheep)
+                            {
+                                <input type="submit" name="unreaction" value="Unlike" />
+                            }
+                            else
+                            {
+                                <input type="submit" name="Like" value="Like" />
+                            }
                         </button>
                         <input type="hidden" name="authorId" value="@cheepInfo.Cheep.AuthorId" />
                         <input type="hidden" name="cheepId" value="@cheepInfo.Cheep.Id" />
@@ -119,4 +122,3 @@ else
     }
     <a href="?page=@(viewModel.pageNr + 1)">&raquo;</a>
 </div>
-
