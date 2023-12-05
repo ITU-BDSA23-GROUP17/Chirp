@@ -4,7 +4,7 @@
 }
 
 
-@if (viewModel.Cheeps != null && viewModel.Cheeps.Any() && viewModel.CheepInfos.Count() == 0)
+@if (viewModel.Cheeps != null && viewModel.Cheeps.Any() && viewModel.CheepInfos?.Count() == 0)
 {
 
     <ul class="flex flex-col gap-5">
@@ -28,10 +28,6 @@
                         <small class="text-blue-400 text-sm font-medium text-clip overflow-hidden">@cheep.Message</small </p>
                 </li>
             </div>
-
-
-
-
         }
     </ul>
 }
@@ -64,7 +60,7 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                         @if (User.Identity.IsAuthenticated && cheepInfo.Cheep.AuthorName != User.Identity.Name)
                         {
 
-                            <form method="post">
+                            <form method="post" asp-page-handler="Follow">
                                 <button id="followUnfollowButton"
                                     class="border-2 border-black hover:bg-black text-black hover:text-white bg-transparent pl-2 py-1 px-2 hover:border-transparent rounded"
                                     disabled="true">
@@ -87,6 +83,23 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                 <p class="text-black text-sm font-semibold hover:underline">
                     <small class="text-blue-400 text-sm font-medium text-clip overflow-hidden">@cheepInfo.Cheep.Message</small>
                 </p>
+                    <!-- Reaction button -->
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <form method="post" asp-page-handler="Reaction">
+                        <button id="reactionButton" class="border-2 border-black hover:bg-black text-black hover:text-white bg-transparent pl-2 py-1 px-2 hover:border-transparent rounded">
+                        @* <p>@cheepInfo.Cheep.Id</p>
+                        <p>@cheepInfo.UserReactToCheep</p> *@
+                    @if (cheepInfo.UserReactToCheep){
+                            <input type="submit" name="unreaction" value="Unlike" />
+                    } else {
+                            <input type="submit" name="Like" value="Like" />
+                    }
+                        </button>
+                        <input type="hidden" name="authorId" value="@cheepInfo.Cheep.AuthorId" />
+                        <input type="hidden" name="cheepId" value="@cheepInfo.Cheep.Id" />
+                    </form>
+                }
             </li>
         }
     </ul>
@@ -106,3 +119,4 @@ else
     }
     <a href="?page=@(viewModel.pageNr + 1)">&raquo;</a>
 </div>
+
