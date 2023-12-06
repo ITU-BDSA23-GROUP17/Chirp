@@ -51,7 +51,7 @@ namespace Chirp.Infrastructure
 
             var hashtags = await GetHashtagsAsync();
             var popularHashtags = hashtags
-                .GroupBy(h => new { h.HashtagText, h.CheepID })
+                .GroupBy(h => new { h.HashtagText })
                 .OrderByDescending(group => group.Count()) // Sort by the number of occurrences (count of hashtags)
                 .Select(group => group.Key.HashtagText) // Select the hashtag text
                 .ToList();
