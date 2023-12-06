@@ -41,8 +41,6 @@ public class HashtagModel : PageModel
     private readonly IReactionRepository _reactionRepository;
     private readonly IHashtagRepository _hashtagRepository;
 
-
-
     public HashtagModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository,
 IReactionRepository reactionRepository, IHashtagRepository hashtagRepository)
     {
@@ -54,6 +52,13 @@ IReactionRepository reactionRepository, IHashtagRepository hashtagRepository)
     }
     public async Task<IActionResult> OnGet(string hashtag)
     {
+
+        // get user 
+
+        var email = User.Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+
         List<CheepInfoDTO> CheepInfoList = new List<CheepInfoDTO>();
 
         currentHashtagText = hashtag;
