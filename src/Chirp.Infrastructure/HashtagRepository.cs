@@ -19,9 +19,14 @@ namespace Chirp.Infrastructure
             await context.SaveChangesAsync();
         }
 
-        public async Task<List<string>> GetCheepIDsByHashtag(string Hashtag)
+        public async Task<List<string>> GetCheepIDsByHashtagTextAsync(string hashtagText)
         {
-            throw new NotImplementedException();
+            var cheepIds = await context.Hashtags
+                .Where(h => h.HashtagText == hashtagText)
+                .Select(h => h.CheepID)
+                .ToListAsync();
+
+            return cheepIds;
         }
 
         public async Task InsertNewHashtagCheepPairingAsync(string HashtagText, string CheepID)
@@ -51,9 +56,9 @@ namespace Chirp.Infrastructure
 
             var hashtags = await GetHashtagsAsync();
             var popularHashtags = hashtags
-                .GroupBy(h => new { h.HashtagText })
-                .OrderByDescending(group => group.Count()) // Sort by the number of occurrences (count of hashtags)
-                .Select(group => group.Key.HashtagText) // Select the hashtag text
+                .GroupBy(h => new { h.HashtagText }) // Sort by hashtag text (by creating new anonymous type to sort by)
+                .OrderByDescending(group => group.Count())
+                .Select(group => group.Key.HashtagText) // Select hashtag text from the actual hashtag.
                 .ToList();
 
             return popularHashtags;

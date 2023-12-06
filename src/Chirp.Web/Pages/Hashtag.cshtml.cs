@@ -1,22 +1,44 @@
-﻿using System.Diagnostics;
+﻿
 using System.Drawing;
-using System.Security.Claims;
 using Chirp.Core;
 using Chirp.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.ViewComponents;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.Identity.Web;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.VisualBasic;
 using static System.Web.HttpUtility;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Chirp.Web.Pages;
 
 public class HashtagModel : PageModel
 {
+    //(We initialize with standard placeholder values to be overwritten later, to avoid
+    //'Non-nullable property must contain a non-null value when exiting constructor.' warning'))
+    public IEnumerable<CheepDTO> Cheeps { get; set; } = new List<CheepDTO>();
+    public IEnumerable<CheepInfoDTO> CheepInfos { get; set; } = new List<CheepInfoDTO>();
+    public int pageNr { get; set; } = 0;
+    public int pages { get; set; } = 0;
+
+    public AuthorDTO authorDTO { get; set; } = null;
+    private string currentHashtagText;
+    private AuthorDTO currentlyLoggedInUser;
+
+
+    [BindProperty]
+    public IFormFile Upload { get; set; }
+
+
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authorRepository;
     private readonly IFollowRepository _followRepository;
     private readonly IReactionRepository _reactionRepository;
     private readonly IHashtagRepository _hashtagRepository;
-    private AuthorDTO currentlyLoggedInUser;
+
 
 
     public HashtagModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository,
@@ -28,90 +50,58 @@ IReactionRepository reactionRepository, IHashtagRepository hashtagRepository)
         _reactionRepository = reactionRepository;
         _hashtagRepository = hashtagRepository;
     }
-
-    public IEnumerable<CheepDTO> Cheeps { get; set; }
-    public IEnumerable<CheepInfoDTO> CheepInfos { get; set; }
-    public int pageNr { get; set; }
-    public int pages { get; set; }
-
-    public async Task<ActionResult> OnGetAsync()
+    public async Task<IActionResult> OnGet(string hashtag)
     {
         List<CheepInfoDTO> CheepInfoList = new List<CheepInfoDTO>();
 
-        // get user
 
-        var Claims = User.Claims;
+        currentHashtagText = hashtag;
 
-        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        var username = Claims.FirstOrDefault(c => c.Type == "name")?.Value;
+        // Initialize your models here...
 
-        if (User.Identity?.IsAuthenticated == true && (currentlyLoggedInUser == null || currentlyLoggedInUser.Name == null))
-        {
-            try
-            {
-                if (email != null)
-                {
-                    await _authorRepository.InsertAuthorAsync(username, email);
-                    await _authorRepository.SaveAsync();
-                    currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
-
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("author insert failed");
-            }
-        }
-
-
-
-        // pages = _service.getPagesHome(false, null);
-        pages = _cheepRepository.getPages();
+        pages = _cheepRepository.getPagesUser(authorDTO.Name);
         pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
-        Cheeps = _cheepRepository.GetCheeps(pageNr);
+        Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
+
+        //OBS ^ change logic to handle getting cheeps by hashtag ... how?
 
 
+        //source https://stackoverflow.com/questions/6514292/c-sharp-razor-url-parameter-from-view 
+        // pages = _service.getPagesHome(true, author);
+        pages = _cheepRepository.getPagesUser(authorDTO.Name);
+        pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
 
-        if (currentlyLoggedInUser != null)
+        //We need to do some work to get the CheepInfo. First find Cheeps, then make CheepInfoDTOs.
+        //We need the following ids in the else statement and below therefore it's here....
+        List<string> followingIDs = await _followRepository.GetFollowingIDsByAuthorIDAsync(currentlyLoggedInUser.AuthorId);
+        List<string> reactionCheepIds = await _reactionRepository.GetCheepIdsByAuthorId(currentlyLoggedInUser.AuthorId);
+
+
+        //To get the CheepInfos we need to do some work...
+        foreach (CheepDTO cheep in Cheeps)
         {
-            currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
-
-            //To get the CheepInfos we need to do some work...
-            List<string> followingIDs = await _followRepository.GetFollowingIDsByAuthorIDAsync(currentlyLoggedInUser.AuthorId);
-            List<string> reactionCheepIds = await _reactionRepository.GetCheepIdsByAuthorId(currentlyLoggedInUser.AuthorId);
-
-
-            foreach (CheepDTO cheep in Cheeps)
+            CheepInfoDTO cheepInfoDTO = new CheepInfoDTO
             {
-                CheepInfoDTO cheepInfoDTO = new CheepInfoDTO
-                {
-                    Cheep = cheep,
-                    UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
-                    UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds)
-                };
-                CheepInfoList.Add(cheepInfoDTO);
-            }
-
+                Cheep = cheep,
+                UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
+                UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds)
+            };
+            CheepInfoList.Add(cheepInfoDTO);
         }
-
-
 
         var viewModel = new ViewModel
         {
             pageNr = pageNr,
             pages = pages,
             CheepInfos = CheepInfoList,
-            Cheeps = Cheeps,
-            User = currentlyLoggedInUser,
+            Cheeps = Cheeps
         };
 
         ViewData["ViewModel"] = viewModel;
 
-
         return Page();
     }
 
-    //Right now this method is on both public and user timeline. In general there is a lot of repeated code between the two. Seems silly...?
     public bool IsUserFollowingAuthor(string authorID, List<string> followingIDs)
     {
         {
@@ -125,7 +115,6 @@ IReactionRepository reactionRepository, IHashtagRepository hashtagRepository)
             return reactionAuthorId.Contains(cheepId);
         }
     }
-
 
 
     public async Task<IActionResult> OnPostFollow(string authorName, string follow, string? unfollow)
@@ -150,7 +139,7 @@ IReactionRepository reactionRepository, IHashtagRepository hashtagRepository)
         return Redirect("/" + isUserFollowingAuthor.Name.Replace(" ", "%20"));
     }
 
-    public async Task<IActionResult> OnPostReactionP(string cheepId, string authorId, string reaction)
+    public async Task<IActionResult> OnPostReaction(string cheepId, string authorId, string reaction)
     {
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
@@ -175,8 +164,18 @@ IReactionRepository reactionRepository, IHashtagRepository hashtagRepository)
             await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId, likeID);
         }
 
-        Console.WriteLine("Redirecting to /");
+        Console.WriteLine(HttpContext.Request.Path);
 
-        return Redirect("/");
+        //When using RedirectToPage() in / root and in public timline it will redirect to /Public, and /public is not a valid page. 
+        if (HttpContext.Request.Path == "/Public")
+        {
+            return Redirect("/");
+        }
+        else
+        {
+            return RedirectToPage();
+        }
+
     }
+
 }
