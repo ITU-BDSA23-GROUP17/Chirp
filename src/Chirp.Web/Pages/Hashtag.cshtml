@@ -1,0 +1,11 @@
+﻿@page "/hashtag/{tag?}/{page?}"
+@model Chirp.Web.Pages.PublicModel
+@{
+    ViewData["Title"] = "Chirp!";
+    Layout = "Shared/_Layout";
+
+}
+
+<h2 class="text-3xl font-semibold"> Hashtag test </h2>
+
+<partial name="_TimeLinePartial" />
