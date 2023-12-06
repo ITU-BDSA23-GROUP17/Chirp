@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualBasic;
 using static System.Web.HttpUtility;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Drawing.Printing;
 
 namespace Chirp.Web.Pages;
 
@@ -61,10 +62,15 @@ IReactionRepository reactionRepository, IHashtagRepository hashtagRepository)
 
         pages = _cheepRepository.getPagesUser(authorDTO.Name);
         pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
-        Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
 
-        //OBS ^ change logic to handle getting cheeps by hashtag ... how?
+        //To get cheeps we first get cheep ids from Hashtag repository, 
+        //then the cheeps from the cheep repisotiry based on those ids
+        //This all seems terribly inefficent and should probably be changed around
+        //We need a many to many relationship between hashtags and cheeps, probably.
 
+        var cheepIds = await _hashtagRepository.GetCheepIDsByHashtagTextAsync(currentHashtagText);
+        Console.WriteLine("THE SIZE OF CHEEP IDS: ", cheepIds.Count);
+        Cheeps = _cheepRepository.GetCheepsByCheepIds(cheepIds, pageNr);
 
         //source https://stackoverflow.com/questions/6514292/c-sharp-razor-url-parameter-from-view 
         // pages = _service.getPagesHome(true, author);
