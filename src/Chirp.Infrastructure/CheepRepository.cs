@@ -136,6 +136,19 @@ namespace Chirp.Infrastructure
             return cheeps;
         }
 
+        public IEnumerable<CheepDTO> GetCheepsByCheepIds(List<string> cheepIds)
+        {
+            {
+                var cheeps = context.Cheeps
+                    .Where(c => cheepIds.Contains(c.CheepId))
+                    .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image))
+                    .ToList();
+
+                return cheeps;
+            }
+        }
+
+
         // for home page
         int ICheepRepository.getPages()
         {
