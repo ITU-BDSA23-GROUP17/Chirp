@@ -8,7 +8,6 @@
     var objectIdentifier = "";
     var emails = "";
     var tfp = "";
-    var image = await githubclaims.GetGitHubClaimsUserImageAsync(@Model.getPageName());
 
     var identityProvider = User.Claims?.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/identity/claims/identityprovider")?.Value;
 
@@ -29,7 +28,7 @@
 
     <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col md:flex-row">
         <div class="w-full md:w-1/2">
-            <img src="@image" alt="" class="rounded-full h-32 w-32 object-cover mx-auto">
+            <img src="@Model.authorImage" alt="" class="rounded-full h-32 w-32 object-cover mx-auto">
         </div>
         <div class="w-full md:w-1/2 overflow-auto hide-scrollbar mt-4 md:mt-0">
 

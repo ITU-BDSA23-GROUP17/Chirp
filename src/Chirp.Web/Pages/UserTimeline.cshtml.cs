@@ -27,6 +27,7 @@ public class UserTimelineModel : PageModel
     
     public int followers;
     public int following;
+    public string? authorImage;
     public AuthorDTO authorDTO { get; set; } = null;
     private AuthorDTO currentlyLoggedInUser;
 
@@ -66,6 +67,7 @@ IReactionRepository reactionRepository)
             Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
             followers = await _followRepository.GetFollowerCountByAuthorIDAsync(authorDTO.AuthorId);
             following = await _followRepository.GetFollowingCountByAuthorIDAsync(authorDTO.AuthorId);
+            authorImage = authorDTO.Image;
         }
         else
         {
