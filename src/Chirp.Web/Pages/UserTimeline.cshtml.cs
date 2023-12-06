@@ -236,7 +236,9 @@ public class UserTimelineModel : PageModel
         var objectID = User.Claims.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier")?.Value;
         await _userService.DeleteUserById(objectID);
 
-        Console.WriteLine("deleting user");
+        Console.WriteLine("user deleted from directory ");
+
+        await _authorRepository.DeleteAuthorAsync(currentlyLoggedInUser.AuthorId);
         return Redirect("/");
     }
 

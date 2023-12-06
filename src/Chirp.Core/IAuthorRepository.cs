@@ -14,7 +14,7 @@ namespace Chirp.Core
         Task SaveAsync();
 
         Task InsertAuthorAsync(string name, string email);
-        Task DeleteAuthorAsync(int authorId);
+        Task DeleteAuthorAsync(string authorId);
         Task UpdateAuthorAsync(AuthorDTO author);
 
         Task SendCheepAsync(string message, AuthorInfoDTO author);

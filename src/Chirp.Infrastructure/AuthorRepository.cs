@@ -66,7 +66,7 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public async Task DeleteAuthorAsync(int authorId)
+        public async Task DeleteAuthorAsync(string authorId)
         {
             var author = await context.Authors.FindAsync(authorId);
             if (author != null)
