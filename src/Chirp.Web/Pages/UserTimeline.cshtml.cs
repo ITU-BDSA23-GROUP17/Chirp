@@ -24,7 +24,7 @@ public class UserTimelineModel : PageModel
     public int pageNr { get; set; } = 0;
     public int pages { get; set; } = 0;
     private bool isOwnTimeline;
-    
+
     public int followers;
     public int following;
     public string? authorImage;
@@ -41,16 +41,16 @@ public class UserTimelineModel : PageModel
     private readonly IFollowRepository _followRepository;
     private readonly IReactionRepository _reactionRepository;
 
+    private readonly IUserService _userService;
 
 
-    public UserTimelineModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository,
-IReactionRepository reactionRepository)
+    public UserTimelineModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository, IReactionRepository reactionRepository, IUserService userService)
     {
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
         _followRepository = followRepository;
         _reactionRepository = reactionRepository;
-
+        _userService = userService;
 
     }
     public async Task<IActionResult> OnGet(string author)
@@ -59,6 +59,7 @@ IReactionRepository reactionRepository)
 
         // Initialize your models here...
         var authorDTO = await _authorRepository.GetAuthorByNameAsync(author);
+
 
         if (authorDTO != null)
         {
@@ -228,6 +229,15 @@ IReactionRepository reactionRepository)
             return RedirectToPage();
         }
 
+    }
+
+    public async Task<IActionResult> OnPostForgetUser()
+    {
+        var objectID = User.Claims.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier")?.Value;
+        await _userService.DeleteUserById(objectID);
+
+        Console.WriteLine("deleting user");
+        return Redirect("/");
     }
 
 }
