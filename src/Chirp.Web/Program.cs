@@ -36,6 +36,8 @@ builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<IFollowRepository, FollowRepository>();
 builder.Services.AddScoped<IReactionRepository, ReactionRepository>();
 builder.Services.AddScoped<IUserService>(_ => userService);
+builder.Services.AddScoped<IHashtagRepository, HashtagRepository>();
+
 
 
 if (builder.Environment.IsDevelopment())

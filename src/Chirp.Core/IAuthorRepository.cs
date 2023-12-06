@@ -19,6 +19,6 @@ namespace Chirp.Core
 
         Task UpdateAuthorAsync(AuthorDTO author);
 
-        Task SendCheepAsync(string message, AuthorInfoDTO author);
+        Task<CheepDTO> SendCheepAsync(string message, AuthorInfoDTO author);
     }
 }
