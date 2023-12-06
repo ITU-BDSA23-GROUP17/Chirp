@@ -19,12 +19,12 @@ namespace Chirp.Infrastructure
             await context.SaveChangesAsync();
         }
 
-        public async Task<List<string>> GetCheepIDsByHashtagTextAsync(string hashtagText)
+        public List<string> GetCheepIDsByHashtagText(string hashtagText)
         {
-            var cheepIds = await context.Hashtags
+            var cheepIds = context.Hashtags
                 .Where(h => h.HashtagText == hashtagText)
                 .Select(h => h.CheepID)
-                .ToListAsync();
+                .ToList();
 
             return cheepIds;
         }

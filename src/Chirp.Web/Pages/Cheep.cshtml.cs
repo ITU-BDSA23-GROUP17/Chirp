@@ -35,7 +35,8 @@ namespace Chirp.Web.Pages
             //cycle through the matches, and add them to the hashtag repository with the cheep.
             foreach (Match match in matches)
             {
-                await _hashtagRepository.InsertNewHashtagCheepPairingAsync(match.ToString(), cheep.Id);
+                string hashtagText = match.ToString().TrimStart('#');
+                await _hashtagRepository.InsertNewHashtagCheepPairingAsync(hashtagText, cheep.Id);
             }
 
             // Redirect in the end

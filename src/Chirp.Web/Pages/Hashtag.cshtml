@@ -1,8 +1,9 @@
-﻿@page "/hashtag/{tag?}/{page?}"
+﻿@page "/hashtag/{hashtag}/{hashtagtext}"
 @model Chirp.Web.Pages.PublicModel
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
+    var routeName = HttpContext.GetRouteValue("hashtagtext");
 }
 
 <h2 class="text-3xl font-semibold"> Hashtag test </h2>

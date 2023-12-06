@@ -28,6 +28,7 @@ public class HashtagModel : PageModel
     public AuthorDTO authorDTO { get; set; } = null;
     private string currentHashtagText;
     private AuthorDTO currentlyLoggedInUser;
+    private List<String> cheepIds;
 
 
     [BindProperty]
@@ -68,7 +69,7 @@ IReactionRepository reactionRepository, IHashtagRepository hashtagRepository)
         //This all seems terribly inefficent and should probably be changed around
         //We need a many to many relationship between hashtags and cheeps, probably.
 
-        var cheepIds = await _hashtagRepository.GetCheepIDsByHashtagTextAsync(currentHashtagText);
+        cheepIds = _hashtagRepository.GetCheepIDsByHashtagText(currentHashtagText);
         Console.WriteLine("THE SIZE OF CHEEP IDS: ", cheepIds.Count);
         Cheeps = _cheepRepository.GetCheepsByCheepIds(cheepIds, pageNr);
 
