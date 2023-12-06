@@ -79,8 +79,7 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                 </div>
 
                 <!-- cheep text -->
-                <p class="text-black text-sm font-semibold hover:underline">
-
+                <p class="text-gray-400 text-sm font-semibold ">
                     @{
                         // Use regex to find hashtags and replace them with blue text
                         string cheepMessageWithLinks = System.Text.RegularExpressions.Regex.Replace(cheepInfo.Cheep.Message,
