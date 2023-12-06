@@ -83,6 +83,19 @@ namespace Chirp.Infrastructure.Migrations
                     b.ToTable("Followings");
                 });
 
+            modelBuilder.Entity("Chirp.Infrastructure.Hashtag", b =>
+                {
+                    b.Property<string>("CheepID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("HashtagText")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CheepID", "HashtagText");
+
+                    b.ToTable("Hashtags");
+                });
+
             modelBuilder.Entity("Chirp.Infrastructure.Reaction", b =>
                 {
                     b.Property<string>("CheepId")

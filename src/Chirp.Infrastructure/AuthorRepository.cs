@@ -75,7 +75,7 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public async Task SendCheepAsync(string message, AuthorInfoDTO authorInfoDTO)
+        public async Task<CheepDTO> SendCheepAsync(string message, AuthorInfoDTO authorInfoDTO)
         {
             var guid = Guid.NewGuid().ToString();
             var newCheepDTO = new CheepDTO(guid, message, DateTime.Now, authorInfoDTO.Name, authorInfoDTO.AuthorId, "");
@@ -86,18 +86,20 @@ namespace Chirp.Infrastructure
                 // Handle the case when the author is not found
                 throw new Exception($"Author with id {authorInfoDTO.AuthorId} not found");
             }
-
-            author.Cheeps.Add(new Cheep
+            var cheep = new Cheep
             {
                 CheepId = newCheepDTO.Id,
                 Text = newCheepDTO.Message,
                 TimeStamp = newCheepDTO.TimeStamp,
                 Author = author,
                 AuthorId = author.AuthorId
-            });
+            };
+            author.Cheeps.Add(cheep);
 
             context.Authors.Update(author);
             await context.SaveChangesAsync();
+            //we return newCheepDTO in order to use it for adding the cheep to the hashtag repository if there are any hashtags...
+            return newCheepDTO;
         }
 
         public async Task<List<AuthorDTO>> GetAuthorsByIdsAsync(List<string> authorIDs)
