@@ -75,14 +75,13 @@ public class HashtagModel : PageModel
         //We need a many to many relationship between hashtags and cheeps, probably.
 
         cheepIds = _hashtagRepository.GetCheepIDsByHashtagText(currentHashtagText);
-        Console.WriteLine("THE SIZE OF CHEEP IDS: ", cheepIds.Count);
         if (cheepIds != null)
         {
             Cheeps = _cheepRepository.GetCheepsByCheepIds(cheepIds, pageNr);
         }
         else
         {
-            throw new Exception("OH NO TEST?!");
+            throw new Exception("OH NO ?!");
         }
 
         //source https://stackoverflow.com/questions/6514292/c-sharp-razor-url-parameter-from-view 
