@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Drawing;
 using System.Security.Claims;
 using Chirp.Core;
 using Chirp.Infrastructure;
@@ -13,14 +14,17 @@ public class PublicModel : PageModel
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authorRepository;
     private readonly IFollowRepository _followRepository;
+    private readonly IReactionRepository _reactionRepository;
     private AuthorDTO currentlyLoggedInUser;
 
 
-    public PublicModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository)
+    public PublicModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository,
+IReactionRepository reactionRepository)
     {
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
         _followRepository = followRepository;
+        _reactionRepository = reactionRepository;
     }
 
     public IEnumerable<CheepDTO> Cheeps { get; set; }
@@ -59,25 +63,36 @@ public class PublicModel : PageModel
 
 
 
-
         // pages = _service.getPagesHome(false, null);
         pages = _cheepRepository.getPages();
         pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
         Cheeps = _cheepRepository.GetCheeps(pageNr);
+
+
+
         if (currentlyLoggedInUser != null)
         {
             currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
             //To get the CheepInfos we need to do some work...
             List<string> followingIDs = await _followRepository.GetFollowingIDsByAuthorIDAsync(currentlyLoggedInUser.AuthorId);
+            List<string> reactionCheepIds = await _reactionRepository.GetCheepIdsByAuthorId(currentlyLoggedInUser.AuthorId);
+
 
             foreach (CheepDTO cheep in Cheeps)
             {
-                CheepInfoDTO cheepInfoDTO = new CheepInfoDTO { Cheep = cheep, UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs) };
+                CheepInfoDTO cheepInfoDTO = new CheepInfoDTO
+                {
+                    Cheep = cheep,
+                    UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
+                    UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds)
+                };
                 CheepInfoList.Add(cheepInfoDTO);
             }
 
         }
+
+
 
         var viewModel = new ViewModel
         {
@@ -102,8 +117,16 @@ public class PublicModel : PageModel
         }
     }
 
+    public bool IsUserReactionCheep(string cheepId, List<string> reactionAuthorId)
+    {
+        {
+            return reactionAuthorId.Contains(cheepId);
+        }
+    }
 
-    public async Task<IActionResult> OnPost(string authorName, string follow, string? unfollow)
+
+
+    public async Task<IActionResult> OnPostFollow(string authorName, string follow, string? unfollow)
     {
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
@@ -125,6 +148,33 @@ public class PublicModel : PageModel
         return Redirect("/" + isUserFollowingAuthor.Name.Replace(" ", "%20"));
     }
 
+        public async Task<IActionResult> OnPostReactionP(string cheepId, string authorId, string reaction)
+    {
+        var Claims = User.Claims;
+        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
 
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
+        var likeID = "fbd9ecd2-283b-48d2-b82a-544b232d6244";
+
+        if (currentlyLoggedInUser == null)
+        {
+            Console.WriteLine("Can not react to cheep, user is not logged in");
+        }
+        bool hasReacted = await _reactionRepository.CheckIfAuthorReactedToCheep(cheepId, currentlyLoggedInUser.AuthorId);
+        if (hasReacted)
+        {
+            Console.WriteLine("Removed like on " + cheepId);
+            await _reactionRepository.RemoveReactionAsync(cheepId, currentlyLoggedInUser.AuthorId);
+        }
+        else
+        {
+            Console.WriteLine("Added like on " + cheepId);
+            await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId, likeID);
+        }
+
+        Console.WriteLine("Redirecting to /");
+
+        return Redirect("/");
+    }
 }

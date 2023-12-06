@@ -2,52 +2,74 @@
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using Chirp.Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure
 {
-    public class ReactionRepository : IReactionRepository, IDisposable
+    public class ReactionRepository : IReactionRepository
     {
 
         private ChirpDBContext context;
-
-        public ReactionRepository(ChirpDBContext context)
+        public ReactionRepository(ChirpDBContext dbContext)
         {
-            this.context = context;
+            context = dbContext;
         }
 
-        public void DeleteReaction(string cheepId, string authorId)
+        public async Task<List<string>> GetAuthorListReactionByCheepId(string CheepId)
         {
-            throw new NotImplementedException();
+            var getAuthorIdOnCheep = await context.Reactions
+            .Where(r => r.CheepId == CheepId)
+            .Select(r => r.AuthorId)
+            .ToListAsync();
+            return getAuthorIdOnCheep;
         }
 
-        public void Dispose()
+        public async Task<List<string>> GetCheepIdsByAuthorId(string AuthorId)
         {
-            throw new NotImplementedException();
+            var getCheepIdsOnAuthor = await context.Reactions
+            .Where(r => r.AuthorId == AuthorId)
+            .Select(r => r.CheepId)
+            .ToListAsync();
+            return getCheepIdsOnAuthor;
         }
 
-        public IEnumerable<ReactionDTO> GetReactionsFromAuthorId(string authorId)
+        public async Task InsertNewReactionAsync(string CheepId, string AuthorId, string ReactionTypeId)
         {
-            throw new NotImplementedException();
+            context.Reactions.AddAsync(new Reaction() { CheepId = CheepId, AuthorId = AuthorId, ReactionTypeId = ReactionTypeId, TimeStamp = DateTime.Now });
+            await context.SaveChangesAsync();
         }
 
-        public IEnumerable<ReactionDTO> GetReactionsFromCheepId(string cheepId)
+        public async Task RemoveReactionAsync(string CheepId, string AuthorId)
         {
-            throw new NotImplementedException();
+            var reaction = await context.Reactions.FindAsync(CheepId, AuthorId);
+            if (reaction != null)
+            {
+                context.Remove(reaction);
+                await context.SaveChangesAsync();
+            }
         }
 
-        public void InsertReaction(ReactionDTO reaction)
+        public async Task<Boolean> CheckIfAuthorReactedToCheep(string CheepId, string AuthorId)
         {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateReaction(string cheepId, string authorId)
-        {
-            throw new NotImplementedException();
+            var reaction = await context.Reactions.FindAsync(CheepId, AuthorId);
+            if (reaction != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public void Save()
         {
             context.SaveChanges();
+        }
+
+        Task<List<AuthorDTO>> IReactionRepository.GetAuthorListReactionByCheepId(string CheepId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

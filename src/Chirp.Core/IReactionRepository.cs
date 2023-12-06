@@ -1,17 +1,19 @@
 
 namespace Chirp.Core
 {
-    public interface IReactionRepository : IDisposable
+    public interface IReactionRepository
     {
 
-        public IEnumerable<ReactionDTO> GetReactionsFromCheepId(string cheepId);
+        Task InsertNewReactionAsync(string CheepId, string AuthorId, string ReactionTypeId);
 
-        public IEnumerable<ReactionDTO> GetReactionsFromAuthorId(string authorId);
+        Task RemoveReactionAsync(string CheepId, string AuthorId);
 
-        void InsertReaction(ReactionDTO reaction);
-        void DeleteReaction(string cheepId, string authorId);
+        Task<List<AuthorDTO>> GetAuthorListReactionByCheepId(string CheepId);
 
-        void UpdateReaction(string cheepId, string authorId);
+        Task<List<string>> GetCheepIdsByAuthorId(string AuthorId);
+
+        Task<Boolean> CheckIfAuthorReactedToCheep(string CheepId, string AuthorId);
+
 
         void Save();
 

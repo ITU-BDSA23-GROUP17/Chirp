@@ -31,6 +31,7 @@ builder.Services.AddRazorPages()
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<IFollowRepository, FollowRepository>();
+builder.Services.AddScoped<IReactionRepository, ReactionRepository>();
 builder.Services.AddScoped<IHashtagRepository, HashtagRepository>();
 
 
@@ -47,6 +48,7 @@ else
 }
 
 
+
 // Make sure to register your DbContext here
 builder.Services.AddDbContext<ChirpDBContext>(options =>
     options.UseSqlServer(connectionString));
@@ -58,10 +60,7 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<ChirpDBContext>();
 
-    // context.Database.Migrate();
-    // context.Database.EnsureCreated(); //Ensures all tables are created!
     context.initializeDB();
-
 
     //context.Database.ExecuteSqlRaw("DROP TABLE [dbo].[__EFMigrationsHistory]"); // If a new table is added or column is added, uncomment this
 }
