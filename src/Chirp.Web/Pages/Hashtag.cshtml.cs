@@ -56,9 +56,9 @@ IReactionRepository reactionRepository, IHashtagRepository hashtagRepository)
     {
         List<CheepInfoDTO> CheepInfoList = new List<CheepInfoDTO>();
 
-
         currentHashtagText = hashtag;
 
+        pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
 
         //To get cheeps we first get cheep ids from Hashtag repository, 
         //then the cheeps from the cheep repisotiry based on those ids
@@ -67,12 +67,18 @@ IReactionRepository reactionRepository, IHashtagRepository hashtagRepository)
 
         cheepIds = _hashtagRepository.GetCheepIDsByHashtagText(currentHashtagText);
         Console.WriteLine("THE SIZE OF CHEEP IDS: ", cheepIds.Count);
-        Cheeps = _cheepRepository.GetCheepsByCheepIds(cheepIds, pageNr);
+        if (cheepIds != null)
+        {
+            Cheeps = _cheepRepository.GetCheepsByCheepIds(cheepIds, pageNr);
+        }
+        else
+        {
+            throw new Exception("OH NO TEST?!");
+        }
 
         //source https://stackoverflow.com/questions/6514292/c-sharp-razor-url-parameter-from-view 
         // pages = _service.getPagesHome(true, author);
         pages = _cheepRepository.getPagesFromCheepCount(Cheeps.Count());
-        pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
 
         //We need to do some work to get the CheepInfo. First find Cheeps, then make CheepInfoDTOs.
         //We need the following ids in the else statement and below therefore it's here....

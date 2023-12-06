@@ -26,7 +26,8 @@ namespace Chirp.Infrastructure
                 .Select(h => h.CheepID)
                 .ToList();
 
-            return cheepIds;
+            //return cheepIds;
+            return new List<string>();
         }
 
         public async Task InsertNewHashtagCheepPairingAsync(string HashtagText, string CheepID)

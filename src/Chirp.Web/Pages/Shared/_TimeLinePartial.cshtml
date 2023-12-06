@@ -83,7 +83,7 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                     @{
                         // Use regex to find hashtags and replace them with blue text
                         string cheepMessageWithLinks = System.Text.RegularExpressions.Regex.Replace(cheepInfo.Cheep.Message,
-                        @"#\w+", match => $"<a href=\"/hashtag/{match.Value.TrimStart('#')}\" class=\"text-blue-400\">{match.Value}</a>");
+                        @"#\w+", match => $"<a href=\"/tag/{match.Value.TrimStart('#')}\" class=\"text-blue-400\">{match.Value}</a>");
                     }
                     @Html.Raw(cheepMessageWithLinks)
                 </p>
