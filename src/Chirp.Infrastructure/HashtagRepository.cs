@@ -5,7 +5,7 @@ using Chirp.Core;
 
 namespace Chirp.Infrastructure
 {
-    public class HashtagRepository : IHashtagRepository, IDisposable
+    public class HashtagRepository : IHashtagRepository
     {
         private ChirpDBContext context;
 
@@ -17,11 +17,6 @@ namespace Chirp.Infrastructure
         public async Task SaveAsync()
         {
             await context.SaveChangesAsync();
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<List<string>> GetCheepIDsByHashtag(string Hashtag)
