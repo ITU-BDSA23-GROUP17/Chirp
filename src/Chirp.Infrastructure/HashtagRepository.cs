@@ -39,5 +39,20 @@ namespace Chirp.Infrastructure
                 await context.SaveChangesAsync();
             }
         }
+
+
+        public async Task<List<string>> GetSortedPopularHashtagsAsync(int numberOfCheepsThreshold)
+        {
+
+            var hashtags = await GetHashtagsAsync();
+            var popularHashtags = hashtags
+                .GroupBy(h => new { h.HashtagText, h.CheepID })
+                .Where(group => group.Count() >= numberOfCheepsThreshold)
+                .OrderByDescending(group => group.Count()) // Sort by the number of occurrences (count of hashtags)
+                .Select(group => group.Key.HashtagText) // Select the hashtag text
+                .ToList();
+
+            return popularHashtags;
+        }
     }
 }
