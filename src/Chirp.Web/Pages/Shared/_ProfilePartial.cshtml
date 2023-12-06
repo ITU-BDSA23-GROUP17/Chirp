@@ -8,7 +8,7 @@
     var objectIdentifier = "";
     var emails = "";
     var tfp = "";
-    var image = await githubclaims.GetGitHubClaimsUserImageAsync(username);
+    var image = await githubclaims.GetGitHubClaimsUserImageAsync(@Model.getPageName());
 
     var identityProvider = User.Claims?.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/identity/claims/identityprovider")?.Value;
 
@@ -32,12 +32,29 @@
             <img src="@image" alt="" class="rounded-full h-32 w-32 object-cover mx-auto">
         </div>
         <div class="w-full md:w-1/2 overflow-auto hide-scrollbar mt-4 md:mt-0">
-            <p class="text-gray-700 font-semibold">Auth Time: <span class="text-blue-500">@authTime</span></p>
-            <p class="text-gray-700 font-semibold">IDP Access Token: <span class="text-blue-500">@idpAccessToken</span></p>
-            <p class="text-gray-700 font-semibold">Name: <span class="text-blue-500">@username</span></p>
-            <p class="text-gray-700 font-semibold">Object Identifier: <span class="text-blue-500">@objectIdentifier</span></p>
-            <p class="text-gray-700 font-semibold">Emails: <span class="text-blue-500">@emails</span></p>
-            <p class="text-gray-700 font-semibold">TFP: <span class="text-blue-500">@tfp</span></p>
+
+        @if(@Model.getPageName() == username ){
+                <p class="text-gray-700 font-semibold">Auth Time: <span class="text-blue-500">@authTime</span></p>
+                <p class="text-gray-700 font-semibold">IDP Access Token: <span class="text-blue-500">@idpAccessToken</span></p>
+                <p class="text-gray-700 font-semibold">Name: <span class="text-blue-500">@username</span></p>
+                <p class="text-gray-700 font-semibold">Object Identifier: <span class="text-blue-500">@objectIdentifier</span></p>
+                <p class="text-gray-700 font-semibold">Emails: <span class="text-blue-500">@emails</span></p>
+                <p class="text-gray-700 font-semibold">TFP: <span class="text-blue-500">@tfp</span></p>
+        } else {
+            
+            <p class="text-gray-700 font-semibold">Name: <span class="text-blue-500">@Model.getPageName()</span></p>
+        }
+       <div class="flex items-center gap-4 mt-4">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl font-bold text-blue-500">@Model.followers</span>
+                <span class="text-gray-700 font-semibold">Followers</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="text-2xl font-bold text-blue-500">@Model.following</span>
+                <span class="text-gray-700 font-semibold">Following</span>
+            </div>
         </div>
+        </div>
+
     </div>
 </div>

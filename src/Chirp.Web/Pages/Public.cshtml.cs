@@ -43,20 +43,15 @@ IReactionRepository reactionRepository)
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
         var username = Claims.FirstOrDefault(c => c.Type == "name")?.Value;
 
-        foreach (var claim in Claims)
-        {
-            Console.WriteLine(claim.Value);
-        }
-
         if (User.Identity?.IsAuthenticated == true && (currentlyLoggedInUser == null || currentlyLoggedInUser.Name == null))
         {
             try
             {
-                if (email != null && await _authorRepository.GetAuthorByNameAsync(username) == null)
+                if (email != null)
                 {
                     await _authorRepository.InsertAuthorAsync(username, email);
                     await _authorRepository.SaveAsync();
-                    currentlyLoggedInUser = await _authorRepository.GetAuthorByNameAsync(username);
+                    currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
                 }
             }
@@ -153,7 +148,7 @@ IReactionRepository reactionRepository)
         return Redirect("/" + isUserFollowingAuthor.Name.Replace(" ", "%20"));
     }
 
-    public async Task<IActionResult> OnPostReactionP(string cheepId, string authorId, string reaction)
+        public async Task<IActionResult> OnPostReactionP(string cheepId, string authorId, string reaction)
     {
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
