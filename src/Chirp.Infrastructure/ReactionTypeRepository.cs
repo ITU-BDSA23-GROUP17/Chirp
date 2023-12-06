@@ -5,7 +5,7 @@ using Chirp.Core;
 
 namespace Chirp.Infrastructure;
 
-public class ReactionTypeRepository : IReactionTypeRepository, IDisposable
+public class ReactionTypeRepository : IReactionTypeRepository
 {
     public void Dispose()
     {

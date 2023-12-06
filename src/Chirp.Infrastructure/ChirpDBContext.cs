@@ -34,8 +34,9 @@ public class ChirpDBContext : DbContext
     }
     public void initializeDB()
     {
-        Database.Migrate();
+        // Database.Migrate();
         Database.EnsureCreated(); //Ensures all tables are created!
         DbInitializer.SeedDatabase(this);
     }
+
 }
