@@ -127,21 +127,6 @@ public class PublicModel : PageModel
         return Redirect("/" + isUserFollowingAuthor.Name.Replace(" ", "%20"));
     }
 
-    public async Task OnPostSignOutAsync()
-    {
-        var Claims = User.Claims;
-        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
-
-        if (currentlyLoggedInUser.Status.Equals("ONLINE")){
-            await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
-        }
-
-        Response.Redirect("/MicrosoftIdentity/Account/SignOut");
-
-        Console.WriteLine("Ran this code");
-    }
-
 
 
 }
