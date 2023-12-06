@@ -11,6 +11,7 @@ namespace Chirp.Core
 
         int getPages();
         int getPagesUser(string author);
+        int getPagesFromCheepCount(int cheepCount);
         void InsertCheep(CheepDTO Cheep);
         void DeleteCheep(int cheepId);
         void UpdateCheep(CheepDTO Cheep);

@@ -163,5 +163,11 @@ namespace Chirp.Infrastructure
 
             return (int)Math.Ceiling(context.Cheeps.Where(c => c.Author.Name == author).Count() / 32.0);
         }
+
+        int ICheepRepository.getPagesFromCheepCount(int cheepCount)
+        {
+
+            return (int)Math.Ceiling(cheepCount / 32.0);
+        }
     }
 }
