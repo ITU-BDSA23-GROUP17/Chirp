@@ -29,6 +29,7 @@ public class HashtagModel : PageModel
     private string currentHashtagText;
     private AuthorDTO currentlyLoggedInUser;
     private List<String> cheepIds;
+    public List<String> popularHashtags { get; set; } = null;
 
 
     [BindProperty]
@@ -42,7 +43,7 @@ public class HashtagModel : PageModel
     private readonly IHashtagRepository _hashtagRepository;
 
     public HashtagModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository,
-IReactionRepository reactionRepository, IHashtagRepository hashtagRepository)
+    IReactionRepository reactionRepository, IHashtagRepository hashtagRepository)
     {
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
@@ -59,7 +60,10 @@ IReactionRepository reactionRepository, IHashtagRepository hashtagRepository)
         currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
 
-        List<CheepInfoDTO> CheepInfoList = new List<CheepInfoDTO>();
+        //get popular hashtags
+        popularHashtags = await _hashtagRepository.GetPopularHashtagsAsync();
+
+        //get cheeps for current hashtag:
 
         currentHashtagText = hashtag;
 
@@ -90,7 +94,7 @@ IReactionRepository reactionRepository, IHashtagRepository hashtagRepository)
         List<string> followingIDs = await _followRepository.GetFollowingIDsByAuthorIDAsync(currentlyLoggedInUser.AuthorId);
         List<string> reactionCheepIds = await _reactionRepository.GetCheepIdsByAuthorId(currentlyLoggedInUser.AuthorId);
 
-
+        List<CheepInfoDTO> CheepInfoList = new List<CheepInfoDTO>();
         //To get the CheepInfos we need to do some work...
         foreach (CheepDTO cheep in Cheeps)
         {

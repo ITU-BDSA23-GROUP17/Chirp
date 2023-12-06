@@ -6,7 +6,19 @@
     var routeName = HttpContext.GetRouteValue("hashtag");
 }
 
-<h2 class="text-3xl font-semibold"> Hashtag test </h2>
+<div class="bg-gray-200 p-4 mb-4">
+    <h3 class="text-xl font-semibold mb-2">Popular Hashtags</h3>
+    <ul class="flex space-x-2">
+        @foreach (var hashtag in Model.popularHashtags)
+        {
+            <li>
+                <a href="#" class="text-blue-500">#@hashtag</a>
+            </li>
+        }
+    </ul>
+</div>
+
+<h2 class="text-3xl font-semibold"> Cheeps tagged with #@routeName </h2>
 
 
 <partial name="_TimeLinePartial" />

@@ -51,7 +51,7 @@ namespace Chirp.Infrastructure
             return hashtags;
         }
 
-        public async Task<List<string>> GetSortedPopularHashtagsAsync()
+        public async Task<List<string>> GetPopularHashtagsAsync()
         {
 
             var hashtags = await GetHashtagsAsync();
