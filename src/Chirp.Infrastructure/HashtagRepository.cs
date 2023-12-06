@@ -40,14 +40,18 @@ namespace Chirp.Infrastructure
             }
         }
 
+        public async Task<List<Hashtag>> GetHashtagsAsync()
+        {
+            var hashtags = await context.Hashtags.ToListAsync();
+            return hashtags;
+        }
 
-        public async Task<List<string>> GetSortedPopularHashtagsAsync(int numberOfCheepsThreshold)
+        public async Task<List<string>> GetSortedPopularHashtagsAsync()
         {
 
             var hashtags = await GetHashtagsAsync();
             var popularHashtags = hashtags
                 .GroupBy(h => new { h.HashtagText, h.CheepID })
-                .Where(group => group.Count() >= numberOfCheepsThreshold)
                 .OrderByDescending(group => group.Count()) // Sort by the number of occurrences (count of hashtags)
                 .Select(group => group.Key.HashtagText) // Select the hashtag text
                 .ToList();
