@@ -86,19 +86,24 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                         string cheepMessageWithLinks = System.Text.RegularExpressions.Regex.Replace(cheepInfo.Cheep.Message,
                         @"#\w+", match => $"<a href=\"/hashtag/{match.Value}\" class=\"text-blue-400\">{match.Value}</a>");
                     }
+                    @Html.Raw(cheepMessageWithLinks)
                 </p>
-                    <!-- Reaction button -->
+                <!-- Reaction button -->
                 @if (User.Identity.IsAuthenticated)
                 {
                     <form method="post" asp-page-handler="Reaction">
-                        <button id="reactionButton" class="border-2 border-black hover:bg-black text-black hover:text-white bg-transparent pl-2 py-1 px-2 hover:border-transparent rounded">
-                        @* <p>@cheepInfo.Cheep.Id</p>
-                        <p>@cheepInfo.UserReactToCheep</p> *@
-                    @if (cheepInfo.UserReactToCheep){
-                            <input type="submit" name="unreaction" value="Unlike" />
-                    } else {
-                            <input type="submit" name="Like" value="Like" />
-                    }
+                        <button id="reactionButton"
+                            class="border-2 border-black hover:bg-black text-black hover:text-white bg-transparent pl-2 py-1 px-2 hover:border-transparent rounded">
+                            @* <p>@cheepInfo.Cheep.Id</p>
+                <p>@cheepInfo.UserReactToCheep</p> *@
+                            @if (cheepInfo.UserReactToCheep)
+                            {
+                                <input type="submit" name="unreaction" value="Unlike" />
+                            }
+                            else
+                            {
+                                <input type="submit" name="Like" value="Like" />
+                            }
                         </button>
                         <input type="hidden" name="authorId" value="@cheepInfo.Cheep.AuthorId" />
                         <input type="hidden" name="cheepId" value="@cheepInfo.Cheep.Id" />
@@ -123,4 +128,3 @@ else
     }
     <a href="?page=@(viewModel.pageNr + 1)">&raquo;</a>
 </div>
-
