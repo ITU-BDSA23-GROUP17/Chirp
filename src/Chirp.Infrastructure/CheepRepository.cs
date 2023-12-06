@@ -136,6 +136,21 @@ namespace Chirp.Infrastructure
             return cheeps;
         }
 
+        public IEnumerable<CheepDTO> GetCheepsByCheepIds(List<string> cheepIds, int page)
+        {
+            page = page - 1;
+            var cheeps = context.Cheeps
+            .Where(c => cheepIds
+            .Contains(c.CheepId))
+            .OrderByDescending(c => c.TimeStamp)
+             .Skip(page * 32).Take(32)
+            .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image))
+            .ToList();
+
+            return cheeps;
+        }
+
+
         // for home page
         int ICheepRepository.getPages()
         {
@@ -147,6 +162,12 @@ namespace Chirp.Infrastructure
         {
 
             return (int)Math.Ceiling(context.Cheeps.Where(c => c.Author.Name == author).Count() / 32.0);
+        }
+
+        int ICheepRepository.getPagesFromCheepCount(int cheepCount)
+        {
+
+            return (int)Math.Ceiling(cheepCount / 32.0);
         }
     }
 }

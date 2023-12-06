@@ -8,7 +8,7 @@
 {
 
     <ul class="flex flex-col gap-5">
-        @foreach (var cheep in viewModel.Cheeps)
+    @foreach (var cheep in viewModel.Cheeps)
         {
             <div
                 class="border-2 border-black resize-none shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline flex flex-col gap-4">
@@ -34,7 +34,7 @@
 else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
 {
     <ul class="flex flex-col gap-5">
-        @foreach (var cheepInfo in viewModel.CheepInfos)
+    @foreach (var cheepInfo in viewModel.CheepInfos)
         {
             <li
                 class="border-2 border-black resize-none shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline flex flex-col gap-4">
@@ -79,8 +79,13 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                 </div>
 
                 <!-- cheep text -->
-                <p class="text-blue-400 text-sm font-medium text-clip overflow-hidden">
-                    <small class="text-blue-400 text-sm font-medium text-clip overflow-hidden">@cheepInfo.Cheep.Message</small>
+                <p class="text-gray-400 text-sm font-semibold ">
+                    @{
+                        // Use regex to find hashtags and replace them with blue text
+                        string cheepMessageWithLinks = System.Text.RegularExpressions.Regex.Replace(cheepInfo.Cheep.Message,
+                        @"#\w+", match => $"<a href=\"/tag/{match.Value.TrimStart('#')}\" class=\"text-blue-400\">{match.Value}</a>");
+                    }
+                    @Html.Raw(cheepMessageWithLinks)
                 </p>
                 <!-- Reaction button -->
                 @if (User.Identity.IsAuthenticated)
