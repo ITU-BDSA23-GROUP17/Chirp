@@ -49,5 +49,41 @@ namespace Chirp.Infrastructure
                 await context.SaveChangesAsync();
             }
         }
+
+        public async Task<int> GetFollowerCountByAuthorIDAsync(string AuthorID)
+        {
+            var followerCount = await context.Followings
+                .Where(f => f.FollowingId == AuthorID)
+                .CountAsync();
+
+            return followerCount;
+        }
+
+        public async Task<int> GetFollowingCountByAuthorIDAsync(string AuthorID)
+        {
+            var followingCount = await context.Followings
+                .Where(f => f.FollowerId == AuthorID)
+                .CountAsync();
+
+            return followingCount;
+        }
+
+        public async Task<int> GetFollowerCountByAuthorNameAsync(string AuthorID)
+        {
+            var followerCount = await context.Followings
+                .Where(f => f.FollowingId == AuthorID)
+                .CountAsync();
+
+            return followerCount;
+        }
+
+        public async Task<int> GetFollowingCountByAuthorNameAsync(string AuthorID)
+        {
+            var followingCount = await context.Followings
+                .Where(f => f.FollowerId == AuthorID)
+                .CountAsync();
+
+            return followingCount;
+        }
     }
 }

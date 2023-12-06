@@ -24,6 +24,10 @@ public class UserTimelineModel : PageModel
     public int pageNr { get; set; } = 0;
     public int pages { get; set; } = 0;
     private bool isOwnTimeline;
+    
+    public int followers;
+    public int following;
+    public string? authorImage;
     public AuthorDTO authorDTO { get; set; } = null;
     private AuthorDTO currentlyLoggedInUser;
 
@@ -61,6 +65,9 @@ IReactionRepository reactionRepository)
             pages = _cheepRepository.getPagesUser(authorDTO.Name);
             pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
             Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
+            followers = await _followRepository.GetFollowerCountByAuthorIDAsync(authorDTO.AuthorId);
+            following = await _followRepository.GetFollowingCountByAuthorIDAsync(authorDTO.AuthorId);
+            authorImage = authorDTO.Image;
         }
         else
         {
