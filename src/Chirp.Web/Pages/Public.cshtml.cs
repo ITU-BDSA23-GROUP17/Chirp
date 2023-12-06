@@ -15,7 +15,7 @@ public class PublicModel : PageModel
     private readonly IAuthorRepository _authorRepository;
     private readonly IFollowRepository _followRepository;
     private readonly IReactionRepository _reactionRepository;
-    private AuthorDTO currentlyLoggedInUser;
+    private AuthorDTO? currentlyLoggedInUser;
 
 
     public PublicModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository,
@@ -47,11 +47,14 @@ IReactionRepository reactionRepository)
         {
             try
             {
-                if (email != null)
+                if (email != null && await _authorRepository.GetAuthorByEmailAsync(email) == null)
                 {
                     await _authorRepository.InsertAuthorAsync(username, email);
                     await _authorRepository.SaveAsync();
                     currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+                } else{
+                     currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
                 }
             }
@@ -60,6 +63,7 @@ IReactionRepository reactionRepository)
                 Console.WriteLine("author insert failed");
             }
         }
+
 
 
 
