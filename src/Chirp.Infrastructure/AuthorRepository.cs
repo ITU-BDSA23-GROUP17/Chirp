@@ -19,7 +19,7 @@ namespace Chirp.Infrastructure
         {
             Guid guid = Guid.NewGuid();
             GithubClaims githubclaims = new GithubClaims();
-            await context.Authors.AddAsync(new Author() { AuthorId = guid.ToString(), Name = Name, Email = Email, Status = "ONLINE", Image = await githubclaims.GetGitHubClaimsUserImageAsync(Name) });
+            await context.Authors.AddAsync(new Author() { AuthorId = guid.ToString(), Name = Name, Email = Email, Status = "OFFLINE", Image = await githubclaims.GetGitHubClaimsUserImageAsync(Name) });
         }
 
         public async Task SaveAsync()
@@ -32,7 +32,8 @@ namespace Chirp.Infrastructure
             var Author = await context.Authors.Where(a => a.Email == Email).FirstOrDefaultAsync();
             if (Author != null)
             {
-                return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Status = "ONLINE", Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image)).ToList(), Author.Image);
+                return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Status = "OFFLINE", Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image)).ToList(), Author.Image);
+
             }
             else
             {
@@ -58,7 +59,7 @@ namespace Chirp.Infrastructure
             var Author = await context.Authors.Where(a => a.Name == Name).FirstOrDefaultAsync();
             if (Author != null)
             {
-                return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Status = "ONLINE", Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image)).ToList(), Author.Image);
+                return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Status = "Was?", Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image)).ToList(), Author.Image);
             }
             else
             {
