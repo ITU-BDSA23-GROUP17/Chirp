@@ -2,6 +2,7 @@
 using System.Drawing;
 using Chirp.Core;
 using Chirp.Infrastructure;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Identity.Web;
@@ -165,6 +166,20 @@ public class UserTimelineModel : PageModel
         await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
 
         return Redirect("/");
+    }
+
+    public async Task<IActionResult> OnPostSetStatusOfflineAsync()
+    {
+        var Claims = User.Claims;
+        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+        if (currentlyLoggedInUser.Status.Equals("ONLINE"))
+        {
+            await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
+        }
+        
+        return SignOut(new AuthenticationProperties { RedirectUri = "MicrosoftIdentity/Account/SignedOut" }, "Cookies");
     }
 
 }

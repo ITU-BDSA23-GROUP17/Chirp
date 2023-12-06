@@ -19,10 +19,11 @@
 
 
             </div>
-            <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignOut"
-                class="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300">
-                Sign out
-            </a>
+            <form method="post" asp-page-handler="SetStatusOffline">
+                        <button type="submit" class="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300">
+                            Sign out
+                        </button>
+                    </form>
             <a href="/@(User.Identity.Name)"
                 class="h-10  mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300 text-sm">
                 <svg class="mr-4 h-6 w-6 " stroke="currentColor" fill="none" viewBox="0 0 24 24">
