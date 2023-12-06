@@ -59,7 +59,9 @@ namespace Chirp.Infrastructure
             var Author = await context.Authors.Where(a => a.Name == Name).FirstOrDefaultAsync();
             if (Author != null)
             {
-                return new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Status = "Was?", Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image)).ToList(), Author.Image);
+                AuthorDTO newAuthorDTO = new AuthorDTO(Author.AuthorId, Author.Name, Author.Email, Author.Status = "OFFLINE", Author.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image)).ToList(), Author.Image);
+                await UpdateAuthorStatusAsync(Author.Email, "OFFLINE");
+                return newAuthorDTO;
             }
             else
             {
@@ -160,6 +162,7 @@ namespace Chirp.Infrastructure
             var authorToUpdate = await context.Authors.Where(a => a.Email == Email).FirstOrDefaultAsync();
             authorToUpdate.Status = newStatus;
             context.Authors.Update(authorToUpdate);
+            await context.SaveChangesAsync();
         }
         // get all authors
 
