@@ -14,7 +14,7 @@ namespace Chirp.Core
 
         Task<Boolean> CheckIfAuthorReactedToCheep(string CheepId, string AuthorId);
 
-        Task<string> GetTotalReactionsByCheepId(string CheepId);
+        public Task<List<string>> GetReactionByCheepId(string CheepId);
 
 
         void Save();

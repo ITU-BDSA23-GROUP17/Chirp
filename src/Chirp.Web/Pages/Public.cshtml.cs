@@ -32,6 +32,8 @@ IReactionRepository reactionRepository)
     public int pageNr { get; set; }
     public int pages { get; set; }
 
+    public string TotalReactions { get; set; }
+
     public async Task<ActionResult> OnGetAsync()
     {
         List<CheepInfoDTO> CheepInfoList = new List<CheepInfoDTO>();
@@ -92,7 +94,7 @@ IReactionRepository reactionRepository)
                     Cheep = cheep,
                     UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
                     UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds),
-                    TotalReactions = getTotalReactions(cheep.Id)
+                    TotalReactions =   getTotalReactions(cheep.Id),
                 };
                 CheepInfoList.Add(cheepInfoDTO);
             }
@@ -131,18 +133,18 @@ IReactionRepository reactionRepository)
         }
     }
 
-    public string getTotalReactions(string cheepId)
+    public  string getTotalReactions(string cheepId)
     {
-
-        var total = _reactionRepository.GetTotalReactionsByCheepId(cheepId).ToString();
-        if (total == null)
-        {
-            return "0";
-        }
-        else
-        {
-            return total;
-        }
+        var total =  _reactionRepository.GetReactionByCheepId(cheepId);
+        return total.Result.Count().ToString();
+        // if (total.Count() == 0)
+        // {
+        //     return "0";
+        // }
+        // else
+        // {
+        //     return "Total: "+total.ToString();
+        // }
     }
 
 

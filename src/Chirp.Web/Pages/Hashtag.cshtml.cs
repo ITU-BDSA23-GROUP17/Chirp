@@ -102,7 +102,7 @@ public class HashtagModel : PageModel
                 Cheep = cheep,
                 UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
                 UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds),
-                TotalReactions = getTotalReactions(cheep.Id)
+                TotalReactions =  getTotalReactions(cheep.Id),
             };
             CheepInfoList.Add(cheepInfoDTO);
         }
@@ -135,17 +135,17 @@ public class HashtagModel : PageModel
         }
     }
 
-        public string getTotalReactions(string cheepId)
+    public string getTotalReactions(string cheepId)
     {
 
-        var total = _reactionRepository.GetTotalReactionsByCheepId(cheepId).ToString();
+        var total =  _reactionRepository.GetReactionByCheepId(cheepId);
         if (total == null)
         {
             return "0";
         }
         else
         {
-            return total;
+            return "Total: " +total.ToString();
         }
     }
 
