@@ -114,6 +114,7 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                         <input type="hidden" name="authorId" value="@cheepInfo.Cheep.AuthorId" />
                         <input type="hidden" name="cheepId" value="@cheepInfo.Cheep.Id" />
                     </form>
+                <p>@cheepInfo.TotalReactions</p>
                 }
             </li>
         }
