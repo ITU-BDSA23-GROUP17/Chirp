@@ -1,11 +1,8 @@
 using Chirp.Core;
-using Chirp.Infrastructure;
-using Microsoft.EntityFrameworkCore;
-using Testcontainers.MsSql;
+
 
 public class AuthorDTOTests
 {
-
     [Fact]
     public void AuthorDTO_ShouldHoldProvidedValues()
     {
@@ -17,10 +14,8 @@ public class AuthorDTOTests
         var authorId = "author456";
         var authorImage = "image_url";
 
-        var cheep = new CheepDTO(id, message, timeStamp, authorName, authorId, authorImage);
-
         // Act
-        // No action required
+        var cheep = new CheepDTO(id, message, timeStamp, authorName, authorId, authorImage);
 
         // Assert
         Assert.Equal(id, cheep.Id);
@@ -29,5 +24,21 @@ public class AuthorDTOTests
         Assert.Equal(authorName, cheep.AuthorName);
         Assert.Equal(authorId, cheep.AuthorId);
         Assert.Equal(authorImage, cheep.AuthorImage);
+    }
+    [Fact]
+    public void FollowDTO_ShouldInitializePropertiesCorrectly()
+    {
+        // Arrange
+        var followerId = "follower123";
+        var followingId = "following456";
+        var timestamp = DateTime.UtcNow;
+
+        // Act
+        var followDTO = new FollowDTO(followerId, followingId, timestamp);
+
+        // Assert
+        Assert.Equal(followerId, followDTO.FollowerId);
+        Assert.Equal(followingId, followDTO.FollowingId);
+        Assert.Equal(timestamp, followDTO.Timestamp);
     }
 }
