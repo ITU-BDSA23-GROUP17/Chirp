@@ -32,8 +32,6 @@ IReactionRepository reactionRepository)
     public int pageNr { get; set; }
     public int pages { get; set; }
 
-    public string TotalReactions { get; set; }
-
     public async Task<ActionResult> OnGetAsync()
     {
         List<CheepInfoDTO> CheepInfoList = new List<CheepInfoDTO>();
@@ -55,10 +53,8 @@ IReactionRepository reactionRepository)
                     await _authorRepository.SaveAsync();
                     currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
-                }
-                else
-                {
-                    currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+                } else{
+                     currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
                 }
             }
@@ -93,8 +89,7 @@ IReactionRepository reactionRepository)
                 {
                     Cheep = cheep,
                     UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
-                    UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds),
-                    TotalReactions = await getTotalReactions(cheep.Id),
+                    UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds)
                 };
                 CheepInfoList.Add(cheepInfoDTO);
             }
@@ -133,23 +128,7 @@ IReactionRepository reactionRepository)
         }
     }
 
-    public async Task<string> getTotalReactions(string cheepId)
-    {
-        var total = _reactionRepository.GetReactionByCheepId(cheepId);
-        var totalLikes = total.Result.Count().ToString();
-        if (totalLikes == "0")
-        {
-            return "0 Likes";
-        }
-        else if (totalLikes == "1")
-        {
-            return "1 Like";
-        }
-        else
-        {
-            return totalLikes + " Likes";
-        }
-    }
+
 
     public async Task<IActionResult> OnPostFollow(string authorName, string follow, string? unfollow)
     {
@@ -173,7 +152,7 @@ IReactionRepository reactionRepository)
         return Redirect("/" + isUserFollowingAuthor.Name.Replace(" ", "%20"));
     }
 
-    public async Task<IActionResult> OnPostReactionP(string cheepId, string authorId, string reaction)
+        public async Task<IActionResult> OnPostReactionP(string cheepId, string authorId, string reaction)
     {
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
