@@ -71,4 +71,20 @@ public class DTOTests
         Assert.Equal(Hashtag, hashtagDTO.Hashtag);
         Assert.Equal(CheepID, hashtagDTO.CheepID);
     }
+    [Fact]
+    public void ReactionTypeDTO_ShouldHoldProvidedValues()
+    {
+        // Arrange
+        var id = "like";
+        var name = "Like";
+        var icon = "like.png";
+
+        // Act
+        var reactionTypeDTO = new ReactionTypeDTO(id, name, icon);
+
+        // Assert
+        Assert.Equal(id, reactionTypeDTO.Id);
+        Assert.Equal(name, reactionTypeDTO.Name);
+        Assert.Equal(icon, reactionTypeDTO.Icon);
+    }
 }
