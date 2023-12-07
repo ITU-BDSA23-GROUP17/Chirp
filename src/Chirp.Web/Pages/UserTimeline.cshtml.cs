@@ -169,6 +169,17 @@ IReactionRepository reactionRepository)
         return HttpContext.GetRouteValue("author").ToString();
     }
 
+    public string getTotalReactions(string cheepId){
+
+        var total = _reactionRepository.GetTotalReactionsByCheepId(cheepId).ToString();
+        if(total == null){
+            return "0";
+        }
+        else{
+            return total;
+        }
+    }
+
     public async Task<IActionResult> OnPostFollow(string authorName, string follow, string? unfollow)
     {
         var Claims = User.Claims;
