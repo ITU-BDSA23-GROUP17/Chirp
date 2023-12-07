@@ -108,7 +108,7 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                         <input type="hidden" name="cheepId" value="@cheepInfo.Cheep.Id" />
                     </form>
                 }
-                <p>@Model.getReactionCount()</p>
+                <p>@cheepInfo.TotalReactions</p>
             </li>
         }
     </ul>
