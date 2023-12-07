@@ -102,7 +102,7 @@ public class HashtagModel : PageModel
                 Cheep = cheep,
                 UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
                 UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds),
-                TotalReactions =  getTotalReactions(cheep.Id),
+                TotalReactions =  await getTotalReactions(cheep.Id),
             };
             CheepInfoList.Add(cheepInfoDTO);
         }
@@ -135,19 +135,22 @@ public class HashtagModel : PageModel
         }
     }
 
-    public string getTotalReactions(string cheepId)
+    public async Task<string> getTotalReactions(string cheepId)
     {
-
         var total =  _reactionRepository.GetReactionByCheepId(cheepId);
-        if (total == null)
+        var totalLikes = total.Result.Count().ToString();
+        if(totalLikes == "0")
         {
             return "0";
         }
-        else
-        {
-            return "Total: " +total.ToString();
+        else if (totalLikes == "1"){
+            return "1 Like";
         }
-    }
+        else 
+        {
+            return totalLikes + " Likes";
+        }
+        }
 
 
     public async Task<IActionResult> OnPostFollow(string authorName, string follow, string? unfollow)
@@ -197,7 +200,6 @@ public class HashtagModel : PageModel
             await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId, likeID);
         }
 
-        Console.WriteLine(HttpContext.Request.Path);
 
         //When using RedirectToPage() in / root and in public timline it will redirect to /Public, and /public is not a valid page. 
         if (HttpContext.Request.Path == "/Public")

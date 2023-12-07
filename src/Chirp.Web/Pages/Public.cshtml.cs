@@ -94,7 +94,7 @@ IReactionRepository reactionRepository)
                     Cheep = cheep,
                     UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
                     UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds),
-                    TotalReactions =   getTotalReactions(cheep.Id),
+                    TotalReactions = await getTotalReactions(cheep.Id),
                 };
                 CheepInfoList.Add(cheepInfoDTO);
             }
@@ -133,20 +133,23 @@ IReactionRepository reactionRepository)
         }
     }
 
-    public  string getTotalReactions(string cheepId)
+    public async Task<string> getTotalReactions(string cheepId)
     {
-        var total =  _reactionRepository.GetReactionByCheepId(cheepId);
-        return total.Result.Count().ToString();
-        // if (total.Count() == 0)
-        // {
-        //     return "0";
-        // }
-        // else
-        // {
-        //     return "Total: "+total.ToString();
-        // }
+        var total = _reactionRepository.GetReactionByCheepId(cheepId);
+        var totalLikes = total.Result.Count().ToString();
+        if (totalLikes == "0")
+        {
+            return "0";
+        }
+        else if (totalLikes == "1")
+        {
+            return "1 Like";
+        }
+        else
+        {
+            return totalLikes + " Likes";
+        }
     }
-
 
     public async Task<IActionResult> OnPostFollow(string authorName, string follow, string? unfollow)
     {

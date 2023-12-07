@@ -173,8 +173,20 @@ IReactionRepository reactionRepository)
 
     public async Task<string> getTotalReactions(string cheepId)
     {
-        var total =  _reactionRepository.GetReactionByCheepId(cheepId);
-        return total.Result.Count().ToString();
+        var total = _reactionRepository.GetReactionByCheepId(cheepId);
+        var totalLikes = total.Result.Count().ToString();
+        if (totalLikes == "0")
+        {
+            return "0";
+        }
+        else if (totalLikes == "1")
+        {
+            return "1 Like";
+        }
+        else
+        {
+            return totalLikes + " Likes";
+        }
     }
 
     public async Task<IActionResult> OnPostFollow(string authorName, string follow, string? unfollow)
@@ -224,7 +236,6 @@ IReactionRepository reactionRepository)
             await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId, likeID);
         }
 
-        Console.WriteLine(HttpContext.Request.Path);
 
         //When using RedirectToPage() in / root and in public timline it will redirect to /Public, and /public is not a valid page. 
         if (HttpContext.Request.Path == "/Public")
