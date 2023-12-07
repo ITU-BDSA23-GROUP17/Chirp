@@ -7,6 +7,6 @@ namespace Chirp.Core
 
         public bool UserReactToCheep {get; set;}
 
-        public int TotalReactions {get; set;}
+        public string TotalReactions {get; set;}
     }
 }

@@ -72,12 +72,12 @@ namespace Chirp.Infrastructure
             throw new NotImplementedException();
         }
 
-        public Task<int> GetTotalReactionsByCheepId(string CheepId)
+        public async Task<string> GetTotalReactionsByCheepId(string CheepId)
         {
-            var getReactionCount = context.Reactions
+            var getReactionCount = await context.Reactions
             .Where(r => r.CheepId == CheepId)
             .CountAsync();
-            return getReactionCount;
+            return getReactionCount.ToString();
         }
     }
 }
