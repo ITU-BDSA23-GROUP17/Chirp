@@ -175,8 +175,8 @@ IReactionRepository reactionRepository)
         string? viewedUser = HttpContext?.GetRouteValue("author")?.ToString();
         var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(viewedUser);
         var Status = StatusAuthorDTO?.Status;
-        Console.WriteLine(viewedUser);
-        Console.WriteLine(Status);
+        Console.WriteLine("Received user: " + viewedUser);
+        Console.WriteLine("Received status: " + Status);
         return Status;
     }
 
@@ -242,11 +242,14 @@ IReactionRepository reactionRepository)
 
     }
 
-    public async Task<IActionResult> OnPostStatusAsync()
+    public async Task<IActionResult> OnPostStatus()
     {
+        Console.WriteLine("hey1");
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
         currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+        Console.WriteLine("hey2");
 
         await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
 

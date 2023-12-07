@@ -49,7 +49,7 @@ IReactionRepository reactionRepository)
             {
                 if (email != null && await _authorRepository.GetAuthorByEmailAsync(email) == null)
                 {
-                    await _authorRepository.InsertAuthorAsync(username, email);
+                    await _authorRepository.InsertAuthorAsync(username, email, "ONLINE");
                     await _authorRepository.SaveAsync();
                     currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
