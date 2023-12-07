@@ -1,10 +1,7 @@
 @model Chirp.Web.Pages.UserTimelineModel
 
-<div
-    class="flex flex-col md:flex-row gap-4 p-4 bg-blue-200 shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full md:w-full lg:w-full mx-auto mt-5">
-    <div class="flex flex-col">
-        <h2 class="text-xl font-semibold">@Model.getPageName() Profile</h2>
-        @{
+
+@{
             GithubClaims githubclaims = new GithubClaims();
             var username =  User.Claims?.FirstOrDefault(c => c.Type == "name")?.Value;
             var authTime = "";
@@ -22,12 +19,20 @@
                 emails = User.Claims?.FirstOrDefault(c => c.Type == "emails")?.Value ?? "non provided";
                 tfp = User.Claims?.FirstOrDefault(c => c.Type == "tfp")?.Value;
             }
+}
 
 
+<div
+    class="flex flex-col gap-4 p-4 bg-blue-200 shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full md:w-full lg:w-full mx-auto mt-5">
+    <div class="flex flex-col">
+        <h2 class="text-xl font-semibold">@Model.getPageName() Profile</h2>
+    </div>
+ @{
             string status = await Model.getStatus();
 
             if (status.Equals("ONLINE"))
             {
+                <div class="flex flex-col md:flex-row gap-4">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="green" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -44,9 +49,12 @@
                     </form>
                 }
 
+                </div>
+
             }
             if (status.Equals("OFFLINE"))
             {
+                <div class="flex flex-col md:flex-row gap-4">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                     class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -62,15 +70,12 @@
                         </button>
                     </form>
                 }
+            
+
+                </div>
             }
 
         }
-<div
-    class="flex flex-col gap-4 p-4 bg-blue-200 shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full md:w-full lg:w-full mx-auto mt-5">
-    <div class="flex flex-col">
-        <h2 class="text-xl font-semibold">@Model.getPageName() Profile</h2>
-    </div>
-
     <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col md:flex-row">
         <div class="w-full md:w-1/2">
             <img src="@Model.authorImage" alt="" class="rounded-full h-32 w-32 object-cover mx-auto">
