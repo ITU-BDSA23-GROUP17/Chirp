@@ -102,7 +102,7 @@ public class HashtagModel : PageModel
                 Cheep = cheep,
                 UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
                 UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds),
-                TotalReactions =  await getTotalReactions(cheep.Id),
+                TotalReactions = await getTotalReactions(cheep.Id),
             };
             CheepInfoList.Add(cheepInfoDTO);
         }
@@ -137,20 +137,21 @@ public class HashtagModel : PageModel
 
     public async Task<string> getTotalReactions(string cheepId)
     {
-        var total =  _reactionRepository.GetReactionByCheepId(cheepId);
+        var total = _reactionRepository.GetReactionByCheepId(cheepId);
         var totalLikes = total.Result.Count().ToString();
-        if(totalLikes == "0")
+        if (totalLikes == "0")
         {
-            return "0";
+            return "0 Likes";
         }
-        else if (totalLikes == "1"){
+        else if (totalLikes == "1")
+        {
             return "1 Like";
         }
-        else 
+        else
         {
             return totalLikes + " Likes";
         }
-        }
+    }
 
 
     public async Task<IActionResult> OnPostFollow(string authorName, string follow, string? unfollow)

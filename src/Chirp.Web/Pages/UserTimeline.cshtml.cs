@@ -177,7 +177,7 @@ IReactionRepository reactionRepository)
         var totalLikes = total.Result.Count().ToString();
         if (totalLikes == "0")
         {
-            return "0";
+            return "0 Likes";
         }
         else if (totalLikes == "1")
         {
