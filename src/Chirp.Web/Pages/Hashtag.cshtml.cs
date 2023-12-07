@@ -101,7 +101,8 @@ public class HashtagModel : PageModel
             {
                 Cheep = cheep,
                 UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
-                UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds)
+                UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds),
+                TotalReactions = getTotalReactions(cheep.Id)
             };
             CheepInfoList.Add(cheepInfoDTO);
         }

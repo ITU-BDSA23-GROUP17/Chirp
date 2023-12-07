@@ -6,5 +6,7 @@ namespace Chirp.Core
         public bool UserIsFollowingAuthor { get; init; }
 
         public bool UserReactToCheep {get; set;}
+
+        public int TotalReactions {get; set;}
     }
 }

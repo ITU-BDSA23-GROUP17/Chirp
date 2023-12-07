@@ -53,8 +53,10 @@ IReactionRepository reactionRepository)
                     await _authorRepository.SaveAsync();
                     currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
-                } else{
-                     currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+                }
+                else
+                {
+                    currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
                 }
             }
@@ -89,7 +91,8 @@ IReactionRepository reactionRepository)
                 {
                     Cheep = cheep,
                     UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
-                    UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds)
+                    UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds),
+                    TotalReactions = getTotalReactions(cheep.Id)
                 };
                 CheepInfoList.Add(cheepInfoDTO);
             }
@@ -152,7 +155,7 @@ IReactionRepository reactionRepository)
         return Redirect("/" + isUserFollowingAuthor.Name.Replace(" ", "%20"));
     }
 
-        public async Task<IActionResult> OnPostReactionP(string cheepId, string authorId, string reaction)
+    public async Task<IActionResult> OnPostReactionP(string cheepId, string authorId, string reaction)
     {
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;

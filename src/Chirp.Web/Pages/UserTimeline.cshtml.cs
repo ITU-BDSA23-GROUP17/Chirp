@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualBasic;
 using static System.Web.HttpUtility;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Sprache;
 
 namespace Chirp.Web.Pages;
 
@@ -24,7 +25,7 @@ public class UserTimelineModel : PageModel
     public int pageNr { get; set; } = 0;
     public int pages { get; set; } = 0;
     private bool isOwnTimeline;
-    
+
     public int followers;
     public int following;
     public string? authorImage;
@@ -125,7 +126,8 @@ IReactionRepository reactionRepository)
                 {
                     Cheep = cheep,
                     UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
-                    UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds)
+                    UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds),
+                    TotalReactions = getTotalReactions(cheep.Id)
                 };
                 CheepInfoList.Add(cheepInfoDTO);
             }
@@ -169,14 +171,17 @@ IReactionRepository reactionRepository)
         return HttpContext.GetRouteValue("author").ToString();
     }
 
-    public string getTotalReactions(string cheepId){
+    public int getTotalReactions(string cheepId)
+    {
 
         var total = _reactionRepository.GetTotalReactionsByCheepId(cheepId).ToString();
-        if(total == null){
-            return "0";
+        if (total == null)
+        {
+            return 0;
         }
-        else{
-            return total;
+        else
+        {
+            return Int32.Parse(total);
         }
     }
 
