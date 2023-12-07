@@ -25,7 +25,7 @@ public class DTOTests
         Assert.Equal(authorImage, cheep.AuthorImage);
     }
     [Fact]
-    public void FollowDTO_ShouldInitializePropertiesCorrectly()
+    public void FollowDTO_ShouldHoldProvidedValues()
     {
         // Arrange
         var followerId = "follower123";
@@ -41,7 +41,7 @@ public class DTOTests
         Assert.Equal(timestamp, followDTO.Timestamp);
     }
     [Fact]
-    public void ReactionDTO_Should()
+    public void ReactionDTO_ShouldHoldProvidedValues()
     {
         // Arrange
         var cheepId = "123456";
@@ -56,5 +56,19 @@ public class DTOTests
         Assert.Equal(cheepId, reactionDTO.CheepId);
         Assert.Equal(authorId, reactionDTO.AuthorId);
         Assert.Equal(timeStamp, reactionDTO.TimeStamp);
+    }
+    [Fact]
+    public void HashTagDTO_ShouldHoldProvidedValues()
+    {
+        // Arrange
+        var Hashtag = "#hej";
+        var CheepID = "123456";
+
+        // Act
+        var hashtagDTO = new HashtagDTO(Hashtag, CheepID);
+
+        // Assert
+        Assert.Equal(Hashtag, hashtagDTO.Hashtag);
+        Assert.Equal(CheepID, hashtagDTO.CheepID);
     }
 }
