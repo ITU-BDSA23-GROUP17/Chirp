@@ -90,4 +90,31 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         Assert.NotNull(insertedCheep); // Check that we get a cheep
         Assert.Equal("test message cheep", insertedCheep.Text);
     }
+    [Fact]
+    public async Task GetAuthorByEmailAsync()
+    {
+        // Start the container
+        await _msSqlContainer.StartAsync();
+
+        // Arrange
+        var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
+        using var context = new ChirpDBContext(builder.Options);
+        context.initializeDB(); //ensure all tables are created
+        IAuthorRepository authorRepository = new AuthorRepository(context);
+        var expectedEmail = "tanda@itu.dk";
+
+        await authorRepository.InsertAuthorAsync("Author Authorson", expectedEmail);
+        await context.SaveChangesAsync();
+
+        // Act
+        var authorDto = await authorRepository.GetAuthorByEmailAsync(expectedEmail);
+
+        // Assert
+        Assert.NotNull(authorDto);
+        Assert.Equal("tan dang", authorDto.Name);
+        Assert.Equal(expectedEmail, authorDto.Email);
+
+        // Stop the container
+        await _msSqlContainer.StopAsync();
+    }
 }
