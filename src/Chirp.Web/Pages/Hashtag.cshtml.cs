@@ -90,22 +90,22 @@ public class HashtagModel : PageModel
 
         //We need to do some work to get the CheepInfo. First find Cheeps, then make CheepInfoDTOs.
         //We need the following ids in the else statement and below therefore it's here....
-        List<string> followingIDs = await _followRepository.GetFollowingIDsByAuthorIDAsync(currentlyLoggedInUser.AuthorId);
-        List<string> reactionCheepIds = await _reactionRepository.GetCheepIdsByAuthorId(currentlyLoggedInUser.AuthorId);
-
         List<CheepInfoDTO> CheepInfoList = new List<CheepInfoDTO>();
-        //To get the CheepInfos we need to do some work...
-        foreach (CheepDTO cheep in Cheeps)
+        if (currentlyLoggedInUser != null)
         {
-            CheepInfoDTO cheepInfoDTO = new CheepInfoDTO
+            List<string> followingIDs = await _followRepository.GetFollowingIDsByAuthorIDAsync(currentlyLoggedInUser.AuthorId);
+            List<string> reactionCheepIds = await _reactionRepository.GetCheepIdsByAuthorId(currentlyLoggedInUser.AuthorId);
+            CheepInfoList = new List<CheepInfoDTO>();
+            //To get the CheepInfos we need to do some work...
+            foreach (CheepDTO cheep in Cheeps)
             {
                 Cheep = cheep,
                 UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
-                UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds)
+                UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds),
+                TotalReactions = await getTotalReactions(cheep.Id),
             };
             CheepInfoList.Add(cheepInfoDTO);
         }
-
 
         var viewModel = new ViewModel
         {
@@ -131,6 +131,24 @@ public class HashtagModel : PageModel
     {
         {
             return reactionAuthorId.Contains(cheepId);
+        }
+    }
+
+    public async Task<string> getTotalReactions(string cheepId)
+    {
+        var total = _reactionRepository.GetReactionByCheepId(cheepId);
+        var totalLikes = total.Result.Count().ToString();
+        if (totalLikes == "0")
+        {
+            return "0 Likes";
+        }
+        else if (totalLikes == "1")
+        {
+            return "1 Like";
+        }
+        else
+        {
+            return totalLikes + " Likes";
         }
     }
 
@@ -182,7 +200,6 @@ public class HashtagModel : PageModel
             await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId, likeID);
         }
 
-        Console.WriteLine(HttpContext.Request.Path);
 
         //When using RedirectToPage() in / root and in public timline it will redirect to /Public, and /public is not a valid page. 
         if (HttpContext.Request.Path == "/Public")
