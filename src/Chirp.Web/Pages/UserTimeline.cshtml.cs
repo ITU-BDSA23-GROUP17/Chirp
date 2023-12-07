@@ -171,17 +171,17 @@ IReactionRepository reactionRepository)
         return HttpContext.GetRouteValue("author").ToString();
     }
 
-    public int getTotalReactions(string cheepId)
+    public string getTotalReactions(string cheepId)
     {
 
         var total = _reactionRepository.GetTotalReactionsByCheepId(cheepId).ToString();
         if (total == null)
         {
-            return 0;
+            return "0";
         }
         else
         {
-            return Int32.Parse(total);
+            return total;
         }
     }
 
