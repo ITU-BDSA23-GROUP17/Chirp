@@ -1,7 +1,6 @@
 using Chirp.Core;
 
-
-public class AuthorDTOTests
+public class DTOTests
 {
     [Fact]
     public void AuthorDTO_ShouldHoldProvidedValues()
@@ -40,5 +39,22 @@ public class AuthorDTOTests
         Assert.Equal(followerId, followDTO.FollowerId);
         Assert.Equal(followingId, followDTO.FollowingId);
         Assert.Equal(timestamp, followDTO.Timestamp);
+    }
+    [Fact]
+    public void ReactionDTO_Should()
+    {
+        // Arrange
+        var cheepId = "123456";
+        var authorId = "author123";
+        var timeStamp = DateTime.UtcNow;
+        var reactionTypeId = "like";
+
+        // Act
+        var reactionDTO = new ReactionDTO(cheepId, authorId, timeStamp, reactionTypeId);
+
+        // Assert
+        Assert.Equal(cheepId, reactionDTO.CheepId);
+        Assert.Equal(authorId, reactionDTO.AuthorId);
+        Assert.Equal(timeStamp, reactionDTO.TimeStamp);
     }
 }
