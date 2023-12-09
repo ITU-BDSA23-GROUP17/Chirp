@@ -20,8 +20,6 @@ KeyVaultSecret clientSecret = client.GetSecret("ClientSecret");
 // Add the ClientSecret to the AzureADB2C configuration
 azureAdB2COptions["ClientSecret"] = clientSecret.Value;
 
-var userService = new UserService(azureAdB2COptions["ClientID"], azureAdB2COptions["Domain"], azureAdB2COptions["ClientSecret"]);
-
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -30,12 +28,10 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
 builder.Services.AddRazorPages()
     .AddMicrosoftIdentityUI();
 
-
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<IFollowRepository, FollowRepository>();
 builder.Services.AddScoped<IReactionRepository, ReactionRepository>();
-builder.Services.AddScoped<IUserService>(_ => userService);
 builder.Services.AddScoped<IHashtagRepository, HashtagRepository>();
 
 

@@ -27,23 +27,6 @@ namespace Chirp.Infrastructure
             await context.SaveChangesAsync();
         }
 
-        public async Task DeleteAuthorByNameAsync(string authorName)
-        {
-            var author = await context.Authors
-                .FirstOrDefaultAsync(a => a.Name == authorName);
-
-            if (author != null)
-            {
-                context.Authors.Remove(author);
-                await context.SaveChangesAsync();
-            }
-            else
-            {
-                throw new Exception("Author not found");
-            }
-        }
-
-
         public async Task<AuthorDTO?> GetAuthorByEmailAsync(string Email)
         {
             var Author = await context.Authors.Where(a => a.Email == Email).FirstOrDefaultAsync();
@@ -85,7 +68,7 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public async Task DeleteAuthorAsync(string authorId)
+        public async Task DeleteAuthorAsync(int authorId)
         {
             var author = await context.Authors.FindAsync(authorId);
             if (author != null)
