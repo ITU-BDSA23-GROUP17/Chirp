@@ -42,88 +42,87 @@ public class UserTimelineModel : PageModel
     private readonly IFollowRepository _followRepository;
     private readonly IReactionRepository _reactionRepository;
 
-    private readonly IUserService _userService;
 
 
-    public UserTimelineModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository, IReactionRepository reactionRepository, IUserService userService)
+    public UserTimelineModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository,
+IReactionRepository reactionRepository)
     {
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
         _followRepository = followRepository;
         _reactionRepository = reactionRepository;
-        _userService = userService;
+
 
     }
     public async Task<IActionResult> OnGet(string author)
     {
-        try
+        List<CheepInfoDTO> CheepInfoList = new List<CheepInfoDTO>();
+
+        // Initialize your models here...
+        var authorDTO = await _authorRepository.GetAuthorByNameAsync(author);
+
+        if (authorDTO != null)
         {
-            List<CheepInfoDTO> CheepInfoList = new List<CheepInfoDTO>();
+            pages = _cheepRepository.getPagesUser(authorDTO.Name);
+            pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
+            Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
+            followers = await _followRepository.GetFollowerCountByAuthorIDAsync(authorDTO.AuthorId);
+            following = await _followRepository.GetFollowingCountByAuthorIDAsync(authorDTO.AuthorId);
+            authorImage = authorDTO.Image;
+        }
+        else
+        {
+            // Handle the case when authorDTO is null (author not found)
+            // For example, you might return a 404 Not Found response.
+            return NotFound();
+        }
+        // get user
 
-            // Initialize your models here...
-            var authorDTO = await _authorRepository.GetAuthorByNameAsync(author);
+
+        var email = User.Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+        //compare the user of the page and the currently logged in user to decide which cheeps to show...
+
+        isOwnTimeline = email != null && authorDTO != null && currentlyLoggedInUser.AuthorId == authorDTO.AuthorId;
 
 
-            if (authorDTO != null)
+
+        //source https://stackoverflow.com/questions/6514292/c-sharp-razor-url-parameter-from-view 
+        // pages = _service.getPagesHome(true, author);
+        pages = _cheepRepository.getPagesUser(authorDTO.Name);
+        pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
+        if (currentlyLoggedInUser != null)
+        {
+            //We need to do some work to get the CheepInfo. First find Cheeps, then make CheepInfoDTOs.
+            //We need the following ids in the else statement and below therefore it's here....
+            List<string> followingIDs = await _followRepository.GetFollowingIDsByAuthorIDAsync(currentlyLoggedInUser.AuthorId);
+            List<string> reactionCheepIds = await _reactionRepository.GetCheepIdsByAuthorId(currentlyLoggedInUser.AuthorId);
+
+
+            if (!isOwnTimeline)
             {
-                pages = _cheepRepository.getPagesUser(authorDTO.Name);
-                pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
                 Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
-                followers = await _followRepository.GetFollowerCountByAuthorIDAsync(authorDTO.AuthorId);
-                following = await _followRepository.GetFollowingCountByAuthorIDAsync(authorDTO.AuthorId);
-                authorImage = authorDTO.Image;
             }
             else
             {
-                // Handle the case when authorDTO is null (author not found)
-                // For example, you might return a 404 Not Found response.
-                return NotFound();
+                List<string> authors = new List<string> { currentlyLoggedInUser.Name };
+
+                List<AuthorDTO> follows = await _authorRepository.GetAuthorsByIdsAsync(followingIDs);
+
+                reactionCheepIds = await _reactionRepository.GetCheepIdsByAuthorId(currentlyLoggedInUser.AuthorId);
+
+                foreach (var followedAuthor in follows)
+                {
+                    authors.Add(followedAuthor.Name);
+                }
+                Cheeps = _cheepRepository.GetCheepsByAuthors(authors, pageNr);
+
             }
-            // get user
 
-
-            var email = User.Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-            currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
-            //compare the user of the page and the currently logged in user to decide which cheeps to show...
-
-            isOwnTimeline = email != null && authorDTO != null && currentlyLoggedInUser.AuthorId == authorDTO.AuthorId;
-
-
-
-            //source https://stackoverflow.com/questions/6514292/c-sharp-razor-url-parameter-from-view 
-            // pages = _service.getPagesHome(true, author);
-            pages = _cheepRepository.getPagesUser(authorDTO.Name);
-            pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
-            if (currentlyLoggedInUser != null)
+            //To get the CheepInfos we need to do some work...
+            foreach (CheepDTO cheep in Cheeps)
             {
-                //We need to do some work to get the CheepInfo. First find Cheeps, then make CheepInfoDTOs.
-                //We need the following ids in the else statement and below therefore it's here....
-                List<string> followingIDs = await _followRepository.GetFollowingIDsByAuthorIDAsync(currentlyLoggedInUser.AuthorId);
-                List<string> reactionCheepIds = await _reactionRepository.GetCheepIdsByAuthorId(currentlyLoggedInUser.AuthorId);
-
-
-                if (!isOwnTimeline)
-                {
-                    Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
-                }
-                else
-                {
-                    List<string> authors = new List<string> { currentlyLoggedInUser.Name };
-
-                    List<AuthorDTO> follows = await _authorRepository.GetAuthorsByIdsAsync(followingIDs);
-
-                    reactionCheepIds = await _reactionRepository.GetCheepIdsByAuthorId(currentlyLoggedInUser.AuthorId);
-
-                    foreach (var followedAuthor in follows)
-                    {
-                        authors.Add(followedAuthor.Name);
-                    }
-                    Cheeps = _cheepRepository.GetCheepsByAuthors(authors, pageNr);
-
-                }
-
-                //To get the CheepInfos we need to do some work...
-                foreach (CheepDTO cheep in Cheeps)
+                CheepInfoDTO cheepInfoDTO = new CheepInfoDTO
                 {
                     Cheep = cheep,
                     UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
@@ -133,25 +132,20 @@ public class UserTimelineModel : PageModel
                 CheepInfoList.Add(cheepInfoDTO);
             }
 
-
-
-            var viewModel = new ViewModel
-            {
-                pageNr = pageNr,
-                pages = pages,
-                CheepInfos = CheepInfoList,
-                Cheeps = Cheeps
-            };
-
-
-            ViewData["ViewModel"] = viewModel;
         }
-        catch (Exception ex)
+
+
+
+        var viewModel = new ViewModel
         {
-            Console.WriteLine(ex);
-        }
+            pageNr = pageNr,
+            pages = pages,
+            CheepInfos = CheepInfoList,
+            Cheeps = Cheeps
+        };
 
 
+        ViewData["ViewModel"] = viewModel;
 
         return Page();
     }
@@ -253,15 +247,6 @@ public class UserTimelineModel : PageModel
             return RedirectToPage();
         }
 
-    }
-
-    public async Task<IActionResult> OnPostForgetUser()
-    {
-        var objectID = User.Claims.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier")?.Value;
-        var name = User.Claims.FirstOrDefault(c => c.Type == "Name")?.Value;
-        await _userService.DeleteUserById(objectID);
-
-        return Redirect("/");
     }
 
 }

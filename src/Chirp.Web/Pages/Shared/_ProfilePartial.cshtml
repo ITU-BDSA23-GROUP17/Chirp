@@ -2,22 +2,19 @@
 
 @{
     GithubClaims githubclaims = new GithubClaims();
-    var username = User.Claims?.FirstOrDefault(c => c.Type == "name")?.Value;
+    var username =  User.Claims?.FirstOrDefault(c => c.Type == "name")?.Value;
     var authTime = "";
     var idpAccessToken = "";
     var objectIdentifier = "";
     var emails = "";
     var tfp = "";
 
-    var identityProvider = User.Claims?.FirstOrDefault(c => c.Type ==
-    "http://schemas.microsoft.com/identity/claims/identityprovider")?.Value;
+    var identityProvider = User.Claims?.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/identity/claims/identityprovider")?.Value;
 
-    if (Equals(identityProvider, "github.com"))
-    {
+    if (Equals(identityProvider, "github.com")){
         authTime = User.Claims?.FirstOrDefault(c => c.Type == "auth_time")?.Value;
         idpAccessToken = User.Claims?.FirstOrDefault(c => c.Type == "idp_access_token")?.Value;
-        objectIdentifier = User.Claims?.FirstOrDefault(c => c.Type ==
-        "http://schemas.microsoft.com/identity/claims/objectidentifier")?.Value;
+        objectIdentifier = User.Claims?.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier")?.Value;
         emails = User.Claims?.FirstOrDefault(c => c.Type == "emails")?.Value ?? "non provided";
         tfp = User.Claims?.FirstOrDefault(c => c.Type == "tfp")?.Value;
     }
@@ -29,50 +26,33 @@
         <h2 class="text-xl font-semibold">@Model.getPageName() Profile</h2>
     </div>
 
-    <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col md:flex-row ">
+    <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col md:flex-row">
         <div class="w-full md:w-1/2">
             <img src="@Model.authorImage" alt="" class="rounded-full h-32 w-32 object-cover mx-auto">
-            <div class="flex items-center gap-2  justify-center mt-10">
-                @if (@Model.getPageName() == username)
-                {
-                    <form method="post" asp-page-handler="ForgetUser">
-                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                            Forget Me
-                        </button>
-                    </form>
-                }
-            </div>
         </div>
-
         <div class="w-full md:w-1/2 overflow-auto hide-scrollbar mt-4 md:mt-0">
 
-            @if (@Model.getPageName() == username)
-            {
+        @if(@Model.getPageName() == username ){
                 <p class="text-gray-700 font-semibold">Auth Time: <span class="text-blue-500">@authTime</span></p>
-                <p class="text-gray-700 font-semibold">IDP Access Token: <span class="text-blue-500">@idpAccessToken</span>
-                </p>
+                <p class="text-gray-700 font-semibold">IDP Access Token: <span class="text-blue-500">@idpAccessToken</span></p>
                 <p class="text-gray-700 font-semibold">Name: <span class="text-blue-500">@username</span></p>
-                <p class="text-gray-700 font-semibold">Object Identifier: <span
-                        class="text-blue-500">@objectIdentifier</span></p>
+                <p class="text-gray-700 font-semibold">Object Identifier: <span class="text-blue-500">@objectIdentifier</span></p>
                 <p class="text-gray-700 font-semibold">Emails: <span class="text-blue-500">@emails</span></p>
                 <p class="text-gray-700 font-semibold">TFP: <span class="text-blue-500">@tfp</span></p>
-            }
-            else
-            {
-
-                <p class="text-gray-700 font-semibold">Name: <span class="text-blue-500">@Model.getPageName()</span></p>
-            }
-            <div class="flex items-center gap-4 mt-4">
-                <div class="flex items-center gap-2">
-                    <span class="text-2xl font-bold text-blue-500">@Model.followers</span>
-                    <span class="text-gray-700 font-semibold">Followers</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="text-2xl font-bold text-blue-500">@Model.following</span>
-                    <span class="text-gray-700 font-semibold">Following</span>
-                </div>
+        } else {
+            
+            <p class="text-gray-700 font-semibold">Name: <span class="text-blue-500">@Model.getPageName()</span></p>
+        }
+       <div class="flex items-center gap-4 mt-4">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl font-bold text-blue-500">@Model.followers</span>
+                <span class="text-gray-700 font-semibold">Followers</span>
             </div>
-
+            <div class="flex items-center gap-2">
+                <span class="text-2xl font-bold text-blue-500">@Model.following</span>
+                <span class="text-gray-700 font-semibold">Following</span>
+            </div>
+        </div>
         </div>
 
     </div>

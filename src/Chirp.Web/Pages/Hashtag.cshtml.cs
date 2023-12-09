@@ -90,14 +90,14 @@ public class HashtagModel : PageModel
 
         //We need to do some work to get the CheepInfo. First find Cheeps, then make CheepInfoDTOs.
         //We need the following ids in the else statement and below therefore it's here....
+        List<string> followingIDs = await _followRepository.GetFollowingIDsByAuthorIDAsync(currentlyLoggedInUser.AuthorId);
+        List<string> reactionCheepIds = await _reactionRepository.GetCheepIdsByAuthorId(currentlyLoggedInUser.AuthorId);
+
         List<CheepInfoDTO> CheepInfoList = new List<CheepInfoDTO>();
-        if (currentlyLoggedInUser != null)
+        //To get the CheepInfos we need to do some work...
+        foreach (CheepDTO cheep in Cheeps)
         {
-            List<string> followingIDs = await _followRepository.GetFollowingIDsByAuthorIDAsync(currentlyLoggedInUser.AuthorId);
-            List<string> reactionCheepIds = await _reactionRepository.GetCheepIdsByAuthorId(currentlyLoggedInUser.AuthorId);
-            CheepInfoList = new List<CheepInfoDTO>();
-            //To get the CheepInfos we need to do some work...
-            foreach (CheepDTO cheep in Cheeps)
+            CheepInfoDTO cheepInfoDTO = new CheepInfoDTO
             {
                 Cheep = cheep,
                 UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
@@ -106,6 +106,7 @@ public class HashtagModel : PageModel
             };
             CheepInfoList.Add(cheepInfoDTO);
         }
+
 
         var viewModel = new ViewModel
         {
