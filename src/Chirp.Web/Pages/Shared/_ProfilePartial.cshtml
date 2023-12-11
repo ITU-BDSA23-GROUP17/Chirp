@@ -2,23 +2,26 @@
 
 
 @{
-            GithubClaims githubclaims = new GithubClaims();
-            var username =  User.Claims?.FirstOrDefault(c => c.Type == "name")?.Value;
-            var authTime = "";
-            var idpAccessToken = "";
-            var objectIdentifier = "";
-            var emails = "";
-            var tfp = "";
+    GithubClaims githubclaims = new GithubClaims();
+    var username = User.Claims?.FirstOrDefault(c => c.Type == "name")?.Value;
+    var authTime = "";
+    var idpAccessToken = "";
+    var objectIdentifier = "";
+    var emails = "";
+    var tfp = "";
 
-            var identityProvider = User.Claims?.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/identity/claims/identityprovider")?.Value;
+    var identityProvider = User.Claims?.FirstOrDefault(c => c.Type ==
+    "http://schemas.microsoft.com/identity/claims/identityprovider")?.Value;
 
-            if (Equals(identityProvider, "github.com")){
-                authTime = User.Claims?.FirstOrDefault(c => c.Type == "auth_time")?.Value;
-                idpAccessToken = User.Claims?.FirstOrDefault(c => c.Type == "idp_access_token")?.Value;
-                objectIdentifier = User.Claims?.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier")?.Value;
-                emails = User.Claims?.FirstOrDefault(c => c.Type == "emails")?.Value ?? "non provided";
-                tfp = User.Claims?.FirstOrDefault(c => c.Type == "tfp")?.Value;
-            }
+    if (Equals(identityProvider, "github.com"))
+    {
+        authTime = User.Claims?.FirstOrDefault(c => c.Type == "auth_time")?.Value;
+        idpAccessToken = User.Claims?.FirstOrDefault(c => c.Type == "idp_access_token")?.Value;
+        objectIdentifier = User.Claims?.FirstOrDefault(c => c.Type ==
+        "http://schemas.microsoft.com/identity/claims/objectidentifier")?.Value;
+        emails = User.Claims?.FirstOrDefault(c => c.Type == "emails")?.Value ?? "non provided";
+        tfp = User.Claims?.FirstOrDefault(c => c.Type == "tfp")?.Value;
+    }
 }
 
 
@@ -27,12 +30,12 @@
     <div class="flex flex-col">
         <h2 class="text-xl font-semibold">@Model.getPageName() Profile</h2>
     </div>
- @{
-            string status = await Model.getStatus();
+    @{
+        string status = await Model.getStatus();
 
-            if (status.Equals("ONLINE"))
-            {
-                <div class="flex flex-col md:flex-row gap-4">
+        if (status.Equals("ONLINE"))
+        {
+            <div class="flex flex-col md:flex-row gap-4">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="green" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -49,12 +52,12 @@
                     </form>
                 }
 
-                </div>
+            </div>
 
-            }
-            if (status.Equals("OFFLINE"))
-            {
-                <div class="flex flex-col md:flex-row gap-4">
+        }
+        if (status.Equals("OFFLINE"))
+        {
+            <div class="flex flex-col md:flex-row gap-4">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                     class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -70,13 +73,13 @@
                         </button>
                     </form>
                 }
-            
 
-                </div>
-            }
-            if (status.Equals("UNAVAILABLE"))
-            {
-                <div class="flex flex-col md:flex-row gap-4">
+
+            </div>
+        }
+        if (status.Equals("UNAVAILABLE"))
+        {
+            <div class="flex flex-col md:flex-row gap-4">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="orange" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -93,42 +96,52 @@
                     </form>
                 }
 
-                </div>
-
-            }
-
-            
-  </div>
-</div>
+            </div>
 
         }
+
+        // Inspired from: https://daisyui.com/components/dropdown/
+        <details class="dropdown">
+            <summary class="m-1 btn">open or close</summary>
+            <ul class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+                <li><a>Item 1</a></li>
+                <li><a>Item 2</a></li>
+            </ul>
+        </details>
+
+    }
     <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col md:flex-row">
         <div class="w-full md:w-1/2">
             <img src="@Model.authorImage" alt="" class="rounded-full h-32 w-32 object-cover mx-auto">
         </div>
         <div class="w-full md:w-1/2 overflow-auto hide-scrollbar mt-4 md:mt-0">
 
-        @if(@Model.getPageName() == username ){
+            @if (@Model.getPageName() == username)
+            {
                 <p class="text-gray-700 font-semibold">Auth Time: <span class="text-blue-500">@authTime</span></p>
-                <p class="text-gray-700 font-semibold">IDP Access Token: <span class="text-blue-500">@idpAccessToken</span></p>
+                <p class="text-gray-700 font-semibold">IDP Access Token: <span class="text-blue-500">@idpAccessToken</span>
+                </p>
                 <p class="text-gray-700 font-semibold">Name: <span class="text-blue-500">@username</span></p>
-                <p class="text-gray-700 font-semibold">Object Identifier: <span class="text-blue-500">@objectIdentifier</span></p>
+                <p class="text-gray-700 font-semibold">Object Identifier: <span
+                        class="text-blue-500">@objectIdentifier</span></p>
                 <p class="text-gray-700 font-semibold">Emails: <span class="text-blue-500">@emails</span></p>
                 <p class="text-gray-700 font-semibold">TFP: <span class="text-blue-500">@tfp</span></p>
-        } else {
-            
-            <p class="text-gray-700 font-semibold">Name: <span class="text-blue-500">@Model.getPageName()</span></p>
-        }
-       <div class="flex items-center gap-4 mt-4">
-            <div class="flex items-center gap-2">
-                <span class="text-2xl font-bold text-blue-500">@Model.followers</span>
-                <span class="text-gray-700 font-semibold">Followers</span>
+            }
+            else
+            {
+
+                <p class="text-gray-700 font-semibold">Name: <span class="text-blue-500">@Model.getPageName()</span></p>
+            }
+            <div class="flex items-center gap-4 mt-4">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl font-bold text-blue-500">@Model.followers</span>
+                    <span class="text-gray-700 font-semibold">Followers</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl font-bold text-blue-500">@Model.following</span>
+                    <span class="text-gray-700 font-semibold">Following</span>
+                </div>
             </div>
-            <div class="flex items-center gap-2">
-                <span class="text-2xl font-bold text-blue-500">@Model.following</span>
-                <span class="text-gray-700 font-semibold">Following</span>
-            </div>
-        </div>
         </div>
 
     </div>
