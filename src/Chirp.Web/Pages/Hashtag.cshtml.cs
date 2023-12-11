@@ -99,12 +99,14 @@ public class HashtagModel : PageModel
         {
             CheepInfoDTO cheepInfoDTO = new CheepInfoDTO
             {
-                Cheep = cheep,
-                UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
-                UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds),
-                TotalReactions = await getTotalReactions(cheep.Id),
-            };
-            CheepInfoList.Add(cheepInfoDTO);
+                CheepInfoDTO cheepInfoDTO = new CheepInfoDTO
+                {
+                    Cheep = cheep,
+                    UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
+                    UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds)
+                };
+                CheepInfoList.Add(cheepInfoDTO);
+            }
         }
 
 
@@ -132,24 +134,6 @@ public class HashtagModel : PageModel
     {
         {
             return reactionAuthorId.Contains(cheepId);
-        }
-    }
-
-    public async Task<string> getTotalReactions(string cheepId)
-    {
-        var total = _reactionRepository.GetReactionByCheepId(cheepId);
-        var totalLikes = total.Result.Count().ToString();
-        if (totalLikes == "0")
-        {
-            return "0 Likes";
-        }
-        else if (totalLikes == "1")
-        {
-            return "1 Like";
-        }
-        else
-        {
-            return totalLikes + " Likes";
         }
     }
 
@@ -201,6 +185,7 @@ public class HashtagModel : PageModel
             await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId, likeID);
         }
 
+        Console.WriteLine(HttpContext.Request.Path);
 
         //When using RedirectToPage() in / root and in public timline it will redirect to /Public, and /public is not a valid page. 
         if (HttpContext.Request.Path == "/Public")
