@@ -71,14 +71,5 @@ namespace Chirp.Infrastructure
         {
             throw new NotImplementedException();
         }
-
-        public Task<List<string>> GetReactionByCheepId(string CheepId)
-        {
-            var getReactionsByCheepId = context.Reactions
-            .Where(r => r.CheepId == CheepId)
-            .Select(r => r.AuthorId)
-            .ToListAsync();
-            return getReactionsByCheepId;
-        }
     }
 }
