@@ -115,6 +115,14 @@ IReactionRepository reactionRepository)
         return Page();
     }
 
+    public async Task<string> getStatusPublic(string name)
+    {
+        var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(name);
+        var Status = StatusAuthorDTO?.Status;
+        Console.WriteLine("Received status: " + Status);
+        return Status;
+    }
+
     //Right now this method is on both public and user timeline. In general there is a lot of repeated code between the two. Seems silly...?
     public bool IsUserFollowingAuthor(string authorID, List<string> followingIDs)
     {

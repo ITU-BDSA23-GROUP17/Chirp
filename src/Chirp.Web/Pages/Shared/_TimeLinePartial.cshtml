@@ -10,12 +10,24 @@
     <ul class="flex flex-col gap-5">
     @foreach (var cheep in viewModel.Cheeps)
         {
+            string status = await Model.getStatusPublic(cheep.AuthorName);
             <div
                 class="border-2 border-black resize-none shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline flex flex-col gap-4">
                 <li>
 
                     <p class="text-black text-sm font-semibold hover:underline">
                         <img class="inline-block h-10 w-10 rounded-full" src="@cheep.AuthorImage" alt="" />
+
+                        @if(status.Equals("ONLINE")){
+
+                        }
+                        @if(status.Equals("OFFLINE")){
+                            
+                        }
+                        @if(status.Equals("UNAVAILABLE")){
+                            
+                        }
+
                         <strong>
                             <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
                         </strong>

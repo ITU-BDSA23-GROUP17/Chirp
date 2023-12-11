@@ -43,7 +43,7 @@
                 @if (User?.Identity.IsAuthenticated == true && User.Identity.Name.Equals(Model.getPageName()))
                 {
                     <form method="post" asp-page-handler="StatusUnavailable">
-                        <button type="submit" class="bg-blue-400 hover:bg-red-200 text-white font-bold py-2 px-4 rounded">
+                        <button type="submit" class="bg-orange-a hover:bg-red-200 text-white font-bold py-2 px-4 rounded">
                             Set to UNAVAILABLE
                         </button>
                     </form>
@@ -71,7 +71,7 @@
                 @if (User?.Identity.IsAuthenticated == true && User.Identity.Name.Equals(Model.getPageName()))
                 {
                     <form method="post" asp-page-handler="StatusUnavailable">
-                        <button type="submit" class="bg-blue-400 hover:bg-red-200 text-white font-bold py-2 px-4 rounded">
+                        <button type="submit" class="bg-orange-a hover:bg-red-200 text-white font-bold py-2 px-4 rounded">
                             Set to UNAVAILABLE
                         </button>
                     </form>
@@ -99,7 +99,7 @@
                 @if (User?.Identity.IsAuthenticated == true && User.Identity.Name.Equals(Model.getPageName()))
                 {
                     <form method="post" asp-page-handler="Status">
-                        <button type="submit" class="bg-blue-400 hover:bg-red-200 text-white font-bold py-2 px-4 rounded">
+                        <button type="submit" class="bg-red-500 hover:bg-red-200 text-white font-bold py-2 px-4 rounded">
                             Set to OFFLINE
                         </button>
                     </form>
