@@ -244,14 +244,22 @@ IReactionRepository reactionRepository)
 
     public async Task<IActionResult> OnPostStatus()
     {
-        Console.WriteLine("hey1");
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
         currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
-        Console.WriteLine("hey2");
-
         await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
+
+        return Redirect("/");
+    }
+
+    public async Task<IActionResult> OnPostStatusUnavailable()
+    {
+        var Claims = User.Claims;
+        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+        await _authorRepository.UpdateAuthorStatusUnavailable(currentlyLoggedInUser?.Email);
 
         return Redirect("/");
     }

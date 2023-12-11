@@ -158,12 +158,16 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public async Task UpdateAuthorStatusAsync(string Email, string newStatus)
+        public async Task UpdateAuthorStatusUnavailable(string Email)
         {
             var authorToUpdate = await context.Authors.Where(a => a.Email == Email).FirstOrDefaultAsync();
-            authorToUpdate.Status = newStatus;
-            context.Authors.Update(authorToUpdate);
-            await context.SaveChangesAsync();
+            if (!authorToUpdate.Status.Equals("UNAVAILABLE"))
+            {
+                authorToUpdate.Status = "UNAVAILABLE";
+                context.Authors.Update(authorToUpdate);
+                Console.WriteLine("NEW STATUS:" + authorToUpdate.Status);
+                await context.SaveChangesAsync();
+            }
         }
 
         public async Task InsertAuthorAsync(string? Name, string Email, string Online)
