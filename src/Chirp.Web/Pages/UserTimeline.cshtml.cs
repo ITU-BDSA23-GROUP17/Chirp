@@ -180,6 +180,15 @@ IReactionRepository reactionRepository)
         return Status;
     }
 
+    public async Task<string> getStatusPublic(string name)
+    {
+        var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(name);
+        var Status = StatusAuthorDTO?.Status;
+        Console.WriteLine("Received user: " + name);
+        Console.WriteLine("Received status: " + Status);
+        return Status;
+    }
+
     public async Task<IActionResult> OnPostFollow(string authorName, string follow, string? unfollow)
     {
         var Claims = User.Claims;

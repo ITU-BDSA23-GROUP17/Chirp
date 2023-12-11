@@ -60,12 +60,7 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
     <ul class="flex flex-col gap-5">
     @foreach (var cheepInfo in viewModel.CheepInfos)
         {
-            try 
-            {
-
-            } catch (Exception e) {
-                
-            }
+            string status = await Model.getStatusPublic(cheepInfo.Cheep.AuthorName);
             <li
                 class="border-2 border-black resize-none shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline flex flex-col gap-4">
 
