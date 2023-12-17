@@ -33,7 +33,7 @@ namespace Chirp.Infrastructure
             return getCheepIdsOnAuthor;
         }
 
-        public async Task InsertNewReactionAsync(string CheepId, string AuthorId, string ReactionTypeId)
+        public async Task InsertNewReactionAsync(string CheepId, string AuthorId)
         {
             context.Reactions.AddAsync(new Reaction() { CheepId = CheepId, AuthorId = AuthorId, TimeStamp = DateTime.Now });
             await context.SaveChangesAsync();
