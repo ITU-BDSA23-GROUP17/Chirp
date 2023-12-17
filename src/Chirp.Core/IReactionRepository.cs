@@ -4,7 +4,7 @@ namespace Chirp.Core
     public interface IReactionRepository
     {
 
-        Task InsertNewReactionAsync(string CheepId, string AuthorId, string ReactionTypeId);
+        Task InsertNewReactionAsync(string CheepId, string AuthorId);
 
         Task RemoveReactionAsync(string CheepId, string AuthorId);
 
