@@ -38,8 +38,8 @@ builder.Services.AddScoped<IHashtagRepository, HashtagRepository>();
 
 if (builder.Environment.IsDevelopment())
 {
-    KeyVaultSecret secret = client.GetSecret("burak-connectionstring");
-    connectionString = secret.Value;
+    KeyVaultSecret secret = client.GetSecret("prod-connectionstring");
+    connectionString = "Server=tcp:chirp17pro.database.windows.net,1433;Initial Catalog=Hanan-chirp;Persist Security Info=False;User ID=chirpadmin;Password=Nasd!234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 }
 else
 {
