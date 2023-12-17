@@ -711,11 +711,11 @@ public static class DbInitializer
             #endregion
 
             #region Reactions added
-            var r1 = new Reaction() { AuthorId = a1.AuthorId, CheepId = c1.CheepId, ReactionTypeId = "like" };
-            var r2 = new Reaction() { AuthorId = a2.AuthorId, CheepId = c1.CheepId, ReactionTypeId = "like" };
-            var r3 = new Reaction() { AuthorId = a3.AuthorId, CheepId = c1.CheepId, ReactionTypeId = "like" };
-            var r4 = new Reaction() { AuthorId = a4.AuthorId, CheepId = c1.CheepId, ReactionTypeId = "like" };
-            var r5 = new Reaction() { AuthorId = a5.AuthorId, CheepId = c1.CheepId, ReactionTypeId = "like" };
+            var r1 = new Reaction() { AuthorId = a1.AuthorId, CheepId = c1.CheepId };
+            var r2 = new Reaction() { AuthorId = a2.AuthorId, CheepId = c1.CheepId };
+            var r3 = new Reaction() { AuthorId = a3.AuthorId, CheepId = c1.CheepId };
+            var r4 = new Reaction() { AuthorId = a4.AuthorId, CheepId = c1.CheepId };
+            var r5 = new Reaction() { AuthorId = a5.AuthorId, CheepId = c1.CheepId };
             var reactions = new List<Reaction>() { r1, r2, r3, r4, r5 };
             #endregion
 
