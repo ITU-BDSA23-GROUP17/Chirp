@@ -15,14 +15,6 @@ namespace Chirp.Infrastructure
             context = dbContext;
         }
 
-        public async Task<List<string>> GetAuthorListReactionByCheepId(string CheepId)
-        {
-            var getAuthorIdOnCheep = await context.Reactions
-            .Where(r => r.CheepId == CheepId)
-            .Select(r => r.AuthorId)
-            .ToListAsync();
-            return getAuthorIdOnCheep;
-        }
 
         public async Task<List<string>> GetCheepIdsByAuthorId(string AuthorId)
         {
@@ -65,11 +57,6 @@ namespace Chirp.Infrastructure
         public void Save()
         {
             context.SaveChanges();
-        }
-
-        Task<List<AuthorDTO>> IReactionRepository.GetAuthorListReactionByCheepId(string CheepId)
-        {
-            throw new NotImplementedException();
         }
 
         public Task<List<string>> GetReactionByCheepId(string CheepId)
