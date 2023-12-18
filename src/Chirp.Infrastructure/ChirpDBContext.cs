@@ -5,7 +5,6 @@ public class ChirpDBContext : DbContext
     public DbSet<Author> Authors { get; set; }
     public DbSet<Cheep> Cheeps { get; set; }
     public DbSet<Reaction> Reactions { get; set; }
-    public DbSet<ReactionType> ReactionTypes { get; set; }
     public DbSet<Follow> Followings { get; set; }
     public DbSet<Hashtag> Hashtags { get; set; }
 

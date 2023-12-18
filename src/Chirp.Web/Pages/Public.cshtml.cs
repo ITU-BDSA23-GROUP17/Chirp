@@ -169,8 +169,6 @@ IReactionRepository reactionRepository)
 
         currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
-        var likeID = "fbd9ecd2-283b-48d2-b82a-544b232d6244";
-
         if (currentlyLoggedInUser == null)
         {
             Console.WriteLine("Can not react to cheep, user is not logged in");
@@ -184,7 +182,7 @@ IReactionRepository reactionRepository)
         else
         {
             Console.WriteLine("Added like on " + cheepId);
-            await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId, likeID);
+            await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId);
         }
 
         Console.WriteLine("Redirecting to /");
