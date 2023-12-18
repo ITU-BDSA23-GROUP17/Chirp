@@ -273,16 +273,35 @@ IReactionRepository reactionRepository)
         return Redirect("/");
     }
 
+     public async Task<IActionResult> OnPostStatusOnline()
+    {
+        var Claims = User.Claims;
+        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+        await _authorRepository.UpdateAuthorStatusOnline(currentlyLoggedInUser?.Email);
+
+        return Redirect("/");
+    }
+
+    public async Task<IActionResult> OnPostStatusOffline()
+    {
+        var Claims = User.Claims;
+        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+        await _authorRepository.UpdateAuthorStatusOffline(currentlyLoggedInUser?.Email);
+
+        return Redirect("/");
+    }
+
     public async Task<IActionResult> OnPostSetStatusOfflineAsync()
     {
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
         currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
-        if (currentlyLoggedInUser.Status.Equals("ONLINE"))
-        {
-            await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
-        }
+        await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
         
         return SignOut(new AuthenticationProperties { RedirectUri = "MicrosoftIdentity/Account/SignedOut" }, "Cookies");
     }

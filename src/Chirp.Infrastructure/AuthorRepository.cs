@@ -170,12 +170,36 @@ namespace Chirp.Infrastructure
             }
         }
 
+        public async Task UpdateAuthorStatusOnline(string Email)
+        {
+            var authorToUpdate = await context.Authors.Where(a => a.Email == Email).FirstOrDefaultAsync();
+            if (!authorToUpdate.Status.Equals("ONLINE"))
+            {
+                authorToUpdate.Status = "ONLINE";
+                context.Authors.Update(authorToUpdate);
+                Console.WriteLine("NEW STATUS:" + authorToUpdate.Status);
+                await context.SaveChangesAsync();
+            }
+        }
+        public async Task UpdateAuthorStatusOffline(string Email)
+        {
+            var authorToUpdate = await context.Authors.Where(a => a.Email == Email).FirstOrDefaultAsync();
+            if (!authorToUpdate.Status.Equals("OFFLINE"))
+            {
+                authorToUpdate.Status = "OFFLINE";
+                context.Authors.Update(authorToUpdate);
+                Console.WriteLine("NEW STATUS:" + authorToUpdate.Status);
+                await context.SaveChangesAsync();
+            }
+        }
+
         public async Task InsertAuthorAsync(string? Name, string Email, string Online)
         {
              Guid guid = Guid.NewGuid();
             GithubClaims githubclaims = new GithubClaims();
             await context.Authors.AddAsync(new Author() { AuthorId = guid.ToString(), Name = Name, Email = Email, Status = Online, Image = await githubclaims.GetGitHubClaimsUserImageAsync(Name) });
         }
+
         // get all authors
 
     }
