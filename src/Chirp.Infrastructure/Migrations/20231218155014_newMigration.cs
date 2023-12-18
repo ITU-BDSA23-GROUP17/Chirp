@@ -116,12 +116,9 @@ namespace Chirp.Infrastructure.Migrations
                 name: "HashtagTexts");
 
             migrationBuilder.DropTable(
-<<<<<<<< HEAD:src/Chirp.Infrastructure/Migrations/20231218155014_newMigration.cs
-========
                 name: "Reactions");
 
             migrationBuilder.DropTable(
->>>>>>>> 9f5f112969b3dfeaab706947c457df41249f66d8:src/Chirp.Infrastructure/Migrations/20231218153256_newMigration.cs
                 name: "Authors");
         }
     }
