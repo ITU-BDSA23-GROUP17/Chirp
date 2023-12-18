@@ -46,7 +46,7 @@ function cheepDisableMultiClick(){
   var textFromTextArea = cheepTextAreaElement.value;
 
   if (textFromTextArea.length > 0) {
-    cheepButtonElement.disabled = false;
+    cheepButtonElement.disabled = true;
     return true;
   } else {
     return false;

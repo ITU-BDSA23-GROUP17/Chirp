@@ -6,16 +6,16 @@
 
 }
 
-<form method="post">
+<form method="post" onsubmit="return cheepDisableMultiClick()">
     <div class="flex  flex-col  gap-4">
 
-        <textarea asp-for="GetNewCheepText" id="cheepTextArea" maxlength="160" oninput="showWordsLeft()" rows="5" onsubmit="return cheepDisableMultiClick()"
+        <textarea asp-for="GetNewCheepText" id="cheepTextArea" maxlength="160" oninput="showWordsLeft()" rows="5"
             cols="50"
             class="border-2 border-black resize-none shadow appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
 
         <div id="charactersLeft">Characters left: 160</div>
 
-        <button id="cheepButton"
+        <button id="cheepButton" type="submit"
             class="border-2 border-red hover:bg-red-200 text-red hover:text-white bg-transparent  py-2 px-4 hover:border-transparent rounded w-full md:w-auto"
             disabled="true">
             Cheep!   </button>
