@@ -733,6 +733,7 @@ public static class DbInitializer
             AuthorId = Guid.NewGuid().ToString(),
             Name = name,
             Email = email,
+            Status = "OFFLINE",
             Cheeps = new List<Cheep>(),
             Image = Image
         };

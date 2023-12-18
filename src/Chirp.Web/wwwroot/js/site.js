@@ -40,6 +40,19 @@ function showWordsLeft() {
     "Character left: " + (160 - textFromTextArea.length);
 }
 
+function cheepDisableMultiClick(){
+  var cheepTextAreaElement = document.getElementById("cheepTextArea");
+  var cheepButtonElement = document.getElementById("cheepButton");
+  var textFromTextArea = cheepTextAreaElement.value;
+
+  if (textFromTextArea.length > 0) {
+    cheepButtonElement.disabled = true;
+    return true;
+  } else {
+    return false;
+  }
+}
+
 // TO UPLOAD profile pics
 const inputDiv = document.getElementById("input-div");
 const uploadButton = document.getElementById("upload-button");

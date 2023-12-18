@@ -32,8 +32,6 @@ IReactionRepository reactionRepository)
     public int pageNr { get; set; }
     public int pages { get; set; }
 
-    public string TotalReactions { get; set; }
-
     public async Task<ActionResult> OnGetAsync()
     {
         List<CheepInfoDTO> CheepInfoList = new List<CheepInfoDTO>();
@@ -51,14 +49,12 @@ IReactionRepository reactionRepository)
             {
                 if (email != null && await _authorRepository.GetAuthorByEmailAsync(email) == null)
                 {
-                    await _authorRepository.InsertAuthorAsync(username, email);
+                    await _authorRepository.InsertAuthorAsync(username, email, "ONLINE");
                     await _authorRepository.SaveAsync();
                     currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
-                }
-                else
-                {
-                    currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+                } else{
+                     currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
                 }
             }
@@ -66,6 +62,8 @@ IReactionRepository reactionRepository)
             {
                 Console.WriteLine("author insert failed");
             }
+        } else if (User.Identity?.IsAuthenticated == true){
+            await _authorRepository.UpdateAuthorStatusAsync(email);
         }
 
 
@@ -93,8 +91,7 @@ IReactionRepository reactionRepository)
                 {
                     Cheep = cheep,
                     UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
-                    UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds),
-                    TotalReactions = await getTotalReactions(cheep.Id),
+                    UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds)
                 };
                 CheepInfoList.Add(cheepInfoDTO);
             }
@@ -118,6 +115,14 @@ IReactionRepository reactionRepository)
         return Page();
     }
 
+    public async Task<string> getStatusPublic(string name)
+    {
+        var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(name);
+        var Status = StatusAuthorDTO?.Status;
+        Console.WriteLine("Received status: " + Status);
+        return Status;
+    }
+
     //Right now this method is on both public and user timeline. In general there is a lot of repeated code between the two. Seems silly...?
     public bool IsUserFollowingAuthor(string authorID, List<string> followingIDs)
     {
@@ -133,23 +138,7 @@ IReactionRepository reactionRepository)
         }
     }
 
-    public async Task<string> getTotalReactions(string cheepId)
-    {
-        var total = _reactionRepository.GetReactionByCheepId(cheepId);
-        var totalLikes = total.Result.Count().ToString();
-        if (totalLikes == "0")
-        {
-            return "0 Likes";
-        }
-        else if (totalLikes == "1")
-        {
-            return "1 Like";
-        }
-        else
-        {
-            return totalLikes + " Likes";
-        }
-    }
+
 
     public async Task<IActionResult> OnPostFollow(string authorName, string follow, string? unfollow)
     {
@@ -173,7 +162,7 @@ IReactionRepository reactionRepository)
         return Redirect("/" + isUserFollowingAuthor.Name.Replace(" ", "%20"));
     }
 
-    public async Task<IActionResult> OnPostReactionP(string cheepId, string authorId, string reaction)
+        public async Task<IActionResult> OnPostReactionP(string cheepId, string authorId, string reaction)
     {
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;

@@ -4,28 +4,52 @@
 }
 
 
-@if (viewModel.Cheeps != null && viewModel.Cheeps.Any() && viewModel.CheepInfos?.Count() == 0)
+@if (viewModel != null && viewModel?.Cheeps != null && viewModel.Cheeps.Any() && viewModel.CheepInfos?.Count() == 0)
 {
 
     <ul class="flex flex-col gap-5">
     @foreach (var cheep in viewModel.Cheeps)
         {
-            <div
-                class="border-2 border-black resize-none shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline flex flex-col gap-4">
+            string status = await Model.getStatusPublic(cheep.AuthorName);
+            <div class="border-2 border-black resize-none shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline flex flex-col gap-4">
                 <li>
-
                     <p class="text-black text-sm font-semibold hover:underline">
-                        <img class="inline-block h-10 w-10 rounded-full" src="@cheep.AuthorImage" alt="" />
-                        <strong>
+                        <div class="flex items-center">
+                        <div class="grid">
+                             <div class="col-start-1 row-start-1">
+                                <img class="inline-block h-10 w-10 rounded-full" src="@cheep.AuthorImage" alt="" />
+                            </div>
+                            <div class="col-start-1 row-start-1 ml-8">
+                       @if(status.Equals("ONLINE")){
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-green-600"  fill="currentColor" aria-hidden="true" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"/></svg>
+                        }
+                        @if(status.Equals("OFFLINE")){
+                            
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-red-600"  fill="currentColor" aria-hidden="true" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"/></svg>
+
+                        }
+                        @if(status.Equals("UNAVAILABLE")){
+                         <svg class="w-4 h-4 text-orange-dark dark:text-[#F2911B]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+    <path d="M17.8 13.75a1 1 0 0 0-.859-.5A7.488 7.488 0 0 1 10.52 2a1 1 0 0 0 0-.969A1.035 1.035 0 0 0 9.687.5h-.113a9.5 9.5 0 1 0 8.222 14.247 1 1 0 0 0 .004-.997Z"/>
+  </svg>
+                        }               
+                                   </div>
+                       
+                        </div>
+                          
+                        <strong style="margin-right: 8px;">
                             <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
                         </strong>
                         <span
                             class="text-sm leading-5 font-medium text-black-400 group-hover:text-black-300 transition ease-in-out duration-150">
                             @cheep.TimeStamp
                         </span>
+                        </div>                      
                     </p>
-                    <p class="text-blue-400 text-sm font-medium text-clip overflow-hidden">
-                        <small class="text-blue-400 text-sm font-medium text-clip overflow-hidden">@cheep.Message</small </p>
+                    
+                   <p class="text-blue-400 text-sm font-medium text-clip overflow-hidden">
+                        <small class="text-blue-400 text-sm font-medium text-clip overflow-hidden">@cheep.Message</small 
+                    </p>
                 </li>
             </div>
         }
@@ -36,14 +60,35 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
     <ul class="flex flex-col gap-5">
     @foreach (var cheepInfo in viewModel.CheepInfos)
         {
+            string status = await Model.getStatusPublic(cheepInfo.Cheep.AuthorName);
             <li
                 class="border-2 border-black resize-none shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline flex flex-col gap-4">
 
                 <div class="flex justify-between items-center">
                     <!-- container for profile picture, name, date -->
                     <div class="flex items-center">
-                        <img style="margin-right: 8px;" class="inline-block h-10 w-10 rounded-full mr-2"
-                            src="@cheepInfo.Cheep.AuthorImage" alt="" />
+                     <div class="grid">
+                             <div class="col-start-1 row-start-1">
+                                <img class="inline-block h-10 w-10 rounded-full" src="@cheepInfo.Cheep.AuthorImage" alt="" />
+                            </div>
+                            <div class="col-start-1 row-start-1 ml-8">
+                       @if(status.Equals("ONLINE")){
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-green-600"  fill="currentColor" aria-hidden="true" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"/></svg>
+                        }
+                        @if(status.Equals("OFFLINE")){
+                            
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-red-600"  fill="currentColor" aria-hidden="true" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"/></svg>
+
+                        }
+                        @if(status.Equals("UNAVAILABLE")){
+                         <svg class="w-4 h-4 text-orange-dark dark:text-[#F2911B]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+    <path d="M17.8 13.75a1 1 0 0 0-.859-.5A7.488 7.488 0 0 1 10.52 2a1 1 0 0 0 0-.969A1.035 1.035 0 0 0 9.687.5h-.113a9.5 9.5 0 1 0 8.222 14.247 1 1 0 0 0 .004-.997Z"/>
+  </svg>
+                        }               
+                                   </div>
+                       
+                        </div>
+
                         <strong style="margin-right: 8px;">
                             <a href="/@cheepInfo.Cheep.AuthorName">@cheepInfo.Cheep.AuthorName</a>
                         </strong>
@@ -114,7 +159,6 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
 <input type="hidden" name="cheepId" value="@cheepInfo.Cheep.Id" />
 
                     </form>
-                <p>@cheepInfo.TotalReactions</p>
                 }
                                 </div>
 

@@ -40,7 +40,7 @@ builder.Services.AddScoped<IHashtagTextRepository, HashtagTextRepository>();
 
 if (builder.Environment.IsDevelopment())
 {
-    KeyVaultSecret secret = client.GetSecret("prod-connectionstring");
+    KeyVaultSecret secret = client.GetSecret("burak-connectionstring");
     connectionString = secret.Value;
 }
 else

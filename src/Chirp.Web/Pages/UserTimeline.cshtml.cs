@@ -2,6 +2,7 @@
 using System.Drawing;
 using Chirp.Core;
 using Chirp.Infrastructure;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
@@ -12,7 +13,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualBasic;
 using static System.Web.HttpUtility;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Sprache;
 
 namespace Chirp.Web.Pages;
 
@@ -25,7 +25,7 @@ public class UserTimelineModel : PageModel
     public int pageNr { get; set; } = 0;
     public int pages { get; set; } = 0;
     private bool isOwnTimeline;
-
+    
     public int followers;
     public int following;
     public string? authorImage;
@@ -126,8 +126,7 @@ IReactionRepository reactionRepository)
                 {
                     Cheep = cheep,
                     UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
-                    UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds),
-                    TotalReactions = await getTotalReactions(cheep.Id)
+                    UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds)
                 };
                 CheepInfoList.Add(cheepInfoDTO);
             }
@@ -171,22 +170,23 @@ IReactionRepository reactionRepository)
         return HttpContext.GetRouteValue("author").ToString();
     }
 
-    public async Task<string> getTotalReactions(string cheepId)
+    public async Task<string> getStatus()
     {
-        var total = _reactionRepository.GetReactionByCheepId(cheepId);
-        var totalLikes = total.Result.Count().ToString();
-        if (totalLikes == "0")
-        {
-            return "0 Likes";
-        }
-        else if (totalLikes == "1")
-        {
-            return "1 Like";
-        }
-        else
-        {
-            return totalLikes + " Likes";
-        }
+        string? viewedUser = HttpContext?.GetRouteValue("author")?.ToString();
+        var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(viewedUser);
+        var Status = StatusAuthorDTO?.Status;
+        Console.WriteLine("Received user: " + viewedUser);
+        Console.WriteLine("Received status: " + Status);
+        return Status;
+    }
+
+    public async Task<string> getStatusPublic(string name)
+    {
+        var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(name);
+        var Status = StatusAuthorDTO?.Status;
+        Console.WriteLine("Received user: " + name);
+        Console.WriteLine("Received status: " + Status);
+        return Status;
     }
 
     public async Task<IActionResult> OnPostFollow(string authorName, string follow, string? unfollow)
@@ -207,8 +207,9 @@ IReactionRepository reactionRepository)
             await _followRepository.RemoveFollowAsync(currentlyLoggedInUser.AuthorId, authorName);
         }
 
+        await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
 
-        return Redirect("/" + isUserFollowingAuthor.Name.Replace(" ", "%20"));
+        return Redirect("/");
     }
 
     public async Task<IActionResult> OnPostReaction(string cheepId, string authorId, string reaction)
@@ -236,6 +237,7 @@ IReactionRepository reactionRepository)
             await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId);
         }
 
+        Console.WriteLine(HttpContext.Request.Path);
 
         //When using RedirectToPage() in / root and in public timline it will redirect to /Public, and /public is not a valid page. 
         if (HttpContext.Request.Path == "/Public")
@@ -247,6 +249,61 @@ IReactionRepository reactionRepository)
             return RedirectToPage();
         }
 
+    }
+
+    public async Task<IActionResult> OnPostStatus()
+    {
+        var Claims = User.Claims;
+        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+        await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
+
+        return Redirect("/");
+    }
+
+    public async Task<IActionResult> OnPostStatusUnavailable()
+    {
+        var Claims = User.Claims;
+        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+        await _authorRepository.UpdateAuthorStatusUnavailable(currentlyLoggedInUser?.Email);
+
+        return Redirect("/");
+    }
+
+     public async Task<IActionResult> OnPostStatusOnline()
+    {
+        var Claims = User.Claims;
+        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+        await _authorRepository.UpdateAuthorStatusOnline(currentlyLoggedInUser?.Email);
+
+        return Redirect("/");
+    }
+
+    public async Task<IActionResult> OnPostStatusOffline()
+    {
+        var Claims = User.Claims;
+        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+        await _authorRepository.UpdateAuthorStatusOffline(currentlyLoggedInUser?.Email);
+
+        return Redirect("/");
+    }
+
+    public async Task<IActionResult> OnPostSetStatusOfflineAsync()
+    {
+        var Claims = User.Claims;
+        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+        await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
+        
+        return SignOut(new AuthenticationProperties { RedirectUri = "MicrosoftIdentity/Account/SignedOut" }, "Cookies");
     }
 
 }
