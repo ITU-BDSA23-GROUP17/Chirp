@@ -7,7 +7,7 @@ namespace Chirp.Infrastructure;
 public class ReactionType
 {
     public required string Id { get; set; }
-   
+
     public required string Name { get; set; }
 
     public required string Icon { get; set; }
