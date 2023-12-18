@@ -3,6 +3,6 @@
 public class HashtagText
 {
 
-    public required string Hashtag { get; set; }
+    public required string HashtagText_ { get; set; }
 
 }

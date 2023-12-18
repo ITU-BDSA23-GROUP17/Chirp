@@ -51,7 +51,7 @@ namespace Chirp.Infrastructure
             return hashtags;
         }
 
-        public List<string> GetPopularHashtagsAsync(List<string> hashtags)
+        public List<string> GetPopularHashtags(List<string> hashtags)
         {
             //New 
             var popularHashtags = hashtags
