@@ -9,7 +9,7 @@
 <form method="post">
     <div class="flex  flex-col  gap-4">
 
-        <textarea asp-for="GetNewCheepText" id="cheepTextArea" maxlength="160" oninput="showWordsLeft()" rows="5"
+        <textarea asp-for="GetNewCheepText" id="cheepTextArea" maxlength="160" oninput="showWordsLeft()" rows="5" onsubmit="return cheepDisableMultiClick()"
             cols="50"
             class="border-2 border-black resize-none shadow appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
 
