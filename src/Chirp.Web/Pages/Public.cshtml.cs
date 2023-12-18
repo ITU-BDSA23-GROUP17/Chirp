@@ -141,7 +141,6 @@ IReactionRepository reactionRepository)
     {
         var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(name);
         var Status = StatusAuthorDTO?.Status;
-        Console.WriteLine("Received status: " + Status);
         return Status;
     }
 
