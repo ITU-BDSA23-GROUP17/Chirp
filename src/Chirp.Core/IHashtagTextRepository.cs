@@ -2,6 +2,6 @@ namespace Chirp.Core
 {
     public interface IHashtagTextRepository
     {
-        Task<List<string>> GetPopularHashtagsAsync();
+        Task<List<string>> GetUniqueHashtagTextsAsync();
     }
 }
