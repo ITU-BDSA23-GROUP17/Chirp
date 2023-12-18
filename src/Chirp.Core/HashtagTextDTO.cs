@@ -1,2 +1,2 @@
 namespace Chirp.Core;
-public record HashtagTextDTO(string Hashtag);
+public record HashtagTextDTO(string HashtagText);
