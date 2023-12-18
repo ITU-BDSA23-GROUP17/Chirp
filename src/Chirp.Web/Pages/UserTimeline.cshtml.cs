@@ -233,7 +233,7 @@ IReactionRepository reactionRepository)
         else
         {
             Console.WriteLine("Added like on " + cheepId);
-            await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId, likeID);
+            await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId);
         }
 
 
