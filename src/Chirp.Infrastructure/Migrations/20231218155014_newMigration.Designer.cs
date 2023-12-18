@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Infrastructure.Migrations
 {
     [DbContext(typeof(ChirpDBContext))]
-    [Migration("20231218112022_newMigration")]
+    [Migration("20231218155014_newMigration")]
     partial class newMigration
     {
         /// <inheritdoc />
@@ -113,24 +113,6 @@ namespace Chirp.Infrastructure.Migrations
                     b.HasKey("CheepId", "AuthorId");
 
                     b.ToTable("Reactions");
-                });
-
-            modelBuilder.Entity("Chirp.Infrastructure.ReactionType", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Icon")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ReactionTypes");
                 });
 
             modelBuilder.Entity("Chirp.Infrastructure.Cheep", b =>
