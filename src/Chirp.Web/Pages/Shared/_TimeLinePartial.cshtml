@@ -88,6 +88,7 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                     @Html.Raw(cheepMessageWithLinks)
                 </p>
                 <!-- Reaction button -->
+                <div class="flex flex-row gap-2">
                 @if (User.Identity.IsAuthenticated)
                 {
                     <form method="post" asp-page-handler="Reaction">
@@ -115,6 +116,8 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                     </form>
                 <p>@cheepInfo.TotalReactions</p>
                 }
+                                </div>
+
             </li>
         }
     </ul>
