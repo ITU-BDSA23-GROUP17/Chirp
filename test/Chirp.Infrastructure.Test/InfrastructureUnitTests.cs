@@ -90,4 +90,39 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         Assert.NotNull(insertedCheep); // Check that we get a cheep
         Assert.Equal("test message cheep", insertedCheep.Text);
     }
+
+    [Fact]
+    public async Task GetCheepIDsByHashtagTextGetsCheepIDsTiedToHashtag()
+    {
+        //Arrange
+        // Start the container
+        await _msSqlContainer.StartAsync();
+
+        // Arrange
+        var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
+        using var context = new ChirpDBContext(builder.Options);
+        context.initializeDB(); //ensure all tables are created
+
+        //Cheep and author repository created
+        ICheepRepository cheepRepository = new CheepRepository(context);
+        IHashtagRepository hashtagRepository = new HashtagRepository(context);
+        IHashtagTextRepository hashtagTextRepository = new HashtagTextRepository(context);
+
+        //Inserting hashtagtext and hashtags into database
+        await hashtagTextRepository.AddHashtag("testHashtag");
+        await hashtagTextRepository.AddHashtag("testHashtag2");
+        await hashtagRepository.InsertNewHashtagCheepPairingAsync("testHashtag", "testCheepId");
+        await hashtagRepository.InsertNewHashtagCheepPairingAsync("testHashtag", "testCheepId2");
+        await hashtagRepository.InsertNewHashtagCheepPairingAsync("testHashtag2", "testCheepId3");
+
+        //Act
+        var cheepIds1 = hashtagRepository.GetCheepIDsByHashtagText("testHashtag");
+        var cheepIds2 = hashtagRepository.GetCheepIDsByHashtagText("testHashtag2");
+
+        //Assert
+        Assert.Equal(cheepIds1, new List<string> { "testCheepId", "testCheepId2" });
+        Assert.Equal(cheepIds2, new List<string> { "testCheepId3" });
+
+    }
+
 }
