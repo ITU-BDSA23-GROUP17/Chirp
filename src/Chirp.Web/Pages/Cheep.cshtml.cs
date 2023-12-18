@@ -10,10 +10,12 @@ namespace Chirp.Web.Pages
     {
         private IAuthorRepository _authorRepository;
         private IHashtagRepository _hashtagRepository;
-        public CheepModel(IAuthorRepository authorRepository, IHashtagRepository hashtagRepository)
+        private IHashtagTextRepository _hashtagTextRepository;
+        public CheepModel(IAuthorRepository authorRepository, IHashtagRepository hashtagRepository, IHashtagTextRepository hashtagTextRepository)
         {
             _authorRepository = authorRepository;
             _hashtagRepository = hashtagRepository;
+            _hashtagTextRepository = hashtagTextRepository;
         }
 
         [BindProperty]
@@ -37,6 +39,7 @@ namespace Chirp.Web.Pages
             {
                 string hashtagText = match.ToString().TrimStart('#');
                 await _hashtagRepository.InsertNewHashtagCheepPairingAsync(hashtagText, cheep.Id);
+                await _hashtagTextRepository.AddHashtag(hashtagText);
             }
 
             // Redirect in the end

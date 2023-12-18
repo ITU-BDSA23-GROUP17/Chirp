@@ -14,6 +14,27 @@ namespace Chirp.Infrastructure
             this.context = context;
         }
 
+        public async Task AddHashtag(string HashtagText)
+        {
+            var hashtag = await context.HashtagTexts.FindAsync(HashtagText);
+            if (hashtag != null)
+            {
+                return;
+            }
+            context.HashtagTexts.Add(new HashtagText() { HashtagText_ = HashtagText });
+            await context.SaveChangesAsync();
+        }
+
+        public async Task RemoveHashtag(string HashtagText)
+        {
+            var hashtag = await context.HashtagTexts.FindAsync(HashtagText);
+            if (hashtag != null)
+            {
+                context.Remove(hashtag);
+                await context.SaveChangesAsync();
+            }
+        }
+
         public Task<List<string>> GetUniqueHashtagTextsAsync()
         {
             var hashtags = context.Hashtags
