@@ -47,10 +47,9 @@ public class DTOTests
         var cheepId = "123456";
         var authorId = "author123";
         var timeStamp = DateTime.UtcNow;
-        var reactionTypeId = "like";
 
         // Act
-        var reactionDTO = new ReactionDTO(cheepId, authorId, timeStamp, reactionTypeId);
+        var reactionDTO = new ReactionDTO(cheepId, authorId, timeStamp);
 
         // Assert
         Assert.Equal(cheepId, reactionDTO.CheepId);
@@ -70,21 +69,5 @@ public class DTOTests
         // Assert
         Assert.Equal(Hashtag, hashtagDTO.Hashtag);
         Assert.Equal(CheepID, hashtagDTO.CheepID);
-    }
-    [Fact]
-    public void ReactionTypeDTO_ShouldHoldProvidedValues()
-    {
-        // Arrange
-        var id = "like";
-        var name = "Like";
-        var icon = "like.png";
-
-        // Act
-        var reactionTypeDTO = new ReactionTypeDTO(id, name, icon);
-
-        // Assert
-        Assert.Equal(id, reactionTypeDTO.Id);
-        Assert.Equal(name, reactionTypeDTO.Name);
-        Assert.Equal(icon, reactionTypeDTO.Icon);
     }
 }
