@@ -100,6 +100,16 @@ namespace Chirp.Infrastructure.Migrations
                     b.ToTable("Hashtags");
                 });
 
+            modelBuilder.Entity("Chirp.Infrastructure.HashtagText", b =>
+                {
+                    b.Property<string>("HashtagText_")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("HashtagText_");
+
+                    b.ToTable("HashtagTexts");
+                });
+
             modelBuilder.Entity("Chirp.Infrastructure.Reaction", b =>
                 {
                     b.Property<string>("CheepId")
@@ -118,24 +128,6 @@ namespace Chirp.Infrastructure.Migrations
                     b.HasKey("CheepId", "AuthorId");
 
                     b.ToTable("Reactions");
-                });
-
-            modelBuilder.Entity("Chirp.Infrastructure.ReactionType", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Icon")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ReactionTypes");
                 });
 
             modelBuilder.Entity("Chirp.Infrastructure.Cheep", b =>

@@ -92,31 +92,37 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task GetStatusOfUserOffline()
+    public async Task GetCheepIDsByHashtagTextGetsCheepIDsTiedToHashtag()
     {
-        // Arrange
-
+        //Arrange
         // Start the container
         await _msSqlContainer.StartAsync();
 
+        // Arrange
         var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
         using var context = new ChirpDBContext(builder.Options);
         context.initializeDB(); //ensure all tables are created
 
-        // initialize author repo
-        IAuthorRepository authorRepository = new AuthorRepository(context);
+        //Cheep and author repository created
+        ICheepRepository cheepRepository = new CheepRepository(context);
+        IHashtagRepository hashtagRepository = new HashtagRepository(context);
+        IHashtagTextRepository hashtagTextRepository = new HashtagTextRepository(context);
 
-        //Getting authorDTO by the name Helge
-        var authorDTOTest = await authorRepository.GetAuthorByNameAsync("Helge");
-        if (authorDTOTest == null)
-        {
-            throw new Exception("Could not find author Helge");
-        }
+        //Inserting hashtagtext and hashtags into database
+        await hashtagTextRepository.AddHashtag("testHashtag");
+        await hashtagTextRepository.AddHashtag("testHashtag2");
+        await hashtagRepository.InsertNewHashtagCheepPairingAsync("testHashtag", "testCheepId");
+        await hashtagRepository.InsertNewHashtagCheepPairingAsync("testHashtag", "testCheepId2");
+        await hashtagRepository.InsertNewHashtagCheepPairingAsync("testHashtag2", "testCheepId3");
 
-        // Act 
-        var User = context.Authors.FirstOrDefault(a => a.Name == "Helge");
+        //Act
+        var cheepIds1 = hashtagRepository.GetCheepIDsByHashtagText("testHashtag");
+        var cheepIds2 = hashtagRepository.GetCheepIDsByHashtagText("testHashtag2");
 
-        // Assert
-        Assert.Equal("OFFLINE", User?.Status);
+        //Assert
+        Assert.Equal(cheepIds1, new List<string> { "testCheepId", "testCheepId2" });
+        Assert.Equal(cheepIds2, new List<string> { "testCheepId3" });
+
     }
+
 }

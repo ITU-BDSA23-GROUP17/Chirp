@@ -51,14 +51,13 @@ namespace Chirp.Infrastructure
             return hashtags;
         }
 
-        public async Task<List<string>> GetPopularHashtagsAsync()
+        public List<string> GetPopularHashtags(List<string> hashtags)
         {
-
-            var hashtags = await GetHashtagsAsync();
+            //New 
             var popularHashtags = hashtags
-                .GroupBy(h => new { h.HashtagText }) // Sort by hashtag text (by creating new anonymous type to sort by)
+                .GroupBy(h => new { h }) // Sort by hashtag text (by creating new anonymous type to sort by)
                 .OrderByDescending(group => group.Count())
-                .Select(group => group.Key.HashtagText) // Select hashtag text from the actual hashtag.
+                .Select(group => group.Key.h) // Select hashtag text from the actual hashtag.
                 .Take(10) // We return at most 10 hashtags
                 .ToList();
 

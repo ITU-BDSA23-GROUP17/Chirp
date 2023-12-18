@@ -51,6 +51,17 @@ namespace Chirp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "HashtagTexts",
+                columns: table => new
+                {
+                    HashtagText_ = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HashtagTexts", x => x.HashtagText_);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Reactions",
                 columns: table => new
                 {
@@ -61,19 +72,6 @@ namespace Chirp.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reactions", x => new { x.CheepId, x.AuthorId });
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ReactionTypes",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ReactionTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -115,10 +113,10 @@ namespace Chirp.Infrastructure.Migrations
                 name: "Hashtags");
 
             migrationBuilder.DropTable(
-                name: "Reactions");
+                name: "HashtagTexts");
 
             migrationBuilder.DropTable(
-                name: "ReactionTypes");
+                name: "Reactions");
 
             migrationBuilder.DropTable(
                 name: "Authors");

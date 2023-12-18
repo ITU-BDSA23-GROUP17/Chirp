@@ -33,6 +33,8 @@ builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<IFollowRepository, FollowRepository>();
 builder.Services.AddScoped<IReactionRepository, ReactionRepository>();
 builder.Services.AddScoped<IHashtagRepository, HashtagRepository>();
+builder.Services.AddScoped<IHashtagTextRepository, HashtagTextRepository>();
+
 
 
 
