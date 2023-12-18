@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Chirp.Infrastructure.Migrations
 {
-    //Main migration file
     [DbContext(typeof(ChirpDBContext))]
     partial class ChirpDBContextModelSnapshot : ModelSnapshot
     {
@@ -118,10 +117,6 @@ namespace Chirp.Infrastructure.Migrations
 
                     b.Property<string>("AuthorId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ReactionTypeId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("TimeStamp")
                         .HasColumnType("datetime2");
