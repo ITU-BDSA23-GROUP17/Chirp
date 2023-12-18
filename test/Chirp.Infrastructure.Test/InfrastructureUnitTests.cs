@@ -143,6 +143,38 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         // Stop the container
         await _msSqlContainer.StopAsync();
     }
+
+    [Fact]
+    public async Task GetAuthorByIdAsync_ReturnsCorrectAuthor()
+    {
+        // Start the container
+        await _msSqlContainer.StartAsync();
+
+        // Arrange
+        var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
+        using var context = new ChirpDBContext(builder.Options);
+        context.initializeDB(); //ensure all tables are created
+        IAuthorRepository authorRepository = new AuthorRepository(context);
+        var expectedName = "tan dang";
+        var expectedEmail = "tanda@itu.dk";
+
+        await authorRepository.InsertAuthorAsync(expectedName, expectedEmail);
+        await context.SaveChangesAsync();
+        var insertedAuthor = await context.Authors.FirstOrDefaultAsync(a => a.Email == expectedEmail);
+
+        // Act
+        var authorDto = await authorRepository.GetAuthorByIdAsync(insertedAuthor.AuthorId);
+
+        // Assert
+        Assert.NotNull(authorDto);
+        Assert.Equal(expectedName, authorDto.Name);
+        Assert.Equal(expectedEmail, authorDto.Email);
+        Assert.Equal(insertedAuthor.AuthorId, authorDto.AuthorId);
+
+        // Stop the container
+        await _msSqlContainer.StopAsync();
+    }
+
     // [Fact]
     // public async Task DeleteAuthorAsync()
     // {
