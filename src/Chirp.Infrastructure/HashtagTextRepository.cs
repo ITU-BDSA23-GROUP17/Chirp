@@ -16,7 +16,12 @@ namespace Chirp.Infrastructure
 
         public Task<List<string>> GetUniqueHashtagTextsAsync()
         {
-            throw new NotImplementedException();
+            var hashtags = context.Hashtags
+                .Select(h => h.HashtagText)
+                .Distinct()
+                .ToListAsync();
+
+            return hashtags;
         }
 
         public async Task SaveAsync()
