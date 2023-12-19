@@ -192,7 +192,7 @@ public sealed class AuthorRepositoryUnitTest : IAsyncLifetime
 
         // Prepare the cheep
         var message = "cheep123";
-        var authorInfoDTO = new AuthorInfoDTO(authorName, author.AuthorId, "");
+        var authorInfoDTO = new AuthorInfoDTO(author.AuthorId, authorName, authorEmail);
 
         // Act
         var cheepDto = await authorRepository.SendCheepAsync(message, authorInfoDTO);
