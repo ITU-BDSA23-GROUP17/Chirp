@@ -138,6 +138,48 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
     }
 
     [Fact]
+    public async Task CheepUnderLimitNotInserted(){
+         // Arrange
+        // Start the container
+        await _msSqlContainer.StartAsync();
+
+        // Arrange
+        var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
+        using var context = new ChirpDBContext(builder.Options);
+        context.initializeDB(); //ensure all tables are created
+
+        //Cheep and author repository created
+        ICheepRepository cheepRepository = new CheepRepository(context);
+        IAuthorRepository authorRepository = new AuthorRepository(context);
+
+        //Getting authorDTO by the name Helge
+        var authorDTOTest = await authorRepository.GetAuthorByNameAsync("Helge");
+        if (authorDTOTest == null)
+        {
+            throw new Exception("Could not find author Helge");
+        }
+        //Getting the authorID from AuthorDTO
+        var authorId = authorDTOTest.AuthorId;
+
+        //We create a cheep
+        var cheepDto = new CheepDTO(
+            Id: "asdasd123",
+            Message: "", // empty cheep
+            TimeStamp: DateTime.Now,
+            AuthorName: "Helge",
+            AuthorId: authorId,
+            AuthorImage: ""
+            );
+
+        // Act
+        var hasInserted = cheepRepository.InsertCheep(cheepDto);
+
+        // Assert
+        Assert.False(hasInserted);
+    }
+
+
+    [Fact]
     public async Task GetCheepIDsByHashtagTextGetsCheepIDsTiedToHashtag()
     {
         //Arrange
