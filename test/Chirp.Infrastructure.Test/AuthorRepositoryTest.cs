@@ -283,5 +283,4 @@ public sealed class AuthorRepositoryUnitTest : IAsyncLifetime
         // Stop the container
         await _msSqlContainer.StopAsync();
     }
-
 }
