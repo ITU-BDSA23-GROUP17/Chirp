@@ -90,54 +90,73 @@ public sealed class HashtagTextRepositoryTest : IAsyncLifetime
 
         //Act
         //We remove the hashtagtext from the database
-        await hashtagTextRepository.RemoveHashtag("testHashtag3");
+        await hashtagTextRepository.RemoveHashtag("testHashtag");
+        await context.SaveChangesAsync();
 
         //Assert
         //We check that the hashtagtext is no longer in the database
-        var hashtagText = context.HashtagTexts.FirstOrDefault(h => h.HashtagText_ == "testHashtag");
+        var hashtagText = await context.HashtagTexts.FirstOrDefaultAsync(h => h.HashtagText_ == "testHashtag");
         Assert.Null(hashtagText);
+        await context.SaveChangesAsync();
+
+        //Cleanup
+        context.HashtagTexts.RemoveRange(context.HashtagTexts);
+        await _msSqlContainer.StopAsync();
+
     }
 
     [Fact]
     public async Task GetUniqueHashtagTexts_ReturnsListOfUniqueHashtagTexts()
     {
-        //Arrange
-        //start the container
+        // Start the container
         await _msSqlContainer.StartAsync();
 
         var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
         using var context = new ChirpDBContext(builder.Options);
         context.initializeDB(); //ensure all tables are created
 
-        //creating hashtagtext repository
         IHashtagTextRepository hashtagTextRepository = new HashtagTextRepository(context);
 
-        //we add a bucnh of hashtags, some of which are the same, sicne we want to check that we only get no duplicates in the list
-        await hashtagTextRepository.AddHashtag("testHashtag");
-        await hashtagTextRepository.AddHashtag("testHashtag");
-        await hashtagTextRepository.AddHashtag("testHashtag2");
-        await hashtagTextRepository.AddHashtag("testHashtag3");
-        await hashtagTextRepository.AddHashtag("testHashtag3");
-        await hashtagTextRepository.AddHashtag("testHashtag4");
-        await hashtagTextRepository.AddHashtag("testHashtag4");
-        await hashtagTextRepository.AddHashtag("testHashtag4");
-        await hashtagTextRepository.AddHashtag("testHashtag5");
+        // Add a bunch of hashtags, some of which are the same, since we want to check that we only get no duplicates in the list
+        var hashtagsToAdd = new List<string>
+    {
+        "testHashtag",
+        "testHashtag2",
+        "testHashtag3",
+        "testHashtag4",
+        "testHashtag5"
+    };
 
-        //Act
-        //we retrieve the list of unique hashtagtexts by invokinh the method we want to test
+        foreach (var hashtag in hashtagsToAdd)
+        {
+            await hashtagTextRepository.AddHashtag(hashtag);
+            // Ensure changes are committed after each addition
+            await context.SaveChangesAsync();
+        }
+
+        // Intentionally add some duplicates
+        await hashtagTextRepository.AddHashtag("testHashtag");
+        await context.SaveChangesAsync();
+
+        await hashtagTextRepository.AddHashtag("testHashtag3");
+        await context.SaveChangesAsync();
+
+        // Retrieve the list of unique hashtag texts by invoking the method we want to test
         var uniqueHashtagTexts = await hashtagTextRepository.GetUniqueHashtagTextsAsync();
 
         // List should contain all unique hashtags
-        await context.SaveChangesAsync();
-        var expectedHashtags = new List<string> { "testHashtag", "testHashtag2", "testHashtag3", "testHashtag4", "testHashtag5" };
-        Assert.Equal(expectedHashtags.Count, uniqueHashtagTexts.Count);
-        foreach (var tag in expectedHashtags)
+        Assert.Equal(hashtagsToAdd.Count, uniqueHashtagTexts.Count);
+        foreach (var expectedTag in hashtagsToAdd)
         {
-            Assert.Contains(tag, uniqueHashtagTexts);
+            Assert.Contains(expectedTag, uniqueHashtagTexts);
         }
 
         // Cleanup
         context.HashtagTexts.RemoveRange(context.HashtagTexts);
+        await context.SaveChangesAsync();
+
+        // Stop the container
         await _msSqlContainer.StopAsync();
     }
+
 }
