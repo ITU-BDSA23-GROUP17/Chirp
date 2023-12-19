@@ -174,6 +174,7 @@ public sealed class AuthorRepositoryUnitTest : IAsyncLifetime
         await _msSqlContainer.StopAsync();
     }
 
+    // Test needs to be fixed
     [Fact]
     public async Task GetAuthorsByIdsAsync_ReturnsCorrectAuthors()
     {
@@ -212,6 +213,7 @@ public sealed class AuthorRepositoryUnitTest : IAsyncLifetime
         await _msSqlContainer.StopAsync();
     }
 
+    // Test needs to be fixed
     [Fact]
     public async Task SendCheepAsync_AddsCheepToAuthor()
     {
