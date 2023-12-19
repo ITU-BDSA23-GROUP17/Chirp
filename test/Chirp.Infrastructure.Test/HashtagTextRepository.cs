@@ -127,8 +127,17 @@ public sealed class HashtagTextRepositoryTest : IAsyncLifetime
         //we retrieve the list of unique hashtagtexts by invokinh the method we want to test
         var uniqueHashtagTexts = await hashtagTextRepository.GetUniqueHashtagTextsAsync();
 
-        //Assert
-        //We check that the list of unique hashtagtexts is correct
-        Assert.Equal(uniqueHashtagTexts, new List<string> { "testHashtag", "testHashtag2", "testHashtag3", "testHashtag4", "testHashtag5" });
+        // List should contain all unique hashtags
+        await context.SaveChangesAsync();
+        var expectedHashtags = new List<string> { "testHashtag", "testHashtag2", "testHashtag3", "testHashtag4", "testHashtag5" };
+        Assert.Equal(expectedHashtags.Count, uniqueHashtagTexts.Count);
+        foreach (var tag in expectedHashtags)
+        {
+            Assert.Contains(tag, uniqueHashtagTexts);
+        }
+
+        // Cleanup
+        context.HashtagTexts.RemoveRange(context.HashtagTexts);
+        await _msSqlContainer.StopAsync();
     }
 }
