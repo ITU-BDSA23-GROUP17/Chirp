@@ -1,13 +1,16 @@
-![Local Image](./images/ITU_logo.jpg)
 
 # Report BDSA GROUP 17 2023
+![](./images/ITU_logo.jpg)
 
-## Group members 
-1. Burak Özdemir
-2. Hanan Choudhary Hadayat
-3. Joshua James Medilo Calba
-4. Julius Dalsgaard Bertelsen
-5. Tan Dang
+
+
+| Name                       | Email        | Date of Birth |
+|----------------------------|--------------|---------------|
+| Burak Özdemir              | buoe@itu.dk  |               |
+| Hanan Choudhary Hadayat    | abha@itu.dk  |               |
+| Joshua James Medilo Calba  | jcal@itu.dk  |               |
+| Julius Dalsgaard Bertelsen | jube@itu.dk  |               |
+| Tan Dang                   | tanda@itu.dk |               |
 
 ## Design and architecture
 
