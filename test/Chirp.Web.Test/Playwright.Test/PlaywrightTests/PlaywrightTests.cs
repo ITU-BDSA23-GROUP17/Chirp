@@ -14,6 +14,11 @@ public class PlaywrightTests : PageTest
     public async Task CheckElementPresence()
     {
 
+        if (Environment.GetEnvironmentVariable("GITHUB_ACTIONS") == "true")
+        {
+            Assert.Ignore("Not to be run on GitHub Actions");
+        }
+
         // get the website 
         await Page.GotoAsync("https://bdsagroup17chirprazor.azurewebsites.net/");
 
