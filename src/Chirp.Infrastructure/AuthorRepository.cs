@@ -175,7 +175,7 @@ namespace Chirp.Infrastructure
         public async Task UpdateAuthorStatusUnavailable(string Email)
         {
             var authorToUpdate = await context.Authors.Where(a => a.Email == Email).FirstOrDefaultAsync();
-            if (authorToUpdate != null)
+            if (authorToUpdate != null && !authorToUpdate.Status.Equals("UNAVAILABLE"))
             {
                 if (!authorToUpdate.Status.Equals("UNAVAILABLE"))
                 {
@@ -189,7 +189,7 @@ namespace Chirp.Infrastructure
         public async Task UpdateAuthorStatusOnline(string Email)
         {
             var authorToUpdate = await context.Authors.Where(a => a.Email == Email).FirstOrDefaultAsync();
-            if (authorToUpdate != null)
+            if (authorToUpdate != null && !authorToUpdate.Status.Equals("ONLINE"))
             {
                 if (!authorToUpdate.Status.Equals("ONLINE"))
                 {

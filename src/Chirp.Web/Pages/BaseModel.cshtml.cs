@@ -223,4 +223,15 @@ public class BaseModel : PageModel
 
         return SignOut(new AuthenticationProperties { RedirectUri = "/MicrosoftIdentity/Account/SignedOut" }, "Cookies");
     }
+
+    public async Task<IActionResult> OnPostDelete(string cheepId)
+    {
+        var Claims = User.Claims;
+        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+        await _cheepRepository.DeleteCheepAsync(cheepId);
+
+        return Redirect("/");
+    }
 }

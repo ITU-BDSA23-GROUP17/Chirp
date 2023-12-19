@@ -82,7 +82,7 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
             );
 
         // Act
-        cheepRepository.InsertCheep(cheepDto);
+        await cheepRepository.InsertCheepAsync(cheepDto);
         context.SaveChanges(); // Save changes to in-memory database
 
         // Assert

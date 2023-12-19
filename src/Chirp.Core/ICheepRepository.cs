@@ -1,22 +1,22 @@
+using System.Threading.Tasks;
 
 namespace Chirp.Core
 {
-    public interface ICheepRepository : IDisposable
+    public interface ICheepRepository
     {
-        public IEnumerable<CheepDTO> GetCheeps(int page);
-        CheepDTO? GetCheepByID(int cheepId);
-        IEnumerable<CheepDTO> GetCheepsByAuthor(string authorName, int page);
-        IEnumerable<CheepDTO> GetCheepsByAuthors(List<String> authorNames, int page);
-        IEnumerable<CheepDTO> GetCheepsByCheepIds(List<String> authorNames, int page);
+        Task<IEnumerable<CheepDTO>> GetCheepsAsync(int page);
+        Task<CheepDTO?> GetCheepByIDAsync(string cheepId);
 
-        int getPages();
-        int getPagesUser(string author);
-        int getPagesFromCheepCount(int cheepCount);
-        bool InsertCheep(CheepDTO Cheep);
-        void DeleteCheep(int cheepId);
-        void UpdateCheep(CheepDTO Cheep);
 
-        void Save();
+        Task<IEnumerable<CheepDTO>> GetCheepsByAuthorAsync(string authorName, int page);
+        Task<IEnumerable<CheepDTO>> GetCheepsByAuthorsAsync(List<String> authorNames, int page);
+        Task<IEnumerable<CheepDTO>> GetCheepsByCheepIdsAsync(List<String> authorNames, int page);
 
+        Task<int> GetPagesAsync();
+        Task<int> GetPagesUserAsync(string author);
+        Task<int> GetPagesFromCheepCountAsync(int cheepCount);
+        Task InsertCheepAsync(CheepDTO Cheep);
+        Task DeleteCheepAsync(string cheepId);
+        Task UpdateCheepAsync(CheepDTO Cheep);
     }
 }

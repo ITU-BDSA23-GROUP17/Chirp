@@ -66,7 +66,7 @@ public class HashtagModel : BaseModel
         cheepIds = _hashtagRepository.GetCheepIDsByHashtagText(currentHashtagText);
         if (cheepIds != null)
         {
-            Cheeps = _cheepRepository.GetCheepsByCheepIds(cheepIds, pageNr);
+            Cheeps = await _cheepRepository.GetCheepsByCheepIdsAsync(cheepIds, pageNr);
         }
         else
         {
@@ -75,7 +75,7 @@ public class HashtagModel : BaseModel
 
         //source https://stackoverflow.com/questions/6514292/c-sharp-razor-url-parameter-from-view 
         // pages = _service.getPagesHome(true, author);
-        pages = _cheepRepository.getPagesFromCheepCount(Cheeps.Count());
+        pages = await _cheepRepository.GetPagesFromCheepCountAsync(Cheeps.Count());
 
 
 
