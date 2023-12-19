@@ -5,6 +5,13 @@ button.addEventListener("click", () => {
   menu.classList.toggle("hidden");
 });
 
+// ask user if they arer sure they want to delete their profile
+function confirmForget() {
+  var confirmResult = window.confirm("Are you sure? This action cannot be undone!");
+
+  return confirmResult; 
+}
+
 // parts of function shortened thanks to ChatGPT
 function showWordsLeft() {
   var cheepTextAreaElement = document.getElementById("cheepTextArea");
