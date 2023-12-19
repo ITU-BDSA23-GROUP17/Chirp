@@ -131,9 +131,15 @@ public sealed class HashtagTextRepositoryTest : IAsyncLifetime
         await context.SaveChangesAsync();
         var expectedHashtags = new List<string> { "testHashtag", "testHashtag2", "testHashtag3", "testHashtag4", "testHashtag5" };
         Assert.Equal(expectedHashtags.Count, uniqueHashtagTexts.Count);
+        foreach (var expectedTag in expectedHashtags)
+        {
+            Assert.Contains(expectedTag, uniqueHashtagTexts);
+        }
+
 
         // Cleanup
         context.HashtagTexts.RemoveRange(context.HashtagTexts);
+        await context.SaveChangesAsync();
         await _msSqlContainer.StopAsync();
     }
 }
