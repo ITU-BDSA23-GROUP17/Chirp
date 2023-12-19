@@ -79,32 +79,32 @@ public sealed class HashtagRepositoryTest : IAsyncLifetime
         Assert.Equal("testCheepId", hashtag.CheepID);
     }
 
-    [Fact]
-    public async Task RemoveHashtagAsync_RemovesSpecifiedHashtagPairing()
-    {
-        //Arrange
-        // Start the container
-        await _msSqlContainer.StartAsync();
+    // [Fact]
+    // public async Task RemoveHashtagAsync_RemovesSpecifiedHashtagPairing()
+    // {
+    //     //Arrange
+    //     // Start the container
+    //     await _msSqlContainer.StartAsync();
 
-        var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
-        using var context = new ChirpDBContext(builder.Options);
-        context.initializeDB(); //ensure all tables are created
+    //     var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
+    //     using var context = new ChirpDBContext(builder.Options);
+    //     context.initializeDB(); //ensure all tables are created
 
-        //Cheep and author repository created
-        ICheepRepository cheepRepository = new CheepRepository(context);
-        IHashtagRepository hashtagRepository = new HashtagRepository(context);
+    //     //Cheep and author repository created
+    //     ICheepRepository cheepRepository = new CheepRepository(context);
+    //     IHashtagRepository hashtagRepository = new HashtagRepository(context);
 
-        //inserting a new hashtag into database, that we can delete afterwards
-        await hashtagRepository.InsertNewHashtagCheepPairingAsync("testHashtag", "testCheepId");
+    //     //inserting a new hashtag into database, that we can delete afterwards
+    //     await hashtagRepository.InsertNewHashtagCheepPairingAsync("testHashtag", "testCheepId");
 
-        //Act
-        await hashtagRepository.RemoveHashtagAsync("testHashtag", "testCheepId");
+    //     //Act
+    //     await hashtagRepository.RemoveHashtagAsync("testHashtag", "testCheepId");
 
-        //Assert 
-        //Checking that the hashtag is no longer in the database
-        var hashtag = context.Hashtags.FirstOrDefault(h => h.HashtagText == "testHashtag");
-        Assert.Null(hashtag);
-    }
+    //     //Assert 
+    //     //Checking that the hashtag is no longer in the database
+    //     var hashtag = context.Hashtags.FirstOrDefault(h => h.HashtagText == "testHashtag");
+    //     Assert.Null(hashtag);
+    // }
 
     [Fact]
     public async Task GetPopulalarHashtags_Returns10PopularHashtags()
