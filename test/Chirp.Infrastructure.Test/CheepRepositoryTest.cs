@@ -56,7 +56,7 @@ public sealed class CheepRepositoryTest : IAsyncLifetime
             );
 
         // Act
-        cheepRepository.InsertCheepAsync(cheepDto);
+        await cheepRepository.InsertCheepAsync(cheepDto);
         context.SaveChanges(); // Save changes to in-memory database
 
         // Assert
