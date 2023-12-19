@@ -47,7 +47,7 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task InsertCheepAddsCheepToDatabase()
+    public async Task InsertCheepAsyncAddsCheepToDatabase()
     {
         // Arrange
         // Start the container
@@ -92,8 +92,9 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task CheepOverLimitNotInserted(){
-         // Arrange
+    public async Task CheepOverLimitNotInserted()
+    {
+        // Arrange
         // Start the container
         await _msSqlContainer.StartAsync();
 
@@ -131,15 +132,16 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
             );
 
         // Act
-        var hasInserted = cheepRepository.InsertCheep(cheepDto);
+        var hasInserted = cheepRepository.InsertCheepAsync(cheepDto);
 
         // Assert
-        Assert.False(hasInserted);
+        Assert.False(hasInserted.IsCompleted);
     }
 
     [Fact]
-    public async Task CheepUnderLimitNotInserted(){
-         // Arrange
+    public async Task CheepUnderLimitNotInserted()
+    {
+        // Arrange
         // Start the container
         await _msSqlContainer.StartAsync();
 
@@ -172,10 +174,10 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
             );
 
         // Act
-        var hasInserted = cheepRepository.InsertCheep(cheepDto);
+        var hasInserted = cheepRepository.InsertCheepAsync(cheepDto);
 
         // Assert
-        Assert.False(hasInserted);
+        Assert.False(hasInserted.IsCompleted);
     }
 
 

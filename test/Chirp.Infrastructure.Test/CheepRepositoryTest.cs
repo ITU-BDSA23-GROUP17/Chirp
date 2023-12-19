@@ -21,7 +21,7 @@ public sealed class CheepRepositoryTest : IAsyncLifetime
     }
 
     [Fact]
-    public async Task InsertCheepAddsCheepToDatabase()
+    public async Task InsertCheepAsyncAddsCheepToDatabase()
     {
         // Arrange
         // Start the container
@@ -56,7 +56,7 @@ public sealed class CheepRepositoryTest : IAsyncLifetime
             );
 
         // Act
-        cheepRepository.InsertCheep(cheepDto);
+        cheepRepository.InsertCheepAsync(cheepDto);
         context.SaveChanges(); // Save changes to in-memory database
 
         // Assert
