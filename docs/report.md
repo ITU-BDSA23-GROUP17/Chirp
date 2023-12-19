@@ -1,11 +1,12 @@
 
+![](./images/ITU_logo.jpg)
+
 # BDSA GROUP 17 2023
 
 ## Course code: BSANDSA1KU
 ## Date: December 21, 2023
 
 
-![](./images/ITU_logo.jpg)
 
 | Name                       | Email        | Date of Birth |
 |----------------------------|--------------|---------------|
