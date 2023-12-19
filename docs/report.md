@@ -15,7 +15,7 @@
 ## Design and architecture
 
 ### Domain model
-<!-- ![Local Image](./docs/images/uml/Domain-model-Chirp.Core.drawio.svg) -->
+![Domain model](./images/uml/Domain-model-Chirp.Core.drawio.svg)
 
 <!-- Provide an illustration of your domain model.
 Make sure that it is correct and complete.
