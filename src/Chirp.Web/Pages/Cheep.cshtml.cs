@@ -1,6 +1,5 @@
 using System.Text.RegularExpressions;
 using Chirp.Core;
-using Chirp.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -11,6 +10,10 @@ namespace Chirp.Web.Pages
         private IAuthorRepository _authorRepository;
         private IHashtagRepository _hashtagRepository;
         private IHashtagTextRepository _hashtagTextRepository;
+
+        // suppress warnings
+        #pragma warning disable CS8618
+
         public CheepModel(IAuthorRepository authorRepository, IHashtagRepository hashtagRepository, IHashtagTextRepository hashtagTextRepository)
         {
             _authorRepository = authorRepository;

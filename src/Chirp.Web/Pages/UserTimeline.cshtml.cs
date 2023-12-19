@@ -22,6 +22,8 @@ public class UserTimelineModel : BaseModel
 
     private readonly IUserService _userService;
 
+    // suppress warnings
+    #pragma warning disable CS8618
 
     public UserTimelineModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository,
 IReactionRepository reactionRepository, IUserService userService) : base(cheepRepository, authorRepository, followRepository, reactionRepository)

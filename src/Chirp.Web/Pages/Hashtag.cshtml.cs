@@ -1,18 +1,6 @@
-﻿
-using System.Drawing;
-using Chirp.Core;
-using Chirp.Infrastructure;
+﻿using Chirp.Core;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.ViewComponents;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Mvc.ViewEngines;
-using Microsoft.Identity.Web;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualBasic;
 using static System.Web.HttpUtility;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Drawing.Printing;
 
 namespace Chirp.Web.Pages;
 
@@ -30,12 +18,15 @@ public class HashtagModel : BaseModel
     public AuthorDTO authorDTO { get; set; }
     private string currentHashtagText;
     private new AuthorDTO? currentlyLoggedInUser;
-    private List<String> cheepIds;
-    public List<String> uniqueHashtagTexts { get; set; }
-    public List<String> popularHashtags { get; set; }
+    private List<string> cheepIds;
+    public List<string> uniqueHashtagTexts { get; set; }
+    public List<string> popularHashtags { get; set; }
 
     private readonly IHashtagRepository _hashtagRepository;
     private readonly IHashtagTextRepository _hashtagTextRepository;
+
+    // suppress warnings
+    #pragma warning disable CS8618
 
     public HashtagModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository,
     IReactionRepository reactionRepository, IHashtagRepository hashtagRepository, IHashtagTextRepository hashtagTextRepository) : base(cheepRepository, authorRepository, followRepository, reactionRepository)

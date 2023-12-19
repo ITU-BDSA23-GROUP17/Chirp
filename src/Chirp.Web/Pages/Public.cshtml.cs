@@ -7,7 +7,9 @@ namespace Chirp.Web.Pages;
 public class PublicModel : BaseModel
 {
 
-
+    // suppress warnings
+    #pragma warning disable CS8618
+    
     public PublicModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository,
 IReactionRepository reactionRepository) : base(cheepRepository, authorRepository, followRepository, reactionRepository)
     {
