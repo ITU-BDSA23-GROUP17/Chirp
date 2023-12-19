@@ -40,6 +40,7 @@ function showWordsLeft() {
     "Character left: " + (160 - textFromTextArea.length);
 }
 
+// Makes sure 'Cheep!' button can't be tapped again while submitting cheep
 function cheepDisableMultiClick(){
   var cheepTextAreaElement = document.getElementById("cheepTextArea");
   var cheepButtonElement = document.getElementById("cheepButton");
@@ -50,6 +51,15 @@ function cheepDisableMultiClick(){
     return true;
   } else {
     return false;
+  }
+}
+
+// Ask user if they're sure they want to delete their profile
+function AskToForget(){
+  var confirmForget = window.confirm("Are you sure? This action cannot be undone!");
+
+  if (confirmForget){
+    
   }
 }
 
