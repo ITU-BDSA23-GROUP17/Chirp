@@ -212,6 +212,44 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         await _msSqlContainer.StopAsync();
     }
 
+    [Fact]
+    public async Task SendCheepAsync_AddsCheepToAuthor()
+    {
+        // Start the container
+        await _msSqlContainer.StartAsync();
+
+        // Arrange
+        var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
+        using var context = new ChirpDBContext(builder.Options);
+        context.initializeDB();
+        IAuthorRepository authorRepository = new AuthorRepository(context);
+
+        // Insert an author
+        var authorName = "tan dang";
+        var authorEmail = "tanda@itu.dk";
+        await authorRepository.InsertAuthorAsync(authorName, authorEmail);
+        await context.SaveChangesAsync();
+
+        var author = await context.Authors.FirstOrDefaultAsync(a => a.Email == authorEmail);
+
+        // Prepare the cheep
+        var message = "cheep123";
+        var authorInfoDTO = new AuthorInfoDTO(authorName, author.AuthorId, "");
+
+        // Act
+        var cheepDto = await authorRepository.SendCheepAsync(message, authorInfoDTO);
+        await context.SaveChangesAsync();
+
+        // Assert
+        var cheep = await context.Cheeps.FindAsync(cheepDto.Id);
+        Assert.NotNull(cheep);
+        Assert.Equal(message, cheep.Text);
+        Assert.Equal(author.AuthorId, cheep.AuthorId);
+
+        // Stop the container
+        await _msSqlContainer.StopAsync();
+    }
+
 
     [Fact]
     public async Task UpdateAuthorAsync_UpdatesAuthorDetailsCorrectly()
