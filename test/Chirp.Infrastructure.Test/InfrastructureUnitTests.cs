@@ -269,7 +269,7 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         await followRepository.InsertNewFollowAsync("testFollowerAuthorId2", "testFollowedAuthorId4");
 
         //Act
-        var followingCounts = await followRepository.GetFollowingCountByAuthorIDAsync("testFollowedAuthorId");
+        var followingCounts = await followRepository.GetFollowingCountByAuthorIDAsync("testFollowerAuthorId");
 
         //Assert
         //We expect to see three followings by id testFollowerAuthorId.
