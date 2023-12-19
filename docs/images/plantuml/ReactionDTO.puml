@@ -1,0 +1,7 @@
+@startuml
+class ReactionDTO <<record>> {
+    + CheepId : string <<get>> <<init>>
+    + AuthorId : string <<get>> <<init>>
+}
+ReactionDTO --> "TimeStamp" DateTime
+@enduml

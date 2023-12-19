@@ -1,0 +1,7 @@
+@startuml
+class AuthorInfoDTO <<record>> {
+    + AuthorId : string <<get>> <<init>>
+    + Name : string <<get>> <<init>>
+    + Email : string <<get>> <<init>>
+}
+@enduml
