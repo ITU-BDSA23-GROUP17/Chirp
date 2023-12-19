@@ -27,19 +27,31 @@ namespace Chirp.Web.Pages
 
             var Claims = User.Claims;
             var name = Claims.FirstOrDefault(c => c.Type == "name")?.Value;
-            var author = await _authorRepository.GetAuthorByNameAsync(name);
+            AuthorDTO? author = null;
+            CheepDTO? cheep = null;
+            if (name != null)
+            {
+                author = await _authorRepository.GetAuthorByNameAsync(name);
+            }
 
-            var cheep = await _authorRepository.SendCheepAsync(GetNewCheepText, new AuthorInfoDTO(author.AuthorId, author.Name, author.Email));
+            if (author != null)
+            {
+                cheep = await _authorRepository.SendCheepAsync(GetNewCheepText, new AuthorInfoDTO(author.AuthorId, author.Name, author.Email));
+            }
 
             //use regex to recognize hashtags from the cheep text
             Regex regex = new Regex(@"#\w+");
             MatchCollection matches = regex.Matches(GetNewCheepText);
             //cycle through the matches, and add them to the hashtag repository with the cheep.
-            foreach (Match match in matches)
+            if (cheep != null && cheep.Id != null)
             {
-                string hashtagText = match.ToString().TrimStart('#');
-                await _hashtagRepository.InsertNewHashtagCheepPairingAsync(hashtagText, cheep.Id);
-                await _hashtagTextRepository.AddHashtag(hashtagText);
+
+                foreach (Match match in matches)
+                {
+                    string hashtagText = match.ToString().TrimStart('#');
+                    await _hashtagRepository.InsertNewHashtagCheepPairingAsync(hashtagText, cheep.Id);
+                    await _hashtagTextRepository.AddHashtag(hashtagText);
+                }
             }
 
             // Redirect in the end
@@ -47,7 +59,7 @@ namespace Chirp.Web.Pages
         }
         public void OnGet()
         {
-            if (!User.Identity.IsAuthenticated)
+            if (User != null && User.Identity != null && !User.Identity.IsAuthenticated)
             {
 
                 Response.Redirect("/MicrosoftIdentity/Account/SignIn");

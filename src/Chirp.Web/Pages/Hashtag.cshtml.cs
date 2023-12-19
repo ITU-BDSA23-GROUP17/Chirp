@@ -100,7 +100,7 @@ public class HashtagModel : BaseModel
                     Cheep = cheep,
                     UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
                     UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds),
-                    TotalReactions = await getTotalReactions(cheep.Id),
+                    TotalReactions = getTotalReactions(cheep.Id),
 
                 };
                 CheepInfoList.Add(cheepInfoDTO);
@@ -121,7 +121,7 @@ public class HashtagModel : BaseModel
         return Page();
     }
 
-    public async Task<string> getTotalReactions(string cheepId)
+    public string getTotalReactions(string cheepId)
     {
         var total = _reactionRepository.GetReactionByCheepId(cheepId);
         var totalLikes = total.Result.Count().ToString();
