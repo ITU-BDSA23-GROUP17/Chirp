@@ -27,7 +27,7 @@ namespace Chirp.Infrastructure
 
         public async Task InsertNewReactionAsync(string CheepId, string AuthorId)
         {
-            context.Reactions.AddAsync(new Reaction() { CheepId = CheepId, AuthorId = AuthorId, TimeStamp = DateTime.Now });
+            await context.Reactions.AddAsync(new Reaction() { CheepId = CheepId, AuthorId = AuthorId, TimeStamp = DateTime.Now });
             await context.SaveChangesAsync();
         }
 
