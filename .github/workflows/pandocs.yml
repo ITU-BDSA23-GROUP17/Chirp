@@ -14,10 +14,10 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Install Pandoc
+    - name: Install Pandoc and TeX Live
       run: |
         sudo apt-get update
-        sudo apt-get install pandoc -y
+        sudo apt-get install pandoc texlive-xetex -y
 
     - name: Convert Markdown to PDF
       run: |
