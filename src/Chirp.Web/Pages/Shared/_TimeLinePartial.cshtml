@@ -47,9 +47,15 @@
                         </div>                      
                     </p>
                     
-                   <p class="text-blue-400 text-sm font-medium text-clip overflow-hidden">
-                        <small class="text-blue-400 text-sm font-medium text-clip overflow-hidden">@cheep.Message</small 
-                    </p>
+                  <!-- cheep text -->
+                <p class="text-gray-400 text-sm font-semibold ">
+                    @{
+                        // Use regex to find hashtags and replace them with blue text
+                        string cheepMessageWithLinks = System.Text.RegularExpressions.Regex.Replace(cheep.Message,
+                        @"#\w+", match => $"<a href=\"/tag/{match.Value.TrimStart('#')}\" class=\"text-blue-400\">{match.Value}</a>");
+                    }
+                    @Html.Raw(cheepMessageWithLinks)
+                </p>
                 </li>
             </div>
         }
@@ -82,12 +88,12 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                         }
                         @if(status.Equals("UNAVAILABLE")){
                          <svg class="w-4 h-4 text-orange-dark dark:text-[#F2911B]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
-    <path d="M17.8 13.75a1 1 0 0 0-.859-.5A7.488 7.488 0 0 1 10.52 2a1 1 0 0 0 0-.969A1.035 1.035 0 0 0 9.687.5h-.113a9.5 9.5 0 1 0 8.222 14.247 1 1 0 0 0 .004-.997Z"/>
-  </svg>
+                            <path d="M17.8 13.75a1 1 0 0 0-.859-.5A7.488 7.488 0 0 1 10.52 2a1 1 0 0 0 0-.969A1.035 1.035 0 0 0 9.687.5h-.113a9.5 9.5 0 1 0 8.222 14.247 1 1 0 0 0 .004-.997Z"/>
+                         </svg>
                         }               
-                                   </div>
+                      </div>
                        
-                        </div>
+                    </div>
 
                         <strong style="margin-right: 8px;">
                             <a href="/@cheepInfo.Cheep.AuthorName">@cheepInfo.Cheep.AuthorName</a>
@@ -133,7 +139,7 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                     @Html.Raw(cheepMessageWithLinks)
                 </p>
                 <!-- Reaction button -->
-                <div class="flex flex-row gap-2">
+                <div class="flex flex-row gap-2 items-center">
                 @if (User.Identity.IsAuthenticated)
                 {
                     <form method="post" asp-page-handler="Reaction">
@@ -156,9 +162,9 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                         <input type="hidden" name="authorId" value="@cheepInfo.Cheep.AuthorId" />
                         <input type="hidden" name="cheepId" value="@cheepInfo.Cheep.Id" />
                     </form>
-                    <p>@cheepInfo.TotalReactions</p>
+                    <p >@cheepInfo.TotalReactions</p>
                 }
-                     </div>
+                </div>
 
 
             </li>

@@ -20,6 +20,8 @@ KeyVaultSecret clientSecret = client.GetSecret("ClientSecret");
 // Add the ClientSecret to the AzureADB2C configuration
 azureAdB2COptions["ClientSecret"] = clientSecret.Value;
 
+// setup graph api
+var userService = new UserService(azureAdB2COptions["ClientID"], azureAdB2COptions["Domain"], azureAdB2COptions["ClientSecret"]);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -34,7 +36,7 @@ builder.Services.AddScoped<IFollowRepository, FollowRepository>();
 builder.Services.AddScoped<IReactionRepository, ReactionRepository>();
 builder.Services.AddScoped<IHashtagRepository, HashtagRepository>();
 builder.Services.AddScoped<IHashtagTextRepository, HashtagTextRepository>();
-
+builder.Services.AddScoped<IUserService>(_ => userService);
 
 
 

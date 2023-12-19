@@ -18,7 +18,7 @@ namespace Chirp.Core
         Task UpdateAuthorStatusOnline(string Email);
         Task UpdateAuthorStatusOffline(string Email);
         Task UpdateAuthorStatusUnavailable(string Email);
-        Task DeleteAuthorAsync(int authorId);
+        Task DeleteAuthorAsync(string name);
         Task UpdateAuthorAsync(AuthorDTO author);
 
         Task<CheepDTO> SendCheepAsync(string message, AuthorInfoDTO author);

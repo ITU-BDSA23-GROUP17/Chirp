@@ -16,7 +16,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Chirp.Web.Pages;
 
-public class UserTimelineModel : PageModel
+public class UserTimelineModel : BaseModel
 {
     //(We initialize with standard placeholder values to be overwritten later, to avoid
     //'Non-nullable property must contain a non-null value when exiting constructor.' warning'))
@@ -25,36 +25,22 @@ public class UserTimelineModel : PageModel
     public int pageNr { get; set; } = 0;
     public int pages { get; set; } = 0;
     private bool isOwnTimeline;
-    
+
     public int followers;
     public int following;
     public string? authorImage;
     public AuthorDTO authorDTO { get; set; } = null;
-    private AuthorDTO currentlyLoggedInUser;
 
-
-    [BindProperty]
-    public IFormFile Upload { get; set; }
-
-
-    private readonly ICheepRepository _cheepRepository;
-    private readonly IAuthorRepository _authorRepository;
-    private readonly IFollowRepository _followRepository;
-    private readonly IReactionRepository _reactionRepository;
-
+    private readonly IUserService _userService;
 
 
     public UserTimelineModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository,
-IReactionRepository reactionRepository)
+IReactionRepository reactionRepository, IUserService userService) : base(cheepRepository, authorRepository, followRepository, reactionRepository)
     {
-        _cheepRepository = cheepRepository;
-        _authorRepository = authorRepository;
-        _followRepository = followRepository;
-        _reactionRepository = reactionRepository;
-
-
+        _userService = userService;
     }
-    public async Task<IActionResult> OnGet(string author)
+
+    public async Task<IActionResult> OnGetAsync(string author)
     {
         List<CheepInfoDTO> CheepInfoList = new List<CheepInfoDTO>();
 
@@ -151,11 +137,11 @@ IReactionRepository reactionRepository)
         return Page();
     }
 
-        public async Task<string> getTotalReactions(string cheepId)
-        {
-            var total = _reactionRepository.GetReactionByCheepId(cheepId);
-            var totalLikes = total.Result.Count().ToString();
-            if (totalLikes == "0")
+    public async Task<string> getTotalReactions(string cheepId)
+    {
+        var total = _reactionRepository.GetReactionByCheepId(cheepId);
+        var totalLikes = total.Result.Count().ToString();
+        if (totalLikes == "0")
         {
             return "0 Likes";
         }
@@ -169,161 +155,22 @@ IReactionRepository reactionRepository)
         }
     }
 
-    public bool IsUserFollowingAuthor(string authorID, List<string> followingIDs)
-    {
-        {
-            return followingIDs.Contains(authorID);
-        }
-    }
-
-    public bool IsUserReactionCheep(string cheepId, List<string> reactionAuthorId)
-    {
-        {
-            return reactionAuthorId.Contains(cheepId);
-        }
-    }
-
-
 
     public string getPageName()
     {
         return HttpContext.GetRouteValue("author").ToString();
     }
 
-    public async Task<string> getStatus()
+
+
+    public async Task<IActionResult> OnPostForgetUser()
     {
-        string? viewedUser = HttpContext?.GetRouteValue("author")?.ToString();
-        var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(viewedUser);
-        var Status = StatusAuthorDTO?.Status;
-        Console.WriteLine("Received user: " + viewedUser);
-        Console.WriteLine("Received status: " + Status);
-        return Status;
-    }
+        var objectID = User.Claims.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier")?.Value;
+        var name = User.Claims.FirstOrDefault(c => c.Type == "name")?.Value;
 
-    public async Task<string> getStatusPublic(string name)
-    {
-        var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(name);
-        var Status = StatusAuthorDTO?.Status;
-        Console.WriteLine("Received user: " + name);
-        Console.WriteLine("Received status: " + Status);
-        return Status;
-    }
+        await _authorRepository.DeleteAuthorAsync(name);
+        await _userService.DeleteUserById(objectID);
 
-    public async Task<IActionResult> OnPostFollow(string authorName, string follow, string? unfollow)
-    {
-        var Claims = User.Claims;
-        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
-        var isUserFollowingAuthor = await _authorRepository.GetAuthorByIdAsync(authorName);
-
-        Console.WriteLine(currentlyLoggedInUser);
-
-        if (follow != null)
-        {
-            await _followRepository.InsertNewFollowAsync(currentlyLoggedInUser.AuthorId, authorName);
-        }
-        if (unfollow != null)
-        {
-            await _followRepository.RemoveFollowAsync(currentlyLoggedInUser.AuthorId, authorName);
-        }
-
-        await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
-
-        return Redirect("/");
-    }
-
-    public async Task<IActionResult> OnPostReaction(string cheepId, string authorId, string reaction)
-    {
-        var Claims = User.Claims;
-        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-
-        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
-
-        var likeID = "fbd9ecd2-283b-48d2-b82a-544b232d6244";
-
-        if (currentlyLoggedInUser == null)
-        {
-            Console.WriteLine("Can not react to cheep, user is not logged in");
-        }
-        bool hasReacted = await _reactionRepository.CheckIfAuthorReactedToCheep(cheepId, currentlyLoggedInUser.AuthorId);
-        if (hasReacted)
-        {
-            Console.WriteLine("Removed like on " + cheepId);
-            await _reactionRepository.RemoveReactionAsync(cheepId, currentlyLoggedInUser.AuthorId);
-        }
-        else
-        {
-            Console.WriteLine("Added like on " + cheepId);
-            await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId);
-        }
-
-        Console.WriteLine(HttpContext.Request.Path);
-
-        //When using RedirectToPage() in / root and in public timline it will redirect to /Public, and /public is not a valid page. 
-        if (HttpContext.Request.Path == "/Public")
-        {
-            return Redirect("/");
-        }
-        else
-        {
-            return RedirectToPage();
-        }
-
-    }
-
-    public async Task<IActionResult> OnPostStatus()
-    {
-        var Claims = User.Claims;
-        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
-
-        await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
-
-        return Redirect("/");
-    }
-
-    public async Task<IActionResult> OnPostStatusUnavailable()
-    {
-        var Claims = User.Claims;
-        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
-
-        await _authorRepository.UpdateAuthorStatusUnavailable(currentlyLoggedInUser?.Email);
-
-        return Redirect("/");
-    }
-
-     public async Task<IActionResult> OnPostStatusOnline()
-    {
-        var Claims = User.Claims;
-        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
-
-        await _authorRepository.UpdateAuthorStatusOnline(currentlyLoggedInUser?.Email);
-
-        return Redirect("/");
-    }
-
-    public async Task<IActionResult> OnPostStatusOffline()
-    {
-        var Claims = User.Claims;
-        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
-
-        await _authorRepository.UpdateAuthorStatusOffline(currentlyLoggedInUser?.Email);
-
-        return Redirect("/");
-    }
-
-    public async Task<IActionResult> OnPostSetStatusOfflineAsync()
-    {
-        var Claims = User.Claims;
-        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
-
-        await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
-        
         return SignOut(new AuthenticationProperties { RedirectUri = "MicrosoftIdentity/Account/SignedOut" }, "Cookies");
     }
-
 }
