@@ -35,7 +35,7 @@
 
         if (status.Equals("ONLINE"))
         {
-            <div class="flex flex-col md:flex-row gap-4">
+            <div class="flex  gap-4">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-green-600" fill="currentColor" aria-hidden="true"
                     viewBox="0 0 512 512">
                     <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
@@ -46,7 +46,7 @@
                 @if (User?.Identity.IsAuthenticated == true && User.Identity.Name.Equals(Model.getPageName()))
                 {
                     <form method="post" asp-page-handler="StatusUnavailable">
-                        <button type="submit" class="bg-orange-dark hover:bg-gold-700 text-white font-bold py-2 px-4 rounded">
+                        <button type="submit" class="bg-orange-400 hover:bg-gold-700 text-white font-bold py-2 px-4 rounded">
                             Set to UNAVAILABLE
                         </button>
                     </form>
@@ -63,7 +63,7 @@
         }
         if (status.Equals("OFFLINE"))
         {
-            <div class="flex flex-col md:flex-row gap-4">
+            <div class="flex  gap-4">
 
                 <h2 class="text-xl font-semibold"> <i>Status: @status</i> </h2>
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-600" fill="currentColor" aria-hidden="true"
@@ -91,7 +91,7 @@
         }
         if (status.Equals("UNAVAILABLE"))
         {
-            <div class="flex flex-col md:flex-row gap-4">
+            <div class="flex  gap-4">
 
                 <h2 class="text-xl font-semibold"> <i>Status: @status</i> </h2>
                 <svg class="w-6 h-6 text-orange-dark dark:text-[#F2911B]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
