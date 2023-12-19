@@ -6,7 +6,7 @@ using Testcontainers.MsSql;
 public sealed class InfrastructureUnitTests : IAsyncLifetime
 {
     private readonly MsSqlContainer _msSqlContainer = new MsSqlBuilder().Build();
-    private string _connectionString;
+    private string? _connectionString;
 
 
     public async Task InitializeAsync()

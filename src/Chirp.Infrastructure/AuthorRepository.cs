@@ -74,7 +74,7 @@ namespace Chirp.Infrastructure
             Console.WriteLine(" deleting author" + authorName);
 
             var author = await context.Authors.Where(a => a.Name == authorName).FirstOrDefaultAsync();
-            Console.WriteLine("author found" + author.AuthorId);
+            Console.WriteLine("author found" + author?.AuthorId);
             if (author != null)
             {
                 context.Authors.Remove(author);
@@ -90,7 +90,7 @@ namespace Chirp.Infrastructure
 
         }
 
-        public async Task<string> GetStatusOfAuthorByID(int authorId)
+        public async Task<string?> GetStatusOfAuthorByID(int authorId)
         {
             var author = await context.Authors.FindAsync(authorId);
             if (author != null)
@@ -155,58 +155,75 @@ namespace Chirp.Infrastructure
         public async Task UpdateAuthorStatusAsync(string Email)
         {
             var authorToUpdate = await context.Authors.Where(a => a.Email == Email).FirstOrDefaultAsync();
-            if (authorToUpdate.Status.Equals("OFFLINE"))
+            if (authorToUpdate != null)
             {
-                authorToUpdate.Status = "ONLINE";
-                context.Authors.Update(authorToUpdate);
-                await context.SaveChangesAsync();
-            }
-            else
-            {
-                authorToUpdate.Status = "OFFLINE";
-                context.Authors.Update(authorToUpdate);
-                await context.SaveChangesAsync();
+                if (authorToUpdate.Status.Equals("OFFLINE"))
+                {
+                    authorToUpdate.Status = "ONLINE";
+                    context.Authors.Update(authorToUpdate);
+                    await context.SaveChangesAsync();
+                }
+                else
+                {
+                    authorToUpdate.Status = "OFFLINE";
+                    context.Authors.Update(authorToUpdate);
+                    await context.SaveChangesAsync();
+                }
             }
         }
 
         public async Task UpdateAuthorStatusUnavailable(string Email)
         {
             var authorToUpdate = await context.Authors.Where(a => a.Email == Email).FirstOrDefaultAsync();
-            if (!authorToUpdate.Status.Equals("UNAVAILABLE"))
+            if (authorToUpdate != null)
             {
-                authorToUpdate.Status = "UNAVAILABLE";
-                context.Authors.Update(authorToUpdate);
-                await context.SaveChangesAsync();
+                if (!authorToUpdate.Status.Equals("UNAVAILABLE"))
+                {
+                    authorToUpdate.Status = "UNAVAILABLE";
+                    context.Authors.Update(authorToUpdate);
+                    await context.SaveChangesAsync();
+                }
             }
         }
 
         public async Task UpdateAuthorStatusOnline(string Email)
         {
             var authorToUpdate = await context.Authors.Where(a => a.Email == Email).FirstOrDefaultAsync();
-            if (!authorToUpdate.Status.Equals("ONLINE"))
+            if (authorToUpdate != null)
             {
-                authorToUpdate.Status = "ONLINE";
-                context.Authors.Update(authorToUpdate);
-                await context.SaveChangesAsync();
+                if (!authorToUpdate.Status.Equals("ONLINE"))
+                {
+                    authorToUpdate.Status = "ONLINE";
+                    context.Authors.Update(authorToUpdate);
+                    await context.SaveChangesAsync();
+                }
+
             }
         }
         public async Task UpdateAuthorStatusOffline(string Email)
         {
             var authorToUpdate = await context.Authors.Where(a => a.Email == Email).FirstOrDefaultAsync();
-            if (!authorToUpdate.Status.Equals("OFFLINE"))
+            if (authorToUpdate != null)
             {
-                authorToUpdate.Status = "OFFLINE";
-                context.Authors.Update(authorToUpdate);
-                await context.SaveChangesAsync();
+                if (!authorToUpdate.Status.Equals("OFFLINE"))
+                {
+                    authorToUpdate.Status = "OFFLINE";
+                    context.Authors.Update(authorToUpdate);
+                    await context.SaveChangesAsync();
+                }
+
             }
         }
 
         public async Task<string?> GetAuthorStatusAsync(string Email)
         {
             var author = await context.Authors.Where(a => a.Email == Email).FirstOrDefaultAsync();
-            if(author != null){
+            if (author != null)
+            {
                 return author.Status;
-            } else {
+            }
+            else
+            {
                 return null;
             }
         }
@@ -215,7 +232,10 @@ namespace Chirp.Infrastructure
         {
             Guid guid = Guid.NewGuid();
             GithubClaims githubclaims = new GithubClaims();
-            await context.Authors.AddAsync(new Author() { AuthorId = guid.ToString(), Name = Name, Email = Email, Status = Online, Image = await githubclaims.GetGitHubClaimsUserImageAsync(Name) });
+            if (Name != null)
+            {
+                await context.Authors.AddAsync(new Author() { AuthorId = guid.ToString(), Name = Name, Email = Email, Status = Online, Image = await githubclaims.GetGitHubClaimsUserImageAsync(Name) });
+            }
         }
 
         // get all authors
