@@ -250,6 +250,7 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         IFollowRepository followRepository = new FollowRepository(context);
         var followerId = Guid.NewGuid().ToString();
         var followingId = Guid.NewGuid().ToString();
+
         await followRepository.InsertNewFollowAsync(followerId, followingId);
         await context.SaveChangesAsync();
 
@@ -258,6 +259,30 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
 
         // Assert
         Assert.Contains(followingId, followingIDs);
+
+        // Cleanup
+        await _msSqlContainer.StopAsync();
+    }
+
+    [Fact]
+    public async Task InsertNewFollowAsync_InsertsFollowSuccessfully()
+    {
+        // Arrange
+        await _msSqlContainer.StartAsync();
+        var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
+        using var context = new ChirpDBContext(builder.Options);
+        context.initializeDB();
+        IFollowRepository followRepository = new FollowRepository(context);
+        var followerId = Guid.NewGuid().ToString();
+        var followingId = Guid.NewGuid().ToString();
+
+        // Act
+        await followRepository.InsertNewFollowAsync(followerId, followingId);
+        await context.SaveChangesAsync();
+        var follow = await context.Followings.FindAsync(followerId, followingId);
+
+        // Assert
+        Assert.NotNull(follow);
 
         // Cleanup
         await _msSqlContainer.StopAsync();
