@@ -73,6 +73,10 @@ namespace Chirp.Infrastructure
                 return false;
             }
 
+            if(CheepDTO.Message.Length == 0){
+                return false;
+            }
+
             context.Cheeps.Add(new Cheep
             {
                 CheepId = CheepDTO.Id,
