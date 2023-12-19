@@ -9,22 +9,14 @@ using static System.Web.HttpUtility;
 
 namespace Chirp.Web.Pages;
 
-public class PublicModel : PageModel
+public class PublicModel : BaseModel
 {
-    private readonly ICheepRepository _cheepRepository;
-    private readonly IAuthorRepository _authorRepository;
-    private readonly IFollowRepository _followRepository;
-    private readonly IReactionRepository _reactionRepository;
-    private AuthorDTO? currentlyLoggedInUser;
 
 
     public PublicModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository,
-IReactionRepository reactionRepository)
+IReactionRepository reactionRepository) : base(cheepRepository, authorRepository, followRepository, reactionRepository)
     {
-        _cheepRepository = cheepRepository;
-        _authorRepository = authorRepository;
-        _followRepository = followRepository;
-        _reactionRepository = reactionRepository;
+
     }
 
     public IEnumerable<CheepDTO> Cheeps { get; set; }
@@ -53,8 +45,10 @@ IReactionRepository reactionRepository)
                     await _authorRepository.SaveAsync();
                     currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
-                } else{
-                     currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+                }
+                else
+                {
+                    currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
                 }
             }
@@ -62,7 +56,9 @@ IReactionRepository reactionRepository)
             {
                 Console.WriteLine("author insert failed");
             }
-        } else if (User.Identity?.IsAuthenticated == true){
+        }
+        else if (User.Identity?.IsAuthenticated == true)
+        {
             await _authorRepository.UpdateAuthorStatusAsync(email);
         }
 
@@ -115,78 +111,5 @@ IReactionRepository reactionRepository)
         return Page();
     }
 
-    public async Task<string> getStatusPublic(string name)
-    {
-        var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(name);
-        var Status = StatusAuthorDTO?.Status;
-        Console.WriteLine("Received status: " + Status);
-        return Status;
-    }
 
-    //Right now this method is on both public and user timeline. In general there is a lot of repeated code between the two. Seems silly...?
-    public bool IsUserFollowingAuthor(string authorID, List<string> followingIDs)
-    {
-        {
-            return followingIDs.Contains(authorID);
-        }
-    }
-
-    public bool IsUserReactionCheep(string cheepId, List<string> reactionAuthorId)
-    {
-        {
-            return reactionAuthorId.Contains(cheepId);
-        }
-    }
-
-
-
-    public async Task<IActionResult> OnPostFollow(string authorName, string follow, string? unfollow)
-    {
-        var Claims = User.Claims;
-        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
-        var isUserFollowingAuthor = await _authorRepository.GetAuthorByIdAsync(authorName);
-
-        Console.WriteLine(currentlyLoggedInUser);
-
-        if (follow != null)
-        {
-            await _followRepository.InsertNewFollowAsync(currentlyLoggedInUser.AuthorId, authorName);
-        }
-        if (unfollow != null)
-        {
-            await _followRepository.RemoveFollowAsync(currentlyLoggedInUser.AuthorId, authorName);
-        }
-
-
-        return Redirect("/" + isUserFollowingAuthor.Name.Replace(" ", "%20"));
-    }
-
-        public async Task<IActionResult> OnPostReactionP(string cheepId, string authorId, string reaction)
-    {
-        var Claims = User.Claims;
-        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-
-        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
-
-        if (currentlyLoggedInUser == null)
-        {
-            Console.WriteLine("Can not react to cheep, user is not logged in");
-        }
-        bool hasReacted = await _reactionRepository.CheckIfAuthorReactedToCheep(cheepId, currentlyLoggedInUser.AuthorId);
-        if (hasReacted)
-        {
-            Console.WriteLine("Removed like on " + cheepId);
-            await _reactionRepository.RemoveReactionAsync(cheepId, currentlyLoggedInUser.AuthorId);
-        }
-        else
-        {
-            Console.WriteLine("Added like on " + cheepId);
-            await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId);
-        }
-
-        Console.WriteLine("Redirecting to /");
-
-        return Redirect("/");
-    }
 }
