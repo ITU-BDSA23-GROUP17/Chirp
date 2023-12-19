@@ -233,7 +233,7 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
             Act
         */
 
-        await authorRepository.UpdateAuthorStatusOnline(authorDTOTest.Email);
+        await authorRepository.UpdateAuthorStatusOffline(authorDTOTest.Email);
         var receivedStatus = authorDTOTest.Status;
 
         /*
@@ -273,7 +273,7 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
             Act
         */
 
-        await authorRepository.UpdateAuthorStatusOnline(authorDTOTest.Email);
+        await authorRepository.UpdateAuthorStatusUnavailable(authorDTOTest.Email);
         var receivedStatus = authorDTOTest.Status;
 
         /*
