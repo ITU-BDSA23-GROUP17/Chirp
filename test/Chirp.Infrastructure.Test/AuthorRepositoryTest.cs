@@ -252,31 +252,36 @@ public sealed class AuthorRepositoryUnitTest : IAsyncLifetime
     }
 
 
-    // [Fact]
-    // public async Task DeleteAuthorAsync()
-    // {
-    //     // Start the container
-    //     await _msSqlContainer.StartAsync();
+    [Fact]
+    public async Task DeleteAuthorAsync_DeletesAuthorSuccessfully()
+    {
+        // Start the container
+        await _msSqlContainer.StartAsync();
 
-    //     // Arrange
-    //     var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
-    //     using var context = new ChirpDBContext(builder.Options);
-    //     context.initializeDB(); //ensure all tables are created
-    //     IAuthorRepository authorRepository = new AuthorRepository(context);
-    //     var expectedName = "tan dang";
+        // Arrange
+        var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
+        using var context = new ChirpDBContext(builder.Options);
+        context.initializeDB();
+        IAuthorRepository authorRepository = new AuthorRepository(context);
+        var authorName = "tan dang";
+        var authorEmail = "tanda@itu.dk";
 
-    //     await authorRepository.InsertAuthorAsync(expectedName, "");
-    //     await context.SaveChangesAsync();
+        await authorRepository.InsertAuthorAsync(authorName, authorEmail);
+        await context.SaveChangesAsync();
 
-    //     // Act
-    //     var authorDto = await authorRepository.GetAuthorByNameAsync(expectedName);
-    //     await authorRepository.DeleteAuthorAsync(authorDto.AuthorId);
-    //     await context.SaveChangesAsync();
+        var insertedAuthor = await context.Authors.FirstOrDefaultAsync(a => a.Email == authorEmail);
 
-    //     // Assert
-    //     Assert.Null(await authorRepository.GetAuthorByNameAsync(expectedName));
+        // Act
+        await authorRepository.DeleteAuthorAsync(int.Parse(insertedAuthor.AuthorId));
+        await context.SaveChangesAsync();
 
-    //     // Stop the container
-    //     await _msSqlContainer.StopAsync();
-    // }
+        var deletedAuthor = await context.Authors.FindAsync(insertedAuthor.AuthorId);
+
+        // Assert
+        Assert.Null(deletedAuthor);
+
+        // Stop the container
+        await _msSqlContainer.StopAsync();
+    }
+
 }
