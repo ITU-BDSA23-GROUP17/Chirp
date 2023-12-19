@@ -29,6 +29,8 @@ public class PlaywrightTests : PageTest
         await Page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" }).ClickAsync();
         await Expect(Page.Locator("h2")).ToContainTextAsync("Public Timeline");
 
+        Console.WriteLine("Public timeline is live");
+
         // get the last page
         await Page.GetByRole(AriaRole.Link, new() { Name = "21" }).ClickAsync();
 
@@ -42,6 +44,8 @@ public class PlaywrightTests : PageTest
 
         await Expect(Page.Locator("body")).ToContainTextAsync("08/01/2023 12:16:48");
 
+        Console.WriteLine("Last cheep is Hello, BDSA students!");
+
         // check if username is present 
         await Page.GetByRole(AriaRole.Link, new() { Name = "Helge" }).ClickAsync();
 
@@ -51,12 +55,16 @@ public class PlaywrightTests : PageTest
 
         await Page.GetByText("Status: OFFLINE").ClickAsync();
 
+        Console.WriteLine("Username is present");
+
         // go to helges timeline         
         await Page.GetByRole(AriaRole.Heading, new() { Name = "Helge Profile" }).ClickAsync();
 
         await Page.GetByRole(AriaRole.Link, new() { Name = "1", Exact = true }).ClickAsync();
 
         await Page.GetByRole(AriaRole.Link, new() { Name = "Public Timeline" }).ClickAsync();
+
+        Console.WriteLine("Helges timeline is live");
 
         // go to signin
         await Page.GetByRole(AriaRole.Link, new() { Name = "Sign in" }).ClickAsync();
@@ -71,6 +79,8 @@ public class PlaywrightTests : PageTest
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Sign in" }).ClickAsync();
 
+        Console.WriteLine("Sign in is live");
+
         // find cheep from a user to check if like works
         await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine 08/01/2023 13:17:10 Follow Until then I thought it was my" }).Locator("#reactionButton").ClickAsync();
 
@@ -79,6 +89,8 @@ public class PlaywrightTests : PageTest
         await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine 08/01/2023 13:17:10 Follow Until then I thought it was my" }).Locator("#reactionButton").ClickAsync();
 
         await Expect(Page.Locator("body")).ToContainTextAsync("0 Likes");
+
+        Console.WriteLine("Like works");
 
         // cheep a cheep
         await Page.GetByRole(AriaRole.Button, new() { Name = "Cheep" }).ClickAsync();
@@ -96,6 +108,8 @@ public class PlaywrightTests : PageTest
         await Expect(Page.Locator("h2")).ToContainTextAsync("Cheeps tagged with #chirp");
 
         await Expect(Page.Locator("h3")).ToContainTextAsync("Popular Hashtags");
+
+        Console.WriteLine("Cheep a cheep works");
 
         // check functions on user profile
 
@@ -122,6 +136,8 @@ public class PlaywrightTests : PageTest
 
         await Expect(Page.Locator("body")).ToContainTextAsync("Following");
 
+        Console.WriteLine("User profile functions works");
+
 
         // check status function 
 
@@ -136,6 +152,9 @@ public class PlaywrightTests : PageTest
         await Page.GetByRole(AriaRole.Link, new() { Name = "My Timeline" }).ClickAsync();
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Set to ONLINE" }).ClickAsync();
+
+        Console.WriteLine("Status function works");
+
         // check if follow and unfollow works
 
         await Page.GotoAsync("https://bdsagroup17chirprazor.azurewebsites.net/");
@@ -151,6 +170,8 @@ public class PlaywrightTests : PageTest
         await Page.Locator("li").Filter(new() { HasText = "Roger Histand 08/01/2023 13:17:20 Unfollow You can understand his regarding it" }).Locator("form").First.ClickAsync();
 
         await Expect(Page.Locator("body")).ToContainTextAsync("");
+
+        Console.WriteLine("Follow and unfollow works");
 
 
     }
