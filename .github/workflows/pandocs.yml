@@ -25,7 +25,7 @@ jobs:
 
     - name: Convert Markdown to PDF
       run: |
-        pandoc report.md -o 2023_itubdsa_group_17_report.pdf --template=/template/custom-template.tex
+        pandoc report.md -o 2023_itubdsa_group_17_report.pdf --template=./docs/template/custom-template.tex
 
 
     - name: Commit and Push Changes
