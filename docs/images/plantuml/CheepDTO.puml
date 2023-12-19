@@ -1,0 +1,10 @@
+@startuml
+class CheepDTO <<record>> {
+    + Id : string <<get>> <<init>>
+    + Message : string <<get>> <<init>>
+    + AuthorName : string <<get>> <<init>>
+    + AuthorId : string <<get>> <<init>>
+    + AuthorImage : string? <<get>> <<init>>
+}
+CheepDTO --> "TimeStamp" DateTime
+@enduml

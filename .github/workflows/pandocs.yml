@@ -1,0 +1,37 @@
+name: Convert Markdown Report to PDF
+
+on:
+  push:
+    branches:
+      - main
+      - 'feat/report*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Install Pandoc and TeX Live
+      run: |
+        sudo apt-get update
+        sudo apt-get install pandoc texlive-xetex librsvg2-bin -y
+    
+    - name: Copy Images to Working Directory
+      run: |
+        cp -R ./docs/images $GITHUB_WORKSPACE
+
+    - name: Convert Markdown to PDF
+      run: |
+        pandoc docs/report.md -o 2023_itubdsa_group_17_report.pdf
+
+
+    - name: Commit and Push Changes
+      run: |
+        git config --local user.email "actions@github.com"
+        git config --local user.name "GitHub Actions"
+        git add 2023_itubdsa_group_17_report.pdf
+        git commit -m "Auto-generate PDF report"
+        git push

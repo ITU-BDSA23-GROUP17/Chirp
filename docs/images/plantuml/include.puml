@@ -1,0 +1,61 @@
+@startuml
+interface IAuthorRepository {
+}
+class CheepInfoDTO <<record>> {
+    + UserIsFollowingAuthor : bool <<get>> <<init>>
+    + UserReactToCheep : bool <<get>> <<set>>
+}
+CheepInfoDTO --> "Cheep" CheepDTO
+class CheepDTO <<record>> {
+    + Id : string <<get>> <<init>>
+    + Message : string <<get>> <<init>>
+    + AuthorName : string <<get>> <<init>>
+    + AuthorId : string <<get>> <<init>>
+    + AuthorImage : string? <<get>> <<init>>
+}
+CheepDTO --> "TimeStamp" DateTime
+interface IHashtagRepository {
+}
+interface IFollowRepository {
+}
+class ReactionDTO <<record>> {
+    + CheepId : string <<get>> <<init>>
+    + AuthorId : string <<get>> <<init>>
+}
+ReactionDTO --> "TimeStamp" DateTime
+class FollowDTO <<record>> {
+    + FollowerId : string <<get>> <<init>>
+    + FollowingId : string <<get>> <<init>>
+}
+FollowDTO --> "Timestamp" DateTime
+class AuthorDTO <<record>> {
+    + AuthorId : string <<get>> <<init>>
+    + Name : string <<get>> <<init>>
+    + Email : string <<get>> <<init>>
+    + Status : string <<get>> <<init>>
+    + Image : string? <<get>> <<init>>
+}
+class "List`1"<T> {
+}
+AuthorDTO --> "Cheeps<CheepDTO>" "List`1"
+class HashtagDTO <<record>> {
+    + Hashtag : string <<get>> <<init>>
+    + CheepID : string <<get>> <<init>>
+}
+class HashtagTextDTO <<record>> {
+    + HashtagText : string <<get>> <<init>>
+}
+class AuthorInfoDTO <<record>> {
+    + AuthorId : string <<get>> <<init>>
+    + Name : string <<get>> <<init>>
+    + Email : string <<get>> <<init>>
+}
+interface IHashtagTextRepository {
+}
+interface ICheepRepository {
+    + GetCheeps(page:int) : IEnumerable<CheepDTO>
+}
+IDisposable <|-- ICheepRepository
+interface IReactionRepository {
+}
+@enduml
