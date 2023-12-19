@@ -162,6 +162,6 @@ public class BaseModel : PageModel
 
         await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
 
-        return SignOut(new AuthenticationProperties { RedirectUri = "MicrosoftIdentity/Account/SignedOut" }, "Cookies");
+        return SignOut(new AuthenticationProperties { RedirectUri = "/MicrosoftIdentity/Account/SignedOut" }, "Cookies");
     }
 }

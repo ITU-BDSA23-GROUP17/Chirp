@@ -86,12 +86,13 @@ public class HashtagModel : BaseModel
 
         if (currentlyLoggedInUser != null)
         {
-            //We need to do some work to get the CheepInfo. First find Cheeps, then make CheepInfoDTOs.
-            //We need the following ids in the else statement and below therefore it's here....
+            currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+            //To get the CheepInfos we need to do some work...
             List<string> followingIDs = await _followRepository.GetFollowingIDsByAuthorIDAsync(currentlyLoggedInUser.AuthorId);
             List<string> reactionCheepIds = await _reactionRepository.GetCheepIdsByAuthorId(currentlyLoggedInUser.AuthorId);
 
-            //To get the CheepInfos we need to do some work...
+
             foreach (CheepDTO cheep in Cheeps)
             {
                 CheepInfoDTO cheepInfoDTO = new CheepInfoDTO
@@ -100,25 +101,22 @@ public class HashtagModel : BaseModel
                     UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
                     UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds),
                     TotalReactions = await getTotalReactions(cheep.Id),
+
                 };
                 CheepInfoList.Add(cheepInfoDTO);
             }
 
-
-            var viewModel = new ViewModel
-            {
-                pageNr = pageNr,
-                pages = pages,
-                CheepInfos = CheepInfoList,
-                Cheeps = Cheeps
-            };
-
-            ViewData["ViewModel"] = viewModel;
-
-
-
-
         }
+
+        var viewModel = new ViewModel
+        {
+            pageNr = pageNr,
+            pages = pages,
+            CheepInfos = CheepInfoList,
+            Cheeps = Cheeps
+        };
+
+        ViewData["ViewModel"] = viewModel;
 
         return Page();
     }
