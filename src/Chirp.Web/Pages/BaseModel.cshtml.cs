@@ -39,8 +39,6 @@ public class BaseModel : PageModel
 
         }
         var Status = StatusAuthorDTO?.Status;
-        Console.WriteLine("Received user: " + viewedUser);
-        Console.WriteLine("Received status: " + Status);
         return Status;
     }
 
@@ -48,8 +46,6 @@ public class BaseModel : PageModel
     {
         var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(name);
         var Status = StatusAuthorDTO?.Status;
-        Console.WriteLine("Received user: " + name);
-        Console.WriteLine("Received status: " + Status);
         return Status;
     }
 
