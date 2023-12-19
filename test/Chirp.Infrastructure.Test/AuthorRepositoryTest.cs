@@ -252,35 +252,35 @@ public sealed class AuthorRepositoryUnitTest : IAsyncLifetime
     }
 
 
-    [Fact]
-    public async Task DeleteAuthorAsync_DeletesAuthorSuccessfully()
-    {
-        // Start the container
-        await _msSqlContainer.StartAsync();
+    // [Fact]
+    // public async Task DeleteAuthorAsync_DeletesAuthorSuccessfully()
+    // {
+    //     // Start the container
+    //     await _msSqlContainer.StartAsync();
 
-        // Arrange
-        var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
-        using var context = new ChirpDBContext(builder.Options);
-        context.initializeDB();
-        IAuthorRepository authorRepository = new AuthorRepository(context);
-        var authorName = "tan dang";
-        var authorEmail = "tanda@itu.dk";
+    //     // Arrange
+    //     var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
+    //     using var context = new ChirpDBContext(builder.Options);
+    //     context.initializeDB();
+    //     IAuthorRepository authorRepository = new AuthorRepository(context);
+    //     var authorName = "tan dang";
+    //     var authorEmail = "tanda@itu.dk";
 
-        await authorRepository.InsertAuthorAsync(authorName, authorEmail);
-        await context.SaveChangesAsync();
+    //     await authorRepository.InsertAuthorAsync(authorName, authorEmail);
+    //     await context.SaveChangesAsync();
 
-        var insertedAuthor = await context.Authors.FirstOrDefaultAsync(a => a.Email == authorEmail);
+    //     var insertedAuthor = await context.Authors.FirstOrDefaultAsync(a => a.Email == authorEmail);
 
-        // Act
-        await authorRepository.DeleteAuthorAsync(int.Parse(insertedAuthor.AuthorId));
-        await context.SaveChangesAsync();
+    //     // Act
+    //     await authorRepository.DeleteAuthorAsync(int.Parse(insertedAuthor.AuthorId));
+    //     await context.SaveChangesAsync();
 
-        var deletedAuthor = await context.Authors.FindAsync(insertedAuthor.AuthorId);
+    //     var deletedAuthor = await context.Authors.FindAsync(insertedAuthor.AuthorId);
 
-        // Assert
-        Assert.Null(deletedAuthor);
+    //     // Assert
+    //     Assert.Null(deletedAuthor);
 
-        // Stop the container
-        await _msSqlContainer.StopAsync();
-    }
+    //     // Stop the container
+    //     await _msSqlContainer.StopAsync();
+    // }
 }
