@@ -112,7 +112,9 @@ IReactionRepository reactionRepository, IUserService userService) : base(cheepRe
                 {
                     Cheep = cheep,
                     UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
-                    UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds)
+                    UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds),
+                    TotalReactions = await getTotalReactions(cheep.Id),
+
                 };
                 CheepInfoList.Add(cheepInfoDTO);
             }
@@ -133,6 +135,24 @@ IReactionRepository reactionRepository, IUserService userService) : base(cheepRe
         ViewData["ViewModel"] = viewModel;
 
         return Page();
+    }
+
+    public async Task<string> getTotalReactions(string cheepId)
+    {
+        var total = _reactionRepository.GetReactionByCheepId(cheepId);
+        var totalLikes = total.Result.Count().ToString();
+        if (totalLikes == "0")
+        {
+            return "0 Likes";
+        }
+        else if (totalLikes == "1")
+        {
+            return "1 Like";
+        }
+        else
+        {
+            return totalLikes + " Likes";
+        }
     }
 
 

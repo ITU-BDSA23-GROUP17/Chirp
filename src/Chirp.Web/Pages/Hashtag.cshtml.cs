@@ -43,6 +43,7 @@ public class HashtagModel : BaseModel
         _hashtagRepository = hashtagRepository;
         _hashtagTextRepository = hashtagTextRepository;
     }
+
     public async Task<IActionResult> OnGet(string hashtag)
     {
 
@@ -97,24 +98,46 @@ public class HashtagModel : BaseModel
                 {
                     Cheep = cheep,
                     UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
-                    UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds)
+                    UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds),
+                    TotalReactions = await getTotalReactions(cheep.Id),
                 };
                 CheepInfoList.Add(cheepInfoDTO);
             }
+
+
+            var viewModel = new ViewModel
+            {
+                pageNr = pageNr,
+                pages = pages,
+                CheepInfos = CheepInfoList,
+                Cheeps = Cheeps
+            };
+
+            ViewData["ViewModel"] = viewModel;
+
+
+
+
         }
-
-
-        var viewModel = new ViewModel
-        {
-            pageNr = pageNr,
-            pages = pages,
-            CheepInfos = CheepInfoList,
-            Cheeps = Cheeps
-        };
-
-        ViewData["ViewModel"] = viewModel;
 
         return Page();
     }
 
+    public async Task<string> getTotalReactions(string cheepId)
+    {
+        var total = _reactionRepository.GetReactionByCheepId(cheepId);
+        var totalLikes = total.Result.Count().ToString();
+        if (totalLikes == "0")
+        {
+            return "0 Likes";
+        }
+        else if (totalLikes == "1")
+        {
+            return "1 Like";
+        }
+        else
+        {
+            return totalLikes + " Likes";
+        }
+    }
 }
