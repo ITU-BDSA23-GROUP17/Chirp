@@ -2,10 +2,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using Chirp.Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure
 {
-    public class CheepRepository : ICheepRepository, IDisposable
+    public class CheepRepository : ICheepRepository
     {
         private ChirpDBContext context;
 
@@ -14,32 +15,12 @@ namespace Chirp.Infrastructure
             this.context = context;
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        private bool disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    context.Dispose();
-                }
-            }
-            this.disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        IEnumerable<CheepDTO> ICheepRepository.GetCheeps(int page)
+        public async Task<IEnumerable<CheepDTO>> GetCheepsAsync(int page)
         {
             //minus by 1 so pages start from 1
             page = page - 1;
@@ -49,67 +30,22 @@ namespace Chirp.Infrastructure
                 .Take(32)
                 .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image))
                 .ToList();
+
             return cheeps;
         }
 
-        CheepDTO? ICheepRepository.GetCheepByID(int cheepId)
+        public async Task<CheepDTO?> GetCheepByIDAsync(string cheepId)
         {
-            var cheep = context.Cheeps.Find(cheepId);
-            if (cheep != null)
-            {
-                return new CheepDTO(cheep.CheepId, cheep.Text, cheep.TimeStamp, cheep.Author.Name, cheep.AuthorId, cheep.Author.Image);
-            }
-            else
-            {
-                return null;
-            }
-        }
+            var cheep = await context.Cheeps
+                .Where(c => c.CheepId == cheepId)
+                .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image))
+                .FirstOrDefaultAsync();
 
-        void ICheepRepository.InsertCheep(CheepDTO CheepDTO)
-        {
-            var author = context.Authors.Find(CheepDTO.AuthorId) ?? throw new Exception("Author could not be found by AuthorID");
-            context.Cheeps.Add(new Cheep
-            {
-                CheepId = CheepDTO.Id,
-                Text = CheepDTO.Message,
-                TimeStamp = CheepDTO.TimeStamp,
-                Author = author,
-                AuthorId = author.AuthorId
-            });
+            return cheep;
         }
 
 
-
-        void ICheepRepository.DeleteCheep(int cheepId)
-        {
-            var cheep = context.Cheeps.Find(cheepId);
-            if (cheep != null)
-            {
-                context.Cheeps.Remove(cheep);
-            }
-        }
-
-        void ICheepRepository.UpdateCheep(CheepDTO Cheep)
-        {
-            var cheep = context.Cheeps.Find(Cheep.Id);
-            var author = context.Authors.Find(Cheep.AuthorId);
-            if (author == null)
-            {
-                throw new Exception("Failed to update Cheep. Failed to find author by the CheepDTO AuthorID");
-            }
-            if (cheep != null)
-            {
-                cheep.Text = Cheep.Message;
-                cheep.TimeStamp = Cheep.TimeStamp;
-                cheep.Author = author;
-            }
-            else
-            {
-                throw new Exception("Failed to Update cheep. Failed to find Cheep from provided CheepDTO");
-            }
-        }
-
-        IEnumerable<CheepDTO> ICheepRepository.GetCheepsByAuthor(string authorName, int page)
+        public async Task<IEnumerable<CheepDTO>> GetCheepsByAuthorAsync(string authorName, int page)
         {
             //minus by 1 so pages start from 1
             page = page - 1;
@@ -120,54 +56,86 @@ namespace Chirp.Infrastructure
                 .Take(32)
                 .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image))
                 .ToList();
+
             return cheeps;
         }
-        public IEnumerable<CheepDTO> GetCheepsByAuthors(List<String> authorNames, int page)
+
+        public async Task<IEnumerable<CheepDTO>> GetCheepsByAuthorsAsync(List<String> authorNames, int page)
         {
             //minus by 1 so pages start from 1
             page = page - 1;
             var cheeps = context.Cheeps
-            .Where(c => authorNames
-            .Contains(c.Author.Name))
-            .OrderByDescending(c => c.TimeStamp)
-            .Skip(page * 32).Take(32)
-            .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image))
-            .ToList();
+                .Where(c => authorNames.Contains(c.Author.Name))
+                .OrderByDescending(c => c.TimeStamp)
+                .Skip(page * 32)
+                .Take(32)
+                .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image))
+                .ToList();
+
             return cheeps;
         }
 
-        public IEnumerable<CheepDTO> GetCheepsByCheepIds(List<string> cheepIds, int page)
+        public async Task<IEnumerable<CheepDTO>> GetCheepsByCheepIdsAsync(List<String> cheepIds, int page)
         {
+            //minus by 1 so pages start from 1
             page = page - 1;
             var cheeps = context.Cheeps
-            .Where(c => cheepIds
-            .Contains(c.CheepId))
-            .OrderByDescending(c => c.TimeStamp)
-             .Skip(page * 32).Take(32)
-            .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image))
-            .ToList();
+                .Where(c => cheepIds.Contains(c.CheepId))
+                .OrderByDescending(c => c.TimeStamp)
+                .Skip(page * 32)
+                .Take(32)
+                .Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image))
+                .ToList();
 
             return cheeps;
         }
 
-
-        // for home page
-        int ICheepRepository.getPages()
+        public async Task<int> GetPagesAsync()
         {
             return (int)Math.Ceiling(context.Cheeps.Count() / 32.0);
+
         }
 
-        // get pages for user timeline
-        int ICheepRepository.getPagesUser(string author)
+        public async Task<int> GetPagesUserAsync(string author)
         {
-
             return (int)Math.Ceiling(context.Cheeps.Where(c => c.Author.Name == author).Count() / 32.0);
+
         }
 
-        int ICheepRepository.getPagesFromCheepCount(int cheepCount)
+        public async Task<int> GetPagesFromCheepCountAsync(int cheepCount)
         {
-
             return (int)Math.Ceiling(cheepCount / 32.0);
+
         }
+
+        public async Task InsertCheepAsync(CheepDTO Cheep)
+        {
+            var author = await context.Authors.FindAsync(Cheep.AuthorId) ?? throw new Exception("Author could not be found by AuthorID");
+            context.Cheeps.Add(new Cheep
+            {
+                CheepId = Cheep.Id,
+                Text = Cheep.Message,
+                TimeStamp = Cheep.TimeStamp,
+                Author = author,
+                AuthorId = author.AuthorId
+            });
+            await SaveAsync();
+        }
+
+        public async Task DeleteCheepAsync(string cheepId)
+        {
+            var cheep = await context.Cheeps.FindAsync(cheepId) ?? throw new Exception("Cheep could not be found by CheepID");
+            context.Cheeps.Remove(cheep);
+            await SaveAsync();
+        }
+
+        public async Task UpdateCheepAsync(CheepDTO Cheep)
+        {
+            var cheep = await context.Cheeps.FindAsync(Cheep.Id) ?? throw new Exception("Cheep could not be found by CheepID");
+            cheep.Text = Cheep.Message;
+            cheep.TimeStamp = Cheep.TimeStamp;
+            await SaveAsync();
+        }
+
     }
 }

@@ -105,9 +105,12 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                     </div>
 
                     <!-- container for follow/unfollow button -->
-                    <div class="flex">
+                    <div class="flex gap-3">
+                        @* the user should be able to delete his own cheep  *@
+
+                       
                         <!-- we only want to add a button if the cheep is not by the user currently logged in-->
-                        @if (User.Identity.IsAuthenticated && cheepInfo.Cheep.AuthorName != User.Identity.Name)
+                        @if (User.Identity != null && User.Identity.IsAuthenticated && cheepInfo.Cheep.AuthorName != User.Identity.Name)
                         {
 
                             <form method="post" asp-page-handler="Follow">
@@ -124,6 +127,16 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                                     }
                                 </button>
                                 <input type="hidden" name="authorName" value="@cheepInfo.Cheep.AuthorId" />
+                            </form>
+                        } else {
+                           // button to delete cheep 
+                            <form method="post" asp-page-handler="Delete">
+                                <button id="deleteButton"
+                                    class="border-2 border-black hover:bg-black text-black hover:text-white bg-transparent pl-2 py-1 px-2 hover:border-transparent rounded"
+                                    disabled="true">
+                                    <input type="submit" name="delete" value="Delete" />
+                                </button>
+                                <input type="hidden" name="cheepId" value="@cheepInfo.Cheep.Id" />
                             </form>
                         }
                     </div>

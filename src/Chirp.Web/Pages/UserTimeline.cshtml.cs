@@ -49,9 +49,9 @@ IReactionRepository reactionRepository, IUserService userService) : base(cheepRe
 
         if (authorDTO != null)
         {
-            pages = _cheepRepository.getPagesUser(authorDTO.Name);
+            pages = await _cheepRepository.GetPagesUserAsync(authorDTO.Name);
             pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
-            Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
+            Cheeps = await _cheepRepository.GetCheepsByAuthorAsync(author, pageNr);
             followers = await _followRepository.GetFollowerCountByAuthorIDAsync(authorDTO.AuthorId);
             following = await _followRepository.GetFollowingCountByAuthorIDAsync(authorDTO.AuthorId);
             authorImage = authorDTO.Image;
@@ -75,7 +75,7 @@ IReactionRepository reactionRepository, IUserService userService) : base(cheepRe
 
         //source https://stackoverflow.com/questions/6514292/c-sharp-razor-url-parameter-from-view 
         // pages = _service.getPagesHome(true, author);
-        pages = _cheepRepository.getPagesUser(authorDTO.Name);
+        pages = await _cheepRepository.GetPagesUserAsync(authorDTO.Name);
         pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
         if (currentlyLoggedInUser != null)
         {
@@ -87,7 +87,7 @@ IReactionRepository reactionRepository, IUserService userService) : base(cheepRe
 
             if (!isOwnTimeline)
             {
-                Cheeps = _cheepRepository.GetCheepsByAuthor(author, pageNr);
+                Cheeps = await _cheepRepository.GetCheepsByAuthorAsync(author, pageNr);
             }
             else
             {
@@ -101,7 +101,7 @@ IReactionRepository reactionRepository, IUserService userService) : base(cheepRe
                 {
                     authors.Add(followedAuthor.Name);
                 }
-                Cheeps = _cheepRepository.GetCheepsByAuthors(authors, pageNr);
+                Cheeps = await _cheepRepository.GetCheepsByAuthorsAsync(authors, pageNr);
 
             }
 

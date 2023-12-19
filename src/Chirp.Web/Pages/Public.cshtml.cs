@@ -68,9 +68,9 @@ IReactionRepository reactionRepository) : base(cheepRepository, authorRepository
 
 
         // pages = _service.getPagesHome(false, null);
-        pages = _cheepRepository.getPages();
+        pages = await _cheepRepository.GetPagesAsync();
         pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
-        Cheeps = _cheepRepository.GetCheeps(pageNr);
+        Cheeps = await _cheepRepository.GetCheepsAsync(pageNr);
 
 
 
