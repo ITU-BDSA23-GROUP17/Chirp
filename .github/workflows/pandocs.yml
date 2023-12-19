@@ -21,7 +21,7 @@ jobs:
     
     - name: Copy Images to Working Directory
       run: |
-        cp -R ./images $GITHUB_WORKSPACE
+        cp -R ./docs/images $GITHUB_WORKSPACE
 
     - name: Convert Markdown to PDF
       run: |
