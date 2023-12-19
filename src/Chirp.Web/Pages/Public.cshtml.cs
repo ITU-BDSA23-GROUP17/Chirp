@@ -31,6 +31,8 @@ IReactionRepository reactionRepository)
     public IEnumerable<CheepInfoDTO> CheepInfos { get; set; }
     public int pageNr { get; set; }
     public int pages { get; set; }
+    public string TotalReactions { get; set; }
+
 
     public async Task<ActionResult> OnGetAsync()
     {
@@ -91,7 +93,9 @@ IReactionRepository reactionRepository)
                 {
                     Cheep = cheep,
                     UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
-                    UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds)
+                    UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds),
+                    TotalReactions = await getTotalReactions(cheep.Id),
+
                 };
                 CheepInfoList.Add(cheepInfoDTO);
             }
@@ -113,13 +117,30 @@ IReactionRepository reactionRepository)
 
 
         return Page();
+        }
+
+        public async Task<string> getTotalReactions(string cheepId)
+        {
+            var total = _reactionRepository.GetReactionByCheepId(cheepId);
+            var totalLikes = total.Result.Count().ToString();
+            if (totalLikes == "0")
+        {
+            return "0 Likes";
+        }
+        else if (totalLikes == "1")
+        {
+            return "1 Like";
+        }
+        else
+        {
+            return totalLikes + " Likes";
+        }
     }
 
     public async Task<string> getStatusPublic(string name)
     {
         var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(name);
         var Status = StatusAuthorDTO?.Status;
-        Console.WriteLine("Received status: " + Status);
         return Status;
     }
 
