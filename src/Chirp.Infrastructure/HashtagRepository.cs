@@ -35,9 +35,9 @@ namespace Chirp.Infrastructure
             await context.SaveChangesAsync();
         }
 
-        public async Task RemoveHashtagAsync(string Hashtag)
+        public async Task RemoveHashtagAsync(string hashtagText, string cheepID)
         {
-            var hashtag = await context.Hashtags.FindAsync(Hashtag);
+            var hashtag = await context.Hashtags.FindAsync(hashtagText, cheepID);
             if (hashtag != null)
             {
                 context.Remove(hashtag);

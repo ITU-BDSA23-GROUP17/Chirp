@@ -361,7 +361,7 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         await hashtagRepository.InsertNewHashtagCheepPairingAsync("testHashtag", "testCheepId");
 
         //Act
-        await hashtagRepository.RemoveHashtagAsync("testHashtag");
+        await hashtagRepository.RemoveHashtagAsync("testHashtag", "testCheepId");
 
         //Assert 
         //Checking that the hashtag is no longer in the database
