@@ -1,13 +1,8 @@
 
+# BDSA GROUP 17 2023
 
-<h1 style="text-align: center;">BDSA GROUP 17 2023</h1>
-<div style="text-align:center;">
-
-Course code: BSANDSA1KU
-
-Date: December 21, 2023
-
-</div>
+## Course code: BSANDSA1KU
+## Date: December 21, 2023
 
 
 ![](./images/ITU_logo.jpg)
@@ -105,6 +100,7 @@ You can sign in by clicking on the top right corner with either your email or si
 After you successfully sign in into the _Chirp!_ application you can now do one of the following feature we have implemented 
 
 * Sending a Cheep by clicking the blue box in the top right corner that says Cheep
+* Delete your own Cheep
 * Follow another user
 * Unfollow a user you follow
 * Go to another user and see their Cheeps only, by clicking on the name above their Cheep post
@@ -123,6 +119,21 @@ List all necessary steps that Rasmus or Helge have to perform to execute your te
 Here, you can assume that we already cloned your repository in the step above.
 
 Briefly describe what kinds of tests you have in your test suites and what they are testing. -->
+
+In the root folder run this command to test all the test
+```bash 
+dotnet test
+```
+Make sure you have docker running in your machine
+
+The following test have been implemented 
+
+#### Unit test
+
+#### Integration test
+
+#### End to end test
+
 
 ## Ethics
 
