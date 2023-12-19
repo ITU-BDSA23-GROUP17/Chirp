@@ -1,18 +1,7 @@
-﻿
-using System.Drawing;
-using Chirp.Core;
-using Chirp.Infrastructure;
+﻿using Chirp.Core;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.ViewComponents;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Mvc.ViewEngines;
-using Microsoft.Identity.Web;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualBasic;
 using static System.Web.HttpUtility;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Chirp.Web.Pages;
 
@@ -29,10 +18,12 @@ public class UserTimelineModel : BaseModel
     public int followers;
     public int following;
     public string? authorImage;
-    public AuthorDTO authorDTO { get; set; } = null;
+    public AuthorDTO authorDTO { get; set; }
 
     private readonly IUserService _userService;
 
+    // suppress warnings
+    #pragma warning disable CS8618
 
     public UserTimelineModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository,
 IReactionRepository reactionRepository, IUserService userService) : base(cheepRepository, authorRepository, followRepository, reactionRepository)
@@ -66,16 +57,26 @@ IReactionRepository reactionRepository, IUserService userService) : base(cheepRe
 
 
         var email = User.Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+        if (email != null)
+        {
+            currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+        }
         //compare the user of the page and the currently logged in user to decide which cheeps to show...
 
-        isOwnTimeline = email != null && authorDTO != null && currentlyLoggedInUser.AuthorId == authorDTO.AuthorId;
+        if (currentlyLoggedInUser != null)
+        {
+            isOwnTimeline = email != null && authorDTO != null && currentlyLoggedInUser.AuthorId == authorDTO.AuthorId;
+
+        }
 
 
 
         //source https://stackoverflow.com/questions/6514292/c-sharp-razor-url-parameter-from-view 
         // pages = _service.getPagesHome(true, author);
-        pages = _cheepRepository.getPagesUser(authorDTO.Name);
+        if (authorDTO != null)
+        {
+            pages = _cheepRepository.getPagesUser(authorDTO.Name);
+        }
         pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
         if (currentlyLoggedInUser != null)
         {
@@ -113,7 +114,7 @@ IReactionRepository reactionRepository, IUserService userService) : base(cheepRe
                     Cheep = cheep,
                     UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
                     UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds),
-                    TotalReactions = await getTotalReactions(cheep.Id),
+                    TotalReactions = getTotalReactions(cheep.Id),
 
                 };
                 CheepInfoList.Add(cheepInfoDTO);
@@ -137,7 +138,7 @@ IReactionRepository reactionRepository, IUserService userService) : base(cheepRe
         return Page();
     }
 
-    public async Task<string> getTotalReactions(string cheepId)
+    public string getTotalReactions(string cheepId)
     {
         var total = _reactionRepository.GetReactionByCheepId(cheepId);
         var totalLikes = total.Result.Count().ToString();
@@ -156,9 +157,9 @@ IReactionRepository reactionRepository, IUserService userService) : base(cheepRe
     }
 
 
-    public string getPageName()
+    public string? getPageName()
     {
-        return HttpContext.GetRouteValue("author").ToString();
+        return HttpContext.GetRouteValue("author")?.ToString();
     }
 
 
@@ -168,8 +169,11 @@ IReactionRepository reactionRepository, IUserService userService) : base(cheepRe
         var objectID = User.Claims.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier")?.Value;
         var name = User.Claims.FirstOrDefault(c => c.Type == "name")?.Value;
 
-        await _authorRepository.DeleteAuthorAsync(name);
-        await _userService.DeleteUserById(objectID);
+        if (name != null)
+        {
+            await _authorRepository.DeleteAuthorAsync(name);
+            await _userService.DeleteUserById(objectID);
+        }
 
         return SignOut(new AuthenticationProperties { RedirectUri = "/MicrosoftIdentity/Account/SignedOut" }, "Cookies");
     }

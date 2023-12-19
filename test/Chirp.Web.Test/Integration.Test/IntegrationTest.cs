@@ -7,7 +7,7 @@ using AngleSharp.Text;
 public class IntegrationTest
 {
         [Fact]
-        public async void EndPointHelgeTest()
+        public void EndPointHelgeTest()
         {
                 /*         //Remember to dotnet run before you run this test
                         //////// Arrange

@@ -1,10 +1,5 @@
-﻿using System.Diagnostics;
-using System.Drawing;
-using System.Security.Claims;
-using Chirp.Core;
-using Chirp.Infrastructure;
+﻿using Chirp.Core;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using static System.Web.HttpUtility;
 
 namespace Chirp.Web.Pages;
@@ -12,7 +7,9 @@ namespace Chirp.Web.Pages;
 public class PublicModel : BaseModel
 {
 
-
+    // suppress warnings
+    #pragma warning disable CS8618
+    
     public PublicModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository,
 IReactionRepository reactionRepository) : base(cheepRepository, authorRepository, followRepository, reactionRepository)
     {
@@ -50,16 +47,19 @@ IReactionRepository reactionRepository) : base(cheepRepository, authorRepository
                 }
                 else
                 {
-                    currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+                    if (email != null)
+                    {
+                        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+                    }
 
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Console.WriteLine("author insert failed");
             }
         }
-        else if (User.Identity?.IsAuthenticated == true)
+        else if (email != null && User.Identity?.IsAuthenticated == true)
         {
             await _authorRepository.UpdateAuthorStatusAsync(email);
         }
@@ -74,26 +74,28 @@ IReactionRepository reactionRepository) : base(cheepRepository, authorRepository
 
 
 
-        if (currentlyLoggedInUser != null)
+        if (email != null && currentlyLoggedInUser != null)
         {
             currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
-            //To get the CheepInfos we need to do some work...
-            List<string> followingIDs = await _followRepository.GetFollowingIDsByAuthorIDAsync(currentlyLoggedInUser.AuthorId);
-            List<string> reactionCheepIds = await _reactionRepository.GetCheepIdsByAuthorId(currentlyLoggedInUser.AuthorId);
-
-
-            foreach (CheepDTO cheep in Cheeps)
+            if (currentlyLoggedInUser != null)
             {
-                CheepInfoDTO cheepInfoDTO = new CheepInfoDTO
-                {
-                    Cheep = cheep,
-                    UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
-                    UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds),
-                    TotalReactions = await getTotalReactions(cheep.Id),
+                //To get the CheepInfos we need to do some work...
+                List<string> followingIDs = await _followRepository.GetFollowingIDsByAuthorIDAsync(currentlyLoggedInUser.AuthorId);
+                List<string> reactionCheepIds = await _reactionRepository.GetCheepIdsByAuthorId(currentlyLoggedInUser.AuthorId);
 
-                };
-                CheepInfoList.Add(cheepInfoDTO);
+                foreach (CheepDTO cheep in Cheeps)
+                {
+                    CheepInfoDTO cheepInfoDTO = new CheepInfoDTO
+                    {
+                        Cheep = cheep,
+                        UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
+                        UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds),
+                        TotalReactions = getTotalReactions(cheep.Id),
+
+                    };
+                    CheepInfoList.Add(cheepInfoDTO);
+                }
             }
 
         }
@@ -115,7 +117,7 @@ IReactionRepository reactionRepository) : base(cheepRepository, authorRepository
         return Page();
     }
 
-    public async Task<string> getTotalReactions(string cheepId)
+    public string getTotalReactions(string cheepId)
     {
         var total = _reactionRepository.GetReactionByCheepId(cheepId);
         var totalLikes = total.Result.Count().ToString();

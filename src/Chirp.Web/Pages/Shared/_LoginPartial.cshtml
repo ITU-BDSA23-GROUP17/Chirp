@@ -24,8 +24,8 @@
                             Sign out
                         </button>
                     </form>
-            <a href="/@(User.Identity.Name)"
-                class="h-10  mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300 text-sm">
+            <a href="/@(User.Identity?.Name)"
+                class="h-10  mt-1 group flex items-center px-2 py-2 leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300 text-sm">
                 <svg class="mr-4 h-6 w-6 " stroke="currentColor" fill="none" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V10M9 21h6" />
@@ -35,7 +35,7 @@
 
 
             <a href="/"
-                class="h-10  mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300 text-sm gap-2">
+                class="h-10  mt-1 group flex items-center px-2 py-2 leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300 text-sm gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-globe"
                     viewBox="0 0 16 16">
                     <path
@@ -57,7 +57,7 @@
     else
     {
         <div class="flex flex-row">
-            <a href="/@(User.Identity.Name)"
+            <a href="/@(User.Identity?.Name)"
                 class="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300">
                 <svg class="mr-4 h-6 w-6 " stroke="currentColor" fill="none" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

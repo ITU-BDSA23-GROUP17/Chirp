@@ -31,9 +31,9 @@
         <h2 class="text-xl font-semibold">@Model.getPageName() Profile</h2>
     </div>
     @{
-        string status = await Model.getStatus();
+        string? status = await Model.getStatus();
 
-        if (status.Equals("ONLINE"))
+        if (status != null && status.Equals("ONLINE"))
         {
             <div class="flex  gap-4">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-green-600" fill="currentColor" aria-hidden="true"
@@ -43,7 +43,7 @@
 
                 <h2 class="text-xl font-semibold"> <i>Status: @status</i> </h2>
 
-                @if (User?.Identity.IsAuthenticated == true && User.Identity.Name.Equals(Model.getPageName()))
+                @if (User != null && User.Identity != null && User.Identity.Name != null && User.Identity.IsAuthenticated == true && User.Identity.Name.Equals(Model.getPageName()))
                 {
                     <form method="post" asp-page-handler="StatusUnavailable">
                         <button type="submit" class="bg-orange-400 hover:bg-gold-700 text-white font-bold py-2 px-4 rounded">
@@ -61,7 +61,7 @@
             </div>
 
         }
-        if (status.Equals("OFFLINE"))
+        if (status != null && status.Equals("OFFLINE"))
         {
             <div class="flex  gap-4">
 
@@ -71,7 +71,7 @@
                     <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
                 </svg>
 
-                @if (User?.Identity.IsAuthenticated == true && User.Identity.Name.Equals(Model.getPageName()))
+                @if (User != null && User.Identity != null && User.Identity.Name != null &&  User?.Identity.IsAuthenticated == true && User.Identity.Name.Equals(Model.getPageName()))
                 {
                     <form method="post" asp-page-handler="StatusUnavailable">
                         <button type="submit" class="bg-orange-dark hover:bg-gold-700 text-white font-bold py-2 px-4 rounded">
@@ -89,7 +89,7 @@
 
             </div>
         }
-        if (status.Equals("UNAVAILABLE"))
+        if (status != null && status.Equals("UNAVAILABLE"))
         {
             <div class="flex  gap-4">
 
@@ -99,7 +99,7 @@
                     <path
                         d="M17.8 13.75a1 1 0 0 0-.859-.5A7.488 7.488 0 0 1 10.52 2a1 1 0 0 0 0-.969A1.035 1.035 0 0 0 9.687.5h-.113a9.5 9.5 0 1 0 8.222 14.247 1 1 0 0 0 .004-.997Z" />
                 </svg>
-                @if (User?.Identity.IsAuthenticated == true && User.Identity.Name.Equals(Model.getPageName()))
+                @if (User != null && User.Identity != null && User.Identity.Name != null &&  User?.Identity.IsAuthenticated == true && User.Identity.Name.Equals(Model.getPageName()))
                 {
                     <form method="post" asp-page-handler="StatusOffline">
                         <button type="submit" class="bg-red-500 hover:bg-red-200 text-white font-bold py-2 px-4 rounded">
