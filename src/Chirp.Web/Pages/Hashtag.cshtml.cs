@@ -198,5 +198,23 @@ public class HashtagModel : PageModel
         }
 
     }
+    public async Task<string> getStatus()
+    {
+        string? viewedUser = HttpContext?.GetRouteValue("author")?.ToString();
+        var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(viewedUser);
+        var Status = StatusAuthorDTO?.Status;
+        Console.WriteLine("Received user: " + viewedUser);
+        Console.WriteLine("Received status: " + Status);
+        return Status;
+    }
+    public async Task<string> getStatusPublic(string name)
+    {
+        var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(name);
+        var Status = StatusAuthorDTO?.Status;
+        Console.WriteLine("Received user: " + name);
+        Console.WriteLine("Received status: " + Status);
+        return Status;
+    }
+
 
 }
