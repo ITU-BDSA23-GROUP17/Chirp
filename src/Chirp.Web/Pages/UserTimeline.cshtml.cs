@@ -171,6 +171,6 @@ IReactionRepository reactionRepository, IUserService userService) : base(cheepRe
         await _authorRepository.DeleteAuthorAsync(name);
         await _userService.DeleteUserById(objectID);
 
-        return SignOut(new AuthenticationProperties { RedirectUri = "MicrosoftIdentity/Account/SignedOut" }, "Cookies");
+        return SignOut(new AuthenticationProperties { RedirectUri = "/MicrosoftIdentity/Account/SignedOut" }, "Cookies");
     }
 }
