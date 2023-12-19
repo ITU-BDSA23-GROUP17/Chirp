@@ -103,10 +103,9 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         IAuthorRepository authorRepository = new AuthorRepository(context);
         var expectedEmail = "tanda@itu.dk";
 
+        // Act
         await authorRepository.InsertAuthorAsync("tan dang", expectedEmail);
         await context.SaveChangesAsync();
-
-        // Act
         var authorDto = await authorRepository.GetAuthorByEmailAsync(expectedEmail);
 
         // Assert
