@@ -51,6 +51,8 @@ That is, start illustrating the first page that is presented to a non-authorized
 
 Make sure that the illustrations are in line with the actual behavior of your application. -->
 
+![](./images/uml/chirp-user-journeys.drawio.png)
+
 ### Sequence of functionality/calls trough _Chirp!_
 
 <!-- With a UML sequence diagram, illustrate the flow of messages and data through your _Chirp!_ application.
