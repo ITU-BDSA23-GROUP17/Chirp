@@ -158,7 +158,7 @@ public class PlaywrightTests : PageTest
 
         // check if follow and unfollow works
 
-        await Page.GotoAsync("https://bdsagroup17chirprazor.azurewebsites.net/");
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Public Timeline" }).ClickAsync();
 
         await Page.Locator("li").Filter(new() { HasText = "Roger Histand 08/01/2023 13:17:13 Follow I waited for him to the deck, summoned" }).Locator("form").First.ClickAsync();
 
