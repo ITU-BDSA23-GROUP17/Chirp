@@ -141,7 +141,8 @@ public class PlaywrightTests : PageTest
 
         // check status function 
 
-        await Page.GetByRole(AriaRole.Link, new() { Name = "My Timeline" }).ClickAsync();
+
+
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Set to OFFLINE" }).ClickAsync();
 
