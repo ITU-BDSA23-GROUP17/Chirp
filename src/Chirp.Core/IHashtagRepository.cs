@@ -4,7 +4,7 @@ namespace Chirp.Core
     {
         List<string> GetCheepIDsByHashtagText(string Hashtag);
         Task InsertNewHashtagCheepPairingAsync(string Hashtag, string CheepID);
-        Task RemoveHashtag(string Hashtag);
+        Task RemoveHashtagAsync(string Hashtag);
         List<string> GetPopularHashtags(List<string> hashtags);
     }
 }

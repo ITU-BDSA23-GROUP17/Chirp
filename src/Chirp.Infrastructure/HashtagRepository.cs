@@ -35,7 +35,7 @@ namespace Chirp.Infrastructure
             await context.SaveChangesAsync();
         }
 
-        public async Task RemoveHashtag(string Hashtag)
+        public async Task RemoveHashtagAsync(string Hashtag)
         {
             var hashtag = await context.Hashtags.FindAsync(Hashtag);
             if (hashtag != null)
@@ -45,15 +45,8 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public async Task<List<Hashtag>> GetHashtagsAsync()
-        {
-            var hashtags = await context.Hashtags.ToListAsync();
-            return hashtags;
-        }
-
         public List<string> GetPopularHashtags(List<string> hashtags)
         {
-            //New 
             var popularHashtags = hashtags
                 .GroupBy(h => new { h }) // Sort by hashtag text (by creating new anonymous type to sort by)
                 .OrderByDescending(group => group.Count())
