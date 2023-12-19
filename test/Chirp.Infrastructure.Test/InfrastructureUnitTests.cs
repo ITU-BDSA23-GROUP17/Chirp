@@ -223,10 +223,9 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         using var context = new ChirpDBContext(builder.Options);
         context.initializeDB();
         IFollowRepository followRepository = new FollowRepository(context);
-
-        // Insert test data for follower and following
         var followerId = Guid.NewGuid().ToString();
         var followingId = Guid.NewGuid().ToString();
+
         await followRepository.InsertNewFollowAsync(followerId, followingId);
         await context.SaveChangesAsync();
 
@@ -239,6 +238,31 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         // Cleanup
         await _msSqlContainer.StopAsync();
     }
+
+    [Fact]
+    public async Task GetFollowingIDsByAuthorIDAsync_ReturnsCorrectFollowingIDs()
+    {
+        // Arrange
+        await _msSqlContainer.StartAsync();
+        var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
+        using var context = new ChirpDBContext(builder.Options);
+        context.initializeDB();
+        IFollowRepository followRepository = new FollowRepository(context);
+        var followerId = Guid.NewGuid().ToString();
+        var followingId = Guid.NewGuid().ToString();
+        await followRepository.InsertNewFollowAsync(followerId, followingId);
+        await context.SaveChangesAsync();
+
+        // Act
+        var followingIDs = await followRepository.GetFollowingIDsByAuthorIDAsync(followerId);
+
+        // Assert
+        Assert.Contains(followingId, followingIDs);
+
+        // Cleanup
+        await _msSqlContainer.StopAsync();
+    }
+
 
     // [Fact]
     // public async Task DeleteAuthorAsync()
