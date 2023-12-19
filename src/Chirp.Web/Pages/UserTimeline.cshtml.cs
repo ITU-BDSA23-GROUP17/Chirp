@@ -18,7 +18,7 @@ public class UserTimelineModel : BaseModel
     public int followers;
     public int following;
     public string? authorImage;
-    public AuthorDTO authorDTO { get; set; } = null;
+    public AuthorDTO authorDTO { get; set; }
 
     private readonly IUserService _userService;
 

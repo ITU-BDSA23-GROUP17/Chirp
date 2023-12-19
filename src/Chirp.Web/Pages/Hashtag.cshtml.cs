@@ -27,12 +27,12 @@ public class HashtagModel : BaseModel
     public int pageNr { get; set; } = 0;
     public int pages { get; set; } = 0;
 
-    public AuthorDTO authorDTO { get; set; } = null;
+    public AuthorDTO authorDTO { get; set; }
     private string currentHashtagText;
-    private AuthorDTO currentlyLoggedInUser;
+    private new AuthorDTO? currentlyLoggedInUser;
     private List<String> cheepIds;
-    public List<String> uniqueHashtagTexts { get; set; } = null;
-    public List<String> popularHashtags { get; set; } = null;
+    public List<String> uniqueHashtagTexts { get; set; }
+    public List<String> popularHashtags { get; set; }
 
     private readonly IHashtagRepository _hashtagRepository;
     private readonly IHashtagTextRepository _hashtagTextRepository;
@@ -50,7 +50,11 @@ public class HashtagModel : BaseModel
         // get user 
 
         var email = User.Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+        if (email != null)
+        {
+            currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+        }
 
 
         //get popular hashtags
@@ -84,26 +88,36 @@ public class HashtagModel : BaseModel
 
 
 
-        if (currentlyLoggedInUser != null)
+        if (currentlyLoggedInUser != null && email != null)
         {
             currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
-            //To get the CheepInfos we need to do some work...
-            List<string> followingIDs = await _followRepository.GetFollowingIDsByAuthorIDAsync(currentlyLoggedInUser.AuthorId);
-            List<string> reactionCheepIds = await _reactionRepository.GetCheepIdsByAuthorId(currentlyLoggedInUser.AuthorId);
+            List<string>? followingIDs = null;
+            List<string>? reactionCheepIds = null;
 
-
-            foreach (CheepDTO cheep in Cheeps)
+            if (currentlyLoggedInUser != null)
             {
-                CheepInfoDTO cheepInfoDTO = new CheepInfoDTO
-                {
-                    Cheep = cheep,
-                    UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
-                    UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds),
-                    TotalReactions = getTotalReactions(cheep.Id),
+                //To get the CheepInfos we need to do some work...
+                followingIDs = await _followRepository.GetFollowingIDsByAuthorIDAsync(currentlyLoggedInUser.AuthorId);
+                reactionCheepIds = await _reactionRepository.GetCheepIdsByAuthorId(currentlyLoggedInUser.AuthorId);
 
-                };
-                CheepInfoList.Add(cheepInfoDTO);
+            }
+
+
+            if (followingIDs != null && reactionCheepIds != null)
+            {
+                foreach (CheepDTO cheep in Cheeps)
+                {
+                    CheepInfoDTO cheepInfoDTO = new CheepInfoDTO
+                    {
+                        Cheep = cheep,
+                        UserIsFollowingAuthor = IsUserFollowingAuthor(cheep.AuthorId, followingIDs),
+                        UserReactToCheep = IsUserReactionCheep(cheep.Id, reactionCheepIds),
+                        TotalReactions = getTotalReactions(cheep.Id),
+
+                    };
+                    CheepInfoList.Add(cheepInfoDTO);
+                }
             }
 
         }
