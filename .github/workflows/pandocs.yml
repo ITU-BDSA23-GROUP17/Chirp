@@ -17,7 +17,7 @@ jobs:
     - name: Install Pandoc and TeX Live
       run: |
         sudo apt-get update
-        sudo apt-get install pandoc texlive-xetex -y
+        sudo apt-get install pandoc texlive-xetex librsvg2-bin -y
     
     - name: Copy Images to Working Directory
       run: |
