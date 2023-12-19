@@ -18,6 +18,10 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install pandoc texlive-xetex -y
+    
+    - name: Copy Images to Working Directory
+      run: |
+        cp -R ./images $GITHUB_WORKSPACE
 
     - name: Convert Markdown to PDF
       run: |

@@ -1,4 +1,4 @@
-![Local Image](./docs/images/ITU_logo.jpg)
+![Local Image](./images/ITU_logo.jpg)
 
 # Report BDSA GROUP 17 2023
 
