@@ -92,6 +92,21 @@ public class PlaywrightTests : PageTest
 
         Console.WriteLine("Like works");
 
+        // check if follow and unfollow works
+        await Page.Locator("li").Filter(new() { HasText = "Roger Histand 08/01/2023 13:17:13 Follow I waited for him to the deck, summoned" }).Locator("form").First.ClickAsync();
+
+        await Expect(Page.Locator("body")).ToContainTextAsync("Roger Histand 08/01/2023 13:17:13 Unfollow");
+
+        await Page.Locator("li").Filter(new() { HasText = "Roger Histand 08/01/2023 13:17:13 Unfollow I waited for him to the deck," }).GetByRole(AriaRole.Link).ClickAsync();
+
+        await Expect(Page.Locator("body")).ToContainTextAsync("1");
+
+        await Page.Locator("li").Filter(new() { HasText = "Roger Histand 08/01/2023 13:17:20 Unfollow You can understand his regarding it" }).Locator("form").First.ClickAsync();
+
+        await Expect(Page.Locator("body")).ToContainTextAsync("");
+
+        Console.WriteLine("Follow and unfollow works");
+
         // cheep a cheep
         await Page.GetByRole(AriaRole.Button, new() { Name = "Cheep" }).ClickAsync();
 
@@ -141,9 +156,6 @@ public class PlaywrightTests : PageTest
 
         // check status function 
 
-
-
-
         await Page.GetByRole(AriaRole.Button, new() { Name = "Set to OFFLINE" }).ClickAsync();
 
         await Page.GetByRole(AriaRole.Link, new() { Name = "My Timeline" }).ClickAsync();
@@ -155,24 +167,6 @@ public class PlaywrightTests : PageTest
         await Page.GetByRole(AriaRole.Button, new() { Name = "Set to ONLINE" }).ClickAsync();
 
         Console.WriteLine("Status function works");
-
-        // check if follow and unfollow works
-
-        await Page.GetByRole(AriaRole.Link, new() { Name = "Public Timeline" }).ClickAsync();
-
-        await Page.Locator("li").Filter(new() { HasText = "Roger Histand 08/01/2023 13:17:13 Follow I waited for him to the deck, summoned" }).Locator("form").First.ClickAsync();
-
-        await Expect(Page.Locator("body")).ToContainTextAsync("Roger Histand 08/01/2023 13:17:13 Unfollow");
-
-        await Page.Locator("li").Filter(new() { HasText = "Roger Histand 08/01/2023 13:17:13 Unfollow I waited for him to the deck," }).GetByRole(AriaRole.Link).ClickAsync();
-
-        await Expect(Page.Locator("body")).ToContainTextAsync("1");
-
-        await Page.Locator("li").Filter(new() { HasText = "Roger Histand 08/01/2023 13:17:20 Unfollow You can understand his regarding it" }).Locator("form").First.ClickAsync();
-
-        await Expect(Page.Locator("body")).ToContainTextAsync("");
-
-        Console.WriteLine("Follow and unfollow works");
 
 
     }
