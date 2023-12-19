@@ -3,7 +3,7 @@ using Chirp.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Testcontainers.MsSql;
 
-public sealed class InfrastructureUnitTests : IAsyncLifetime
+public sealed class AuthorRepositoryUnitTest : IAsyncLifetime
 {
     private readonly MsSqlContainer _msSqlContainer = new MsSqlBuilder().Build();
     private string _connectionString;
@@ -290,6 +290,34 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         await _msSqlContainer.StopAsync();
     }
 
+    // [Fact]
+    // public async Task DeleteAuthorAsync()
+    // {
+    //     // Start the container
+    //     await _msSqlContainer.StartAsync();
+
+    //     // Arrange
+    //     var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
+    //     using var context = new ChirpDBContext(builder.Options);
+    //     context.initializeDB(); //ensure all tables are created
+    //     IAuthorRepository authorRepository = new AuthorRepository(context);
+    //     var expectedName = "tan dang";
+
+    //     await authorRepository.InsertAuthorAsync(expectedName, "");
+    //     await context.SaveChangesAsync();
+
+    //     // Act
+    //     var authorDto = await authorRepository.GetAuthorByNameAsync(expectedName);
+    //     await authorRepository.DeleteAuthorAsync(authorDto.AuthorId);
+    //     await context.SaveChangesAsync();
+
+    //     // Assert
+    //     Assert.Null(await authorRepository.GetAuthorByNameAsync(expectedName));
+
+    //     // Stop the container
+    //     await _msSqlContainer.StopAsync();
+    // }
+
     [Fact]
     public async Task GetFollowerIDsByAuthorIDAsync_ReturnsCorrectFollowerIDs()
     {
@@ -443,33 +471,4 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         // Cleanup
         await _msSqlContainer.StopAsync();
     }
-
-
-    // [Fact]
-    // public async Task DeleteAuthorAsync()
-    // {
-    //     // Start the container
-    //     await _msSqlContainer.StartAsync();
-
-    //     // Arrange
-    //     var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
-    //     using var context = new ChirpDBContext(builder.Options);
-    //     context.initializeDB(); //ensure all tables are created
-    //     IAuthorRepository authorRepository = new AuthorRepository(context);
-    //     var expectedName = "tan dang";
-
-    //     await authorRepository.InsertAuthorAsync(expectedName, "");
-    //     await context.SaveChangesAsync();
-
-    //     // Act
-    //     var authorDto = await authorRepository.GetAuthorByNameAsync(expectedName);
-    //     await authorRepository.DeleteAuthorAsync(authorDto.AuthorId);
-    //     await context.SaveChangesAsync();
-
-    //     // Assert
-    //     Assert.Null(await authorRepository.GetAuthorByNameAsync(expectedName));
-
-    //     // Stop the container
-    //     await _msSqlContainer.StopAsync();
-    // }
 }
