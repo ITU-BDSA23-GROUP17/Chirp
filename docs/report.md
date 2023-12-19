@@ -1,4 +1,5 @@
 
+
 <h1 style="text-align: center;">BDSA GROUP 17 2023</h1>
 <div style="text-align:center;">
 
@@ -7,7 +8,6 @@ Course code: BSANDSA1KU
 Date: December 21, 2023
 
 </div>
-
 
 
 ![](./images/ITU_logo.jpg)
@@ -87,6 +87,18 @@ Briefly describe and illustrate the flow of activities that happen from the new 
 That is, Rasmus or Helge have to know precisely what to do in which order.
 Likely, it is best to describe how we clone your project, which commands we have to execute, and what we are supposed to see then. -->
 
+Clone the repository using this git command
+``` bash
+git clone https://github.com/ITU-BDSA23-GROUP17/Chirp/
+```
+
+Start the program using this command
+```bash
+cd src/Chirp.Web
+dotnet start
+```
+
+
 ### How to run test suite locally
 <!-- 
 List all necessary steps that Rasmus or Helge have to perform to execute your test suites.
@@ -99,7 +111,7 @@ Briefly describe what kinds of tests you have in your test suites and what they 
 ### License
 
 <!-- State which software license you chose for your application. -->
-We chose to use the MIT license for our Chirp appliaction, since allow other developer to distribute, use and copy our software without imposing significant restrictions.
+We chose to use the MIT license for our Chirp application, since allow other developer to distribute, use and copy our software without imposing significant restrictions.
 
 ### LLMs, ChatGPT, CoPilot, and others
 
