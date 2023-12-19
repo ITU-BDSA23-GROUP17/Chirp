@@ -16,7 +16,7 @@ public class PlaywrightTests : PageTest
 
         // get the website 
         await Page.GotoAsync("https://bdsagroup17chirprazor.azurewebsites.net/");
-
+        Console.WriteLine("Website is live");
         // Expect a title to have title Chirp!.
         await Expect(Page).ToHaveTitleAsync(new Regex("Chirp!"));
 
@@ -24,6 +24,7 @@ public class PlaywrightTests : PageTest
         var cheepElement = await Page.QuerySelectorAsync(".text-blue-400");
         Assert.IsNotNull(cheepElement);
 
+        Console.WriteLine("Cheep element is present");
         // check if public timeline is live
         await Page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" }).ClickAsync();
         await Expect(Page.Locator("h2")).ToContainTextAsync("Public Timeline");
