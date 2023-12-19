@@ -135,6 +135,54 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
     }
 
     [Fact]
+    public async Task InsertNewFollowAsync_CorrectlyInsertsNewFollowIntoTheDatabase()
+    {
+        //Arrange
+        // Start the container
+        await _msSqlContainer.StartAsync();
+
+        var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
+        using var context = new ChirpDBContext(builder.Options);
+        context.initializeDB(); //ensure all tables are created
+
+        //following and author repository created
+        IFollowRepository followRepository = new FollowRepository(context);
+
+        //Act
+        await followRepository.InsertNewFollowAsync("testFollowerId", "testFollowedAuthorId");
+
+        //Assert
+        //we need to check that the follow is in the database
+        var follow = context.Followings.FirstOrDefault(f => f.FollowerId == "testFollowerId" && f.FollowingId == "testFollowedAuthorId");
+        Assert.NotNull(follow);
+    }
+
+    [Fact]
+    public async Task RemoveFollowAsync_CorrectlyRemovesFollowIntoTheDatabase()
+    {
+        //Arrange
+        // Start the container
+        await _msSqlContainer.StartAsync();
+
+        var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
+        using var context = new ChirpDBContext(builder.Options);
+        context.initializeDB(); //ensure all tables are created
+
+        //following and author repository created
+        IFollowRepository followRepository = new FollowRepository(context);
+
+        await followRepository.InsertNewFollowAsync("testFollowerId", "testFollowedAuthorId");
+        //We need to insert a follow into the database in order to test the method.
+        //We then remove the follow we just inserted
+
+        //Act
+        await followRepository.RemoveFollowAsync("testFollowerId", "testFollowedAuthorId");
+        var follow = context.Followings.FirstOrDefault(f => f.FollowerId == "testFollowerId" && f.FollowingId == "testFollowedAuthorId");
+        Assert.Null(follow);
+    }
+
+
+    [Fact]
     public async Task GetFollowingIDsByAuthorIDAsync_CorrectlyReturnsListOfFollowingIds()
     {
         //Arrange
@@ -227,6 +275,7 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         //We expect to see three followings by id testFollowerAuthorId.
         Assert.Equal(3, followingCounts);
     }
+
 
 
     //#################################
