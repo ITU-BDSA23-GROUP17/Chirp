@@ -1,3 +1,14 @@
+![Local Image](./images/ITU_logo.jpg)
+
+# Report BDSA GROUP 17 2023
+
+## Group members 
+1. Burak Özdemir
+2. Hanan Choudhary Hadayat
+3. Joshua James Medilo Calba
+4. Julius Dalsgaard Bertelsen
+5. Tan Dang
+
 ## Design and architecture
 
 ### Domain model
