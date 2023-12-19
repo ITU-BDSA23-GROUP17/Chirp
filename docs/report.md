@@ -95,9 +95,27 @@ git clone https://github.com/ITU-BDSA23-GROUP17/Chirp/
 Start the program using this command
 ```bash
 cd src/Chirp.Web
-dotnet start
+dotnet run
 ```
+After you run the command you can go to `https://localhost:7102` or `https://localhost:5273`
 
+It will then open the browser and here you can interact with the application.
+You can sign in by clicking on the top right corner with either your email or sign up with Github.
+
+After you successfully sign in into the _Chirp!_ application you can now do one of the following feature we have implemented 
+
+* Sending a Cheep by clicking the blue box in the top right corner that says Cheep
+* Follow another user
+* Unfollow a user you follow
+* Go to another user and see their Cheeps only, by clicking on the name above their Cheep post
+* Go to your timeline by clicking on the "My Timeline" in the navigation bar to see your information and your cheeps and in your profile you can
+    * Set your status by choosing either online, offline or unavailable 
+    * Clicking on Forget, to remove yourself from the application 
+
+* Liking a Cheep by clicking on the thumbs up icon in a Cheep
+* Removing a Cheep that you liked by clicking on the thumbs up icon
+* When a Cheep has a # following a text, you can then click on the hashtag, it will then go to the hashtag page with all the Cheep that includes that hashtag, as well as displaying available hashtag that has been Cheeped. The order is descending by popularity. 
+* Sign out of the application
 
 ### How to run test suite locally
 <!-- 
