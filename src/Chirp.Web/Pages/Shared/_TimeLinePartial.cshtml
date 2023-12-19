@@ -11,7 +11,7 @@
     @foreach (var cheep in viewModel.Cheeps)
         {
             string status = await Model.getStatusPublic(cheep.AuthorName);
-            <div class="border-2 border-black resize-none shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline flex flex-col gap-4">
+            <div class="border-2 border-black resize-none shadow appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline flex flex-col gap-4">
                 <li>
                     <p class="text-black text-sm font-semibold hover:underline">
                         <div class="flex items-center">
@@ -61,14 +61,14 @@
         }
     </ul>
 }
-else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
+else if (viewModel != null && viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
 {
     <ul class="flex flex-col gap-5">
     @foreach (var cheepInfo in viewModel.CheepInfos)
         {
             string status = await Model.getStatusPublic(cheepInfo.Cheep.AuthorName);
             <li
-                class="border-2 border-black resize-none shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline flex flex-col gap-4">
+                class="border-2 border-black resize-none shadow appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline flex flex-col gap-4">
 
                 <div class="flex justify-between items-center">
                     <!-- container for profile picture, name, date -->
@@ -107,7 +107,7 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                     <!-- container for follow/unfollow button -->
                     <div class="flex">
                         <!-- we only want to add a button if the cheep is not by the user currently logged in-->
-                        @if (User.Identity.IsAuthenticated && cheepInfo.Cheep.AuthorName != User.Identity.Name)
+                        @if (User.Identity != null && User.Identity.IsAuthenticated && cheepInfo.Cheep.AuthorName != User.Identity.Name)
                         {
 
                             <form method="post" asp-page-handler="Follow">
@@ -140,7 +140,7 @@ else if (viewModel.CheepInfos != null && viewModel.CheepInfos.Any())
                 </p>
                 <!-- Reaction button -->
                 <div class="flex flex-row gap-2 items-center">
-                @if (User.Identity.IsAuthenticated)
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
                 {
                     <form method="post" asp-page-handler="Reaction">
                         <button id="reactionButton" class="py-1.5 hover:scale-105 hover:shadow text-center rounded-md h-8 text-sm flex gap-1 lg:gap-2">
@@ -176,13 +176,13 @@ else
     <em>There are no cheeps so far.</em>
 }
 <div class="pagination">
-    @if (viewModel.pageNr > 1)
+    @if (viewModel?.pageNr > 1)
     {
         <a href="?page=@(viewModel.pageNr - 1)">&laquo;</a>
     }
-    @for (int i = 0; i < viewModel.pages; i++)
+    @for (int i = 0; i < viewModel?.pages; i++)
     {
         <a href="?page=@(i+1)">@(i + 1)</a>
     }
-    <a href="?page=@(viewModel.pageNr + 1)">&raquo;</a>
+    <a href="?page=@(viewModel?.pageNr + 1)">&raquo;</a>
 </div>

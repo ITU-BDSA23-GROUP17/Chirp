@@ -9,7 +9,7 @@ public class BaseModel : PageModel
     protected IAuthorRepository _authorRepository;
     protected IFollowRepository _followRepository;
     protected IReactionRepository _reactionRepository;
-    protected AuthorDTO currentlyLoggedInUser;
+    protected AuthorDTO? currentlyLoggedInUser;
 
     public BaseModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository, IReactionRepository reactionRepository)
     {
@@ -29,17 +29,22 @@ public class BaseModel : PageModel
         return reactionAuthorId.Contains(cheepId);
     }
 
-    public async Task<string> getStatus()
+    public async Task<string?> getStatus()
     {
         string? viewedUser = HttpContext?.GetRouteValue("author")?.ToString();
-        var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(viewedUser);
+        AuthorDTO? StatusAuthorDTO = null;
+        if (viewedUser != null)
+        {
+            StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(viewedUser);
+
+        }
         var Status = StatusAuthorDTO?.Status;
         Console.WriteLine("Received user: " + viewedUser);
         Console.WriteLine("Received status: " + Status);
         return Status;
     }
 
-    public async Task<string> getStatusPublic(string name)
+    public async Task<string?> getStatusPublic(string name)
     {
         var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(name);
         var Status = StatusAuthorDTO?.Status;
@@ -52,21 +57,29 @@ public class BaseModel : PageModel
     {
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+        if (email != null)
+        {
+            currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+        }
         var isUserFollowingAuthor = await _authorRepository.GetAuthorByIdAsync(authorName);
 
         Console.WriteLine(currentlyLoggedInUser);
 
-        if (follow != null)
+        if (currentlyLoggedInUser != null)
         {
-            await _followRepository.InsertNewFollowAsync(currentlyLoggedInUser.AuthorId, authorName);
-        }
-        if (unfollow != null)
-        {
-            await _followRepository.RemoveFollowAsync(currentlyLoggedInUser.AuthorId, authorName);
+            if (follow != null)
+            {
+                await _followRepository.InsertNewFollowAsync(currentlyLoggedInUser.AuthorId, authorName);
+            }
+            if (unfollow != null)
+            {
+                await _followRepository.RemoveFollowAsync(currentlyLoggedInUser.AuthorId, authorName);
+            }
+
+            await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser.Email);
+
         }
 
-        await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
 
         return Redirect("/");
     }
@@ -76,25 +89,34 @@ public class BaseModel : PageModel
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
 
-        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
-
-        var likeID = "fbd9ecd2-283b-48d2-b82a-544b232d6244";
+        if (email != null)
+        {
+            currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+        }
+        else
+        {
+            Console.WriteLine("No email provided!");
+        }
 
         if (currentlyLoggedInUser == null)
         {
             Console.WriteLine("Can not react to cheep, user is not logged in");
         }
-        bool hasReacted = await _reactionRepository.CheckIfAuthorReactedToCheep(cheepId, currentlyLoggedInUser.AuthorId);
-        if (hasReacted)
-        {
-            Console.WriteLine("Removed like on " + cheepId);
-            await _reactionRepository.RemoveReactionAsync(cheepId, currentlyLoggedInUser.AuthorId);
-        }
         else
         {
-            Console.WriteLine("Added like on " + cheepId);
-            await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId);
+            bool hasReacted = await _reactionRepository.CheckIfAuthorReactedToCheep(cheepId, currentlyLoggedInUser.AuthorId);
+            if (hasReacted)
+            {
+                Console.WriteLine("Removed like on " + cheepId);
+                await _reactionRepository.RemoveReactionAsync(cheepId, currentlyLoggedInUser.AuthorId);
+            }
+            else
+            {
+                Console.WriteLine("Added like on " + cheepId);
+                await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId);
+            }
         }
+
 
         Console.WriteLine(HttpContext.Request.Path);
 
@@ -114,9 +136,16 @@ public class BaseModel : PageModel
     {
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+        if (email != null)
+        {
+            currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
-        await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
+        }
+
+        if (currentlyLoggedInUser != null && currentlyLoggedInUser.Email != null)
+        {
+            await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser.Email);
+        }
 
         return Redirect("/");
     }
@@ -125,9 +154,16 @@ public class BaseModel : PageModel
     {
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+        if (email != null)
+        {
+            currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
-        await _authorRepository.UpdateAuthorStatusUnavailable(currentlyLoggedInUser?.Email);
+        }
+
+        if (currentlyLoggedInUser != null && currentlyLoggedInUser.Email != null)
+        {
+            await _authorRepository.UpdateAuthorStatusUnavailable(currentlyLoggedInUser.Email);
+        }
 
         return Redirect("/");
     }
@@ -136,9 +172,16 @@ public class BaseModel : PageModel
     {
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+        if (email != null)
+        {
+            currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
-        await _authorRepository.UpdateAuthorStatusOnline(currentlyLoggedInUser?.Email);
+        }
+
+        if (currentlyLoggedInUser != null && currentlyLoggedInUser.Email != null)
+        {
+            await _authorRepository.UpdateAuthorStatusOnline(currentlyLoggedInUser.Email);
+        }
 
         return Redirect("/");
     }
@@ -147,9 +190,16 @@ public class BaseModel : PageModel
     {
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+        if (email != null)
+        {
+            currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
-        await _authorRepository.UpdateAuthorStatusOffline(currentlyLoggedInUser?.Email);
+        }
+
+        if (currentlyLoggedInUser != null && currentlyLoggedInUser.Email != null)
+        {
+            await _authorRepository.UpdateAuthorStatusOffline(currentlyLoggedInUser.Email);
+        }
 
         return Redirect("/");
     }
@@ -158,9 +208,18 @@ public class BaseModel : PageModel
     {
         var Claims = User.Claims;
         var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
-        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
-        await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
+        if (email != null)
+        {
+            currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+        }
+
+        if (currentlyLoggedInUser != null && currentlyLoggedInUser.Email != null)
+        {
+            await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser.Email);
+        }
+
 
         return SignOut(new AuthenticationProperties { RedirectUri = "/MicrosoftIdentity/Account/SignedOut" }, "Cookies");
     }
