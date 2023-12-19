@@ -1,4 +1,4 @@
-![Local Image](./images/ITU_logo.jpg)
+![Local Image](./docs/images/ITU_logo.jpg)
 
 # Report BDSA GROUP 17 2023
 
@@ -12,7 +12,7 @@
 ## Design and architecture
 
 ### Domain model
-![Local Image](./images/uml/Domain-model-Chirp.Core.drawio.svg)
+![Local Image](./docs/images/uml/Domain-model-Chirp.Core.drawio.svg)
 
 <!-- Provide an illustration of your domain model.
 Make sure that it is correct and complete.
