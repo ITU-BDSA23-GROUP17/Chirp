@@ -194,7 +194,7 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         */
 
         await authorRepository.UpdateAuthorStatusOnline(authorDTOTest.Email);
-        var receivedStatus = authorDTOTest.Status;
+        var receivedStatus = await authorRepository.GetAuthorStatusAsync(authorDTOTest.Email);
 
         /*
             Assert
@@ -234,7 +234,7 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         */
 
         await authorRepository.UpdateAuthorStatusOffline(authorDTOTest.Email);
-        var receivedStatus = authorDTOTest.Status;
+        var receivedStatus = await authorRepository.GetAuthorStatusAsync(authorDTOTest.Email);
 
         /*
             Assert
@@ -274,7 +274,7 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         */
 
         await authorRepository.UpdateAuthorStatusUnavailable(authorDTOTest.Email);
-        var receivedStatus = authorDTOTest.Status;
+        var receivedStatus = await authorRepository.GetAuthorStatusAsync(authorDTOTest.Email);
 
         /*
             Assert

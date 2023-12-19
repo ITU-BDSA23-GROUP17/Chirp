@@ -201,6 +201,16 @@ namespace Chirp.Infrastructure
             }
         }
 
+        public async Task<string?> GetAuthorStatusAsync(string Email)
+        {
+            var author = await context.Authors.Where(a => a.Email == Email).FirstOrDefaultAsync();
+            if(author != null){
+                return author.Status;
+            } else {
+                return null;
+            }
+        }
+
         public async Task InsertAuthorAsync(string? Name, string Email, string Online)
         {
             Guid guid = Guid.NewGuid();
