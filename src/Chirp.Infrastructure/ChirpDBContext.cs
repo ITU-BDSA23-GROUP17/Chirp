@@ -5,11 +5,12 @@ public class ChirpDBContext : DbContext
     public DbSet<Author> Authors { get; set; }
     public DbSet<Cheep> Cheeps { get; set; }
     public DbSet<Reaction> Reactions { get; set; }
-    public DbSet<ReactionType> ReactionTypes { get; set; }
     public DbSet<Follow> Followings { get; set; }
     public DbSet<Hashtag> Hashtags { get; set; }
+    public DbSet<HashtagText> HashtagTexts { get; set; }
 
     // source https://learn.microsoft.com/en-us/ef/core/get-started/overview/first-app?tabs=netcore-cli
+
     public ChirpDBContext(DbContextOptions<ChirpDBContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -20,9 +21,8 @@ public class ChirpDBContext : DbContext
            .HasKey(f => new { f.FollowerId, f.FollowingId }); // Composite primary key
         modelBuilder.Entity<Hashtag>()
            .HasKey(h => new { h.CheepID, h.HashtagText }); // Composite primary key
-
-
-
+        modelBuilder.Entity<HashtagText>()
+            .HasKey(h => new { h.HashtagText_ }); // Primary key
         // Other configurations if needed
 
         base.OnModelCreating(modelBuilder);
@@ -37,7 +37,7 @@ public class ChirpDBContext : DbContext
     }
     public void initializeDB()
     {
-        // Database.Migrate();
+        Database.Migrate();
         Database.EnsureCreated(); //Ensures all tables are created!
         DbInitializer.SeedDatabase(this);
     }

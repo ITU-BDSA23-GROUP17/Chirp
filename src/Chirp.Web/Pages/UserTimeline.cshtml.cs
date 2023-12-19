@@ -2,6 +2,7 @@
 using System.Drawing;
 using Chirp.Core;
 using Chirp.Infrastructure;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
@@ -169,6 +170,25 @@ IReactionRepository reactionRepository)
         return HttpContext.GetRouteValue("author").ToString();
     }
 
+    public async Task<string> getStatus()
+    {
+        string? viewedUser = HttpContext?.GetRouteValue("author")?.ToString();
+        var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(viewedUser);
+        var Status = StatusAuthorDTO?.Status;
+        Console.WriteLine("Received user: " + viewedUser);
+        Console.WriteLine("Received status: " + Status);
+        return Status;
+    }
+
+    public async Task<string> getStatusPublic(string name)
+    {
+        var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(name);
+        var Status = StatusAuthorDTO?.Status;
+        Console.WriteLine("Received user: " + name);
+        Console.WriteLine("Received status: " + Status);
+        return Status;
+    }
+
     public async Task<IActionResult> OnPostFollow(string authorName, string follow, string? unfollow)
     {
         var Claims = User.Claims;
@@ -187,8 +207,9 @@ IReactionRepository reactionRepository)
             await _followRepository.RemoveFollowAsync(currentlyLoggedInUser.AuthorId, authorName);
         }
 
+        await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
 
-        return Redirect("/" + isUserFollowingAuthor.Name.Replace(" ", "%20"));
+        return Redirect("/");
     }
 
     public async Task<IActionResult> OnPostReaction(string cheepId, string authorId, string reaction)
@@ -213,7 +234,7 @@ IReactionRepository reactionRepository)
         else
         {
             Console.WriteLine("Added like on " + cheepId);
-            await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId, likeID);
+            await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId);
         }
 
         Console.WriteLine(HttpContext.Request.Path);
@@ -228,6 +249,61 @@ IReactionRepository reactionRepository)
             return RedirectToPage();
         }
 
+    }
+
+    public async Task<IActionResult> OnPostStatus()
+    {
+        var Claims = User.Claims;
+        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+        await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
+
+        return Redirect("/");
+    }
+
+    public async Task<IActionResult> OnPostStatusUnavailable()
+    {
+        var Claims = User.Claims;
+        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+        await _authorRepository.UpdateAuthorStatusUnavailable(currentlyLoggedInUser?.Email);
+
+        return Redirect("/");
+    }
+
+     public async Task<IActionResult> OnPostStatusOnline()
+    {
+        var Claims = User.Claims;
+        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+        await _authorRepository.UpdateAuthorStatusOnline(currentlyLoggedInUser?.Email);
+
+        return Redirect("/");
+    }
+
+    public async Task<IActionResult> OnPostStatusOffline()
+    {
+        var Claims = User.Claims;
+        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+        await _authorRepository.UpdateAuthorStatusOffline(currentlyLoggedInUser?.Email);
+
+        return Redirect("/");
+    }
+
+    public async Task<IActionResult> OnPostSetStatusOfflineAsync()
+    {
+        var Claims = User.Claims;
+        var email = Claims.FirstOrDefault(c => c.Type == "emails")?.Value;
+        currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
+
+        await _authorRepository.UpdateAuthorStatusAsync(currentlyLoggedInUser?.Email);
+        
+        return SignOut(new AuthenticationProperties { RedirectUri = "MicrosoftIdentity/Account/SignedOut" }, "Cookies");
     }
 
 }

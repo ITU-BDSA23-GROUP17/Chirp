@@ -29,8 +29,8 @@ public class HashtagModel : PageModel
     private string currentHashtagText;
     private AuthorDTO currentlyLoggedInUser;
     private List<String> cheepIds;
+    public List<String> uniqueHashtagTexts { get; set; } = null;
     public List<String> popularHashtags { get; set; } = null;
-
 
     [BindProperty]
     public IFormFile Upload { get; set; }
@@ -41,15 +41,17 @@ public class HashtagModel : PageModel
     private readonly IFollowRepository _followRepository;
     private readonly IReactionRepository _reactionRepository;
     private readonly IHashtagRepository _hashtagRepository;
+    private readonly IHashtagTextRepository _hashtagTextRepository;
 
     public HashtagModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository,
-    IReactionRepository reactionRepository, IHashtagRepository hashtagRepository)
+    IReactionRepository reactionRepository, IHashtagRepository hashtagRepository, IHashtagTextRepository hashtagTextRepository)
     {
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
         _followRepository = followRepository;
         _reactionRepository = reactionRepository;
         _hashtagRepository = hashtagRepository;
+        _hashtagTextRepository = hashtagTextRepository;
     }
     public async Task<IActionResult> OnGet(string hashtag)
     {
@@ -61,7 +63,8 @@ public class HashtagModel : PageModel
 
 
         //get popular hashtags
-        popularHashtags = await _hashtagRepository.GetPopularHashtagsAsync();
+        uniqueHashtagTexts = await _hashtagTextRepository.GetUniqueHashtagTextsAsync();
+        popularHashtags = _hashtagRepository.GetPopularHashtags(uniqueHashtagTexts);
 
         //get cheeps for current hashtag:
 
@@ -81,7 +84,7 @@ public class HashtagModel : PageModel
         }
         else
         {
-            throw new Exception("OH NO ?!");
+            throw new Exception("Failed to retrieve cheep id from hashtag text");
         }
 
         //source https://stackoverflow.com/questions/6514292/c-sharp-razor-url-parameter-from-view 
@@ -179,7 +182,7 @@ public class HashtagModel : PageModel
         else
         {
             Console.WriteLine("Added like on " + cheepId);
-            await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId, likeID);
+            await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId);
         }
 
         Console.WriteLine(HttpContext.Request.Path);

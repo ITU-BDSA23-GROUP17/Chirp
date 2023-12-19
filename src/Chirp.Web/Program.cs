@@ -33,6 +33,8 @@ builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<IFollowRepository, FollowRepository>();
 builder.Services.AddScoped<IReactionRepository, ReactionRepository>();
 builder.Services.AddScoped<IHashtagRepository, HashtagRepository>();
+builder.Services.AddScoped<IHashtagTextRepository, HashtagTextRepository>();
+
 
 
 
@@ -43,7 +45,7 @@ if (builder.Environment.IsDevelopment())
 }
 else
 {
-    KeyVaultSecret secret = client.GetSecret("connectionstring");
+    KeyVaultSecret secret = client.GetSecret("chirp-prod-database");
     connectionString = secret.Value;
 }
 
@@ -62,7 +64,6 @@ using (var scope = app.Services.CreateScope())
 
     context.initializeDB();
 
-    //context.Database.ExecuteSqlRaw("DROP TABLE [dbo].[__EFMigrationsHistory]"); // If a new table is added or column is added, uncomment this
 }
 
 // Configure the HTTP request pipeline.

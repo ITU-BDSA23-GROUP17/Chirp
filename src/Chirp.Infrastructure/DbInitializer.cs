@@ -4,7 +4,7 @@ public static class DbInitializer
 {
     public static async void SeedDatabase(ChirpDBContext chirpContext)
     {
-        if (!(chirpContext.Authors.Any()) || !(chirpContext.Cheeps.Any()) || !(chirpContext.Reactions.Any()) || !(chirpContext.ReactionTypes.Any()))
+        if (!(chirpContext.Authors.Any()) || !(chirpContext.Cheeps.Any()) || !(chirpContext.Reactions.Any()))
         {
             #region Authors added
             GithubClaims githubclaims = new GithubClaims();
@@ -702,20 +702,13 @@ public static class DbInitializer
             a12.Cheeps = new List<Cheep>() { c657 };
             #endregion
 
-            #region ReactionTypes added
-            var rt1 = new ReactionType() { Id = Guid.NewGuid().ToString(), Name = "like", Icon = "thumbs-up" };
-            var rt2 = new ReactionType() { Id = Guid.NewGuid().ToString(), Name = "dislike", Icon = "thumbs-down" };
-            var rt3 = new ReactionType() { Id = Guid.NewGuid().ToString(), Name = "love", Icon = "heart" };
-            var rt4 = new ReactionType() { Id = Guid.NewGuid().ToString(), Name = "hate", Icon = "heart-broken" };
-            var reactionTypes = new List<ReactionType>() { rt1, rt2, rt3, rt4 };
-            #endregion
 
             #region Reactions added
-            var r1 = new Reaction() { AuthorId = a1.AuthorId, CheepId = c1.CheepId, ReactionTypeId = "like" };
-            var r2 = new Reaction() { AuthorId = a2.AuthorId, CheepId = c1.CheepId, ReactionTypeId = "like" };
-            var r3 = new Reaction() { AuthorId = a3.AuthorId, CheepId = c1.CheepId, ReactionTypeId = "like" };
-            var r4 = new Reaction() { AuthorId = a4.AuthorId, CheepId = c1.CheepId, ReactionTypeId = "like" };
-            var r5 = new Reaction() { AuthorId = a5.AuthorId, CheepId = c1.CheepId, ReactionTypeId = "like" };
+            var r1 = new Reaction() { AuthorId = a1.AuthorId, CheepId = c1.CheepId };
+            var r2 = new Reaction() { AuthorId = a2.AuthorId, CheepId = c1.CheepId };
+            var r3 = new Reaction() { AuthorId = a3.AuthorId, CheepId = c1.CheepId };
+            var r4 = new Reaction() { AuthorId = a4.AuthorId, CheepId = c1.CheepId };
+            var r5 = new Reaction() { AuthorId = a5.AuthorId, CheepId = c1.CheepId };
             var reactions = new List<Reaction>() { r1, r2, r3, r4, r5 };
             #endregion
 
@@ -727,7 +720,6 @@ public static class DbInitializer
 
             chirpContext.Authors.AddRange(authors);
             chirpContext.Cheeps.AddRange(cheeps);
-            chirpContext.ReactionTypes.AddRange(reactionTypes);
             chirpContext.Reactions.AddRange(reactions);
             chirpContext.Followings.AddRange(followings);
             chirpContext.SaveChanges();
@@ -741,6 +733,7 @@ public static class DbInitializer
             AuthorId = Guid.NewGuid().ToString(),
             Name = name,
             Email = email,
+            Status = "OFFLINE",
             Cheeps = new List<Cheep>(),
             Image = Image
         };

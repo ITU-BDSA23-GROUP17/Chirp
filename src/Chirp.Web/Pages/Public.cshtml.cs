@@ -49,7 +49,7 @@ IReactionRepository reactionRepository)
             {
                 if (email != null && await _authorRepository.GetAuthorByEmailAsync(email) == null)
                 {
-                    await _authorRepository.InsertAuthorAsync(username, email);
+                    await _authorRepository.InsertAuthorAsync(username, email, "ONLINE");
                     await _authorRepository.SaveAsync();
                     currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
@@ -62,6 +62,8 @@ IReactionRepository reactionRepository)
             {
                 Console.WriteLine("author insert failed");
             }
+        } else if (User.Identity?.IsAuthenticated == true){
+            await _authorRepository.UpdateAuthorStatusAsync(email);
         }
 
 
@@ -113,6 +115,14 @@ IReactionRepository reactionRepository)
         return Page();
     }
 
+    public async Task<string> getStatusPublic(string name)
+    {
+        var StatusAuthorDTO = await _authorRepository.GetAuthorByNameAsync(name);
+        var Status = StatusAuthorDTO?.Status;
+        Console.WriteLine("Received status: " + Status);
+        return Status;
+    }
+
     //Right now this method is on both public and user timeline. In general there is a lot of repeated code between the two. Seems silly...?
     public bool IsUserFollowingAuthor(string authorID, List<string> followingIDs)
     {
@@ -159,8 +169,6 @@ IReactionRepository reactionRepository)
 
         currentlyLoggedInUser = await _authorRepository.GetAuthorByEmailAsync(email);
 
-        var likeID = "fbd9ecd2-283b-48d2-b82a-544b232d6244";
-
         if (currentlyLoggedInUser == null)
         {
             Console.WriteLine("Can not react to cheep, user is not logged in");
@@ -174,7 +182,7 @@ IReactionRepository reactionRepository)
         else
         {
             Console.WriteLine("Added like on " + cheepId);
-            await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId, likeID);
+            await _reactionRepository.InsertNewReactionAsync(cheepId, currentlyLoggedInUser.AuthorId);
         }
 
         Console.WriteLine("Redirecting to /");

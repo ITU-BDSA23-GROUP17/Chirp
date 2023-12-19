@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Infrastructure.Migrations
 {
     [DbContext(typeof(ChirpDBContext))]
-    [Migration("20231206091814_newMigration")]
+    [Migration("20231218171156_newMigration")]
     partial class newMigration
     {
         /// <inheritdoc />
@@ -39,6 +39,10 @@ namespace Chirp.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -99,6 +103,16 @@ namespace Chirp.Infrastructure.Migrations
                     b.ToTable("Hashtags");
                 });
 
+            modelBuilder.Entity("Chirp.Infrastructure.HashtagText", b =>
+                {
+                    b.Property<string>("HashtagText_")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("HashtagText_");
+
+                    b.ToTable("HashtagTexts");
+                });
+
             modelBuilder.Entity("Chirp.Infrastructure.Reaction", b =>
                 {
                     b.Property<string>("CheepId")
@@ -107,34 +121,12 @@ namespace Chirp.Infrastructure.Migrations
                     b.Property<string>("AuthorId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ReactionTypeId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("TimeStamp")
                         .HasColumnType("datetime2");
 
                     b.HasKey("CheepId", "AuthorId");
 
                     b.ToTable("Reactions");
-                });
-
-            modelBuilder.Entity("Chirp.Infrastructure.ReactionType", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Icon")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ReactionTypes");
                 });
 
             modelBuilder.Entity("Chirp.Infrastructure.Cheep", b =>
