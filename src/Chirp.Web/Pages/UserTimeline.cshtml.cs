@@ -31,10 +31,13 @@ public class UserTimelineModel : BaseModel
     public string? authorImage;
     public AuthorDTO authorDTO { get; set; } = null;
 
+    private readonly IUserService _userService;
+
 
     public UserTimelineModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository,
-IReactionRepository reactionRepository) : base(cheepRepository, authorRepository, followRepository, reactionRepository)
+IReactionRepository reactionRepository, IUserService userService) : base(cheepRepository, authorRepository, followRepository, reactionRepository)
     {
+        _userService = userService;
     }
 
     public async Task<IActionResult> OnGetAsync(string author)
@@ -140,4 +143,14 @@ IReactionRepository reactionRepository) : base(cheepRepository, authorRepository
 
 
 
+    public async Task<IActionResult> OnPostForgetUser()
+    {
+        var objectID = User.Claims.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier")?.Value;
+        var name = User.Claims.FirstOrDefault(c => c.Type == "name")?.Value;
+
+        await _authorRepository.DeleteAuthorAsync(name);
+        await _userService.DeleteUserById(objectID);
+
+        return SignOut(new AuthenticationProperties { RedirectUri = "MicrosoftIdentity/Account/SignedOut" }, "Cookies");
+    }
 }

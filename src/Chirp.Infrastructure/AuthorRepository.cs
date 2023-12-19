@@ -3,6 +3,7 @@ using Chirp.Core;
 using Microsoft.VisualBasic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.Intrinsics.Arm;
 
 namespace Chirp.Infrastructure
 {
@@ -68,13 +69,25 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public async Task DeleteAuthorAsync(int authorId)
+        public async Task DeleteAuthorAsync(string authorName)
         {
-            var author = await context.Authors.FindAsync(authorId);
+            Console.WriteLine(" deleting author" + authorName);
+
+            var author = await context.Authors.Where(a => a.Name == authorName).FirstOrDefaultAsync();
+            Console.WriteLine("author found" + author.AuthorId);
             if (author != null)
             {
-                context.Remove(author);
+                context.Authors.Remove(author);
+                await context.SaveChangesAsync();
+                Console.WriteLine("Author deleted");
+
+
             }
+            else
+            {
+                Console.WriteLine("Author not found");
+            }
+
         }
 
         public async Task<string> GetStatusOfAuthorByID(int authorId)
@@ -89,7 +102,7 @@ namespace Chirp.Infrastructure
                 return null;
             }
         }
-        
+
         public async Task<CheepDTO> SendCheepAsync(string message, AuthorInfoDTO authorInfoDTO)
         {
             var guid = Guid.NewGuid().ToString();
@@ -146,14 +159,12 @@ namespace Chirp.Infrastructure
             {
                 authorToUpdate.Status = "ONLINE";
                 context.Authors.Update(authorToUpdate);
-                Console.WriteLine("NEW STATUS:" + authorToUpdate.Status);
                 await context.SaveChangesAsync();
             }
             else
             {
                 authorToUpdate.Status = "OFFLINE";
                 context.Authors.Update(authorToUpdate);
-                Console.WriteLine("NEW STATUS:" + authorToUpdate.Status);
                 await context.SaveChangesAsync();
             }
         }
@@ -165,7 +176,6 @@ namespace Chirp.Infrastructure
             {
                 authorToUpdate.Status = "UNAVAILABLE";
                 context.Authors.Update(authorToUpdate);
-                Console.WriteLine("NEW STATUS:" + authorToUpdate.Status);
                 await context.SaveChangesAsync();
             }
         }
@@ -177,7 +187,6 @@ namespace Chirp.Infrastructure
             {
                 authorToUpdate.Status = "ONLINE";
                 context.Authors.Update(authorToUpdate);
-                Console.WriteLine("NEW STATUS:" + authorToUpdate.Status);
                 await context.SaveChangesAsync();
             }
         }
@@ -188,14 +197,13 @@ namespace Chirp.Infrastructure
             {
                 authorToUpdate.Status = "OFFLINE";
                 context.Authors.Update(authorToUpdate);
-                Console.WriteLine("NEW STATUS:" + authorToUpdate.Status);
                 await context.SaveChangesAsync();
             }
         }
 
         public async Task InsertAuthorAsync(string? Name, string Email, string Online)
         {
-             Guid guid = Guid.NewGuid();
+            Guid guid = Guid.NewGuid();
             GithubClaims githubclaims = new GithubClaims();
             await context.Authors.AddAsync(new Author() { AuthorId = guid.ToString(), Name = Name, Email = Email, Status = Online, Image = await githubclaims.GetGitHubClaimsUserImageAsync(Name) });
         }
