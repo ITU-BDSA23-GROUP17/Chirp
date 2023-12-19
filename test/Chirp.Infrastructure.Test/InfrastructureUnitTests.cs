@@ -158,11 +158,11 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         var expectedName = "tan dang";
         var expectedEmail = "tanda@itu.dk";
 
+        // Act
         await authorRepository.InsertAuthorAsync(expectedName, expectedEmail);
         await context.SaveChangesAsync();
         var insertedAuthor = await context.Authors.FirstOrDefaultAsync(a => a.Email == expectedEmail);
 
-        // Act
         var authorDto = await authorRepository.GetAuthorByIdAsync(insertedAuthor.AuthorId);
 
         // Assert
@@ -226,10 +226,9 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         var followerId = Guid.NewGuid().ToString();
         var followingId = Guid.NewGuid().ToString();
 
+        // Act
         await followRepository.InsertNewFollowAsync(followerId, followingId);
         await context.SaveChangesAsync();
-
-        // Act
         var followerIDs = await followRepository.GetFollowerIDsByAuthorIDAsync(followingId);
 
         // Assert
@@ -251,10 +250,9 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         var followerId = Guid.NewGuid().ToString();
         var followingId = Guid.NewGuid().ToString();
 
+        // Act
         await followRepository.InsertNewFollowAsync(followerId, followingId);
         await context.SaveChangesAsync();
-
-        // Act
         var followingIDs = await followRepository.GetFollowingIDsByAuthorIDAsync(followerId);
 
         // Assert
