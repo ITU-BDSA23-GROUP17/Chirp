@@ -1,0 +1,7 @@
+@startuml
+class FollowDTO <<record>> {
+    + FollowerId : string <<get>> <<init>>
+    + FollowingId : string <<get>> <<init>>
+}
+FollowDTO --> "Timestamp" DateTime
+@enduml

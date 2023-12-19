@@ -1,0 +1,12 @@
+@startuml
+class AuthorDTO <<record>> {
+    + AuthorId : string <<get>> <<init>>
+    + Name : string <<get>> <<init>>
+    + Email : string <<get>> <<init>>
+    + Status : string <<get>> <<init>>
+    + Image : string? <<get>> <<init>>
+}
+class "List`1"<T> {
+}
+AuthorDTO --> "Cheeps<CheepDTO>" "List`1"
+@enduml

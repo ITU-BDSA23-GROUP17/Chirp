@@ -1,0 +1,7 @@
+@startuml
+class CheepInfoDTO <<record>> {
+    + UserIsFollowingAuthor : bool <<get>> <<init>>
+    + UserReactToCheep : bool <<get>> <<set>>
+}
+CheepInfoDTO --> "Cheep" CheepDTO
+@enduml

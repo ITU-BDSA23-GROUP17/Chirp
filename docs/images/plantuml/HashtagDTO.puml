@@ -1,0 +1,6 @@
+@startuml
+class HashtagDTO <<record>> {
+    + Hashtag : string <<get>> <<init>>
+    + CheepID : string <<get>> <<init>>
+}
+@enduml
