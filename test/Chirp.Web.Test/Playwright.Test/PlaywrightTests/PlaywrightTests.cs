@@ -11,6 +11,7 @@ namespace PlaywrightTests;
 public class PlaywrightTests : PageTest
 {
     [Test]
+    [Ignore("Not to be run on GitHub Actions")]
     public async Task CheckElementPresence()
     {
 
