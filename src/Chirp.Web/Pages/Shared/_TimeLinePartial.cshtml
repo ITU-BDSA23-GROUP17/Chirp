@@ -47,9 +47,15 @@
                         </div>                      
                     </p>
                     
-                   <p class="text-blue-400 text-sm font-medium text-clip overflow-hidden">
-                        <small class="text-blue-400 text-sm font-medium text-clip overflow-hidden">@cheep.Message</small 
-                    </p>
+                  <!-- cheep text -->
+                <p class="text-gray-400 text-sm font-semibold ">
+                    @{
+                        // Use regex to find hashtags and replace them with blue text
+                        string cheepMessageWithLinks = System.Text.RegularExpressions.Regex.Replace(cheep.Message,
+                        @"#\w+", match => $"<a href=\"/tag/{match.Value.TrimStart('#')}\" class=\"text-blue-400\">{match.Value}</a>");
+                    }
+                    @Html.Raw(cheepMessageWithLinks)
+                </p>
                 </li>
             </div>
         }
