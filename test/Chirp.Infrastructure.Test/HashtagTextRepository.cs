@@ -101,45 +101,54 @@ public sealed class HashtagTextRepositoryTest : IAsyncLifetime
     [Fact]
     public async Task GetUniqueHashtagTexts_ReturnsListOfUniqueHashtagTexts()
     {
-        //Arrange
-        //start the container
+        // Start the container
         await _msSqlContainer.StartAsync();
 
         var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
         using var context = new ChirpDBContext(builder.Options);
-        context.initializeDB(); //ensure all tables are created
+        context.initializeDB(); // ensure all tables are created
 
-        //creating hashtagtext repository
+        // Creating hashtagtext repository
         IHashtagTextRepository hashtagTextRepository = new HashtagTextRepository(context);
 
-        //we add a bunch of hashtags, some of which are the same, sicne we want to check that we only get no duplicates in the list
-        await hashtagTextRepository.AddHashtag("testHashtag");
-        await hashtagTextRepository.AddHashtag("testHashtag");
-        await hashtagTextRepository.AddHashtag("testHashtag2");
-        await hashtagTextRepository.AddHashtag("testHashtag3");
-        await hashtagTextRepository.AddHashtag("testHashtag3");
-        await hashtagTextRepository.AddHashtag("testHashtag4");
-        await hashtagTextRepository.AddHashtag("testHashtag4");
-        await hashtagTextRepository.AddHashtag("testHashtag4");
-        await hashtagTextRepository.AddHashtag("testHashtag5");
+        // Add a bunch of hashtags, some of which are the same, since we want to check that we only get no duplicates in the list
+        var hashtagsToAdd = new List<string>
+    {
+        "testHashtag",
+        "testHashtag2",
+        "testHashtag3",
+        "testHashtag4",
+        "testHashtag5"
+    };
 
-        //Act
-        //we retrieve the list of unique hashtagtexts by invokinh the method we want to test
+        foreach (var hashtag in hashtagsToAdd)
+        {
+            await hashtagTextRepository.AddHashtag(hashtag);
+            // Make sure changes are saved immediately
+            await context.SaveChangesAsync();
+        }
+
+        // Add some duplicates to ensure they are not counted more than once
+        await hashtagTextRepository.AddHashtag("testHashtag");
+        await context.SaveChangesAsync();
+
+        await hashtagTextRepository.AddHashtag("testHashtag3");
+        await context.SaveChangesAsync();
+
+        // Retrieve the list of unique hashtag texts by invoking the method we want to test
         var uniqueHashtagTexts = await hashtagTextRepository.GetUniqueHashtagTextsAsync();
 
         // List should contain all unique hashtags
-        await context.SaveChangesAsync();
-        var expectedHashtags = new List<string> { "testHashtag", "testHashtag2", "testHashtag3", "testHashtag4", "testHashtag5" };
-        Assert.Equal(expectedHashtags.Count, uniqueHashtagTexts.Count);
-        foreach (var expectedTag in expectedHashtags)
+        Assert.Equal(hashtagsToAdd.Count, uniqueHashtagTexts.Count);
+        foreach (var expectedTag in hashtagsToAdd)
         {
             Assert.Contains(expectedTag, uniqueHashtagTexts);
         }
-
 
         // Cleanup
         context.HashtagTexts.RemoveRange(context.HashtagTexts);
         await context.SaveChangesAsync();
         await _msSqlContainer.StopAsync();
     }
+
 }
