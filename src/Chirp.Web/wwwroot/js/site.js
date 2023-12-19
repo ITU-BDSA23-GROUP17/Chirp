@@ -54,15 +54,6 @@ function cheepDisableMultiClick(){
   }
 }
 
-// Ask user if they're sure they want to delete their profile
-function AskToForget(){
-  var confirmForget = window.confirm("Are you sure? This action cannot be undone!");
-
-  if (confirmForget){
-    
-  }
-}
-
 // TO UPLOAD profile pics
 const inputDiv = document.getElementById("input-div");
 const uploadButton = document.getElementById("upload-button");
