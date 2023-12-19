@@ -285,6 +285,32 @@ public sealed class InfrastructureUnitTests : IAsyncLifetime
         await _msSqlContainer.StopAsync();
     }
 
+    [Fact]
+    public async Task RemoveFollowAsync_RemovesFollowSuccessfully()
+    {
+        // Arrange
+        await _msSqlContainer.StartAsync();
+        var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
+        using var context = new ChirpDBContext(builder.Options);
+        context.initializeDB();
+        IFollowRepository followRepository = new FollowRepository(context);
+        var followerId = Guid.NewGuid().ToString();
+        var followingId = Guid.NewGuid().ToString();
+        await followRepository.InsertNewFollowAsync(followerId, followingId);
+        await context.SaveChangesAsync();
+
+        // Act
+        await followRepository.RemoveFollowAsync(followerId, followingId);
+        await context.SaveChangesAsync();
+        var follow = await context.Followings.FindAsync(followerId, followingId);
+
+        // Assert
+        Assert.Null(follow);
+
+        // Cleanup
+        await _msSqlContainer.StopAsync();
+    }
+
 
     // [Fact]
     // public async Task DeleteAuthorAsync()
