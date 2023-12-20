@@ -154,7 +154,7 @@ namespace PlaywrightTests
 
                 await Page.Locator("li").Filter(new() { HasText = "Roger Histand 08/01/2023 13:17:13 Follow I waited for him to the deck, summoned" }).Locator("form").First.ClickAsync();
 
-                await Page.Locator("li").Filter(new() { HasText = "Roger Histand 08/01/2023 13:17:13 Follow I waited for him to the deck, summoned" }).Locator("form").First.ClickAsync();
+                await Page.Locator("li").Filter(new() { HasText = "Roger Histand 08/01/2023 13:17:13 Unfollow I waited for him to the deck, summoned" }).Locator("form").First.ClickAsync();
 
                 Console.WriteLine("Follow and unfollow works");
 
