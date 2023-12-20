@@ -125,7 +125,7 @@ Some HTTP calls and responses, some calls and responses in C# and likely some mo
 
 There is a flow of messages and data through the chirp application, which allow the user to see and interact with a completely rendered web page.
 
-The diagram below illustrates this flow of messages and data, starting with the sending of an HTTP request by an authorized user to the root endpoint of the application and ending with the completely rendered web-page that is returned to the user.
+The diagrams below illustrates this flow of messages and data, starting with the sending of an HTTP request by an authorized user to the root endpoint of the application and ending with the completely rendered web-page that is returned to the user.
 The diagram shows the different kinds of calls and the responses.
 
 <div style="text-align: center; padding: 20px; background-color: white;">
@@ -133,8 +133,6 @@ The diagram shows the different kinds of calls and the responses.
 ![data_flow](./images/sequences/data-flow.png)
 
 </div>
-
-Another diagram, this one shows .....
 
 <div style="text-align: center; padding: 20px; background-color: white;">
 
