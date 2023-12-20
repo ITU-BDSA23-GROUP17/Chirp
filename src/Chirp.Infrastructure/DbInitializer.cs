@@ -66,7 +66,7 @@ public static class DbInitializer
             var c37 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a1.AuthorId, Author = a1, Text = "But I have quite come to Mackleton with me now for a small figure, sir.", TimeStamp = DateTime.Parse("2023-08-01 13:15:23") };
             var c38 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "Every word I say to them ahead, yet with their fists and sticks.", TimeStamp = DateTime.Parse("2023-08-01 13:13:39") };
             var c39 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a6.AuthorId, Author = a6, Text = "A well-fed, plump Huzza Porpoise will yield you about saying, sir?", TimeStamp = DateTime.Parse("2023-08-01 13:13:32") };
-            var c40 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a1.AuthorId, Author = a1, Text = "Holmes glanced at his busy desk, hurriedly making out his watch, and ever afterwards are missing, Starbuck!", TimeStamp = DateTime.Parse("2023-08-01 13:13:26") };
+            var c40 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a1.AuthorId, Author = a1, Text = "Holmes glanced at his busy desk, hurriedly making out his watch, and ever afterwards are missing, #Starbuck", TimeStamp = DateTime.Parse("2023-08-01 13:13:26") };
             var c41 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "Like household dogs they came at last come for you.", TimeStamp = DateTime.Parse("2023-08-01 13:14:16") };
             var c42 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "To him it had done a great fish to swallow up the steel head of the cetacea.", TimeStamp = DateTime.Parse("2023-08-01 13:17:10") };
             var c43 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "Thence he could towards me.", TimeStamp = DateTime.Parse("2023-08-01 13:13:23") };
@@ -107,7 +107,7 @@ public static class DbInitializer
             var c78 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "Was the other side.", TimeStamp = DateTime.Parse("2023-08-01 13:13:19") };
             var c79 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "We feed him once or twice, when he has amassed a lot of things which were sucking him down.", TimeStamp = DateTime.Parse("2023-08-01 13:13:27") };
             var c80 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "He leaned back in Baker Street the detective was already bowed, and he put his hand a small and great, old and feeble.", TimeStamp = DateTime.Parse("2023-08-01 13:13:50") };
-            var c81 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a2.AuthorId, Author = a2, Text = "I begin to get more worn than others, and in his eyes seemed to be handy in case of sawed-off shotguns and clumsy six-shooters.", TimeStamp = DateTime.Parse("2023-08-01 13:14:45") };
+            var c81 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a2.AuthorId, Author = a2, Text = "I begin to get more worn than others, and in his eyes seemed to be handy in case of sawed-off #shotguns and clumsy six-shooters.", TimeStamp = DateTime.Parse("2023-08-01 13:14:45") };
             var c82 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "And can''t I speak confidentially?", TimeStamp = DateTime.Parse("2023-08-01 13:16:08") };
             var c83 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "At the same height.", TimeStamp = DateTime.Parse("2023-08-01 13:16:43") };
             var c84 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "I thought it only means that little hell-hound Tonga who shot the slide a little, for a kindly voice at last.", TimeStamp = DateTime.Parse("2023-08-01 13:15:05") };
@@ -590,7 +590,7 @@ public static class DbInitializer
             var c561 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "Oh, hush, Mr. McMurdo, may I forgive myself, but I thought you were going to be done.", TimeStamp = DateTime.Parse("2023-08-01 13:14:31") };
             var c562 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a1.AuthorId, Author = a1, Text = "His name, I have in bringing me safely to the King his father''s influence could prevail.", TimeStamp = DateTime.Parse("2023-08-01 13:13:14") };
             var c563 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "He makes one in the air.", TimeStamp = DateTime.Parse("2023-08-01 13:16:03") };
-            var c564 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a8.AuthorId, Author = a8, Text = "It was a sawed-off #shotgun; so he fell back dead.", TimeStamp = DateTime.Parse("2023-08-01 13:17:01") };
+            var c564 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a8.AuthorId, Author = a8, Text = "It was a sawed-off shotgun; so he fell back dead.", TimeStamp = DateTime.Parse("2023-08-01 13:17:01") };
             var c565 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a3.AuthorId, Author = a3, Text = "He was dressed like a woman who answered the Guernsey-man, under cover of darkness, I must arrange with you.", TimeStamp = DateTime.Parse("2023-08-01 13:14:13") };
             var c566 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "It was as close packed in its own controls it.", TimeStamp = DateTime.Parse("2023-08-01 13:15:36") };
             var c567 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "It went through my field-glass.", TimeStamp = DateTime.Parse("2023-08-01 13:16:02") };
@@ -703,11 +703,11 @@ public static class DbInitializer
 
 
             #region Reactions added
-            var r1 = new Reaction() { AuthorId = a1.AuthorId, CheepId = c142.CheepId };
-            var r2 = new Reaction() { AuthorId = a2.AuthorId, CheepId = c142.CheepId };
-            var r3 = new Reaction() { AuthorId = a3.AuthorId, CheepId = c142.CheepId };
-            var r4 = new Reaction() { AuthorId = a4.AuthorId, CheepId = c142.CheepId };
-            var r5 = new Reaction() { AuthorId = a5.AuthorId, CheepId = c142.CheepId };
+            var r1 = new Reaction() { AuthorId = a1.AuthorId, CheepId = c370.CheepId };
+            var r2 = new Reaction() { AuthorId = a2.AuthorId, CheepId = c370.CheepId };
+            var r3 = new Reaction() { AuthorId = a3.AuthorId, CheepId = c85.CheepId };
+            var r4 = new Reaction() { AuthorId = a4.AuthorId, CheepId = c85.CheepId };
+            var r5 = new Reaction() { AuthorId = a5.AuthorId, CheepId = c205.CheepId };
             var r6 = new Reaction() { AuthorId = a1.AuthorId, CheepId = c376.CheepId };
             var r7 = new Reaction() { AuthorId = a2.AuthorId, CheepId = c376.CheepId };
             var r8 = new Reaction() { AuthorId = a3.AuthorId, CheepId = c376.CheepId };
@@ -730,14 +730,27 @@ public static class DbInitializer
             #endregion
 
             #region Hashtag text
-            var h1 = new HashtagText() { HashtagText_ = "Starbucks"};
-            var h2 = new HashtagText() { HashtagText_ = "BDSA"};
-            var h3 = new HashtagText() { HashtagText_ = "Flask"};
-            var h4 = new HashtagText() { HashtagText_ = "shotgun"};
-            var h5 = new HashtagText() { HashtagText_ = "velkommen"};
+            var ht1 = new HashtagText() { HashtagText_ = "Starbuck"};
+            var ht2 = new HashtagText() { HashtagText_ = "BDSA"};
+            var ht3 = new HashtagText() { HashtagText_ = "Flask"};
+            var ht4 = new HashtagText() { HashtagText_ = "shotguns"};
+            var ht5 = new HashtagText() { HashtagText_ = "velkommen"};
 
-            var hashtagTexts = new List<HashtagText>() { h1, h2, h3, h4, h5 };
+            var hashtagTexts = new List<HashtagText>() { ht1, ht2, ht3, ht4, ht5 };
             #endregion 
+
+            #region Hashtag
+            var h1 = new Hashtag() { HashtagText = ht1.HashtagText_, CheepID = c40.CheepId };
+            var h2 = new Hashtag() { HashtagText = ht1.HashtagText_, CheepID = c142.CheepId };
+            var h3 = new Hashtag() { HashtagText = ht1.HashtagText_, CheepID = c343.CheepId };
+            var h4 = new Hashtag() { HashtagText = ht1.HashtagText_, CheepID = c645.CheepId };
+            var h5 = new Hashtag() { HashtagText = ht2.HashtagText_, CheepID = c656.CheepId };
+            var h6 = new Hashtag() { HashtagText = ht3.HashtagText_, CheepID = c357.CheepId };
+            var h7 = new Hashtag() { HashtagText = ht4.HashtagText_, CheepID = c81.CheepId };
+            var h8 = new Hashtag() { HashtagText = ht5.HashtagText_, CheepID = c657.CheepId };
+            
+            var hashtags = new List<Hashtag>() { h1, h2, h3, h4, h5, h6, h7, h8 };
+            #endregion
 
 
             chirpContext.Authors.AddRange(authors);
@@ -745,6 +758,7 @@ public static class DbInitializer
             chirpContext.Reactions.AddRange(reactions);
             chirpContext.Followings.AddRange(followings);
             chirpContext.HashtagTexts.AddRange(hashtagTexts);
+            chirpContext.Hashtags.AddRange(hashtags);
             chirpContext.SaveChanges();
 
         }
