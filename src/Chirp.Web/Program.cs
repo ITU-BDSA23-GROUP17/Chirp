@@ -47,15 +47,16 @@ builder.Services.AddScoped<IUserService>(_ => userService);
 
 if (builder.Environment.IsDevelopment())
 {
-    KeyVaultSecret secret = client.GetSecret("prod-connectionstring");
-    connectionString = secret.Value;
-}
-else
-{
+
     _msSqlContainer = new MsSqlBuilder().Build();
 
     await _msSqlContainer.StartAsync();
     connectionString = _msSqlContainer.GetConnectionString();
+}
+else
+{
+    KeyVaultSecret secret = client.GetSecret("prod-connectionstring");
+    connectionString = secret.Value;
 }
 
 
