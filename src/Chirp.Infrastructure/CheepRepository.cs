@@ -1,8 +1,15 @@
-
-using System.ComponentModel.DataAnnotations;
 using System.Data;
 using Chirp.Core;
 using Microsoft.EntityFrameworkCore;
+
+
+/*
+    This warning tells us that await methods lacks inside 
+    the methods, but these methods are later used by
+    asynchronous methods. Thus, we still need to declare 
+    them as async. 
+*/
+#pragma warning disable CS1998
 
 namespace Chirp.Infrastructure
 {

@@ -1,6 +1,12 @@
-using System.Net.Http;
-using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+
+/*
+    The warning is suppressed, as we handle the possible
+    exception that might be raised, if token conversion fails
+
+*/
+
+#pragma warning disable CS8600
 
 public class GithubClaims
 {
@@ -21,7 +27,7 @@ public class GithubClaims
     }
 
 
-    public async Task<string> GetGitHubClaimsUserImageAsync(string username)
+    public async Task<string?> GetGitHubClaimsUserImageAsync(string username)
     {
         string ImageUrl = "https://assets.phillips.com/image/upload/t_Website_LotDetailMainImage/v1/auctions/NY000208/52_001.png";
 
@@ -38,7 +44,11 @@ public class GithubClaims
             Console.WriteLine("user does not have a git profile");
         }
 
-        return ImageUrl;
+        if(ImageUrl != null){
+            return ImageUrl;
+        } else {
+            return null;
+        }
 
 
     }
