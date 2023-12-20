@@ -148,11 +148,45 @@ Describe the illustration briefly, i.e., how your application is built, tested, 
 
 The UML diagram below illustrates the flow of activities in the Github Actions workflows, showing how the Chirp application is built, tested, released and deployed.
 
-<div style="text-align: center; padding: 20px; background-color: white;">
+![[azure-d.png]]
 
-<!-- ![sequence_of_functionality_calls](./images/sequences/DEPLOY.png) -->
+This workflow is the deploy workflow for azure 
+1. The User triggers the workflow on `main` branch or manually dispatching the workflow .
+2. The GitHub repository then triggers the `build` job on the GitHub Actions Runner dedicated to building the app.
+3. The build runner performs the following steps:
+   - Checks out the repository.
+   - Sets up .NET Core SDK version 7.0.x with prerelease versions included.
+   - Builds the ASP.NET Core app from the specified source directory with the Release configuration.
+   - Publishes the app to the output directory.
+   - Uploads the build artifact (Chirp.Web) to GitHub's artifact storage.
+4. Once the build job is complete, the repository triggers the `deploy` job on another GitHub Actions Runner.
+5. The deployment runner downloads the artifact from the storage.
+6. Finally, deployment runner deploys the downloaded artifact to the specified Azure Web App using the given publish profile.
 
-</div>
+![[build-test-activity.png]]
+
+This workflow is build
+1. This workflow is triggered in the same way as the deploy flow, but the build and test flow is  also triggered when there is a pull request to `main`
+2. The workflow then checks if there was a change to src or test if no then it stops
+3. The build runner performs the following steps:
+   - Checks out the repository.
+   - Then workflow logs into Docker Hub 
+   -  Sets up .NET Core SDK with the given version 
+   - restores project dependences 
+   - Builds the project without restoring dependencies again.
+   - Runs the Integration tests.
+   - Runs the unit tests
+
+![[release.png]]
+
+This is release workflow 
+- The workflow is triggered when a release is published.
+- The `Matrix_Strategy` 
+    - For Linux, the workflow builds and packages the application, creates a ZIP file, and uploads the artifact.
+    - For Windows, the workflow repeats the same steps but tailored for the Windows target.
+    - For macOS, the workflow performs the steps for the macOS target.
+- After the artifacts for all three targets are prepared and uploaded, the `Publish_Release` partition publishes the release assets using the `softprops/action-gh-release@v1` action. This step uses the uploaded artifacts for each target as part of the release.
+- The process ends after the release assets are published.
 
 ### Team work
 
