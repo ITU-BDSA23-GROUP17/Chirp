@@ -107,10 +107,11 @@ public sealed class CheepRepositoryTest : IAsyncLifetime
             );
 
         // Act
-        await cheepRepository.InsertCheepAsync(cheepDto);
+        var hasInserted = await cheepRepository.InsertCheepAsync(cheepDto);
         var retreivedCheep = await cheepRepository.GetCheepByIDAsync(cheepDto.Id);
 
         // Assert
+        Assert.False(hasInserted);
         Assert.Null(retreivedCheep);
     }
 
@@ -148,11 +149,12 @@ public sealed class CheepRepositoryTest : IAsyncLifetime
             AuthorImage: ""
             );
 
-         // Act
-        await cheepRepository.InsertCheepAsync(cheepDto);
+        // Act
+        var hasInserted = await cheepRepository.InsertCheepAsync(cheepDto);
         var retreivedCheep = await cheepRepository.GetCheepByIDAsync(cheepDto.Id);
 
         // Assert
+        Assert.False(hasInserted);
         Assert.Null(retreivedCheep);
     }
 
