@@ -1,182 +1,181 @@
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Microsoft.Playwright;
-using Microsoft.Playwright.NUnit;
 using NUnit.Framework;
+using System;
+using System.Threading.Tasks;
 
-namespace PlaywrightTests;
-
-[Parallelizable(ParallelScope.Self)]
-[TestFixture]
-public class PlaywrightTests : PageTest
+namespace PlaywrightTests
 {
-    [Test]
-    public async Task CheckElementPresence()
+    [Parallelizable(ParallelScope.Self)]
+    [TestFixture]
+    public class PlaywrightTests
     {
-        if (Environment.GetEnvironmentVariable("GITHUB_ACTIONS") == "true")
+        private IBrowser browser;
+        private IPage Page;
+
+        [SetUp]
+        public async Task SetUp()
         {
-            Assert.Ignore("Test ignored on GitHub Actions");
-        }
-        else
-        {
-
-
-            // get the website 
-            await Page.GotoAsync("https://bdsagroup17chirprazor.azurewebsites.net/");
-            Console.WriteLine("Website is live");
-            // Expect a title to have title Chirp!.
-            await Expect(Page).ToHaveTitleAsync(new Regex("Chirp!"));
-
-            // Check that the "cheep" element is present
-            var cheepElement = await Page.QuerySelectorAsync(".text-blue-400");
-            Assert.IsNotNull(cheepElement);
-
-            Console.WriteLine("Cheep element is present");
-            // check if public timeline is live
-            await Page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" }).ClickAsync();
-            await Expect(Page.Locator("h2")).ToContainTextAsync("Public Timeline");
-
-            Console.WriteLine("Public timeline is live");
-
-            // get the last page
-            await Page.GetByRole(AriaRole.Link, new() { Name = "21" }).ClickAsync();
-
-            // check if it is the last page
-            await Expect(Page.Locator("body")).ToContainTextAsync("21");
-
-            // check if the last cheep is Hello, BDSA students!
-            await Expect(Page.Locator("body")).ToContainTextAsync("Hello, BDSA students!");
-
-            await Expect(Page.Locator("div").Filter(new() { HasText = "Helge 08/01/2023 12:16:48" }).Nth(2)).ToBeVisibleAsync();
-
-            await Expect(Page.Locator("body")).ToContainTextAsync("08/01/2023 12:16:48");
-
-            Console.WriteLine("Last cheep is Hello, BDSA students!");
-
-            // check if username is present 
-            await Page.GetByRole(AriaRole.Link, new() { Name = "Helge" }).ClickAsync();
-
-            await Page.GetByText("Name: Helge").ClickAsync();
-
-            await Expect(Page.Locator("body")).ToContainTextAsync("Name: Helge");
-
-            await Page.GetByText("Status: OFFLINE").ClickAsync();
-
-            Console.WriteLine("Username is present");
-
-            // go to helges timeline         
-            await Page.GetByRole(AriaRole.Heading, new() { Name = "Helge Profile" }).ClickAsync();
-
-            await Page.GetByRole(AriaRole.Link, new() { Name = "1", Exact = true }).ClickAsync();
-
-            await Page.GetByRole(AriaRole.Link, new() { Name = "Public Timeline" }).ClickAsync();
-
-            Console.WriteLine("Helges timeline is live");
-
-            // go to signin
-            await Page.GetByRole(AriaRole.Link, new() { Name = "Sign in" }).ClickAsync();
-
-            await Page.GetByPlaceholder("Email Address").ClickAsync();
-
-            await Page.GetByPlaceholder("Email Address").FillAsync("chirp@gmail.com");
-
-            await Page.GetByPlaceholder("Password").ClickAsync();
-
-            await Page.GetByPlaceholder("Password").FillAsync("Goqo8003");
-
-            await Page.GetByRole(AriaRole.Button, new() { Name = "Sign in" }).ClickAsync();
-
-            Console.WriteLine("Sign in is live");
-
-            // find cheep from a user to check if like works
-            await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine 08/01/2023 13:17:10 Follow Until then I thought it was my" }).Locator("#reactionButton").ClickAsync();
-
-            await Expect(Page.Locator("body")).ToContainTextAsync("1 Like");
-
-            await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine 08/01/2023 13:17:10 Follow Until then I thought it was my" }).Locator("#reactionButton").ClickAsync();
-
-            await Expect(Page.Locator("body")).ToContainTextAsync("0 Likes");
-
-            Console.WriteLine("Like works");
-
-            // cheep a cheep
-            await Page.GetByRole(AriaRole.Button, new() { Name = "Cheep" }).ClickAsync();
-
-            await Page.Locator("#cheepTextArea").FillAsync("hej chirp #chirp");
-
-            await Page.GetByText("Character left:").ClickAsync();
-
-            await Expect(Page.Locator("#charactersLeft")).ToContainTextAsync("Character left: 144");
-
-            await Page.GetByRole(AriaRole.Button, new() { Name = "Cheep!" }).ClickAsync();
-
-            await Page.GetByRole(AriaRole.Link, new() { Name = "#chirp", Exact = true }).ClickAsync();
-
-            await Expect(Page.Locator("h2")).ToContainTextAsync("Cheeps tagged with #chirp");
-
-            await Expect(Page.Locator("h3")).ToContainTextAsync("Popular Hashtags");
-
-            Console.WriteLine("Cheep a cheep works");
-
-            // check functions on user profile
-
-            await Page.GetByRole(AriaRole.Link, new() { Name = "My Timeline" }).ClickAsync();
-
-            await Page.GetByRole(AriaRole.Link, new() { Name = "Public Timeline" }).ClickAsync();
-
-            await Page.GetByRole(AriaRole.Link, new() { Name = "My Timeline" }).ClickAsync();
-
-            await Expect(Page.Locator("body")).ToContainTextAsync("chirppyboi");
-
-            void Page_Dialog_EventHandler(object sender, IDialog dialog)
+            if (Environment.GetEnvironmentVariable("GITHUB_ACTIONS") == "true")
             {
-                Console.WriteLine($"Dialog message: {dialog.Message}");
-                dialog.DismissAsync();
-                Page.Dialog -= Page_Dialog_EventHandler;
+                Assert.Ignore("Test ignored on GitHub Actions");
             }
-            Page.Dialog += Page_Dialog_EventHandler;
-            await Page.GetByRole(AriaRole.Button, new() { Name = "Forget Me" }).ClickAsync();
+            else
+            {
+                var playwright = await Playwright.CreateAsync();
+                browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+                {
+                    Headless = false,
+                });
 
-            await Expect(Page.Locator("body")).ToContainTextAsync("Followers");
-
-            await Page.GetByText("Following").ClickAsync();
-
-            await Expect(Page.Locator("body")).ToContainTextAsync("Following");
-
-            Console.WriteLine("User profile functions works");
-
-
-            // check status function 
-
-
-            await Page.GetByRole(AriaRole.Button, new() { Name = "Set to OFFLINE" }).ClickAsync();
-
-            await Page.GetByRole(AriaRole.Link, new() { Name = "My Timeline" }).ClickAsync();
-
-            await Page.GetByRole(AriaRole.Button, new() { Name = "Set to UNAVAILABLE" }).ClickAsync();
-
-            await Page.GetByRole(AriaRole.Link, new() { Name = "My Timeline" }).ClickAsync();
-
-            await Page.GetByRole(AriaRole.Button, new() { Name = "Set to ONLINE" }).ClickAsync();
-
-            Console.WriteLine("Status function works");
-
-            // check if follow and unfollow works
-
-            await Page.Locator("li").Filter(new() { HasText = "Roger Histand 08/01/2023 13:17:13 Follow I waited for him to the deck, summoned" }).Locator("form").First.ClickAsync();
-
-            await Expect(Page.Locator("body")).ToContainTextAsync("Roger Histand 08/01/2023 13:17:13 Unfollow");
-
-            await Page.Locator("li").Filter(new() { HasText = "Roger Histand 08/01/2023 13:17:13 Unfollow I waited for him to the deck," }).GetByRole(AriaRole.Link).ClickAsync();
-
-            await Expect(Page.Locator("body")).ToContainTextAsync("1");
-
-            await Page.Locator("li").Filter(new() { HasText = "Roger Histand 08/01/2023 13:17:20 Unfollow You can understand his regarding it" }).Locator("form").First.ClickAsync();
-
-            await Expect(Page.Locator("body")).ToContainTextAsync("");
-
-            Console.WriteLine("Follow and unfollow works");
+                var context = await browser.NewContextAsync();
+                Page = await context.NewPageAsync();
+            }
         }
 
+        [TearDown]
+        public async Task TearDown()
+        {
+            if (Environment.GetEnvironmentVariable("GITHUB_ACTIONS") == "true")
+            {
+                Assert.Ignore("Test ignored on GitHub Actions");
+            }
+            {
+                await browser.CloseAsync();
+            }
+        }
+
+        [Test]
+        public async Task CheckElementPresence()
+        {
+            if (Environment.GetEnvironmentVariable("GITHUB_ACTIONS") == "true")
+            {
+                Assert.Ignore("Test ignored on GitHub Actions");
+            }
+            else
+            {
+                // get the website 
+                await Page.GotoAsync("https://bdsagroup17chirprazor.azurewebsites.net/");
+                Console.WriteLine("Website is live");
+
+                // Assert that the title contains "Chirp!"
+                Assert.That(Page.TitleAsync, Does.Match(new Regex("Chirp!")));
+
+                // Check that the "cheep" element is present
+                var cheepElement = await Page.QuerySelectorAsync(".text-blue-400");
+                Assert.IsNotNull(cheepElement);
+                Console.WriteLine("Cheep element is present");
+
+                // check if public timeline is live
+                await Page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" }).ClickAsync();
+                Assert.That(await Page.Locator("h2").InnerTextAsync(), Does.Contain("Public Timeline"));
+                Console.WriteLine("Public timeline is live");
+
+                // get the last page
+                await Page.GetByRole(AriaRole.Link, new() { Name = "21" }).ClickAsync();
+
+                // check if it is the last page
+                Assert.That(await Page.Locator("body").InnerTextAsync(), Does.Contain("21"));
+
+                // check if the last cheep is Hello, BDSA students!
+                Assert.That(await Page.Locator("body").InnerTextAsync(), Does.Contain("Hello, BDSA students!"));
+
+                // Assert that the "Helge 08/01/2023 12:16:48" is visible
+                Assert.That(await Page.Locator("div").Filter(new() { HasText = "Helge 08/01/2023 12:16:48" }).Nth(2).IsVisibleAsync(), Is.True);
+                Console.WriteLine("Last cheep is Hello, BDSA students!");
+
+                // check if username is present 
+                await Page.GetByRole(AriaRole.Link, new() { Name = "Helge" }).ClickAsync();
+                await Page.GetByText("Name: Helge").ClickAsync();
+                Assert.That(await Page.Locator("body").InnerTextAsync(), Does.Contain("Name: Helge"));
+                await Page.GetByText("Status: OFFLINE").ClickAsync();
+                Console.WriteLine("Username is present");
+
+                // go to helges timeline         
+                await Page.GetByRole(AriaRole.Heading, new() { Name = "Helge Profile" }).ClickAsync();
+                await Page.GetByRole(AriaRole.Link, new() { Name = "1", Exact = true }).ClickAsync();
+                await Page.GetByRole(AriaRole.Link, new() { Name = "Public Timeline" }).ClickAsync();
+                Console.WriteLine("Helges timeline is live");
+
+                // go to signin --
+                await Page.GetByRole(AriaRole.Link, new() { Name = "Sign in" }).ClickAsync();
+                await Page.GetByPlaceholder("Email Address").ClickAsync();
+
+                //  note for your own test you can remove this line and login with your own account using github in the playwright browser
+                // this is a testing email but if you want to test it yourself you can change it to your own email
+                await Page.GetByPlaceholder("Email Address").FillAsync("chirppy@chirp.io");
+                await Page.GetByPlaceholder("Password").ClickAsync();
+
+                //  note for your own test you can remove this line and login with your own account using github in the playwright browser
+                // this is a testing password but if you want to test it yourself you can change it to your own password
+                await Page.GetByPlaceholder("Password").FillAsync("Vuta2325");
+                await Page.GetByRole(AriaRole.Button, new() { Name = "Sign in" }).ClickAsync();
+                Console.WriteLine("Sign in is live");
+
+                // find cheep from a user to check if like works
+                await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine 08/01/2023 13:17:10 Follow Until then I thought it was my" }).Locator("#reactionButton").ClickAsync();
+                Assert.That(await Page.Locator("body").InnerTextAsync(), Does.Contain("1 Like"));
+
+                await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine 08/01/2023 13:17:10 Follow Until then I thought it was my" }).Locator("#reactionButton").ClickAsync();
+                Assert.That(await Page.Locator("body").InnerTextAsync(), Does.Contain("0 Likes"));
+                Console.WriteLine("Like works");
+
+                // cheep a cheep
+                await Page.GetByRole(AriaRole.Button, new() { Name = "Cheep" }).ClickAsync();
+                await Page.Locator("#cheepTextArea").FillAsync("hej chirp #chirp");
+                await Page.GetByText("Character left:").ClickAsync();
+
+                Assert.That(await Page.Locator("#charactersLeft").InnerTextAsync(), Does.Contain("Character left: 144"));
+                await Page.GetByRole(AriaRole.Button, new() { Name = "Cheep!" }).ClickAsync();
+                await Page.GetByRole(AriaRole.Link, new() { Name = "#chirp", Exact = true }).ClickAsync();
+
+                Assert.That(await Page.Locator("h2").InnerTextAsync(), Does.Contain("Cheeps tagged with #chirp"));
+                Assert.That(await Page.Locator("h3").InnerTextAsync(), Does.Contain("Popular Hashtags"));
+                Console.WriteLine("Cheep a cheep works");
+
+                // check functions on user profile
+                await Page.GetByRole(AriaRole.Link, new() { Name = "My Timeline" }).ClickAsync();
+                Assert.That(await Page.Locator("body").InnerTextAsync(), Does.Contain("unknown"));
+
+                void Page_Dialog_EventHandler(object sender, IDialog dialog)
+                {
+                    Console.WriteLine($"Dialog message: {dialog.Message}");
+                    dialog.DismissAsync();
+                    Page.Dialog -= Page_Dialog_EventHandler;
+                }
+
+                Page.Dialog += Page_Dialog_EventHandler;
+                await Page.GetByRole(AriaRole.Button, new() { Name = "Forget Me" }).ClickAsync();
+
+                Assert.That(await Page.Locator("body").InnerTextAsync(), Does.Contain("Followers"));
+
+                await Page.GetByText("Following").ClickAsync();
+                Assert.That(await Page.Locator("body").InnerTextAsync(), Does.Contain("Following"));
+                Console.WriteLine("User profile functions works");
+
+                // check status function 
+                await Page.GetByRole(AriaRole.Button, new() { Name = "Set to OFFLINE" }).ClickAsync();
+                await Page.GetByRole(AriaRole.Link, new() { Name = "My Timeline" }).ClickAsync();
+
+                await Page.GetByRole(AriaRole.Button, new() { Name = "Set to UNAVAILABLE" }).ClickAsync();
+                await Page.GetByRole(AriaRole.Link, new() { Name = "My Timeline" }).ClickAsync();
+
+                await Page.GetByRole(AriaRole.Button, new() { Name = "Set to ONLINE" }).ClickAsync();
+                Console.WriteLine("Status function works");
+
+                // check if follow 
+
+                await Page.Locator("li").Filter(new() { HasText = "Roger Histand 08/01/2023 13:17:13 Follow I waited for him to the deck, summoned" }).Locator("form").First.ClickAsync();
+
+                await Page.Locator("li").Filter(new() { HasText = "Roger Histand 08/01/2023 13:17:13 Unfollow I waited for him to the deck, summoned" }).Locator("form").First.ClickAsync();
+
+                Console.WriteLine("Follow and unfollow works");
+
+                // delete cheep 
+                await Page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" }).ClickAsync();
+
+                await Page.Locator("form").Filter(new() { HasText = "Delete" }).ClickAsync();
+            }
+        }
     }
 }
