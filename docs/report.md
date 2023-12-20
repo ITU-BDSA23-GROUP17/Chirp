@@ -111,7 +111,8 @@ That is, likely for many of you there will be different kinds of "calls" and res
 Some HTTP calls and responses, some calls and responses in C# and likely some more.
 (Note the previous sentence is vague on purpose. I want that you create a complete illustration.) -->
 
-The diagram below illustrates the flow of messages and data through the chirp application, starting with the sending of an HTTP request by
+The diagram below illustrates the flow of messages and data through the chirp application, starting with the sending of an HTTP request by an authorized user to the root endpoint of the application and ending with the completely rendered web-page that is returned to the user.
+The diagram shows the different kinds of calls and the responses.
 
 <div style="text-align: center; padding: 20px; background-color: white;">
 
