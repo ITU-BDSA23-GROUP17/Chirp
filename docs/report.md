@@ -86,6 +86,10 @@ Illustrate the server component and to where it is deployed, illustrate a client
 
 </div>
 
+<div>
+  <object data="./images/uml/Chirp client server uml.drawio.pdf" type="application/pdf" width="100%" height="500px"></object>
+</div>
+
 ### User activities
 
 <!-- Illustrate typical scenarios of a user journey through your _Chirp!_ application.
