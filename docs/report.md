@@ -56,6 +56,10 @@ Some relationships have been omitted to improve the readability of the diagram.
 
 </div>
 
+The figure below shows a more simplistic view of the onion architecture structure of the components of the application.
+
+![Onion](./images/Onion/Onion.drawio.png)
+
 <!-- Illustrate the organization of your code base.
 That is, illustrate which layers exist in your (onion) architecture.
 Make sure to illustrate which part of your code is residing in which layer. -->
@@ -83,23 +87,23 @@ Illustrate the server component and to where it is deployed, illustrate a client
 
 ### User activities
 
-The diagram shows a series of typical user activities through the Chirp application.
-The diagram shows what a user may do while remaining unauthorized, and after logging in and becoming authorized.
-
 <!-- Illustrate typical scenarios of a user journey through your _Chirp!_ application.
 That is, start illustrating the first page that is presented to a non-authorized user, illustrate what a non-authorized user can do with your _Chirp!_ application, and finally illustrate what a user can do after authentication.
 
 Make sure that the illustrations are in line with the actual behavior of your application. -->
 
-The diagram below shows a more detailed view of one slightly more elaborate scenario of a user journey through Chirp, in which a user logs in and sends a cheep.
-
-OBS : insert diagram!
+The diagram shows a series of typical user activities through the Chirp application.
+The diagram shows what a user may do while remaining unauthorized, and after logging in and becoming authorized.
 
 <div style="text-align: center; padding: 20px; background-color: white;">
 
 ![User_activities](./images/uml/chirp-user-journeys.drawio.png)
 
 </div>
+
+The diagram below shows a more detailed view of one slightly more elaborate scenario of a user journey through Chirp, in which a user logs in and sends a cheep.
+
+OBS : insert diagram!
 
 ### Sequence of functionality/calls trough _Chirp!_
 
@@ -116,7 +120,15 @@ The diagram shows the different kinds of calls and the responses.
 
 <div style="text-align: center; padding: 20px; background-color: white;">
 
-![sequence_of_functionality_calls](./images/sequences/graph-api.png)
+![data_flow](./images/sequences/data-flow.png)
+
+</div>
+
+Another diagram, this one shows .....
+
+<div style="text-align: center; padding: 20px; background-color: white;">
+
+![graph_api](./images/sequences/graph-api.png)
 
 </div>
 
