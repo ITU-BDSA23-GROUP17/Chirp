@@ -20,7 +20,7 @@
 
 <!-- ![Domain model](./images/uml/Domain-model-Chirp.Core.drawio.svg) -->
 
-![](./images/uml/Domain-model-Chirp.Core.drawio.png)
+![Domain model](./images/uml/Domain-model-Chirp.Core.drawio.png)
 
 <!-- Provide an illustration of your domain model.
 Make sure that it is correct and complete.
