@@ -15,7 +15,7 @@ namespace Chirp.Core
         Task<int> GetPagesAsync();
         Task<int> GetPagesUserAsync(string author);
         Task<int> GetPagesFromCheepCountAsync(int cheepCount);
-        Task InsertCheepAsync(CheepDTO Cheep);
+        Task<bool> InsertCheepAsync(CheepDTO Cheep);
         Task DeleteCheepAsync(string cheepId);
         Task UpdateCheepAsync(CheepDTO Cheep);
     }

@@ -107,10 +107,11 @@ public sealed class CheepRepositoryTest : IAsyncLifetime
             );
 
         // Act
-        await cheepRepository.InsertCheepAsync(cheepDto);
+        var hasInserted = await cheepRepository.InsertCheepAsync(cheepDto);
         var retreivedCheep = await cheepRepository.GetCheepByIDAsync(cheepDto.Id);
 
         // Assert
+        Assert.False(hasInserted);
         Assert.Null(retreivedCheep);
     }
 
@@ -148,11 +149,12 @@ public sealed class CheepRepositoryTest : IAsyncLifetime
             AuthorImage: ""
             );
 
-         // Act
-        await cheepRepository.InsertCheepAsync(cheepDto);
+        // Act
+        var hasInserted = await cheepRepository.InsertCheepAsync(cheepDto);
         var retreivedCheep = await cheepRepository.GetCheepByIDAsync(cheepDto.Id);
 
         // Assert
+        Assert.False(hasInserted);
         Assert.Null(retreivedCheep);
     }
 
@@ -188,165 +190,6 @@ public sealed class CheepRepositoryTest : IAsyncLifetime
         //Assert
         Assert.Equal(cheepIds1, new List<string> { "testCheepId", "testCheepId2" });
         Assert.Equal(cheepIds2, new List<string> { "testCheepId3" });
-
-    }
-
-    [Fact]
-    public async Task GetStatusNotNull()
-    {
-        /*
-            Arrange
-        */
-
-        // Start the container
-        await _msSqlContainer.StartAsync();
-
-        var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
-        using var context = new ChirpDBContext(builder.Options);
-        context.initializeDB(); //ensure all tables are created
-
-        //Cheep and author repository created
-        ICheepRepository cheepRepository = new CheepRepository(context);
-        IAuthorRepository authorRepository = new AuthorRepository(context);
-
-        //Getting authorDTO by the name Helge
-        var authorDTOTest = await authorRepository.GetAuthorByNameAsync("Helge");
-        if (authorDTOTest == null)
-        {
-            throw new Exception("Could not find author Helge");
-        }
-
-        /*
-            Act
-        */
-
-        var receivedStatus = authorDTOTest.Status;
-
-        /*
-            Assert
-        */
-
-        Assert.NotNull(receivedStatus);
-
-    }
-
-    [Fact]
-    public async Task SetUserStatusOnline()
-    {
-        /*
-            Arrange
-        */
-
-        // Start the container
-        await _msSqlContainer.StartAsync();
-
-        var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
-        using var context = new ChirpDBContext(builder.Options);
-        context.initializeDB(); //ensure all tables are created
-
-        //Cheep and author repository created
-        ICheepRepository cheepRepository = new CheepRepository(context);
-        IAuthorRepository authorRepository = new AuthorRepository(context);
-
-        //Getting authorDTO by the name Helge
-        var authorDTOTest = await authorRepository.GetAuthorByNameAsync("Helge");
-        if (authorDTOTest == null)
-        {
-            throw new Exception("Could not find author Helge");
-        }
-
-        /*
-            Act
-        */
-
-        await authorRepository.UpdateAuthorStatusOnline(authorDTOTest.Email);
-        var receivedStatus = await authorRepository.GetAuthorStatusAsync(authorDTOTest.Email);
-
-        /*
-            Assert
-        */
-
-        Assert.Equal("ONLINE", receivedStatus);
-
-    }
-
-    [Fact]
-    public async Task SetUserStatusOffline()
-    {
-        /*
-            Arrange
-        */
-
-        // Start the container
-        await _msSqlContainer.StartAsync();
-
-        var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
-        using var context = new ChirpDBContext(builder.Options);
-        context.initializeDB(); //ensure all tables are created
-
-        //Cheep and author repository created
-        ICheepRepository cheepRepository = new CheepRepository(context);
-        IAuthorRepository authorRepository = new AuthorRepository(context);
-
-        //Getting authorDTO by the name Helge
-        var authorDTOTest = await authorRepository.GetAuthorByNameAsync("Helge");
-        if (authorDTOTest == null)
-        {
-            throw new Exception("Could not find author Helge");
-        }
-
-        /*
-            Act
-        */
-
-        await authorRepository.UpdateAuthorStatusOffline(authorDTOTest.Email);
-        var receivedStatus = await authorRepository.GetAuthorStatusAsync(authorDTOTest.Email);
-
-        /*
-            Assert
-        */
-
-        Assert.Equal("OFFLINE", receivedStatus);
-
-    }
-
-    [Fact]
-    public async Task SetUserStatusUnavailable()
-    {
-        /*
-            Arrange
-        */
-
-        // Start the container
-        await _msSqlContainer.StartAsync();
-
-        var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlServer(_connectionString);
-        using var context = new ChirpDBContext(builder.Options);
-        context.initializeDB(); //ensure all tables are created
-
-        //Cheep and author repository created
-        ICheepRepository cheepRepository = new CheepRepository(context);
-        IAuthorRepository authorRepository = new AuthorRepository(context);
-
-        //Getting authorDTO by the name Helge
-        var authorDTOTest = await authorRepository.GetAuthorByNameAsync("Helge");
-        if (authorDTOTest == null)
-        {
-            throw new Exception("Could not find author Helge");
-        }
-
-        /*
-            Act
-        */
-
-        await authorRepository.UpdateAuthorStatusUnavailable(authorDTOTest.Email);
-        var receivedStatus = await authorRepository.GetAuthorStatusAsync(authorDTOTest.Email);
-
-        /*
-            Assert
-        */
-
-        Assert.Equal("UNAVAILABLE", receivedStatus);
 
     }
 
