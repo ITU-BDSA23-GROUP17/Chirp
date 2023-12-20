@@ -22,6 +22,8 @@ name: Build and deploy ASP.Net Core app to an Azure Web App - BDSAGROUP-17
 on:
   push:
     branches: ["main"]
+    paths:
+      - "src/**"
   workflow_dispatch:
 
 jobs:
