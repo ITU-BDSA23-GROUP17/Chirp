@@ -13,9 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 var azureAdB2COptions = builder.Configuration.GetSection("AzureADB2C");
 var connectionString = String.Empty;
 
-bool runInDevelopment = args.Contains("--development");
 
-if (!runInDevelopment && !builder.Environment.IsDevelopment())
+if (builder.Environment.IsDevelopment())
 {
     // Connection string setup 
     var kvUri = $"https://chirp-keys.vault.azure.net/";
