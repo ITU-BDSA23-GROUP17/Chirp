@@ -44,6 +44,8 @@ Illustrate the server component and to where it is deployed, illustrate a client
 - Under this section, provide a brief description of the reason for switching again to SQLite as database.
 - In that description, provide a link to the commit hash in your GitHub repository that points to the latest version of your _Chirp!_ application with hosted database (we look at the entire history of your project, so we see that it was there at some point). -->
 
+![Illustration of the deployment of the application](./images/uml/Chirp-client-server-uml.drawio.png)
+
 ### User activities
 
 <!-- Illustrate typical scenarios of a user journey through your _Chirp!_ application.
@@ -51,7 +53,7 @@ That is, start illustrating the first page that is presented to a non-authorized
 
 Make sure that the illustrations are in line with the actual behavior of your application. -->
 
-![](./images/uml/chirp-user-journeys.drawio.png)
+![User journey](./images/uml/chirp-user-journeys.drawio.png)
 
 ### Sequence of functionality/calls trough _Chirp!_
 
