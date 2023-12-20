@@ -13,7 +13,7 @@ The developers, known as <b>Group 17</b>, is from the <i>IT-University of Copenh
 - Tan Dang (tanda)
 
 ### Further details</h3>
-A full description of the application and the development process is available at the following PDF: <b>2023_itubdsa_group_17_report.pdf</b><br>
+A full description of the application and the development process is available at the following PDF: <b>2023_itubdsa_group_17_report.pdf</b><br><br>
 The PDF is available at the root of this repository.
 
 ## How to run
@@ -53,13 +53,13 @@ There will be a few assets available (including source code), but only one of th
  
   - Chirp-win-x64.zip</i>, for Windows users</li>  
   - Chirp-osx-x64.zip</i>, for Mac users</li>
-  - Chirp-linux-x64.zip</i>, for Linux users</li>  
+  - Chirp-linux-x64.zip</i>, for Linux users</li>  <br>
     
   Please install and unzip one of the three folders, depending on your operating system</li>
-  Now, there should be the following application available in the extracted folder:</li>
+  Now, there should be the following application available in the extracted folder:</li><br>
 
     - Chirp.Web.exe</i>, for Windows users</li>  
-    - Chirp.Web</i>, for Mac and Linux users</li>
+    - Chirp.Web</i>, for Mac and Linux users</li> <br>
   
 
   Now, you have an runnable (as described in step 4). Depending on your operating system, you can run the web-app as follows: </li>
