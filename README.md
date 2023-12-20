@@ -64,15 +64,11 @@ There will be a few assets available (including source code), but only one of th
 
   Now, you have an runnable (as described in step 4). Depending on your operating system, you can run the web-app as follows: </li>
 
-      Run the following command:
+  Run the following command:
      ```
      ./Chirp.Web --urls="https://localhost:7102;http://localhost:5273" --clientsecret [your-secret]
      ```
-     
-    (Windows users):
-       Just double-click on the following executable:
-     Chirp.Web.exe
-  
+       
   Upon running the application, a terminal will pop up, indicating in which port (in the localhost) the web-app is up and running
 
 ## Other
