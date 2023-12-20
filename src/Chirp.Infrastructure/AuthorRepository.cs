@@ -234,7 +234,13 @@ namespace Chirp.Infrastructure
             GithubClaims githubclaims = new GithubClaims();
             if (Name != null)
             {
-                await context.Authors.AddAsync(new Author() { AuthorId = guid.ToString(), Name = Name, Email = Email, Status = Online, Image = await githubclaims.GetGitHubClaimsUserImageAsync(Name) });
+                var addImage = await githubclaims.GetGitHubClaimsUserImageAsync(Name);
+                if(addImage != null){
+                    await context.Authors.AddAsync(new Author() { AuthorId = guid.ToString(), Name = Name, Email = Email, Status = Online, Image = addImage });
+
+                } else {
+                    await context.Authors.AddAsync(new Author() { AuthorId = guid.ToString(), Name = Name, Email = Email, Status = Online, Image = null });
+                }
             }
         }
 

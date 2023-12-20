@@ -4,14 +4,14 @@ on:
   push:
     branches: ["main"]
     paths:
-      - 'src/**'
-      - 'test/**'
+      - "src/**"
+      - "test/**"
   workflow_dispatch:
   pull_request:
     branches: ["main"]
     paths:
-      - 'src/**'
-      - 'test/**'
+      - "src/**"
+      - "test/**"
 
 jobs:
   build:
@@ -32,5 +32,7 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build --no-restore
-      - name: Test
-        run: dotnet test --no-build --verbosity normal
+      - name: Test integration tests
+        run: dotnet test --filter Category=Integration --no-build --verbosity normal
+      - name: Test unit tests
+        run: dotnet test --filter Category=Unit --no-build --verbosity normal

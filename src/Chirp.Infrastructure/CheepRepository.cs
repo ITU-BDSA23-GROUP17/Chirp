@@ -1,8 +1,15 @@
-
-using System.ComponentModel.DataAnnotations;
 using System.Data;
 using Chirp.Core;
 using Microsoft.EntityFrameworkCore;
+
+
+/*
+    This warning tells us that await methods lacks inside 
+    the methods, but these methods are later used by
+    asynchronous methods. Thus, we still need to declare 
+    them as async. 
+*/
+#pragma warning disable CS1998
 
 namespace Chirp.Infrastructure
 {
@@ -108,8 +115,16 @@ namespace Chirp.Infrastructure
 
         }
 
-        public async Task InsertCheepAsync(CheepDTO Cheep)
+        public async Task<bool> InsertCheepAsync(CheepDTO Cheep)
         {
+            if(Cheep.Message.Length > 160){
+                return false;
+            }
+
+            if(Cheep.Message.Length == 0){
+                return false;
+            }
+
             var author = await context.Authors.FindAsync(Cheep.AuthorId) ?? throw new Exception("Author could not be found by AuthorID");
             context.Cheeps.Add(new Cheep
             {
@@ -120,6 +135,7 @@ namespace Chirp.Infrastructure
                 AuthorId = author.AuthorId
             });
             await SaveAsync();
+            return true;
         }
 
         public async Task DeleteCheepAsync(string cheepId)

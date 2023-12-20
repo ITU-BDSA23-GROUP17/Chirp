@@ -23,7 +23,7 @@ public class UserService : IUserService
         Console.WriteLine("the tenant was connected to graph api ");
     }
 
-    public async Task DeleteUserById(string userId)
+    public async Task DeleteUserById(string? userId)
     {
 
         Console.WriteLine($"Looking for user with object ID '{userId}'...");
