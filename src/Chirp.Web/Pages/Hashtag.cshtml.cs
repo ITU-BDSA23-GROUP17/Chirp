@@ -15,12 +15,12 @@ public class HashtagModel : BaseModel
     public int pageNr { get; set; } = 0;
     public int pages { get; set; } = 0;
 
-    public AuthorDTO authorDTO { get; set; }
-    private string currentHashtagText;
+    public AuthorDTO? authorDTO { get; set; }
+    private string? currentHashtagText;
     private new AuthorDTO? currentlyLoggedInUser;
-    private List<string> cheepIds;
-    public List<string> uniqueHashtagTexts { get; set; }
-    public List<string> popularHashtags { get; set; }
+    private List<string>? cheepIds;
+    public List<string>? uniqueHashtagTexts { get; set; }
+    public List<string>? popularHashtags { get; set; }
 
     private readonly IHashtagRepository _hashtagRepository;
     private readonly IHashtagTextRepository _hashtagTextRepository;

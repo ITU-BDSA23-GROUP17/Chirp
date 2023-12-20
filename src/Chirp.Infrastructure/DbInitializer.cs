@@ -739,18 +739,4 @@ public static class DbInitializer
         };
     }
 
-    public static async Task UpdateAuthorImages(ChirpDBContext chirpContext)
-    {
-        GithubClaims githubclaims = new GithubClaims();
-
-        var authors = chirpContext.Authors.ToList();
-
-        foreach (var author in authors)
-        {
-            author.Image = await githubclaims.GetGitHubClaimsUserImageAsync(author.Name);
-        }
-
-        await chirpContext.SaveChangesAsync();
-    }
-
 }

@@ -1,8 +1,5 @@
 using System.Text.RegularExpressions;
 using Microsoft.Playwright;
-using NUnit.Framework;
-using System;
-using System.Threading.Tasks;
 
 namespace PlaywrightTests
 {
@@ -175,6 +172,9 @@ namespace PlaywrightTests
                 await Page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" }).ClickAsync();
 
                 await Page.Locator("form").Filter(new() { HasText = "Delete" }).ClickAsync();
+
+                Console.WriteLine("Deleted cheep");
+
             }
         }
     }
