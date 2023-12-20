@@ -56,6 +56,10 @@ Some relationships have been omitted to improve the readability of the diagram.
 
 </div>
 
+<div>
+  <object data="./images/uml/Chirp client server uml.drawio.pdf" type="application/pdf" width="100%" height="500px">
+</div>
+
 The figure below shows a more simplistic view of the onion architecture structure of the components of the application.
 
 ![Onion](./images/Onion/Onion.drawio.png)
