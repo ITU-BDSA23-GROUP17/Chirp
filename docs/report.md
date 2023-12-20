@@ -82,12 +82,8 @@ Illustrate the server component and to where it is deployed, illustrate a client
 
 <div style="text-align: center; padding: 20px; background-color: white;">
 
-![Deployed_application](./images/uml/chirp-client-server-uml.drawio.png)
+![Architecture of deployed application](./images/uml/chirp-client-server-uml.drawio.png)
 
-</div>
-
-<div>
-  <object data="./images/uml/Chirp client server uml.drawio.pdf" type="application/pdf" width="100%" height="500px"></object>
 </div>
 
 ### User activities
