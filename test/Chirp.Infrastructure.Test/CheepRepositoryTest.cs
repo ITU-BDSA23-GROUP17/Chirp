@@ -21,6 +21,7 @@ public sealed class CheepRepositoryTest : IAsyncLifetime
     }
 
     [Fact]
+    [Trait("Category", "Integration")]
     public async Task InsertCheepAsyncAddsCheepToDatabase()
     {
         // Arrange

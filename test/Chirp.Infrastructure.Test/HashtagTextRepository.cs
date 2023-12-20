@@ -21,6 +21,7 @@ public sealed class HashtagTextRepositoryTest : IAsyncLifetime
     }
 
     [Fact]
+    [Trait("Category", "Integration")]
     public async Task AddHashtag_AddsHashtagToDatabase()
     {
         //Arrange
@@ -45,6 +46,7 @@ public sealed class HashtagTextRepositoryTest : IAsyncLifetime
     }
 
     [Fact]
+    [Trait("Category", "Integration")]
     public async Task AddHashtag_WillNotAddTheSameHashtagMoreThanOnce()
     {
         //Arrange

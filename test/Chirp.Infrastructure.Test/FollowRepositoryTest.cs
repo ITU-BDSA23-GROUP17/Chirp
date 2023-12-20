@@ -21,6 +21,7 @@ public sealed class FollowRepositoryTest : IAsyncLifetime
     }
 
     [Fact]
+    [Trait("Category", "Integration")]
     public async Task GetFollowerIDsByAuthorIDAsync_ReturnsCorrectFollowerIDs()
     {
         // Arrange
@@ -45,6 +46,7 @@ public sealed class FollowRepositoryTest : IAsyncLifetime
     }
 
     [Fact]
+    [Trait("Category", "Integration")]
     public async Task GetFollowingIDsByAuthorIDAsync_ReturnsCorrectFollowingIDs()
     {
         // Arrange
@@ -69,6 +71,7 @@ public sealed class FollowRepositoryTest : IAsyncLifetime
     }
 
     [Fact]
+    [Trait("Category", "Integration")]
     public async Task InsertNewFollowAsync_InsertsFollowSuccessfully()
     {
         // Arrange
@@ -93,6 +96,7 @@ public sealed class FollowRepositoryTest : IAsyncLifetime
     }
 
     [Fact]
+    [Trait("Category", "Integration")]
     public async Task RemoveFollowAsync_RemovesFollowSuccessfully()
     {
         // Arrange
@@ -119,6 +123,7 @@ public sealed class FollowRepositoryTest : IAsyncLifetime
     }
 
     [Fact]
+    [Trait("Category", "Integration")]
     public async Task GetFollowerCountByAuthorIDAsync_ReturnsCorrectCount()
     {
         // Arrange
@@ -147,6 +152,7 @@ public sealed class FollowRepositoryTest : IAsyncLifetime
     }
 
     [Fact]
+    [Trait("Category", "Integration")]
     public async Task GetFollowingCountByAuthorIDAsync_ReturnsCorrectCount()
     {
         // Arrange

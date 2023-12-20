@@ -3,13 +3,14 @@ using Chirp.Core;
 public class DTOTests
 {
     [Fact]
+    [Trait("Category", "Unit")]
     public void AuthorDTO_ShouldHoldProvidedValues()
     {
         // Arrange
         var id = "cheep123";
         var message = "This is a test cheep";
         var timeStamp = DateTime.UtcNow;
-        var authorName = "Jane Doe";
+        var authorName = "tan dang";
         var authorId = "author456";
         var authorImage = "image_url";
 
@@ -25,6 +26,7 @@ public class DTOTests
         Assert.Equal(authorImage, cheep.AuthorImage);
     }
     [Fact]
+    [Trait("Category", "Unit")]
     public void FollowDTO_ShouldHoldProvidedValues()
     {
         // Arrange
@@ -41,6 +43,7 @@ public class DTOTests
         Assert.Equal(timestamp, followDTO.Timestamp);
     }
     [Fact]
+    [Trait("Category", "Unit")]
     public void ReactionDTO_ShouldHoldProvidedValues()
     {
         // Arrange
@@ -57,6 +60,7 @@ public class DTOTests
         Assert.Equal(timeStamp, reactionDTO.TimeStamp);
     }
     [Fact]
+    [Trait("Category", "Unit")]
     public void HashTagDTO_ShouldHoldProvidedValues()
     {
         // Arrange

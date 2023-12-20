@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - 'feat/report*'
+      - report
     paths:
       - 'docs/**'  # Only trigger on changes inside the 'docs' folder
 
