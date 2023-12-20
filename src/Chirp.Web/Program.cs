@@ -34,12 +34,12 @@ else
     await _msSqlContainer.StartAsync();
     connectionString = _msSqlContainer.GetConnectionString();
 
-    var clientIdArgIndex = Array.IndexOf(args, "--clientid");
-    if (clientIdArgIndex == -1 || clientIdArgIndex == args.Length - 1)
+    var clientsecArgIndex = Array.IndexOf(args, "--clientsecret");
+    if (clientsecArgIndex == -1 || clientsecArgIndex == args.Length - 1)
     {
-        throw new ArgumentException("Please provide a client id with the --clientid argument when running in development mode.");
+        throw new ArgumentException("Please provide a client id with the --clientsecret argument when running in development mode.");
     }
-    azureAdB2COptions["ClientID"] = args[clientIdArgIndex + 1];
+    azureAdB2COptions["ClientSecret"] = args[clientsecArgIndex + 1];
 }
 
 // setup graph api
