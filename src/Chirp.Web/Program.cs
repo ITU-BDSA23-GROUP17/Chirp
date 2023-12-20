@@ -6,19 +6,41 @@ using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Azure.Security.KeyVault.Secrets;
 using Azure.Identity;
+using Testcontainers.MsSql;
 
+MsSqlContainer _msSqlContainer;
 var builder = WebApplication.CreateBuilder(args);
-
 var azureAdB2COptions = builder.Configuration.GetSection("AzureADB2C");
-// Connection string setup 
-//Will move this in another cs file later, for more responsibility separation 
-var kvUri = $"https://chirp-keys.vault.azure.net/";
-var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
 var connectionString = String.Empty;
-KeyVaultSecret clientSecret = client.GetSecret("ClientSecret");
 
-// Add the ClientSecret to the AzureADB2C configuration
-azureAdB2COptions["ClientSecret"] = clientSecret.Value;
+bool runInDevelopment = args.Contains("--development");
+
+if (!runInDevelopment && !builder.Environment.IsDevelopment())
+{
+    // Connection string setup 
+    var kvUri = $"https://chirp-keys.vault.azure.net/";
+    var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
+    KeyVaultSecret clientSecret = client.GetSecret("ClientSecret");
+
+    // Add the ClientSecret to the AzureADB2C configuration
+    azureAdB2COptions["ClientSecret"] = clientSecret.Value;
+
+    KeyVaultSecret secret = client.GetSecret("prod-connectionstring");
+    connectionString = secret.Value;
+}
+else
+{
+    _msSqlContainer = new MsSqlBuilder().Build();
+    await _msSqlContainer.StartAsync();
+    connectionString = _msSqlContainer.GetConnectionString();
+
+    var clientsecArgIndex = Array.IndexOf(args, "--clientsecret");
+    if (clientsecArgIndex == -1 || clientsecArgIndex == args.Length - 1)
+    {
+        throw new ArgumentException("Please provide a client id with the --clientsecret argument when running in development mode.");
+    }
+    azureAdB2COptions["ClientSecret"] = args[clientsecArgIndex + 1];
+}
 
 // setup graph api
 var userService = new UserService(azureAdB2COptions["ClientID"], azureAdB2COptions["Domain"], azureAdB2COptions["ClientSecret"]);
@@ -38,21 +60,6 @@ builder.Services.AddScoped<IHashtagRepository, HashtagRepository>();
 builder.Services.AddScoped<IHashtagTextRepository, HashtagTextRepository>();
 builder.Services.AddScoped<IUserService>(_ => userService);
 
-
-
-if (builder.Environment.IsDevelopment())
-{
-    KeyVaultSecret secret = client.GetSecret("prod-connectionstring");
-    connectionString = secret.Value;
-}
-else
-{
-    KeyVaultSecret secret = client.GetSecret("chirp-prod-database");
-    connectionString = secret.Value;
-}
-
-
-
 // Make sure to register your DbContext here
 builder.Services.AddDbContext<ChirpDBContext>(options =>
     options.UseSqlServer(connectionString));
@@ -65,7 +72,6 @@ using (var scope = app.Services.CreateScope())
     var context = services.GetRequiredService<ChirpDBContext>();
 
     context.initializeDB();
-
 }
 
 // Configure the HTTP request pipeline.

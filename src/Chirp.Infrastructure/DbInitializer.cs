@@ -3,7 +3,7 @@ public static class DbInitializer
 {
     public static void SeedDatabase(ChirpDBContext chirpContext)
     {
-        if (!chirpContext.Authors.Any() || !chirpContext.Cheeps.Any() || !chirpContext.Reactions.Any())
+        if (!chirpContext.Authors.Any() || !chirpContext.Cheeps.Any() || !chirpContext.Reactions.Any() )
         {
             #region Authors added
             GithubClaims githubclaims = new GithubClaims();
@@ -66,7 +66,7 @@ public static class DbInitializer
             var c37 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a1.AuthorId, Author = a1, Text = "But I have quite come to Mackleton with me now for a small figure, sir.", TimeStamp = DateTime.Parse("2023-08-01 13:15:23") };
             var c38 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "Every word I say to them ahead, yet with their fists and sticks.", TimeStamp = DateTime.Parse("2023-08-01 13:13:39") };
             var c39 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a6.AuthorId, Author = a6, Text = "A well-fed, plump Huzza Porpoise will yield you about saying, sir?", TimeStamp = DateTime.Parse("2023-08-01 13:13:32") };
-            var c40 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a1.AuthorId, Author = a1, Text = "Holmes glanced at his busy desk, hurriedly making out his watch, and ever afterwards are missing, Starbuck!", TimeStamp = DateTime.Parse("2023-08-01 13:13:26") };
+            var c40 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a1.AuthorId, Author = a1, Text = "Holmes glanced at his busy desk, hurriedly making out his watch, and ever afterwards are missing, #Starbuck", TimeStamp = DateTime.Parse("2023-08-01 13:13:26") };
             var c41 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "Like household dogs they came at last come for you.", TimeStamp = DateTime.Parse("2023-08-01 13:14:16") };
             var c42 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "To him it had done a great fish to swallow up the steel head of the cetacea.", TimeStamp = DateTime.Parse("2023-08-01 13:17:10") };
             var c43 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "Thence he could towards me.", TimeStamp = DateTime.Parse("2023-08-01 13:13:23") };
@@ -107,7 +107,7 @@ public static class DbInitializer
             var c78 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "Was the other side.", TimeStamp = DateTime.Parse("2023-08-01 13:13:19") };
             var c79 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "We feed him once or twice, when he has amassed a lot of things which were sucking him down.", TimeStamp = DateTime.Parse("2023-08-01 13:13:27") };
             var c80 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "He leaned back in Baker Street the detective was already bowed, and he put his hand a small and great, old and feeble.", TimeStamp = DateTime.Parse("2023-08-01 13:13:50") };
-            var c81 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a2.AuthorId, Author = a2, Text = "I begin to get more worn than others, and in his eyes seemed to be handy in case of sawed-off shotguns and clumsy six-shooters.", TimeStamp = DateTime.Parse("2023-08-01 13:14:45") };
+            var c81 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a2.AuthorId, Author = a2, Text = "I begin to get more worn than others, and in his eyes seemed to be handy in case of sawed-off #shotguns and clumsy six-shooters.", TimeStamp = DateTime.Parse("2023-08-01 13:14:45") };
             var c82 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "And can''t I speak confidentially?", TimeStamp = DateTime.Parse("2023-08-01 13:16:08") };
             var c83 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "At the same height.", TimeStamp = DateTime.Parse("2023-08-01 13:16:43") };
             var c84 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "I thought it only means that little hell-hound Tonga who shot the slide a little, for a kindly voice at last.", TimeStamp = DateTime.Parse("2023-08-01 13:15:05") };
@@ -168,7 +168,7 @@ public static class DbInitializer
             var c139 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a8.AuthorId, Author = a8, Text = "At that instant that she is not the stranger whom I had lived and in the old man seems to me to wake the master.", TimeStamp = DateTime.Parse("2023-08-01 13:13:53") };
             var c140 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "She saw Mr. Barker, I think I will recapitulate the facts before I am in mine, said he.", TimeStamp = DateTime.Parse("2023-08-01 13:13:17") };
             var c141 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a9.AuthorId, Author = a9, Text = "One is the correct solution.", TimeStamp = DateTime.Parse("2023-08-01 13:13:49") };
-            var c142 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "Starbuck now is what we hear the worst.", TimeStamp = DateTime.Parse("2023-08-01 13:17:39") };
+            var c142 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "#Starbuck now is what we hear the worst.", TimeStamp = DateTime.Parse("2023-08-01 13:17:39") };
             var c143 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a5.AuthorId, Author = a5, Text = "For the matter dropped.", TimeStamp = DateTime.Parse("2023-08-01 13:14:34") };
             var c144 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a7.AuthorId, Author = a7, Text = "And all this while, drew nigh the wharf.", TimeStamp = DateTime.Parse("2023-08-01 13:13:41") };
             var c145 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "Why, do ye yet again the little lower down was a poor creature if I neglected it.", TimeStamp = DateTime.Parse("2023-08-01 13:14:50") };
@@ -369,7 +369,7 @@ public static class DbInitializer
             var c340 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "But there is any inference which is beyond the morass between us until this accursed affair began.", TimeStamp = DateTime.Parse("2023-08-01 13:13:18") };
             var c341 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a5.AuthorId, Author = a5, Text = "That way it comes.", TimeStamp = DateTime.Parse("2023-08-01 13:14:49") };
             var c342 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "He then turned to run.", TimeStamp = DateTime.Parse("2023-08-01 13:15:04") };
-            var c343 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "Starbuck''s body this night to him.", TimeStamp = DateTime.Parse("2023-08-01 13:13:40") };
+            var c343 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "#Starbuck''s body this night to him.", TimeStamp = DateTime.Parse("2023-08-01 13:13:40") };
             var c344 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a3.AuthorId, Author = a3, Text = "Holmes unfolded the rough nugget on it yesterday.", TimeStamp = DateTime.Parse("2023-08-01 13:13:42") };
             var c345 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "As marching armies approaching an unfriendly defile in which to the far rush of the telegram.", TimeStamp = DateTime.Parse("2023-08-01 13:14:44") };
             var c346 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "Yet so vast a being than the main road if a certain juncture of this poor fellow to my ears, clear, resonant, and unmistakable.", TimeStamp = DateTime.Parse("2023-08-01 13:15:01") };
@@ -383,7 +383,7 @@ public static class DbInitializer
             var c354 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "It is a sight which met us by appointment outside the town, and that would whip electro-telegraphs.", TimeStamp = DateTime.Parse("2023-08-01 13:16:13") };
             var c355 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a3.AuthorId, Author = a3, Text = "And then, of course, by any general hatred of Napoleon by the sweep of the house.", TimeStamp = DateTime.Parse("2023-08-01 13:13:44") };
             var c356 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "Yet in some inexplicable way to solve the mystery?", TimeStamp = DateTime.Parse("2023-08-01 13:13:27") };
-            var c357 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a3.AuthorId, Author = a3, Text = "As I turned up one by one, said Flask, the carpenter here can arrange everything.", TimeStamp = DateTime.Parse("2023-08-01 13:17:26") };
+            var c357 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a3.AuthorId, Author = a3, Text = "As I turned up one by one, said #Flask, the carpenter here can arrange everything.", TimeStamp = DateTime.Parse("2023-08-01 13:17:26") };
             var c358 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "The worst man in the dry land;'' when the watches of the facts which are really islands cut off behind her.", TimeStamp = DateTime.Parse("2023-08-01 13:14:34") };
             var c359 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "But all these ran into the sea, as prairie cocks in the harpoon-line that he ever thought of it again after one the wiser.", TimeStamp = DateTime.Parse("2023-08-01 13:14:40") };
             var c360 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a8.AuthorId, Author = a8, Text = "And another thousand to him as possible.", TimeStamp = DateTime.Parse("2023-08-01 13:15:34") };
@@ -671,7 +671,7 @@ public static class DbInitializer
             var c642 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "She knocked without receiving any answer, and even solicitously cutting the lower part muffled round---- That will do.", TimeStamp = DateTime.Parse("2023-08-01 13:15:39") };
             var c643 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "More than one case our old Manxman the old hearse-driver, he must undress and get down to the Moss, the little table first.", TimeStamp = DateTime.Parse("2023-08-01 13:13:39") };
             var c644 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "I will endeavour to do with him.''", TimeStamp = DateTime.Parse("2023-08-01 13:14:36") };
-            var c645 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "Morning to ye, Mr. Starbuck but it''s too springy to my knowledge of when to stop.", TimeStamp = DateTime.Parse("2023-08-01 13:17:17") };
+            var c645 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "Morning to ye, Mr. #Starbuck but it''s too springy to my knowledge of when to stop.", TimeStamp = DateTime.Parse("2023-08-01 13:17:17") };
             var c646 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "Seen from the forehead seem now faded away.", TimeStamp = DateTime.Parse("2023-08-01 13:14:29") };
             var c647 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a1.AuthorId, Author = a1, Text = "For at bottom so he told me that the gentleman thanking me on the Stile, Mary, and On the contrary, passengers themselves must pay.", TimeStamp = DateTime.Parse("2023-08-01 13:13:46") };
             var c648 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "Rain had fallen even darker over the document.", TimeStamp = DateTime.Parse("2023-08-01 13:14:02") };
@@ -682,8 +682,8 @@ public static class DbInitializer
             var c653 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "Young man, said Holmes.", TimeStamp = DateTime.Parse("2023-08-01 13:13:27") };
             var c654 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a10.AuthorId, Author = a10, Text = "Of course, with a purely animal lust for the time stated I was surer than ever it occurred?", TimeStamp = DateTime.Parse("2023-08-01 13:14:03") };
             var c655 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a9.AuthorId, Author = a9, Text = "What do you think so meanly of him?", TimeStamp = DateTime.Parse("2023-08-01 13:13:56") };
-            var c656 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a11.AuthorId, Author = a11, Text = "Hello, BDSA students!", TimeStamp = DateTime.Parse("2023-08-01 12:16:48") };
-            var c657 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a12.AuthorId, Author = a12, Text = "Hej, velkommen til kurset.", TimeStamp = DateTime.Parse("2023-08-01 13:08:28") };
+            var c656 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a11.AuthorId, Author = a11, Text = "Hello, #BDSA students!", TimeStamp = DateTime.Parse("2023-08-01 12:16:48") };
+            var c657 = new Cheep() { CheepId = Guid.NewGuid().ToString(), AuthorId = a12.AuthorId, Author = a12, Text = "Hej, #velkommen til kurset.", TimeStamp = DateTime.Parse("2023-08-01 13:08:28") };
 
             var cheeps = new List<Cheep>() { c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18, c19, c20, c21, c22, c23, c24, c25, c26, c27, c28, c29, c30, c31, c32, c33, c34, c35, c36, c37, c38, c39, c40, c41, c42, c43, c44, c45, c46, c47, c48, c49, c50, c51, c52, c53, c54, c55, c56, c57, c58, c59, c60, c61, c62, c63, c64, c65, c66, c67, c68, c69, c70, c71, c72, c73, c74, c75, c76, c77, c78, c79, c80, c81, c82, c83, c84, c85, c86, c87, c88, c89, c90, c91, c92, c93, c94, c95, c96, c97, c98, c99, c100, c101, c102, c103, c104, c105, c106, c107, c108, c109, c110, c111, c112, c113, c114, c115, c116, c117, c118, c119, c120, c121, c122, c123, c124, c125, c126, c127, c128, c129, c130, c131, c132, c133, c134, c135, c136, c137, c138, c139, c140, c141, c142, c143, c144, c145, c146, c147, c148, c149, c150, c151, c152, c153, c154, c155, c156, c157, c158, c159, c160, c161, c162, c163, c164, c165, c166, c167, c168, c169, c170, c171, c172, c173, c174, c175, c176, c177, c178, c179, c180, c181, c182, c183, c184, c185, c186, c187, c188, c189, c190, c191, c192, c193, c194, c195, c196, c197, c198, c199, c200, c201, c202, c203, c204, c205, c206, c207, c208, c209, c210, c211, c212, c213, c214, c215, c216, c217, c218, c219, c220, c221, c222, c223, c224, c225, c226, c227, c228, c229, c230, c231, c232, c233, c234, c235, c236, c237, c238, c239, c240, c241, c242, c243, c244, c245, c246, c247, c248, c249, c250, c251, c252, c253, c254, c255, c256, c257, c258, c259, c260, c261, c262, c263, c264, c265, c266, c267, c268, c269, c270, c271, c272, c273, c274, c275, c276, c277, c278, c279, c280, c281, c282, c283, c284, c285, c286, c287, c288, c289, c290, c291, c292, c293, c294, c295, c296, c297, c298, c299, c300, c301, c302, c303, c304, c305, c306, c307, c308, c309, c310, c311, c312, c313, c314, c315, c316, c317, c318, c319, c320, c321, c322, c323, c324, c325, c326, c327, c328, c329, c330, c331, c332, c333, c334, c335, c336, c337, c338, c339, c340, c341, c342, c343, c344, c345, c346, c347, c348, c349, c350, c351, c352, c353, c354, c355, c356, c357, c358, c359, c360, c361, c362, c363, c364, c365, c366, c367, c368, c369, c370, c371, c372, c373, c374, c375, c376, c377, c378, c379, c380, c381, c382, c383, c384, c385, c386, c387, c388, c389, c390, c391, c392, c393, c394, c395, c396, c397, c398, c399, c400, c401, c402, c403, c404, c405, c406, c407, c408, c409, c410, c411, c412, c413, c414, c415, c416, c417, c418, c419, c420, c421, c422, c423, c424, c425, c426, c427, c428, c429, c430, c431, c432, c433, c434, c435, c436, c437, c438, c439, c440, c441, c442, c443, c444, c445, c446, c447, c448, c449, c450, c451, c452, c453, c454, c455, c456, c457, c458, c459, c460, c461, c462, c463, c464, c465, c466, c467, c468, c469, c470, c471, c472, c473, c474, c475, c476, c477, c478, c479, c480, c481, c482, c483, c484, c485, c486, c487, c488, c489, c490, c491, c492, c493, c494, c495, c496, c497, c498, c499, c500, c501, c502, c503, c504, c505, c506, c507, c508, c509, c510, c511, c512, c513, c514, c515, c516, c517, c518, c519, c520, c521, c522, c523, c524, c525, c526, c527, c528, c529, c530, c531, c532, c533, c534, c535, c536, c537, c538, c539, c540, c541, c542, c543, c544, c545, c546, c547, c548, c549, c550, c551, c552, c553, c554, c555, c556, c557, c558, c559, c560, c561, c562, c563, c564, c565, c566, c567, c568, c569, c570, c571, c572, c573, c574, c575, c576, c577, c578, c579, c580, c581, c582, c583, c584, c585, c586, c587, c588, c589, c590, c591, c592, c593, c594, c595, c596, c597, c598, c599, c600, c601, c602, c603, c604, c605, c606, c607, c608, c609, c610, c611, c612, c613, c614, c615, c616, c617, c618, c619, c620, c621, c622, c623, c624, c625, c626, c627, c628, c629, c630, c631, c632, c633, c634, c635, c636, c637, c638, c639, c640, c641, c642, c643, c644, c645, c646, c647, c648, c649, c650, c651, c652, c653, c654, c655, c656, c657 };
             a10.Cheeps = new List<Cheep>() { c1, c2, c3, c5, c7, c9, c10, c13, c17, c19, c21, c22, c26, c28, c30, c31, c33, c35, c36, c38, c41, c42, c43, c44, c45, c46, c47, c48, c49, c50, c60, c65, c67, c70, c71, c75, c77, c78, c79, c80, c82, c83, c84, c86, c88, c90, c93, c94, c95, c98, c101, c102, c103, c104, c105, c106, c109, c110, c112, c113, c115, c119, c120, c121, c123, c125, c126, c128, c129, c130, c132, c133, c135, c136, c138, c140, c142, c145, c146, c147, c150, c152, c153, c156, c159, c161, c162, c163, c170, c171, c172, c175, c176, c180, c181, c185, c187, c191, c192, c194, c195, c196, c197, c198, c199, c200, c202, c203, c205, c206, c207, c209, c214, c215, c217, c218, c219, c220, c221, c222, c223, c226, c227, c228, c229, c231, c232, c234, c236, c239, c241, c242, c243, c244, c245, c246, c248, c249, c250, c251, c252, c253, c254, c255, c257, c258, c260, c261, c264, c267, c268, c270, c271, c272, c273, c274, c278, c281, c282, c284, c285, c286, c288, c289, c290, c291, c294, c297, c300, c303, c304, c305, c306, c308, c311, c312, c313, c315, c316, c320, c325, c326, c329, c330, c333, c334, c336, c337, c338, c339, c340, c342, c343, c345, c346, c347, c350, c353, c354, c356, c358, c359, c361, c363, c364, c365, c367, c369, c370, c373, c376, c377, c378, c381, c382, c386, c388, c391, c392, c394, c395, c396, c398, c399, c402, c403, c404, c405, c406, c407, c408, c409, c410, c411, c414, c415, c416, c417, c419, c423, c424, c426, c427, c428, c429, c431, c432, c435, c437, c439, c444, c447, c453, c457, c459, c460, c461, c462, c464, c465, c467, c468, c471, c472, c473, c474, c475, c477, c479, c480, c482, c483, c484, c485, c486, c487, c493, c495, c498, c499, c501, c502, c504, c507, c509, c510, c512, c516, c517, c518, c520, c522, c523, c524, c526, c529, c530, c532, c535, c537, c538, c539, c541, c546, c551, c553, c555, c561, c563, c566, c567, c570, c571, c574, c575, c577, c579, c581, c582, c584, c585, c587, c589, c591, c594, c598, c600, c606, c607, c610, c612, c613, c615, c616, c618, c619, c622, c626, c627, c628, c629, c630, c632, c633, c635, c637, c638, c639, c640, c641, c642, c643, c644, c645, c646, c648, c650, c653, c654
@@ -703,17 +703,53 @@ public static class DbInitializer
 
 
             #region Reactions added
-            var r1 = new Reaction() { AuthorId = a1.AuthorId, CheepId = c1.CheepId };
-            var r2 = new Reaction() { AuthorId = a2.AuthorId, CheepId = c1.CheepId };
-            var r3 = new Reaction() { AuthorId = a3.AuthorId, CheepId = c1.CheepId };
-            var r4 = new Reaction() { AuthorId = a4.AuthorId, CheepId = c1.CheepId };
-            var r5 = new Reaction() { AuthorId = a5.AuthorId, CheepId = c1.CheepId };
+            var r1 = new Reaction() { AuthorId = a1.AuthorId, CheepId = c370.CheepId };
+            var r2 = new Reaction() { AuthorId = a2.AuthorId, CheepId = c370.CheepId };
+            var r3 = new Reaction() { AuthorId = a3.AuthorId, CheepId = c85.CheepId };
+            var r4 = new Reaction() { AuthorId = a4.AuthorId, CheepId = c85.CheepId };
+            var r5 = new Reaction() { AuthorId = a5.AuthorId, CheepId = c205.CheepId };
+            var r6 = new Reaction() { AuthorId = a1.AuthorId, CheepId = c376.CheepId };
+            var r7 = new Reaction() { AuthorId = a2.AuthorId, CheepId = c376.CheepId };
+            var r8 = new Reaction() { AuthorId = a3.AuthorId, CheepId = c376.CheepId };
+
             var reactions = new List<Reaction>() { r1, r2, r3, r4, r5 };
             #endregion
 
             #region Followings added
             var f1 = new Follow() { FollowerId = a1.AuthorId, FollowingId = a2.AuthorId, Timestamp = DateTime.Now };
-            var followings = new List<Follow>() { f1 };
+            var f2 = new Follow() { FollowerId = a1.AuthorId, FollowingId = a10.AuthorId, Timestamp = DateTime.Now };
+            var f3 = new Follow() { FollowerId = a2.AuthorId, FollowingId = a10.AuthorId, Timestamp = DateTime.Now };
+            var f4 = new Follow() { FollowerId = a3.AuthorId, FollowingId = a10.AuthorId, Timestamp = DateTime.Now };
+            var f5 = new Follow() { FollowerId = a4.AuthorId, FollowingId = a10.AuthorId, Timestamp = DateTime.Now };
+            var f6 = new Follow() { FollowerId = a10.AuthorId, FollowingId = a11.AuthorId, Timestamp = DateTime.Now };
+            var f7 = new Follow() { FollowerId = a10.AuthorId, FollowingId = a12.AuthorId, Timestamp = DateTime.Now };
+            var f8 = new Follow() { FollowerId = a12.AuthorId, FollowingId = a11.AuthorId, Timestamp = DateTime.Now };
+            var f9 = new Follow() { FollowerId = a11.AuthorId, FollowingId = a12.AuthorId, Timestamp = DateTime.Now };
+
+            var followings = new List<Follow>() { f1, f2, f3, f4, f5, f6, f7, f8, f9 };
+            #endregion
+
+            #region Hashtag text
+            var ht1 = new HashtagText() { HashtagText_ = "Starbuck"};
+            var ht2 = new HashtagText() { HashtagText_ = "BDSA"};
+            var ht3 = new HashtagText() { HashtagText_ = "Flask"};
+            var ht4 = new HashtagText() { HashtagText_ = "shotguns"};
+            var ht5 = new HashtagText() { HashtagText_ = "velkommen"};
+
+            var hashtagTexts = new List<HashtagText>() { ht1, ht2, ht3, ht4, ht5 };
+            #endregion 
+
+            #region Hashtag
+            var h1 = new Hashtag() { HashtagText = ht1.HashtagText_, CheepID = c40.CheepId };
+            var h2 = new Hashtag() { HashtagText = ht1.HashtagText_, CheepID = c142.CheepId };
+            var h3 = new Hashtag() { HashtagText = ht1.HashtagText_, CheepID = c343.CheepId };
+            var h4 = new Hashtag() { HashtagText = ht1.HashtagText_, CheepID = c645.CheepId };
+            var h5 = new Hashtag() { HashtagText = ht2.HashtagText_, CheepID = c656.CheepId };
+            var h6 = new Hashtag() { HashtagText = ht3.HashtagText_, CheepID = c357.CheepId };
+            var h7 = new Hashtag() { HashtagText = ht4.HashtagText_, CheepID = c81.CheepId };
+            var h8 = new Hashtag() { HashtagText = ht5.HashtagText_, CheepID = c657.CheepId };
+            
+            var hashtags = new List<Hashtag>() { h1, h2, h3, h4, h5, h6, h7, h8 };
             #endregion
 
 
@@ -721,6 +757,8 @@ public static class DbInitializer
             chirpContext.Cheeps.AddRange(cheeps);
             chirpContext.Reactions.AddRange(reactions);
             chirpContext.Followings.AddRange(followings);
+            chirpContext.HashtagTexts.AddRange(hashtagTexts);
+            chirpContext.Hashtags.AddRange(hashtags);
             chirpContext.SaveChanges();
 
         }
