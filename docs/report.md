@@ -259,9 +259,17 @@ dotnet test --filter Category=Unit
 
 The integration tests are designed to test how different parts of the application interacts with eachother. These tests involves instances of the database containers and checks if the application does the CRUD operations as expected.
 
+##### AuthorRepositoryTest
+
+- `SetUserStatusOnline`: Checks that the AuthorRepository is able to change the status of a user to ONLINE.
+- `SetUserStatusOffline`: Checks that the AuthorRepository is able to change the status of a user to OFFLINE.
+- `SetUserStatusUnavailable`: Checks that the AuthorRepository is able to change the status of a user to UNAVAILABLE.
+
 ##### CheepRepositoryTest
 
 - `InsertCheepAsyncAddsCheepToDatabase`: Checks that cheeps are properly inserted into the database and are retrievable.
+- `CheepOverLimitNotInserted`: Checks that a cheep over limit (i.e., over 160 characters) is NOT inserted into the database.
+- `CheepUnderLimitNotInserted`: Checks that empty cheeps (i.e., cheeps with 0 characters in length) is NOT inserted into the database.
 
 ##### FollowRepositoryTest
 
