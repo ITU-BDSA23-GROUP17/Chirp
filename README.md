@@ -39,7 +39,7 @@ In order to run the application locally by cloning the repository, please do as 
   dotnet watch --clientsecret [your-secret]
   ```
   ```
-  dotnet run
+  dotnet run --clientsecret [your-secret]
   ``` 
   
   You should now have access to a localhost with a specific port, in which this web-app can be accessed
