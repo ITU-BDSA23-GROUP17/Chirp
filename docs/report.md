@@ -92,7 +92,7 @@ That is, start illustrating the first page that is presented to a non-authorized
 
 Make sure that the illustrations are in line with the actual behavior of your application. -->
 
-The diagram shows a series of typical user activities through the Chirp application.
+The diagram below shows a series of typical user activities through the Chirp application.
 The diagram shows what a user may do while remaining unauthorized, and after logging in and becoming authorized.
 
 <div style="text-align: center; padding: 20px; background-color: white;">
@@ -100,10 +100,15 @@ The diagram shows what a user may do while remaining unauthorized, and after log
 ![User_activities](./images/uml/chirp-user-journeys.drawio.png)
 
 </div>
+<br/>
 
-The diagram below shows a more detailed view of one slightly more elaborate scenario of a user journey through Chirp, in which a user logs in and sends a cheep.
+Additionally, the diagram below shows a slightly more detailed view of possible scenarios of a user journey through Chirp, in which a user enters the chirp website, logs in, or creates a profile, if necessary, sends a cheep, and then logs out.
 
-OBS : insert diagram!
+<div style="text-align: center; padding: 20px; background-color: white;">
+
+![User_scenario](./images/uml/user-scenario.drawio.png)
+
+</div>
 
 ### Sequence of functionality/calls trough _Chirp!_
 
@@ -144,15 +149,27 @@ Describe the illustration briefly, i.e., how your application is built, tested, 
 
 ![](./images/github-worflow/azure-deploy.png)
 
-![](./images/github-worflow/build-test-workflow.png)
+<!-- ![sequence_of_functionality_calls](./images/sequences/DEPLOY.png) -->
 
 
 ### Team work
 
 <!-- Show a screenshot of your project board right before hand-in.
-Briefly describe which tasks are still unresolved, i.e., which features are missing from your applications or which functionality is incomplete.
+Briefly describe which tasks are still unresolved, i.e., which features are missing from your applications or which functionality is incomplete. -->
 
-Briefly describe and illustrate the flow of activities that happen from the new creation of an issue (task description), over development, etc. until a feature is finally merged into the `main` branch of your repository. -->
+We have one unresolved task in our project board, which was make the email unique in the the Authors table, since there was a possibility that an Author could appear twice or more in the table with same name and email but with different id. The reason we did not resolve it is the low priority.
+
+We were able to complete all the feature we want for our application. There were of course many feature we can implement, comment a cheep as well as share a cheep to name a few, but those were never in our original plan since we only focus on those feature we could make. 
+![](./images/team/project-board.png)
+
+
+<!-- Briefly describe and illustrate the flow of activities that happen from the new creation of an issue (task description), over development, etc. until a feature is finally merged into the `main` branch of your repository. -->
+
+<div style="text-align: center; padding: 20px; background-color: white;">
+
+![issue](./images/uml/issue.drawio.png)
+
+</div>
 
 ### How to make _Chirp!_ work locally
 
@@ -219,7 +236,7 @@ The unit tests are designed to test each individual component of our application
 
 We have designed a series of unit tests to verify that our DTOs correctly encapsulate data. These tests confirm that each DTO retains and accurately represents the data passed to its constructor.
 
-### DTO Unit Tests
+#### DTO Unit Tests
 
 - `AuthorDTO_ShouldHoldProvidedValues`: Checks if the AuthorDTO object correctly assigns and retains the values provided.
 - `CheepDTO_ShouldHoldProvidedValues`: Checks if the CheepDTO object correctly assigns and retains the values provided.
@@ -232,15 +249,15 @@ To run only the unit tests, use the following command in the root folder of the 
 dotnet test --filter Category=Unit
 ```
 
-#### Integration test
+##### Integration test
 
 The integration tests are designed to test how different parts of the application interacts with eachother. These tests involves instances of the database containers and checks if the application does the CRUD operations as expected.
 
-#### CheepRepositoryTest
+##### CheepRepositoryTest
 
 - `InsertCheepAsyncAddsCheepToDatabase`: Checks that cheeps are properly inserted into the database and are retrievable.
 
-#### FollowRepositoryTest
+##### FollowRepositoryTest
 
 - `GetFollowerIDsByAuthorIDAsync_ReturnsCorrectFollowerIDs`: Checks if the correct follower IDs are returned for a given author ID.
 - `GetFollowingIDsByAuthorIDAsync_ReturnsCorrectFollowingIDs`: Checks if the correct following IDs are returned for a given follower ID.
@@ -249,13 +266,13 @@ The integration tests are designed to test how different parts of the applicatio
 - `GetFollowerCountByAuthorIDAsync_ReturnsCorrectCount`: Checks if the correct follower count is returned for an author.
 - `GetFollowingCountByAuthorIDAsync_ReturnsCorrectCount`: Checks if the correct count of followings is returned for an author.
 
-#### HashtagRepositoryTest
+##### HashtagRepositoryTest
 
 - `GetCheepIDsByHashtagText_GetsCheepIDsTiedToHashtag`: Checks if cheep ID's tied to a hashtag gets retrieved
 - `InsertNewCheepHashtagPairingAsync_InsertsANewHashtagWithCorrectCheepIdAndHashtagText`: Checks if a new hashtag-cheep pairing is correctly inserted.
 - `GetPopulalarHashtags_Returns10PopularHashtags`: Checks if the method returns the top 10 popular hashtags based on frequency.
 
-#### HashtagTextRepositoryTest
+##### HashtagTextRepositoryTest
 
 - `AddHashtag_AddsHashtagToDatabase`: Checks if a new hashtag is added to the database.
 - `AddHashtag_WillNotAddTheSameHashtagMoreThanOnce`: Checks that duplicate hashtags are not added to the database.
@@ -268,6 +285,8 @@ To run only the integration tests, use the following command in the root folder 
 ```bash
 dotnet test --filter Category=Integration
 ```
+
+Note: As you may notice in our test folder we have more integration tests than unit tests. The reason is that unit test which is testing in the `Chirp.Core` package have only a few methods compared to the integration test, which is testing in the `Chirp.Infrastructure` package. Normally you have more unit test than integration test.
 
 #### End to end test
 
@@ -287,8 +306,8 @@ In case you were using an LLM to support your development, briefly describe when
 Reflect in writing to which degree the responses of the LLM were helpful.
 Discuss briefly if application of LLMs sped up your development or if the contrary was the case. -->
 
-Using LLMs has been both a help and a curse. Most of the time the code that was Generated by ChatGPT will not work according to what we wanted, and sometime give us more debug to do than if we google the problem ourselves.
+Using LLMs has been both a advantage and disadvantage. Most of the time the code that was Generated by ChatGPT will not work according to what we wanted, and sometime give us more debug to do than if we google the problem ourselves. We use ChatGPT mostly for explaining errors or explaining the code, but few time using it for writing complex code that we were stuck in. 
 
-With co-pilot we used it for error handling for our code, but it was quite minimal use. It has the feature to autocomplete our code when we write, but frequently the code it suggest is in no use, the only time it was been effective is when we need to write something that was repeating, e.g. when we write many insert method in to our database in `DbInitializer.cs`
+With co-pilot we used it for error handling for our code, but it was quite minimal use. It has the feature to autocomplete our code when we write, but frequently the code it suggest is in no use, the only time it was been effective is when we need to write something that was repeating or very predictable, e.g. when we write insert methods in to our database in `DbInitializer.cs`.
 
-In conclusion using LLM is a helpful tool to help simple task or understanding error. It is not applicable to use for complex task, but it is another addition for a developers toolbox.
+In conclusion using LLM is a helpful tool to help simple task or understanding error. It is not applicable to use for complex task, but it's good for explaining code or analyzing errors in the code, overall it is just another addition for a developers toolbox.
