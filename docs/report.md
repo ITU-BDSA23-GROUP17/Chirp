@@ -51,7 +51,7 @@ Some relationships have been omitted to improve the readability of the diagram.
 
 <div style="text-align: center; padding: 20px; background-color: white;">
 
-![Architecture_in_the_small](./images/uml/Architecture_in_the_small.drawio.png)
+![Architecture in the small](./images/uml/Architecture_in_the_small.drawio.png)
 
 </div>
 
@@ -100,7 +100,7 @@ The diagram shows what a user may do while remaining unauthorized, and after log
 
 <div style="text-align: center; padding: 20px; background-color: white;">
 
-![User_activities](./images/uml/chirp-user-journeys.drawio.png)
+![User activities](./images/uml/chirp-user-journeys.drawio.png)
 
 </div>
 <br/>
@@ -109,7 +109,7 @@ Additionally, the diagram below shows a slightly more detailed view of possible 
 
 <div style="text-align: center; padding: 20px; background-color: white;">
 
-![User_scenario](./images/uml/user-scenario.drawio.png)
+![User scenario](./images/uml/user-scenario.drawio.png)
 
 </div>
 
@@ -130,13 +130,13 @@ The diagram shows the different kinds of calls and the responses.
 
 <div style="text-align: center; padding: 20px; background-color: white;">
 
-![data_flow](./images/sequences/data-flow.png)
+![data flow](./images/sequences/data-flow.png)
 
 </div>
 
 <div style="text-align: center; padding: 20px; background-color: white;">
 
-![graph_api](./images/sequences/graph-api.png)
+![graph api](./images/sequences/graph-api.png)
 
 </div>
 
@@ -182,7 +182,7 @@ The diagram below shows the lifecycle of a GitHub issue from it's creating until
 
 <div style="text-align: center; padding: 20px; background-color: white;">
 
-![issue](./images/uml/issue.drawio.png)
+![Lifecycle of a GitHub issue](./images/uml/issue.drawio.png)
 
 </div>
 
