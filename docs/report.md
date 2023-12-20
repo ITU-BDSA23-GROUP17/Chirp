@@ -57,7 +57,7 @@ Some relationships have been omitted to improve the readability of the diagram.
 
 The figure below shows a more simplistic view of the onion architecture structure of the components of the application.
 
-![Onion](./images/Onion/Onion.drawio.png)
+![Onion architecture, in the context of Chirp](./images/Onion/Onion.drawio.png)
 
 <!-- Illustrate the organization of your code base.
 That is, illustrate which layers exist in your (onion) architecture.
