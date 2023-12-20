@@ -9,13 +9,17 @@
 <div class="p-4 mb-4 rounded" style="background-color: rgb(203 213 225);">
     <h3 class="text-xl font-semibold mb-2 ">Popular Hashtags</h3>
     <ul class="flex flex-wrap space-x-2">
-        @foreach (var hashtag in Model.popularHashtags)
+        @if (Model != null && Model.popularHashtags != null)
         {
-            <button
-                class="bg-white hover:bg-black text-black hover:text-white bg-transparent m-2 hover:border-transparent rounded-full"
-                style="margin: 5px; padding: 5px;">
-                <a href="/tag/@hashtag" class="text-blue-500">#@hashtag</a>
-            </button>
+            foreach (var hashtag in Model.popularHashtags)
+            {
+                <button
+                    class="bg-white hover:bg-black text-black hover:text-white bg-transparent m-2 hover:border-transparent rounded-full"
+                    style="margin: 5px; padding: 5px;">
+                    <a href="/tag/@hashtag" class="text-blue-500">#@hashtag</a>
+                </button>
+            }
+
         }
     </ul>
 </div>
