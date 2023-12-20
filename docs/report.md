@@ -74,6 +74,12 @@ That is, illustrate the flow of activities in your respective GitHub Actions wor
 
 Describe the illustration briefly, i.e., how your application is built, tested, released, and deployed. -->
 
+
+![](./images/github-worflow/azure-deploy.png)
+
+![](./images/github-worflow/build-test-workflow.png)
+
+
 ### Team work
 
 <!-- Show a screenshot of your project board right before hand-in.
