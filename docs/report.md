@@ -18,20 +18,17 @@
 
 ### Domain model
 
-<!-- ![Domain model](./images/uml/Domain-model-Chirp.Core.drawio.svg) -->
-
-The domain model reflects the entities and their relationship of the Chirp application, as well as the interfaces of the repositories that allow for accessing and manipulating these different entities and their related data. These entities form the foundation of the business logic of the application.
-<br>
-<br>
-The diagram below shows the domain model of the Chirp application.
-
-<div style="text-align: center; padding: 20px; background-color: white;">
-    <img src="./images/uml/Domain-model-Chirp.Core.drawio.png" alt="Chirp Core" width="100%" />
-</div>
-
 <!-- Provide an illustration of your domain model.
 Make sure that it is correct and complete.
 In case you are using ASP.NET Identity, make sure to illustrate that accordingly. -->
+
+The domain model reflects the entities and their relationship of the Chirp application, as well as the interfaces of the repositories that allow for accessing and manipulating these different entities and their related data. These entities form the foundation of the business logic of the application.
+
+The diagram below shows the domain model of the Chirp application.
+
+![](./images/uml/Domain-model-Chirp.Core.drawio.png)
+
+
 
 ### Architecture — In the small
 
@@ -43,15 +40,13 @@ The diagram shows the inward flow of dependencies in accordance with Onion archi
 
 Some relationships have been omitted to improve the readability of the diagram.
 
-<div style="text-align: center; padding: 20px; background-color: white;">
 
-![Architecture_in_the_small](./images/uml/Architecture_in_the_small.drawio.png)
+![](./images/uml/Architecture_in_the_small.drawio.png)
 
-</div>
 
 The figure below shows a more simplistic view of the onion architecture structure of the components of the application.
 
-![Onion architecture, in the context of Chirp](./images/Onion/Onion.drawio.png)
+![](./images/Onion/Onion.drawio.png)
 
 <!-- Illustrate the organization of your code base.
 That is, illustrate which layers exist in your (onion) architecture.
@@ -74,11 +69,9 @@ Illustrate the server component and to where it is deployed, illustrate a client
 - Under this section, provide a brief description of the reason for switching again to SQLite as database.
 - In that description, provide a link to the commit hash in your GitHub repository that points to the latest version of your _Chirp!_ application with hosted database (we look at the entire history of your project, so we see that it was there at some point). -->
 
-<div style="text-align: center; padding: 20px; background-color: white;">
 
-![Architecture of deployed application](./images/uml/chirp-client-server-uml.drawio.png)
+![](./images/uml/chirp-client-server-uml.drawio.png)
 
-</div>
 
 ### User activities
 
@@ -89,18 +82,14 @@ Make sure that the illustrations are in line with the actual behavior of your ap
 
 The diagram below shows a series of typical user activities through the Chirp application while remaining unauthorized and after logging in and becoming authorized.
 
-<div style="text-align: center; padding: 20px; background-color: white;">
 
-![User_activities](./images/uml/chirp-user-journeys.drawio.png)
-
-</div>
-<br/>
+![](./images/uml/chirp-user-journeys.drawio.png)
 
 The diagram below shows a slightly more detailed view of possible scenarios of a user journey, in which a user enters the chirp website, logs in or creates a profile if necessary, sends a cheep, and then logs out.
 
 <div style="text-align: center; padding: 20px; background-color: white;">
 
-![User_scenario](./images/uml/user-scenario.drawio.png)
+![](./images/uml/user-scenario.drawio.png)
 
 </div>
 
@@ -116,11 +105,11 @@ Some HTTP calls and responses, some calls and responses in C# and likely some mo
 
 The diagrams below illustrates the flow of messages and data through the Chirp application.
 
-![dataflow.svg](./images/sequences/data-flow.png)
+![](./images/sequences/data-flow.png)
 
 <div style="text-align: center; padding: 20px; background-color: white;">
 
-![graph_api](./images/sequences/graph-api.png)
+![](./images/sequences/graph-api.png)
 
 </div>
 
@@ -133,7 +122,7 @@ That is, illustrate the flow of activities in your respective GitHub Actions wor
 
 Describe the illustration briefly, i.e., how your application is built, tested, released, and deployed. -->
 
-![azure-d.png](./images/github-worflow/azure-d.png)
+![](./images/github-worflow/azure-d.png)
 
 This workflow is the deploy workflow for azure
 
@@ -149,7 +138,7 @@ This workflow is the deploy workflow for azure
 5. The deployment runner downloads the artifact from the storage.
 6. Finally, deployment runner deploys the downloaded artifact to the specified Azure Web App using the given publish profile.
 
-![build-test-activity.png](./images/github-worflow/build-test-activity.png)
+![](./images/github-worflow/build-test-activity.png)
 
 This workflow is build
 
@@ -164,7 +153,7 @@ This workflow is build
    - Runs the Integration tests.
    - Runs the unit tests
 
-![release.png](./images/github-worflow/release.png)
+![](./images/github-worflow/release.png)
 
 This is release workflow
 
@@ -195,11 +184,9 @@ There are of course many more features we could have implemented given time. Som
 
 The diagram below shows the lifecycle of a GitHub issue from it's creating until it is closed and resolved.
 
-<div style="text-align: center; padding: 20px; background-color: white;">
 
-![issue](./images/uml/issue.drawio.png)
+![](./images/uml/issue.drawio.png)
 
-</div>
 
 ### How to make _Chirp!_ work locally
 
