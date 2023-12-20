@@ -84,14 +84,16 @@ namespace PlaywrightTests
                 await Page.GetByRole(AriaRole.Link, new() { Name = "Public Timeline" }).ClickAsync();
                 Console.WriteLine("Helges timeline is live");
 
-                // go to signin -- note for your own test you can remove this line and login with your own account using github in the playwright browser
+                // go to signin --
                 await Page.GetByRole(AriaRole.Link, new() { Name = "Sign in" }).ClickAsync();
                 await Page.GetByPlaceholder("Email Address").ClickAsync();
 
+                //  note for your own test you can remove this line and login with your own account using github in the playwright browser
                 // this is a testing email but if you want to test it yourself you can change it to your own email
                 await Page.GetByPlaceholder("Email Address").FillAsync("chirppy@chirp.io");
                 await Page.GetByPlaceholder("Password").ClickAsync();
 
+                //  note for your own test you can remove this line and login with your own account using github in the playwright browser
                 // this is a testing password but if you want to test it yourself you can change it to your own password
                 await Page.GetByPlaceholder("Password").FillAsync("Vuta2325");
                 await Page.GetByRole(AriaRole.Button, new() { Name = "Sign in" }).ClickAsync();
