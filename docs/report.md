@@ -140,6 +140,23 @@ The following test have been implemented
 
 #### Unit test
 
+The unit tests are designed to test each individual component of our application by itself.
+
+We have designed a series of unit tests to verify that our DTOs correctly encapsulate data and that they behave as expected when interacting with them. These tests confirm that each DTO retains and accurately represents the data passed to its constructor.
+
+### DTO Unit Tests
+
+- `AuthorDTO_ShouldHoldProvidedValues`: Checks if the AuthorDTO object correctly assigns and retains the values provided.
+- `CheepDTO_ShouldHoldProvidedValues`: Checks if the CheepDTO object correctly assigns and retains the values provided.
+- `ReactionDTO_ShouldHoldProvidedValues`: Checks if the ReactionDTO object correctly assigns and retains the values provided.
+- `HashtagDTO_ShouldHoldProvidedValues`: Checks if the HashtagDTO object correctly assigns and retains the values provided.
+
+To run only the unit tests, use the following command in the root folder of the project:
+
+```bash
+dotnet test --filter Category=Unit
+```
+
 #### Integration test
 
 The integration tests are designed to test how different parts of the application interacts with eachother. These tests involves instances of the database containers and checks if the application does the CRUD operations as expected.
