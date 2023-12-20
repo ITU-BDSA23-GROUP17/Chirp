@@ -145,16 +145,22 @@ The UML diagram below illustrates the flow of activities in the Github Actions w
 
 <div style="text-align: center; padding: 20px; background-color: white;">
 
-![sequence_of_functionality_calls](./images/sequences/DEPLOY.png)
+<!-- ![sequence_of_functionality_calls](./images/sequences/DEPLOY.png) -->
 
 </div>
 
 ### Team work
 
 <!-- Show a screenshot of your project board right before hand-in.
-Briefly describe which tasks are still unresolved, i.e., which features are missing from your applications or which functionality is incomplete.
+Briefly describe which tasks are still unresolved, i.e., which features are missing from your applications or which functionality is incomplete. -->
 
-Briefly describe and illustrate the flow of activities that happen from the new creation of an issue (task description), over development, etc. until a feature is finally merged into the `main` branch of your repository. -->
+We have one unresolved task in our project board, which was make the email unique in the the Authors table, since there was a possibility that an Author could appear twice or more in the table with same name and email but with different id. The reason we did not resolve it is the low priority.
+
+We were able to complete all the feature we want for our application. There were of course many feature we can implement, comment a cheep as well as share a cheep to name a few, but those were never in our original plan since we only focus on those feature we could make. 
+![](./images/team/project-board.png)
+
+
+<!-- Briefly describe and illustrate the flow of activities that happen from the new creation of an issue (task description), over development, etc. until a feature is finally merged into the `main` branch of your repository. -->
 
 ### How to make _Chirp!_ work locally
 
