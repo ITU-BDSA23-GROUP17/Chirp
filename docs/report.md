@@ -120,14 +120,10 @@ That is, likely for many of you there will be different kinds of "calls" and res
 Some HTTP calls and responses, some calls and responses in C# and likely some more.
 (Note the previous sentence is vague on purpose. I want that you create a complete illustration.) -->
 
+
 The diagram below illustrates the flow of messages and data through the chirp application, starting with the sending of an HTTP request by an authorized user to the root endpoint of the application and ending with the completely rendered web-page that is returned to the user.
 The diagram shows the different kinds of calls and the responses.
-
-<div style="text-align: center; padding: 20px; background-color: white;">
-
-![data_flow](./images/sequences/data-flow.png)
-
-</div>
+![[dataflow.svg]]
 
 Another diagram, this one shows .....
 
@@ -147,10 +143,45 @@ That is, illustrate the flow of activities in your respective GitHub Actions wor
 Describe the illustration briefly, i.e., how your application is built, tested, released, and deployed. -->
 
 
-![](./images/github-worflow/azure-deploy.png)
+![[azure-d.png]]
 
-<!-- ![sequence_of_functionality_calls](./images/sequences/DEPLOY.png) -->
+This workflow is the deploy workflow for azure 
+1. The User triggers the workflow on `main` branch or manually dispatching the workflow .
+2. The GitHub repository then triggers the `build` job on the GitHub Actions Runner dedicated to building the app.
+3. The build runner performs the following steps:
+   - Checks out the repository.
+   - Sets up .NET Core SDK version 7.0.x with prerelease versions included.
+   - Builds the ASP.NET Core app from the specified source directory with the Release configuration.
+   - Publishes the app to the output directory.
+   - Uploads the build artifact (Chirp.Web) to GitHub's artifact storage.
+4. Once the build job is complete, the repository triggers the `deploy` job on another GitHub Actions Runner.
+5. The deployment runner downloads the artifact from the storage.
+6. Finally, deployment runner deploys the downloaded artifact to the specified Azure Web App using the given publish profile.
 
+![[build-test-activity.png]]
+
+This workflow is build
+1. This workflow is triggered in the same way as the deploy flow, but the build and test flow is  also triggered when there is a pull request to `main`
+2. The workflow then checks if there was a change to src or test if no then it stops
+3. The build runner performs the following steps:
+   - Checks out the repository.
+   - Then workflow logs into Docker Hub 
+   -  Sets up .NET Core SDK with the given version 
+   - restores project dependences 
+   - Builds the project without restoring dependencies again.
+   - Runs the Integration tests.
+   - Runs the unit tests
+
+![[release.png]]
+
+This is release workflow 
+- The workflow is triggered when a release is published.
+- The `Matrix_Strategy` 
+    - For Linux, the workflow builds and packages the application, creates a ZIP file, and uploads the artifact.
+    - For Windows, the workflow repeats the same steps but tailored for the Windows target.
+    - For macOS, the workflow performs the steps for the macOS target.
+- After the artifacts for all three targets are prepared and uploaded, the `Publish_Release` partition publishes the release assets using the `softprops/action-gh-release@v1` action. This step uses the uploaded artifacts for each target as part of the release.
+- The process ends after the release assets are published.
 
 ### Team work
 
@@ -177,40 +208,60 @@ We were able to complete all the feature we want for our application. There were
 That is, Rasmus or Helge have to know precisely what to do in which order.
 Likely, it is best to describe how we clone your project, which commands we have to execute, and what we are supposed to see then. -->
 
-Clone the repository using this git command
+### Run locally
+In order to run the application locally, you can either <b>1. clone this repository</b>, or <b>2. run the release version</b>.
 
-```bash
-git clone https://github.com/ITU-BDSA23-GROUP17/Chirp/
-```
+#### Cloned repository</h4>
+In order to run the application locally by cloning the repository, please do as follows:
 
-Start the program using this command
+ Clone the repository using this git command:
+ ```
+ git clone https://github.com/ITU-BDSA23-GROUP17/Chirp.git
+ ```
+ Change directory into 
+  ```
+  cd "src/Chirp.Web"
+  ```
+ Inside the directory, run <b>one</b> of the following commands: </li>
+  ```
+  dotnet watch --clientsecret [your-secret]
+  ```
+  ```
+  dotnet run --clientsecret [your-secret]
+  ``` 
+  
+  You should now have access to a localhost with a specific port, in which this web-app can be accessed
 
-```bash
-cd src/Chirp.Web
-dotnet run
-```
 
-After you run the command you can go to `https://localhost:7102` or `https://localhost:5273`
+#### Releases
+In order to run the release versions, please do as follows:
 
-It will then open the browser and here you can interact with the application.
-You can sign in by clicking on the top right corner with either your email or sign up with Github.
+- On the main page of this repository, click on the <b>Releases</b>-section</li>
+There will be a few assets available (including source code), but only one of the following three will be relevant for us:</li>
+ 
+  - Chirp-win-x64.zip</i>, for Windows users</li>  
+  - Chirp-osx-x64.zip</i>, for Mac users</li>
+  - Chirp-linux-x64.zip</i>, for Linux users</li>  <br>
+    
+  Please install and unzip one of the three folders, depending on your operating system</li>
+  Now, there should be the following application available in the extracted folder:</li><br>
 
-After you successfully sign in into the _Chirp!_ application you can now do one of the following feature we have implemented
+    - Chirp.Web.exe</i>, for Windows users</li>  
+    - Chirp.Web</i>, for Mac and Linux users</li> <br>
+  
 
-- Sending a Cheep by clicking the blue box in the top right corner that says Cheep
-- Delete your own Cheep
-- Follow another user
-- Unfollow a user you follow
-- Go to another user and see their Cheeps only, by clicking on the name above their Cheep post
-- Go to your timeline by clicking on the "My Timeline" in the navigation bar to see your information and your cheeps and in your profile you can
+  Now, you have an runnable (as described in step 4). Depending on your operating system, you can run the web-app as follows: </li>
 
-  - Set your status by choosing either online, offline or unavailable
-  - Clicking on Forget, to remove yourself from the application
+  Run the following commands:
+     ```
+     dotnet dev-certs https -t
+     ```
 
-- Liking a Cheep by clicking on the thumbs up icon in a Cheep
-- Removing a Cheep that you liked by clicking on the thumbs up icon
-- When a Cheep has a # following a text, you can then click on the hashtag, it will then go to the hashtag page with all the Cheep that includes that hashtag, as well as displaying available hashtag that has been Cheeped. The order is descending by popularity.
-- Sign out of the application
+     ```
+     ./Chirp.Web --urls="https://localhost:7102;http://localhost:5273" --clientsecret [your-secret]
+     ```
+       
+  Upon running the application, a terminal will pop up, indicating in which port (in the localhost) the web-app is up and running
 
 ### How to run test suite locally
 
@@ -290,6 +341,41 @@ Note: As you may notice in our test folder we have more integration tests than u
 
 #### End to end test
 
+The playwright can be going into the folder in which the test is saved: 
+
+```
+cd test\Chirp.Web.Test\Playwright.Test\PlaywrightTests
+```
+
+And then run the build command
+
+```
+dotnet build
+```
+
+After this you need to install the browser:
+
+```
+pwsh bin/Debug/net7.0/playwright.ps1 install
+```
+
+If you are on Linux or do not have Powershell you can use https://nodejs.org/en 
+
+Refer to the given link for installation guide https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+
+Then run
+
+```
+npx playwright install --with-deps
+```
+
+Then in the project you can run:
+
+```
+dotnet test
+```
+
+Which should start the test
 ## Ethics
 
 ### License
