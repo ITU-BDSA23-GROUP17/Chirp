@@ -128,7 +128,7 @@ There is a flow of messages and data through the chirp application, which allow 
 The diagrams below illustrates this flow of messages and data, starting with the sending of an HTTP request by an authorized user to the root endpoint of the application and ending with the completely rendered web-page that is returned to the user.
 The diagram shows the different kinds of calls and the responses.
 
-<div style="text-align: center; padding: 20px; background-color: white;">
+![dataflow.svg](./images/sequences/data-flow.png)
 
 ![data flow](./images/sequences/data-flow.png)
 
@@ -149,13 +149,48 @@ That is, illustrate the flow of activities in your respective GitHub Actions wor
 
 Describe the illustration briefly, i.e., how your application is built, tested, released, and deployed. -->
 
-The UML diagram below illustrates the flow of activities in the Github Actions workflows, showing how the Chirp application is built, tested, released and deployed.
+![azure-d.png](./images/github-worflow/azure-d.png)
 
-<div style="text-align: center; padding: 20px; background-color: white;">
+This workflow is the deploy workflow for azure
 
-<!-- ![sequence_of_functionality_calls](./images/sequences/DEPLOY.png) -->
+1. The User triggers the workflow on `main` branch or manually dispatching the workflow .
+2. The GitHub repository then triggers the `build` job on the GitHub Actions Runner dedicated to building the app.
+3. The build runner performs the following steps:
+   - Checks out the repository.
+   - Sets up .NET Core SDK version 7.0.x with prerelease versions included.
+   - Builds the ASP.NET Core app from the specified source directory with the Release configuration.
+   - Publishes the app to the output directory.
+   - Uploads the build artifact (Chirp.Web) to GitHub's artifact storage.
+4. Once the build job is complete, the repository triggers the `deploy` job on another GitHub Actions Runner.
+5. The deployment runner downloads the artifact from the storage.
+6. Finally, deployment runner deploys the downloaded artifact to the specified Azure Web App using the given publish profile.
 
-</div>
+![build-test-activity.png](./images/github-worflow/build-test-activity.png)
+
+This workflow is build
+
+1. This workflow is triggered in the same way as the deploy flow, but the build and test flow is also triggered when there is a pull request to `main`
+2. The workflow then checks if there was a change to src or test if no then it stops
+3. The build runner performs the following steps:
+   - Checks out the repository.
+   - Then workflow logs into Docker Hub
+   - Sets up .NET Core SDK with the given version
+   - restores project dependences
+   - Builds the project without restoring dependencies again.
+   - Runs the Integration tests.
+   - Runs the unit tests
+
+![release.png](./images/github-worflow/release.png)
+
+This is release workflow
+
+- The workflow is triggered when a release is published.
+- The `Matrix_Strategy`
+  - For Linux, the workflow builds and packages the application, creates a ZIP file, and uploads the artifact.
+  - For Windows, the workflow repeats the same steps but tailored for the Windows target.
+  - For macOS, the workflow performs the steps for the macOS target.
+- After the artifacts for all three targets are prepared and uploaded, the `Publish_Release` partition publishes the release assets using the `softprops/action-gh-release@v1` action. This step uses the uploaded artifacts for each target as part of the release.
+- The process ends after the release assets are published.
 
 ### Team work
 
@@ -170,6 +205,7 @@ We have one unresolved task in our project board: To make the email unique in th
 
 The image below shows the project board just before hand-in, with the remaining unresolved issue.
 
+We were able to complete all the feature we want for our application. There were of course many feature we can implement, comment a cheep as well as share a cheep to name a few, but those were never in our original plan since we only focus on those feature we could make.
 ![](./images/team/project-board.png)
 
 There are of course many more features we could have implemented given time. Some ideas, which were discussed during development but not prioritized include the ability to comment on a cheep and sharing a cheep to name a few.
@@ -194,40 +230,65 @@ In practice, this process was not always strictly adhered to, but the diagram gi
 That is, Rasmus or Helge have to know precisely what to do in which order.
 Likely, it is best to describe how we clone your project, which commands we have to execute, and what we are supposed to see then. -->
 
-Clone the repository using this git command
+### Run locally
 
-```bash
-git clone https://github.com/ITU-BDSA23-GROUP17/Chirp/
+In order to run the application locally, you can either <b>1. clone this repository</b>, or <b>2. run the release version</b>.
+
+#### Cloned repository</h4>
+
+In order to run the application locally by cloning the repository, please do as follows:
+
+Clone the repository using this git command:
+
+```
+git clone https://github.com/ITU-BDSA23-GROUP17/Chirp.git
 ```
 
-Start the program using this command
+Change directory into
 
-```bash
-cd src/Chirp.Web
-dotnet run
+```
+cd "src/Chirp.Web"
 ```
 
-After you run the command you can go to `https://localhost:7102` or `https://localhost:5273`
+Inside the directory, run <b>one</b> of the following commands: </li>
 
-It will then open the browser and here you can interact with the application.
-You can sign in by clicking on the top right corner with either your email or sign up with Github.
+```
+dotnet watch --clientsecret [your-secret]
+```
 
-After you successfully sign in into the _Chirp!_ application you can now do one of the following feature we have implemented
+```
+dotnet run --clientsecret [your-secret]
+```
 
-- Sending a Cheep by clicking the blue box in the top right corner that says Cheep
-- Delete your own Cheep
-- Follow another user
-- Unfollow a user you follow
-- Go to another user and see their Cheeps only, by clicking on the name above their Cheep post
-- Go to your timeline by clicking on the "My Timeline" in the navigation bar to see your information and your cheeps and in your profile you can
+You should now have access to a localhost with a specific port, in which this web-app can be accessed
 
-  - Set your status by choosing either online, offline or unavailable
-  - Clicking on Forget, to remove yourself from the application
+#### Releases
 
-- Liking a Cheep by clicking on the thumbs up icon in a Cheep
-- Removing a Cheep that you liked by clicking on the thumbs up icon
-- When a Cheep has a # following a text, you can then click on the hashtag, it will then go to the hashtag page with all the Cheep that includes that hashtag, as well as displaying available hashtag that has been Cheeped. The order is descending by popularity.
-- Sign out of the application
+In order to run the release versions, please do as follows:
+
+- On the main page of this repository, click on the <b>Releases</b>-section</li>
+  There will be a few assets available (including source code), but only one of the following three will be relevant for us:</li>
+
+  - Chirp-win-x64.zip</i>, for Windows users</li>
+  - Chirp-osx-x64.zip</i>, for Mac users</li>
+  - Chirp-linux-x64.zip</i>, for Linux users</li> <br>
+
+  Please install and unzip one of the three folders, depending on your operating system</li>
+  Now, there should be the following application available in the extracted folder:</li><br>
+
+       - Chirp.Web.exe</i>, for Windows users</li>
+       - Chirp.Web</i>, for Mac and Linux users</li> <br>
+
+  Now, you have an runnable (as described in step 4). Depending on your operating system, you can run the web-app as follows: </li>
+
+  Run the following commands:
+  `   dotnet dev-certs https -t`
+
+        ```
+        ./Chirp.Web --urls="https://localhost:7102;http://localhost:5273" --clientsecret [your-secret]
+        ```
+
+  Upon running the application, a terminal will pop up, indicating in which port (in the localhost) the web-app is up and running
 
 ### How to run test suite locally
 
@@ -316,6 +377,42 @@ dotnet test --filter Category=Integration
 Note: As you may notice in our test folder we have more integration tests than unit tests. The reason is that unit test which is testing in the `Chirp.Core` package have only a few methods compared to the integration test, which is testing in the `Chirp.Infrastructure` package. Normally you have more unit test than integration test.
 
 #### End to end test
+
+The playwright can be going into the folder in which the test is saved:
+
+```
+cd test\Chirp.Web.Test\Playwright.Test\PlaywrightTests
+```
+
+And then run the build command
+
+```
+dotnet build
+```
+
+After this you need to install the browser:
+
+```
+pwsh bin/Debug/net7.0/playwright.ps1 install
+```
+
+If you are on Linux or do not have Powershell you can use https://nodejs.org/en
+
+Refer to the given link for installation guide https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+
+Then run
+
+```
+npx playwright install --with-deps
+```
+
+Then in the project you can run:
+
+```
+dotnet test
+```
+
+Which should start the test
 
 ## Ethics
 
