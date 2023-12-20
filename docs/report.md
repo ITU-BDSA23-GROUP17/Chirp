@@ -92,7 +92,7 @@ That is, start illustrating the first page that is presented to a non-authorized
 
 Make sure that the illustrations are in line with the actual behavior of your application. -->
 
-The diagram shows a series of typical user activities through the Chirp application.
+The diagram below shows a series of typical user activities through the Chirp application.
 The diagram shows what a user may do while remaining unauthorized, and after logging in and becoming authorized.
 
 <div style="text-align: center; padding: 20px; background-color: white;">
@@ -100,10 +100,15 @@ The diagram shows what a user may do while remaining unauthorized, and after log
 ![User_activities](./images/uml/chirp-user-journeys.drawio.png)
 
 </div>
+<br/>
 
-The diagram below shows a more detailed view of one slightly more elaborate scenario of a user journey through Chirp, in which a user logs in and sends a cheep.
+Additionally, the diagram below shows a slightly more detailed view of possible scenarios of a user journey through Chirp, in which a user enters the chirp website, logs in, or creates a profile, if necessary, sends a cheep, and then logs out.
 
-OBS : insert diagram!
+<div style="text-align: center; padding: 20px; background-color: white;">
+
+![User_scenario](./images/uml/user-scenario.drawio.png)
+
+</div>
 
 ### Sequence of functionality/calls trough _Chirp!_
 
@@ -155,6 +160,12 @@ The UML diagram below illustrates the flow of activities in the Github Actions w
 Briefly describe which tasks are still unresolved, i.e., which features are missing from your applications or which functionality is incomplete.
 
 Briefly describe and illustrate the flow of activities that happen from the new creation of an issue (task description), over development, etc. until a feature is finally merged into the `main` branch of your repository. -->
+
+<div style="text-align: center; padding: 20px; background-color: white;">
+
+![issue](./images/uml/issue.drawio.png)
+
+</div>
 
 ### How to make _Chirp!_ work locally
 
