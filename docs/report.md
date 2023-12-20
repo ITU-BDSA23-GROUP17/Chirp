@@ -142,7 +142,7 @@ The following test have been implemented
 
 The unit tests are designed to test each individual component of our application by itself.
 
-We have designed a series of unit tests to verify that our DTOs correctly encapsulate data and that they behave as expected when interacting with them. These tests confirm that each DTO retains and accurately represents the data passed to its constructor.
+We have designed a series of unit tests to verify that our DTOs correctly encapsulate data. These tests confirm that each DTO retains and accurately represents the data passed to its constructor.
 
 ### DTO Unit Tests
 
