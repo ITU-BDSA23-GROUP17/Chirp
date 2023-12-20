@@ -3,8 +3,9 @@
 <h2>About</h2>
 This is the repository for our web application, <i>Chirp!</i> , developed as part of our course, <b>Analysis, Design and Software Architecture.</b>
 
-<h4>Developers</h4>
-The developers, known as <b>Group 17</b>, is from the <i>IT-University of Copenhagen</i>, and consists of following members:
+<h3>Developers</h3>
+The developers, known as <b>Group 17</b>, is from the <i>IT-University of Copenhagen</i>, and consists of following members: 
+
 <ul>
   <li>Burak Özdemir (buoe)</li>
   <li>Hanan Choudhary Hadayat (abha)</li>
@@ -13,12 +14,16 @@ The developers, known as <b>Group 17</b>, is from the <i>IT-University of Copenh
   <li>Tan Dang (tanda)</li>
 </ul>
 
+<h3>Further details</h3>
+A full description of the application and the development process is available at the following PDF: <b>2023_itubdsa_group_17_report.pdf</b><br>
+The PDF is available at the root of this repository.
+
 <h2>How to run</h2>
 <h3>Access the official web-app</h3>
 The official web-app will be available on the following link: <a href="bdsagroup17chirprazor.azurewebsites.net/">bdsagroup17chirprazor.azurewebsites.net</a>
 
 <h3>Run locally</h3>
-In order to run the application locally, you can either 1. download the latest release, or 2. clone this repository.
+In order to run the application locally, you can either <b>1. clone this repository</b>, or <b>2. run the release version</b>.
 
 <h4>Cloned repository</h4>
 In order to run the application locally by cloning the repository, please do as follows:
@@ -49,11 +54,12 @@ In order to run the release versions, please do as follows:
     <li><i>Chirp.Web.exe</i>, for Windows users</li>  
     <li><i>Chirp.Web</i>, for Mac and Linux users</li>
   </ul>
-  <li>Now, you have an executable (as described in step 4), which you can run by double-clickling</li>
-  <li>Upon running the executable, a terminal will pop up, indicating in which port (in the localhost) the web-app is up and running</li>
+  <li>Now, you have an runnable (as described in step 4). Depending on your operating system, you can run the web-app as follows: </li>
   <ul>
-    <li>An easy way to access the web-app is to do <b>ctrl + right-click</b> on the given (localhost) address</li>  
+    <li><b>(Mac and Linux users):</b> Run the following command: <i>./Chirp.Web</i></li>
+    <li><b>(Windows users):</b> Just double-click on the following executable: <i>Chirp.Web.exe</i></li>
   </ul>
+  <li>Upon running the application, a terminal will pop up, indicating in which port (in the localhost) the web-app is up and running</li>
 </ol> 
 
 <h2>Other</h2>
