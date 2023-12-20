@@ -186,7 +186,7 @@ The integration tests are designed to test how different parts of the applicatio
 - `AddHashtag_WillNotAddTheSameHashtagMoreThanOnce`: Checks that duplicate hashtags are not added to the database.
 - `RemoveHashtag_RemovedSpecifiedHashtagTextIfItExist`: Checks if the specified hashtag text is removed from the database.
 
-Integration tests can be executed separately from other tests using the `--filter` option with `dotnet test`. Make sure Docker is running as the tests rely on `Testcontainers.MsSql` to create a containerized MS SQL Server instance.
+Make sure Docker is running as the tests rely on `Testcontainers.MsSql` to create a containerized MS SQL Server instance.
 
 To run only the integration tests, use the following command in the root folder of the project:
 
