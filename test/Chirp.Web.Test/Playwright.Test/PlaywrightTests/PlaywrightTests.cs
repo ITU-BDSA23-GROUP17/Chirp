@@ -16,14 +16,21 @@ namespace PlaywrightTests
         [SetUp]
         public async Task SetUp()
         {
-            var playwright = await Playwright.CreateAsync();
-            browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+            if (Environment.GetEnvironmentVariable("GITHUB_ACTIONS") == "true")
             {
-                Headless = false,
-            });
+                Assert.Ignore("Test ignored on GitHub Actions");
+            }
+            else
+            {
+                var playwright = await Playwright.CreateAsync();
+                browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+                {
+                    Headless = true,
+                });
 
-            var context = await browser.NewContextAsync();
-            Page = await context.NewPageAsync();
+                var context = await browser.NewContextAsync();
+                Page = await context.NewPageAsync();
+            }
         }
 
         [TearDown]
