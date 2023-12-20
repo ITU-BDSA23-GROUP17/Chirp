@@ -6,6 +6,11 @@ using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Azure.Security.KeyVault.Secrets;
 using Azure.Identity;
+using Testcontainers.MsSql;
+
+
+MsSqlContainer _msSqlContainer;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,8 +52,10 @@ if (builder.Environment.IsDevelopment())
 }
 else
 {
-    KeyVaultSecret secret = client.GetSecret("chirp-prod-database");
-    connectionString = secret.Value;
+    _msSqlContainer = new MsSqlBuilder().Build();
+
+    await _msSqlContainer.StartAsync();
+    connectionString = _msSqlContainer.GetConnectionString();
 }
 
 
