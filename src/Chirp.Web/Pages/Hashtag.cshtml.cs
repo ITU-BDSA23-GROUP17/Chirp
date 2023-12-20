@@ -25,9 +25,6 @@ public class HashtagModel : BaseModel
     private readonly IHashtagRepository _hashtagRepository;
     private readonly IHashtagTextRepository _hashtagTextRepository;
 
-    // suppress warnings
-    #pragma warning disable CS8618
-
     public HashtagModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository,
     IReactionRepository reactionRepository, IHashtagRepository hashtagRepository, IHashtagTextRepository hashtagTextRepository) : base(cheepRepository, authorRepository, followRepository, reactionRepository)
     {

@@ -3,9 +3,6 @@ using Chirp.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Testcontainers.MsSql;
 
-// Suppress warnings
-#pragma warning disable CS8604
-
 public sealed class AuthorRepositoryUnitTest : IAsyncLifetime
 {
     private readonly MsSqlContainer _msSqlContainer = new MsSqlBuilder().Build();
@@ -263,7 +260,11 @@ public sealed class AuthorRepositoryUnitTest : IAsyncLifetime
         AuthorDTO? authorToUpdate = null;
         if (insertedAuthor != null)
         {
-            authorToUpdate = new AuthorDTO(insertedAuthor.AuthorId, updatedName, updatedEmail, originalStatus, cheepsList, insertedAuthor.Image);
+            if (cheepsList != null){
+                authorToUpdate = new AuthorDTO(insertedAuthor.AuthorId, updatedName, updatedEmail, originalStatus, cheepsList, insertedAuthor.Image);
+            } else {
+                authorToUpdate = new AuthorDTO(insertedAuthor.AuthorId, updatedName, updatedEmail, originalStatus, new List<CheepDTO> {}, insertedAuthor.Image);
+            }
         }
 
         // Act

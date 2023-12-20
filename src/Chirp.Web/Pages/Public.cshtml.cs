@@ -6,9 +6,6 @@ namespace Chirp.Web.Pages;
 
 public class PublicModel : BaseModel
 {
-
-    // suppress warnings
-    #pragma warning disable CS8618
     
     public PublicModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository,
 IReactionRepository reactionRepository) : base(cheepRepository, authorRepository, followRepository, reactionRepository)
@@ -16,11 +13,11 @@ IReactionRepository reactionRepository) : base(cheepRepository, authorRepository
 
     }
 
-    public IEnumerable<CheepDTO> Cheeps { get; set; }
-    public IEnumerable<CheepInfoDTO> CheepInfos { get; set; }
+    public required IEnumerable<CheepDTO> Cheeps { get; set; }
+    public required IEnumerable<CheepInfoDTO> CheepInfos { get; set; }
     public int pageNr { get; set; }
     public int pages { get; set; }
-    public string TotalReactions { get; set; }
+    public required string TotalReactions { get; set; }
 
 
     public async Task<ActionResult> OnGetAsync()
