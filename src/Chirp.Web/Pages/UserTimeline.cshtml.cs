@@ -73,7 +73,9 @@ IReactionRepository reactionRepository, IUserService userService) : base(cheepRe
 
         //source https://stackoverflow.com/questions/6514292/c-sharp-razor-url-parameter-from-view 
         // pages = _service.getPagesHome(true, author);
-        pages = await _cheepRepository.GetPagesUserAsync(authorDTO.Name);
+        if (authorDTO != null){
+            pages = await _cheepRepository.GetPagesUserAsync(authorDTO.Name);
+        }
         pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
         if (currentlyLoggedInUser != null)
         {

@@ -3,10 +3,13 @@ using Chirp.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Testcontainers.MsSql;
 
+// Suppress warnings
+#pragma warning disable CS8604
+
 public sealed class AuthorRepositoryUnitTest : IAsyncLifetime
 {
     private readonly MsSqlContainer _msSqlContainer = new MsSqlBuilder().Build();
-    private string _connectionString;
+    private string? _connectionString;
 
 
     public async Task InitializeAsync()
@@ -118,13 +121,19 @@ public sealed class AuthorRepositoryUnitTest : IAsyncLifetime
         await context.SaveChangesAsync();
         var insertedAuthor = await context.Authors.FirstOrDefaultAsync(a => a.Email == expectedEmail);
 
-        var authorDto = await authorRepository.GetAuthorByIdAsync(insertedAuthor.AuthorId);
+        AuthorDTO? authorDto = null;
+
+        if (insertedAuthor != null)
+        {
+            authorDto = await authorRepository.GetAuthorByIdAsync(insertedAuthor.AuthorId);
+
+        }
 
         // Assert
         Assert.NotNull(authorDto);
         Assert.Equal(expectedName, authorDto.Name);
         Assert.Equal(expectedEmail, authorDto.Email);
-        Assert.Equal(insertedAuthor.AuthorId, authorDto.AuthorId);
+        Assert.Equal(insertedAuthor?.AuthorId, authorDto.AuthorId);
 
         // Stop the container
         await _msSqlContainer.StopAsync();
@@ -192,17 +201,35 @@ public sealed class AuthorRepositoryUnitTest : IAsyncLifetime
 
         // Prepare the cheep
         var message = "cheep123";
-        var authorInfoDTO = new AuthorInfoDTO(author.AuthorId, authorName, authorEmail);
+
+        AuthorInfoDTO? authorInfoDTO = null;
+        if (author != null)
+        {
+            authorInfoDTO = new AuthorInfoDTO(author.AuthorId, authorName, authorEmail);
+        }
 
         // Act
-        var cheepDto = await authorRepository.SendCheepAsync(message, authorInfoDTO);
+        CheepDTO? cheepDto = null;
+        if (authorInfoDTO != null)
+        {
+            cheepDto = await authorRepository.SendCheepAsync(message, authorInfoDTO);
+        }
         await context.SaveChangesAsync();
 
         // Assert
-        var cheep = await context.Cheeps.FindAsync(cheepDto.Id);
+        Cheep? cheep = null;
+        if (cheepDto != null)
+        {
+            cheep = await context.Cheeps.FindAsync(cheepDto.Id);
+
+        }
         Assert.NotNull(cheep);
         Assert.Equal(message, cheep.Text);
-        Assert.Equal(author.AuthorId, cheep.AuthorId);
+        if (author != null)
+        {
+
+            Assert.Equal(author.AuthorId, cheep.AuthorId);
+        }
 
         // Stop the container
         await _msSqlContainer.StopAsync();
@@ -228,19 +255,27 @@ public sealed class AuthorRepositoryUnitTest : IAsyncLifetime
         await context.SaveChangesAsync();
         var insertedAuthor = await context.Authors.FirstOrDefaultAsync(a => a.Email == originalEmail);
 
-        var cheepsList = insertedAuthor.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image)).ToList();
+        List<CheepDTO>? cheepsList = insertedAuthor?.Cheeps.Select(c => new CheepDTO(c.CheepId, c.Text, c.TimeStamp, c.Author.Name, c.Author.AuthorId, c.Author.Image)).ToList();
 
         // Update details
         var updatedName = "tan deng";
         var updatedEmail = "tande@itu.dk";
-        var authorToUpdate = new AuthorDTO(insertedAuthor.AuthorId, updatedName, updatedEmail, originalStatus, cheepsList, insertedAuthor.Image);
+        AuthorDTO? authorToUpdate = null;
+        if (insertedAuthor != null)
+        {
+            authorToUpdate = new AuthorDTO(insertedAuthor.AuthorId, updatedName, updatedEmail, originalStatus, cheepsList, insertedAuthor.Image);
+        }
 
         // Act
-        await authorRepository.UpdateAuthorAsync(authorToUpdate);
-        await context.SaveChangesAsync();
+        if (authorToUpdate != null)
+        {
+
+            await authorRepository.UpdateAuthorAsync(authorToUpdate);
+            await context.SaveChangesAsync();
+        }
 
         // Retrieve updated author
-        var updatedAuthor = await context.Authors.FindAsync(insertedAuthor.AuthorId);
+        var updatedAuthor = await context.Authors.FindAsync(insertedAuthor?.AuthorId);
 
         // Assert
         Assert.NotNull(updatedAuthor);
