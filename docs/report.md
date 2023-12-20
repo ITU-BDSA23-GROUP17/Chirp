@@ -20,7 +20,11 @@
 
 <!-- ![Domain model](./images/uml/Domain-model-Chirp.Core.drawio.svg) -->
 
-![](./images/uml/Domain-model-Chirp.Core.drawio.png)
+The domain model below reflects the entities and their relationship of the Chirp application, as well as the interfaces of the repositories that allow for accessing and manipulating these different entities and their related data. These entities form the foundation of the business logic of the application.
+
+<div style="text-align: center; padding: 20px; background-color: white;">
+    <img src="./images/uml/Domain-model-Chirp.Core.drawio.png" alt="Chirp Core" width="100%" />
+</div>
 
 <!-- Provide an illustration of your domain model.
 Make sure that it is correct and complete.
@@ -28,11 +32,42 @@ In case you are using ASP.NET Identity, make sure to illustrate that accordingly
 
 ### Architecture — In the small
 
+The diagram below shows the organization of the code of the Chirp application, showcasing the relationships and dependencies of different components of the program, highlighting how the code of the program is organised into different layers of the onion architecture design.
+
+At the centre of the onion architecture are the domain entities in Chirp.Core, as seen in the domain model shown above.
+
+Surrounding the Core is first the Chirp.Infrastructure layer. This layer contains the implementations of the repository interfaces, and is responsible for actually handing mechanisms of data storage, access and manipulation connected to the core entities.
+
+The Web layer surrounds these layers. It is responsible for the presentation of the application, handling the user interface and user interactions. The layer interacts with the core and infrastructure layers, using the domain entities and data access mechanisms to allow the user the interact with the business logic and data of the application.
+
+The diagram shows how the Chirp application has been designed with an inward flow of dependencies in accordance with Onion architecture, so that the inner layers remain independent of external dependencies.
+
+Some relationships have been omitted to improve the readability of the diagram.
+
+<div style="text-align: center;">
+
+![Legend](./images/uml/Legend.drawio.png)
+
+</div>
+
+<div style="text-align: center; padding: 20px; background-color: white;">
+
+![Architecture_in_the_small](./images/uml/Architecture_in_the_small.drawio.png)
+
+</div>
+
+The figure below shows a more simplistic view of the onion architecture structure of the components of the application.
+
+![Onion](./images/Onion/Onion.drawio.png)
+
 <!-- Illustrate the organization of your code base.
 That is, illustrate which layers exist in your (onion) architecture.
 Make sure to illustrate which part of your code is residing in which layer. -->
 
 ### Architecture of deployed application
+
+The diagram below shows the interaction between the client component with a user interface allowing the user to make requests and the application deployed on Microsoft Azure as the server component.
+The diagram also shows the interaction of this deployed application with the Azure SQL Database, as well as signing in through a social account (GitHub).
 
 <!-- Illustrate the architecture of your deployed application.
 Remember, you developed a client-server application.
@@ -44,7 +79,11 @@ Illustrate the server component and to where it is deployed, illustrate a client
 - Under this section, provide a brief description of the reason for switching again to SQLite as database.
 - In that description, provide a link to the commit hash in your GitHub repository that points to the latest version of your _Chirp!_ application with hosted database (we look at the entire history of your project, so we see that it was there at some point). -->
 
-![](./images/uml/Chirp-client-server-uml.drawio.png)
+<div style="text-align: center; padding: 20px; background-color: white;">
+
+![Deployed_application](./images/uml/chirp-client-server-uml.drawio.png)
+
+</div>
 
 ### User activities
 
@@ -53,7 +92,18 @@ That is, start illustrating the first page that is presented to a non-authorized
 
 Make sure that the illustrations are in line with the actual behavior of your application. -->
 
-![](./images/uml/chirp-user-journeys.drawio.png)
+The diagram shows a series of typical user activities through the Chirp application.
+The diagram shows what a user may do while remaining unauthorized, and after logging in and becoming authorized.
+
+<div style="text-align: center; padding: 20px; background-color: white;">
+
+![User_activities](./images/uml/chirp-user-journeys.drawio.png)
+
+</div>
+
+The diagram below shows a more detailed view of one slightly more elaborate scenario of a user journey through Chirp, in which a user logs in and sends a cheep.
+
+OBS : insert diagram!
 
 ### Sequence of functionality/calls trough _Chirp!_
 
@@ -64,6 +114,23 @@ Make sure that your illustration is complete.
 That is, likely for many of you there will be different kinds of "calls" and responses.
 Some HTTP calls and responses, some calls and responses in C# and likely some more.
 (Note the previous sentence is vague on purpose. I want that you create a complete illustration.) -->
+
+The diagram below illustrates the flow of messages and data through the chirp application, starting with the sending of an HTTP request by an authorized user to the root endpoint of the application and ending with the completely rendered web-page that is returned to the user.
+The diagram shows the different kinds of calls and the responses.
+
+<div style="text-align: center; padding: 20px; background-color: white;">
+
+![data_flow](./images/sequences/data-flow.png)
+
+</div>
+
+Another diagram, this one shows .....
+
+<div style="text-align: center; padding: 20px; background-color: white;">
+
+![graph_api](./images/sequences/graph-api.png)
+
+</div>
 
 ## Process
 
@@ -210,7 +277,7 @@ dotnet test --filter Category=Integration
 
 <!-- State which software license you chose for your application. -->
 
-We chose to use the MIT license for our Chirp application, since allow other developer to distribute, use and copy our software without imposing significant restrictions.
+We chose to use the MIT license for our Chirp application, since it allows other developers to distribute, use and copy our software without imposing significant restrictions.
 
 ### LLMs, ChatGPT, CoPilot, and others
 
