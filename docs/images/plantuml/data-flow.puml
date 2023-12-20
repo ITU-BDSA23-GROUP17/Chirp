@@ -16,6 +16,7 @@ participant "AZURE B2C\n(Graph Api ogchirp)" as userService
 
 user -> webapp : Access Web App
 alt User is not authenticated
+    user -> webapp : Sign in to Chirp
     webapp -> ogchirp : SignIn Request
     ogchirp -> user : SignIn Page
     user -> ogchirp : Submit Credentials
@@ -23,8 +24,10 @@ alt User is not authenticated
     webapp -> user : Display Authenticated Page
 else User is authenticated
     webapp -> user : Display "Hello @User.Identity?.Name!"
-webapp -> ogchirp : SignOut Request
-ogchirp -> webapp : Redirect to SignOut URL
+    user -> webapp : Sign out of Chirp
+    webapp -> ogchirp : SignOut Request
+   ogchirp -> webapp : Redirect to SignOut URL
+   webapp -> user : Redirect User to SignOut Page
 end
 
 user -> webapp : Access Hashtag Timeline
@@ -115,4 +118,12 @@ userService -> webapp : User Deletion Complete
 webapp -> ogchirp : SignOut Request
 ogchirp -> webapp : Redirect to SignOut URL
 webapp -> user : Redirect User to SignOut Page
+
+user -> webapp : Delete a Cheep
+webapp -> cheepRepo: Post Delete Cheep(string CheepId)
+cheepRepo-> db: DeleteCheepAsync(string CheepId)
+db-> cheepRepo : Cheep Deleted Confirmation
+
+
+
 @enduml
