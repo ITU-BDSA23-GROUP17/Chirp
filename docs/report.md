@@ -120,10 +120,10 @@ That is, likely for many of you there will be different kinds of "calls" and res
 Some HTTP calls and responses, some calls and responses in C# and likely some more.
 (Note the previous sentence is vague on purpose. I want that you create a complete illustration.) -->
 
-
 The diagram below illustrates the flow of messages and data through the chirp application, starting with the sending of an HTTP request by an authorized user to the root endpoint of the application and ending with the completely rendered web-page that is returned to the user.
 The diagram shows the different kinds of calls and the responses.
-![[dataflow.svg]]
+
+![dataflow.svg](./images/sequences/data-flow.png)
 
 Another diagram, this one shows .....
 
@@ -142,10 +142,10 @@ That is, illustrate the flow of activities in your respective GitHub Actions wor
 
 Describe the illustration briefly, i.e., how your application is built, tested, released, and deployed. -->
 
+![azure-d.png](./images/github-worflow/azure-d.png)
 
-![[azure-d.png]]
+This workflow is the deploy workflow for azure
 
-This workflow is the deploy workflow for azure 
 1. The User triggers the workflow on `main` branch or manually dispatching the workflow .
 2. The GitHub repository then triggers the `build` job on the GitHub Actions Runner dedicated to building the app.
 3. The build runner performs the following steps:
@@ -158,28 +158,30 @@ This workflow is the deploy workflow for azure
 5. The deployment runner downloads the artifact from the storage.
 6. Finally, deployment runner deploys the downloaded artifact to the specified Azure Web App using the given publish profile.
 
-![[build-test-activity.png]]
+![build-test-activity.png](./images/github-worflow/build-test-activity.png)
 
 This workflow is build
-1. This workflow is triggered in the same way as the deploy flow, but the build and test flow is  also triggered when there is a pull request to `main`
+
+1. This workflow is triggered in the same way as the deploy flow, but the build and test flow is also triggered when there is a pull request to `main`
 2. The workflow then checks if there was a change to src or test if no then it stops
 3. The build runner performs the following steps:
    - Checks out the repository.
-   - Then workflow logs into Docker Hub 
-   -  Sets up .NET Core SDK with the given version 
-   - restores project dependences 
+   - Then workflow logs into Docker Hub
+   - Sets up .NET Core SDK with the given version
+   - restores project dependences
    - Builds the project without restoring dependencies again.
    - Runs the Integration tests.
    - Runs the unit tests
 
-![[release.png]]
+![release.png](./images/github-worflow/release.png)
 
-This is release workflow 
+This is release workflow
+
 - The workflow is triggered when a release is published.
-- The `Matrix_Strategy` 
-    - For Linux, the workflow builds and packages the application, creates a ZIP file, and uploads the artifact.
-    - For Windows, the workflow repeats the same steps but tailored for the Windows target.
-    - For macOS, the workflow performs the steps for the macOS target.
+- The `Matrix_Strategy`
+  - For Linux, the workflow builds and packages the application, creates a ZIP file, and uploads the artifact.
+  - For Windows, the workflow repeats the same steps but tailored for the Windows target.
+  - For macOS, the workflow performs the steps for the macOS target.
 - After the artifacts for all three targets are prepared and uploaded, the `Publish_Release` partition publishes the release assets using the `softprops/action-gh-release@v1` action. This step uses the uploaded artifacts for each target as part of the release.
 - The process ends after the release assets are published.
 
@@ -190,9 +192,8 @@ Briefly describe which tasks are still unresolved, i.e., which features are miss
 
 We have one unresolved task in our project board, which was make the email unique in the the Authors table, since there was a possibility that an Author could appear twice or more in the table with same name and email but with different id. The reason we did not resolve it is the low priority.
 
-We were able to complete all the feature we want for our application. There were of course many feature we can implement, comment a cheep as well as share a cheep to name a few, but those were never in our original plan since we only focus on those feature we could make. 
+We were able to complete all the feature we want for our application. There were of course many feature we can implement, comment a cheep as well as share a cheep to name a few, but those were never in our original plan since we only focus on those feature we could make.
 ![](./images/team/project-board.png)
-
 
 <!-- Briefly describe and illustrate the flow of activities that happen from the new creation of an issue (task description), over development, etc. until a feature is finally merged into the `main` branch of your repository. -->
 
@@ -209,58 +210,63 @@ That is, Rasmus or Helge have to know precisely what to do in which order.
 Likely, it is best to describe how we clone your project, which commands we have to execute, and what we are supposed to see then. -->
 
 ### Run locally
+
 In order to run the application locally, you can either <b>1. clone this repository</b>, or <b>2. run the release version</b>.
 
 #### Cloned repository</h4>
+
 In order to run the application locally by cloning the repository, please do as follows:
 
- Clone the repository using this git command:
- ```
- git clone https://github.com/ITU-BDSA23-GROUP17/Chirp.git
- ```
- Change directory into 
-  ```
-  cd "src/Chirp.Web"
-  ```
- Inside the directory, run <b>one</b> of the following commands: </li>
-  ```
-  dotnet watch --clientsecret [your-secret]
-  ```
-  ```
-  dotnet run --clientsecret [your-secret]
-  ``` 
-  
-  You should now have access to a localhost with a specific port, in which this web-app can be accessed
+Clone the repository using this git command:
 
+```
+git clone https://github.com/ITU-BDSA23-GROUP17/Chirp.git
+```
+
+Change directory into
+
+```
+cd "src/Chirp.Web"
+```
+
+Inside the directory, run <b>one</b> of the following commands: </li>
+
+```
+dotnet watch --clientsecret [your-secret]
+```
+
+```
+dotnet run --clientsecret [your-secret]
+```
+
+You should now have access to a localhost with a specific port, in which this web-app can be accessed
 
 #### Releases
+
 In order to run the release versions, please do as follows:
 
 - On the main page of this repository, click on the <b>Releases</b>-section</li>
-There will be a few assets available (including source code), but only one of the following three will be relevant for us:</li>
- 
-  - Chirp-win-x64.zip</i>, for Windows users</li>  
+  There will be a few assets available (including source code), but only one of the following three will be relevant for us:</li>
+
+  - Chirp-win-x64.zip</i>, for Windows users</li>
   - Chirp-osx-x64.zip</i>, for Mac users</li>
-  - Chirp-linux-x64.zip</i>, for Linux users</li>  <br>
-    
+  - Chirp-linux-x64.zip</i>, for Linux users</li> <br>
+
   Please install and unzip one of the three folders, depending on your operating system</li>
   Now, there should be the following application available in the extracted folder:</li><br>
 
-    - Chirp.Web.exe</i>, for Windows users</li>  
-    - Chirp.Web</i>, for Mac and Linux users</li> <br>
-  
+       - Chirp.Web.exe</i>, for Windows users</li>
+       - Chirp.Web</i>, for Mac and Linux users</li> <br>
 
   Now, you have an runnable (as described in step 4). Depending on your operating system, you can run the web-app as follows: </li>
 
   Run the following commands:
-     ```
-     dotnet dev-certs https -t
-     ```
+  `   dotnet dev-certs https -t`
 
-     ```
-     ./Chirp.Web --urls="https://localhost:7102;http://localhost:5273" --clientsecret [your-secret]
-     ```
-       
+        ```
+        ./Chirp.Web --urls="https://localhost:7102;http://localhost:5273" --clientsecret [your-secret]
+        ```
+
   Upon running the application, a terminal will pop up, indicating in which port (in the localhost) the web-app is up and running
 
 ### How to run test suite locally
@@ -341,7 +347,7 @@ Note: As you may notice in our test folder we have more integration tests than u
 
 #### End to end test
 
-The playwright can be going into the folder in which the test is saved: 
+The playwright can be going into the folder in which the test is saved:
 
 ```
 cd test\Chirp.Web.Test\Playwright.Test\PlaywrightTests
@@ -359,7 +365,7 @@ After this you need to install the browser:
 pwsh bin/Debug/net7.0/playwright.ps1 install
 ```
 
-If you are on Linux or do not have Powershell you can use https://nodejs.org/en 
+If you are on Linux or do not have Powershell you can use https://nodejs.org/en
 
 Refer to the given link for installation guide https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
@@ -376,6 +382,7 @@ dotnet test
 ```
 
 Which should start the test
+
 ## Ethics
 
 ### License
@@ -392,7 +399,7 @@ In case you were using an LLM to support your development, briefly describe when
 Reflect in writing to which degree the responses of the LLM were helpful.
 Discuss briefly if application of LLMs sped up your development or if the contrary was the case. -->
 
-Using LLMs has been both a advantage and disadvantage. Most of the time the code that was Generated by ChatGPT will not work according to what we wanted, and sometime give us more debug to do than if we google the problem ourselves. We use ChatGPT mostly for explaining errors or explaining the code, but few time using it for writing complex code that we were stuck in. 
+Using LLMs has been both a advantage and disadvantage. Most of the time the code that was Generated by ChatGPT will not work according to what we wanted, and sometime give us more debug to do than if we google the problem ourselves. We use ChatGPT mostly for explaining errors or explaining the code, but few time using it for writing complex code that we were stuck in.
 
 With co-pilot we used it for error handling for our code, but it was quite minimal use. It has the feature to autocomplete our code when we write, but frequently the code it suggest is in no use, the only time it was been effective is when we need to write something that was repeating or very predictable, e.g. when we write insert methods in to our database in `DbInitializer.cs`.
 
