@@ -25,7 +25,7 @@ namespace PlaywrightTests
                 var playwright = await Playwright.CreateAsync();
                 browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
                 {
-                    Headless = true,
+                    Headless = false,
                 });
 
                 var context = await browser.NewContextAsync();
