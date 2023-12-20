@@ -20,7 +20,10 @@
 
 <!-- ![Domain model](./images/uml/Domain-model-Chirp.Core.drawio.svg) -->
 
-The domain model below reflects the entities and their relationship of the Chirp application, as well as the interfaces of the repositories that allow for accessing and manipulating these different entities and their related data. These entities form the foundation of the business logic of the application.
+The domain model reflects the entities and their relationship of the Chirp application, as well as the interfaces of the repositories that allow for accessing and manipulating these different entities and their related data. These entities form the foundation of the business logic of the application.
+<br>
+<br>
+The diagram below shows the domain model of the Chirp application.
 
 <div style="text-align: center; padding: 20px; background-color: white;">
     <img src="./images/uml/Domain-model-Chirp.Core.drawio.png" alt="Chirp Core" width="100%" />
@@ -31,6 +34,8 @@ Make sure that it is correct and complete.
 In case you are using ASP.NET Identity, make sure to illustrate that accordingly. -->
 
 ### Architecture — In the small
+
+The application Chirp has been designed with Onion architecture in mind.
 
 The diagram below shows the organization of the code of the Chirp application, showcasing the relationships and dependencies of different components of the program, highlighting how the code of the program is organised into different layers of the onion architecture design.
 
@@ -44,20 +49,10 @@ The diagram shows how the Chirp application has been designed with an inward flo
 
 Some relationships have been omitted to improve the readability of the diagram.
 
-<div style="text-align: center;">
-
-![Legend](./images/uml/Legend.drawio.png)
-
-</div>
-
 <div style="text-align: center; padding: 20px; background-color: white;">
 
 ![Architecture_in_the_small](./images/uml/Architecture_in_the_small.drawio.png)
 
-</div>
-
-<div>
-  <object data="./images/uml/Chirp client server uml.drawio.pdf" type="application/pdf" width="100%" height="500px">
 </div>
 
 The figure below shows a more simplistic view of the onion architecture structure of the components of the application.
@@ -69,6 +64,8 @@ That is, illustrate which layers exist in your (onion) architecture.
 Make sure to illustrate which part of your code is residing in which layer. -->
 
 ### Architecture of deployed application
+
+The Chirp application is deployed on Microsoft Azure, utilizing Asure services with an Azure SQL database.
 
 The diagram below shows the interaction between the client component with a user interface allowing the user to make requests and the application deployed on Microsoft Azure as the server component.
 The diagram also shows the interaction of this deployed application with the Azure SQL Database, as well as signing in through a social account (GitHub).
@@ -96,6 +93,8 @@ That is, start illustrating the first page that is presented to a non-authorized
 
 Make sure that the illustrations are in line with the actual behavior of your application. -->
 
+A user may follow various paths when using the Chirp application.
+
 The diagram below shows a series of typical user activities through the Chirp application.
 The diagram shows what a user may do while remaining unauthorized, and after logging in and becoming authorized.
 
@@ -106,7 +105,7 @@ The diagram shows what a user may do while remaining unauthorized, and after log
 </div>
 <br/>
 
-Additionally, the diagram below shows a slightly more detailed view of possible scenarios of a user journey through Chirp, in which a user enters the chirp website, logs in, or creates a profile, if necessary, sends a cheep, and then logs out.
+Additionally, the diagram below shows a slightly more detailed view of possible scenarios of a user journey through Chirp, in which a user enters the chirp website, logs in, or creates a profile if necessary, sends a cheep, and then logs out.
 
 <div style="text-align: center; padding: 20px; background-color: white;">
 
@@ -124,7 +123,9 @@ That is, likely for many of you there will be different kinds of "calls" and res
 Some HTTP calls and responses, some calls and responses in C# and likely some more.
 (Note the previous sentence is vague on purpose. I want that you create a complete illustration.) -->
 
-The diagram below illustrates the flow of messages and data through the chirp application, starting with the sending of an HTTP request by an authorized user to the root endpoint of the application and ending with the completely rendered web-page that is returned to the user.
+There is a flow of messages and data through the chirp application, which allow the user to see and interact with a completely rendered web page.
+
+The diagram below illustrates this flow of messages and data, starting with the sending of an HTTP request by an authorized user to the root endpoint of the application and ending with the completely rendered web-page that is returned to the user.
 The diagram shows the different kinds of calls and the responses.
 
 <div style="text-align: center; padding: 20px; background-color: white;">
@@ -165,9 +166,8 @@ Briefly describe which tasks are still unresolved, i.e., which features are miss
 
 We have one unresolved task in our project board, which was make the email unique in the the Authors table, since there was a possibility that an Author could appear twice or more in the table with same name and email but with different id. The reason we did not resolve it is the low priority.
 
-We were able to complete all the feature we want for our application. There were of course many feature we can implement, comment a cheep as well as share a cheep to name a few, but those were never in our original plan since we only focus on those feature we could make. 
+We were able to complete all the feature we want for our application. There were of course many feature we can implement, comment a cheep as well as share a cheep to name a few, but those were never in our original plan since we only focus on those feature we could make.
 ![](./images/team/project-board.png)
-
 
 <!-- Briefly describe and illustrate the flow of activities that happen from the new creation of an issue (task description), over development, etc. until a feature is finally merged into the `main` branch of your repository. -->
 
