@@ -8,7 +8,7 @@
 
 | Name                       | Email        | Date of Birth |
 | -------------------------- | ------------ | ------------- |
-| Burak Özdemir              | buoe@itu.dk  |               |
+| Burak Özdemir              | buoe@itu.dk  |  20/12/2000   |
 | Hanan Choudhary Hadayat    | abha@itu.dk  |               |
 | Joshua James Medilo Calba  | jcal@itu.dk  |               |
 | Julius Dalsgaard Bertelsen | jube@itu.dk  |               |
