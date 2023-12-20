@@ -13,7 +13,10 @@ The developers, known as <b>Group 17</b>, is from the <i>IT-University of Copenh
 - Tan Dang (tanda)
 
 ### Further details</h3>
-A full description of the application and the development process is available at the following PDF: <b>2023_itubdsa_group_17_report.pdf</b><br><br>
+A full description of the application and the development process is available at the following PDF: 
+
+[2023_itubdsa_group_17_report.pdf](https://github.com/ITU-BDSA23-GROUP17/Chirp/blob/main/2023_itubdsa_group_17_report.pdf)
+
 The PDF is available at the root of this repository.
 
 
