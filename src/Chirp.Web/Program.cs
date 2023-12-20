@@ -16,6 +16,19 @@ var connectionString = String.Empty;
 
 if (builder.Environment.IsDevelopment())
 {
+        _msSqlContainer = new MsSqlBuilder().Build();
+    await _msSqlContainer.StartAsync();
+    connectionString = _msSqlContainer.GetConnectionString();
+
+    var clientsecArgIndex = Array.IndexOf(args, "--clientsecret");
+    if (clientsecArgIndex == -1 || clientsecArgIndex == args.Length - 1)
+    {
+        throw new ArgumentException("Please provide a client id with the --clientsecret argument when running in development mode.");
+    }
+    azureAdB2COptions["ClientSecret"] = args[clientsecArgIndex + 1];
+}
+else
+{
     // Connection string setup 
     var kvUri = $"https://chirp-keys.vault.azure.net/";
     var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
@@ -26,19 +39,6 @@ if (builder.Environment.IsDevelopment())
 
     KeyVaultSecret secret = client.GetSecret("prod-connectionstring");
     connectionString = secret.Value;
-}
-else
-{
-    _msSqlContainer = new MsSqlBuilder().Build();
-    await _msSqlContainer.StartAsync();
-    connectionString = _msSqlContainer.GetConnectionString();
-
-    var clientsecArgIndex = Array.IndexOf(args, "--clientsecret");
-    if (clientsecArgIndex == -1 || clientsecArgIndex == args.Length - 1)
-    {
-        throw new ArgumentException("Please provide a client id with the --clientsecret argument when running in development mode.");
-    }
-    azureAdB2COptions["ClientSecret"] = args[clientsecArgIndex + 1];
 }
 
 // setup graph api
