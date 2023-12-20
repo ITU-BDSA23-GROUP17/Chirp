@@ -78,17 +78,20 @@ public class PlaywrightTests : PageTest
 
             await Page.GetByPlaceholder("Email Address").ClickAsync();
 
-            await Page.GetByPlaceholder("Email Address").FillAsync("chirp@gmail.com");
+            // this is a testing email but if you want to test it yourself you can change it to your own email
+            await Page.GetByPlaceholder("Email Address").FillAsync("chirppy@chirp.io");
 
             await Page.GetByPlaceholder("Password").ClickAsync();
 
-            await Page.GetByPlaceholder("Password").FillAsync("Goqo8003");
+            // this is a testing password but if you want to test it yourself you can change it to your own password
+            await Page.GetByPlaceholder("Password").FillAsync("Vuta2325");
 
             await Page.GetByRole(AriaRole.Button, new() { Name = "Sign in" }).ClickAsync();
 
             Console.WriteLine("Sign in is live");
 
             // find cheep from a user to check if like works
+
             await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine 08/01/2023 13:17:10 Follow Until then I thought it was my" }).Locator("#reactionButton").ClickAsync();
 
             await Expect(Page.Locator("body")).ToContainTextAsync("1 Like");
@@ -122,11 +125,7 @@ public class PlaywrightTests : PageTest
 
             await Page.GetByRole(AriaRole.Link, new() { Name = "My Timeline" }).ClickAsync();
 
-            await Page.GetByRole(AriaRole.Link, new() { Name = "Public Timeline" }).ClickAsync();
-
-            await Page.GetByRole(AriaRole.Link, new() { Name = "My Timeline" }).ClickAsync();
-
-            await Expect(Page.Locator("body")).ToContainTextAsync("chirppyboi");
+            await Expect(Page.Locator("body")).ToContainTextAsync("unknown");
 
             void Page_Dialog_EventHandler(object sender, IDialog dialog)
             {
@@ -176,6 +175,13 @@ public class PlaywrightTests : PageTest
             await Expect(Page.Locator("body")).ToContainTextAsync("");
 
             Console.WriteLine("Follow and unfollow works");
+
+            // delete cheep 
+
+            await Page.Locator("form").Filter(new() { HasText = "Delete" }).ClickAsync();
+
+            Console.WriteLine("Follow and unfollow works");
+
         }
 
     }
