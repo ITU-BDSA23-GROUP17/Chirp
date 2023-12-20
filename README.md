@@ -36,7 +36,7 @@ In order to run the application locally by cloning the repository, please do as 
   ```
  Inside the directory, run <b>one</b> of the following commands: </li>
   ```
-  dotnet watch --launch-profile https
+  dotnet watch --clientsecret [your-secret]
   ```
   ```
   dotnet run
@@ -64,10 +64,9 @@ There will be a few assets available (including source code), but only one of th
 
   Now, you have an runnable (as described in step 4). Depending on your operating system, you can run the web-app as follows: </li>
 
-     (Mac and Linux users):
       Run the following command:
      ```
-     ./Chirp.Web
+     ./Chirp.Web --urls="https://localhost:7102;http://localhost:5273" --clientsecret [your-secret]
      ```
      
     (Windows users):
