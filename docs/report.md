@@ -40,7 +40,7 @@ Surrounding the Core is first the Chirp.Infrastructure layer. This layer contain
 
 The Web layer surrounds these layers. It is responsible for the presentation of the application, handling the user interface and user interactions. The layer interacts with the core and infrastructure layers, using the domain entities and data access mechanisms to allow the user the interact with the business logic and data of the application.
 
-The diagram shows how the Chirp application has been designed with an inward flow of dependencies in accordance with Oncion architecture, so that the inner layers remain independent of external dependencies.
+The diagram shows how the Chirp application has been designed with an inward flow of dependencies in accordance with Onion architecture, so that the inner layers remain independent of external dependencies.
 
 Some relationships have been omitted to improve the readability of the diagram.
 
@@ -51,7 +51,9 @@ Some relationships have been omitted to improve the readability of the diagram.
 </div>
 
 <div style="text-align: center; padding: 20px; background-color: white;">
-    <img src="./images/uml/Architecture_in_the_small.drawio.png" alt="Architecture Diagram" width="100%" />
+
+![Architecture_in_the_small](./images/uml/Architecture_in_the_small.drawio.png)
+
 </div>
 
 <!-- Illustrate the organization of your code base.
@@ -60,7 +62,8 @@ Make sure to illustrate which part of your code is residing in which layer. -->
 
 ### Architecture of deployed application
 
-The diagram below shows the interaction between the client component with a user interface allowing the user to make requests and the application deployed on Microsoft Azure as the server component. The diagram also shows the interaction of this deployed application with the Azure SQL Database, as well as signing in through a social account (GitHub).
+The diagram below shows the interaction between the client component with a user interface allowing the user to make requests and the application deployed on Microsoft Azure as the server component.
+The diagram also shows the interaction of this deployed application with the Azure SQL Database, as well as signing in through a social account (GitHub).
 
 <!-- Illustrate the architecture of your deployed application.
 Remember, you developed a client-server application.
@@ -73,17 +76,30 @@ Illustrate the server component and to where it is deployed, illustrate a client
 - In that description, provide a link to the commit hash in your GitHub repository that points to the latest version of your _Chirp!_ application with hosted database (we look at the entire history of your project, so we see that it was there at some point). -->
 
 <div style="text-align: center; padding: 20px; background-color: white;">
-    <img src="./images/uml/Chirp-client-server-uml.drawio.png" alt="Client Server Diagram" width="100%" />
+
+![Deployed_application](./images/uml/chirp-client-server-uml.drawio.png)
+
 </div>
 
 ### User activities
+
+The diagram shows a series of typical user activities through the Chirp application.
+The diagram shows what a user may do while remaining unauthorized, and after logging in and becoming authorized.
 
 <!-- Illustrate typical scenarios of a user journey through your _Chirp!_ application.
 That is, start illustrating the first page that is presented to a non-authorized user, illustrate what a non-authorized user can do with your _Chirp!_ application, and finally illustrate what a user can do after authentication.
 
 Make sure that the illustrations are in line with the actual behavior of your application. -->
 
-![](./images/uml/chirp-user-journeys.drawio.png)
+The diagram below shows a more detailed view of one slightly more elaborate scenario of a user journey through Chirp, in which a user logs in and sends a cheep.
+
+OBS : insert diagram!
+
+<div style="text-align: center; padding: 20px; background-color: white;">
+
+![User_activities](./images/uml/chirp-user-journeys.drawio.png)
+
+</div>
 
 ### Sequence of functionality/calls trough _Chirp!_
 
@@ -95,7 +111,13 @@ That is, likely for many of you there will be different kinds of "calls" and res
 Some HTTP calls and responses, some calls and responses in C# and likely some more.
 (Note the previous sentence is vague on purpose. I want that you create a complete illustration.) -->
 
-![](./images/sequences/graph-api.png)
+The diagram below illustrates the flow of messages and data through the chirp application, starting with the sending of an HTTP request by
+
+<div style="text-align: center; padding: 20px; background-color: white;">
+
+![sequence_of_functionality_calls](./images/sequences/graph-api.png)
+
+</div>
 
 ## Process
 
@@ -105,6 +127,14 @@ Some HTTP calls and responses, some calls and responses in C# and likely some mo
 That is, illustrate the flow of activities in your respective GitHub Actions workflows.
 
 Describe the illustration briefly, i.e., how your application is built, tested, released, and deployed. -->
+
+The UML diagram below illustrates the flow of activities in the Github Actions workflows, showing how the Chirp application is built, tested, released and deployed.
+
+<div style="text-align: center; padding: 20px; background-color: white;">
+
+![sequence_of_functionality_calls](./images/sequences/DEPLOY.png)
+
+</div>
 
 ### Team work
 
