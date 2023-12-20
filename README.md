@@ -16,12 +16,26 @@ The developers, known as <b>Group 17</b>, is from the <i>IT-University of Copenh
 A full description of the application and the development process is available at the following PDF: <b>2023_itubdsa_group_17_report.pdf</b><br><br>
 The PDF is available at the root of this repository.
 
+
 ## How to run
+
 ### Access the official web-app
-The official web-app will be available on the following link: <a href="bdsagroup17chirprazor.azurewebsites.net/">bdsagroup17chirprazor.azurewebsites.net</a>
+The official web-app will be available on the following link: [chirp17](https://bdsagroup17chirprazor.azurewebsites.net/)
 
 ### Run locally
-In order to run the application locally, you can either <b>1. clone this repository</b>, or <b>2. run the release version</b>.
+
+In order to run the application locally, you can either:
+
+1. clone this repository
+2. run the release version.
+
+#### Prerequisites
+
+You need to have dotnet 7.0 installed see [download](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
+
+You need to have setup AzureB2C Tenant see the [guide](https://learn.microsoft.com/en-us/azure/active-directory-b2c/tutorial-create-tenant)
+
+You have docker installed see [docker](https://www.docker.com/products/docker-desktop/)
 
 #### Cloned repository</h4>
 In order to run the application locally by cloning the repository, please do as follows:
