@@ -39,13 +39,7 @@ The application Chirp has been designed with Onion architecture in mind.
 
 The diagram below shows the organization of the code of the Chirp application, showcasing the relationships and dependencies of different components of the program, highlighting how the code of the program is organised into different layers of the onion architecture design.
 
-At the centre of the onion architecture are the domain entities in Chirp.Core, as seen in the domain model shown above.
-
-Surrounding the Core is first the Chirp.Infrastructure layer. This layer contains the implementations of the repository interfaces, and is responsible for actually handing mechanisms of data storage, access and manipulation connected to the core entities.
-
-The Web layer surrounds these layers. It is responsible for the presentation of the application, handling the user interface and user interactions. The layer interacts with the core and infrastructure layers, using the domain entities and data access mechanisms to allow the user the interact with the business logic and data of the application.
-
-The diagram shows how the Chirp application has been designed with an inward flow of dependencies in accordance with Onion architecture, so that the inner layers remain independent of external dependencies.
+The diagram shows the inward flow of dependencies in accordance with Onion architecture, so that the inner layers remain independent of external dependencies.
 
 Some relationships have been omitted to improve the readability of the diagram.
 
@@ -93,10 +87,7 @@ That is, start illustrating the first page that is presented to a non-authorized
 
 Make sure that the illustrations are in line with the actual behavior of your application. -->
 
-A user may follow various paths when using the Chirp application.
-
-The diagram below shows a series of typical user activities through the Chirp application.
-The diagram shows what a user may do while remaining unauthorized, and after logging in and becoming authorized.
+The diagram below shows a series of typical user activities through the Chirp application while remaining unauthorized and after logging in and becoming authorized.
 
 <div style="text-align: center; padding: 20px; background-color: white;">
 
@@ -105,7 +96,7 @@ The diagram shows what a user may do while remaining unauthorized, and after log
 </div>
 <br/>
 
-Additionally, the diagram below shows a slightly more detailed view of possible scenarios of a user journey through Chirp, in which a user enters the chirp website, logs in, or creates a profile if necessary, sends a cheep, and then logs out.
+The diagram below shows a slightly more detailed view of possible scenarios of a user journey, in which a user enters the chirp website, logs in or creates a profile if necessary, sends a cheep, and then logs out.
 
 <div style="text-align: center; padding: 20px; background-color: white;">
 
@@ -123,14 +114,9 @@ That is, likely for many of you there will be different kinds of "calls" and res
 Some HTTP calls and responses, some calls and responses in C# and likely some more.
 (Note the previous sentence is vague on purpose. I want that you create a complete illustration.) -->
 
-There is a flow of messages and data through the chirp application, which allow the user to see and interact with a completely rendered web page.
-
-The diagrams below illustrates this flow of messages and data, starting with the sending of an HTTP request by an authorized user to the root endpoint of the application and ending with the completely rendered web-page that is returned to the user.
-The diagram shows the different kinds of calls and the responses.
+The diagrams below illustrates the flow of messages and data through the Chirp application.
 
 ![dataflow.svg](./images/sequences/data-flow.png)
-
-Another diagram, this one shows .....
 
 <div style="text-align: center; padding: 20px; background-color: white;">
 
@@ -195,22 +181,17 @@ This is release workflow
 <!-- Show a screenshot of your project board right before hand-in.
 Briefly describe which tasks are still unresolved, i.e., which features are missing from your applications or which functionality is incomplete. -->
 
-Throughout the project we have used GitHub issues to help structure the collaboration on the features of the Chirp application by multiple developers.
-
-Overall we managed to complete all the features we wanted for the application. These include all the features specified by the requirements of the project and some extra features, such as some UI changes, hashtags, and ...
+Overall, we managed to complete all the features we wanted for the application. These include all the features specified by the requirements of the project and some extra features, such as some UI changes and hashtags.
 
 We have one unresolved task in our project board: To make the email unique in the the Authors table, since there was a possibility that an Author could appear twice or more in the table with same name and email but with different id. The reason we did not resolve it is the low priority.
 
 The image below shows the project board just before hand-in, with the remaining unresolved issue.
 
-We were able to complete all the feature we want for our application. There were of course many feature we can implement, comment a cheep as well as share a cheep to name a few, but those were never in our original plan since we only focus on those feature we could make.
 ![](./images/team/project-board.png)
 
 There are of course many more features we could have implemented given time. Some ideas, which were discussed during development but not prioritized include the ability to comment on a cheep and sharing a cheep to name a few.
 
 <!-- Briefly describe and illustrate the flow of activities that happen from the new creation of an issue (task description), over development, etc. until a feature is finally merged into the `main` branch of your repository. -->
-
-When deciding to prioritize a new feature or requirement, we create an issue featuring a description of the task with a list of acceptance criteria. This issue is then assigned to one or more developers, who work on it in a designated branch until the requirements are fulfilled, a merge request is created and the feature branch is merged into the main branch of the project repository.
 
 The diagram below shows the lifecycle of a GitHub issue from it's creating until it is closed and resolved.
 
@@ -219,8 +200,6 @@ The diagram below shows the lifecycle of a GitHub issue from it's creating until
 ![issue](./images/uml/issue.drawio.png)
 
 </div>
-
-In practice, this process was not always strictly adhered to, but the diagram gives a general and idealized depiction of the process, which was mostly followed. Even though this process was not always strictly adhered to, the work with GitHub issues but still proved a very useful tool during development.
 
 ### How to make _Chirp!_ work locally
 
@@ -312,13 +291,6 @@ The unit tests are designed to test each individual component of our application
 
 We have designed a series of unit tests to verify that our DTOs correctly encapsulate data. These tests confirm that each DTO retains and accurately represents the data passed to its constructor.
 
-#### DTO Unit Tests
-
-- `AuthorDTO_ShouldHoldProvidedValues`: Checks if the AuthorDTO object correctly assigns and retains the values provided.
-- `CheepDTO_ShouldHoldProvidedValues`: Checks if the CheepDTO object correctly assigns and retains the values provided.
-- `ReactionDTO_ShouldHoldProvidedValues`: Checks if the ReactionDTO object correctly assigns and retains the values provided.
-- `HashtagDTO_ShouldHoldProvidedValues`: Checks if the HashtagDTO object correctly assigns and retains the values provided.
-
 To run only the unit tests, use the following command in the root folder of the project:
 
 ```bash
@@ -329,7 +301,9 @@ dotnet test --filter Category=Unit
 
 The integration tests are designed to test how different parts of the application interacts with eachother. These tests involves instances of the database containers and checks if the application does the CRUD operations as expected.
 
-##### AuthorRepositoryTest
+The integration tests test that the repositories classes are able to correctly recieve and modify the relevant data in the database.
+
+<!--##### AuthorRepositoryTest
 
 - `GetStatusNotNull`: Checks that the AuthorRepository is able to receive a non-null status (string).
 - `GetStatusIsValid`: Checks that the AuthorRepository is able to receive a valid status, i.e., a status which equals ONLINE/OFFLINE/UNAVAILABLE.
@@ -364,7 +338,9 @@ The integration tests are designed to test how different parts of the applicatio
 - `AddHashtag_WillNotAddTheSameHashtagMoreThanOnce`: Checks that duplicate hashtags are not added to the database.
 - `RemoveHashtag_RemovedSpecifiedHashtagTextIfItExist`: Checks if the specified hashtag text is removed from the database.
 
-Make sure Docker is running as the tests rely on `Testcontainers.MsSql` to create a containerized MS SQL Server instance.
+-->
+
+Before running integration tests, make sure Docker is running as the tests rely on `Testcontainers.MsSql` to create a containerized MS SQL Server instance.
 
 To run only the integration tests, use the following command in the root folder of the project:
 
@@ -372,7 +348,7 @@ To run only the integration tests, use the following command in the root folder 
 dotnet test --filter Category=Integration
 ```
 
-Note: As you may notice in our test folder we have more integration tests than unit tests. The reason is that unit test which is testing in the `Chirp.Core` package have only a few methods compared to the integration test, which is testing in the `Chirp.Infrastructure` package. Normally you have more unit test than integration test.
+<!-- Note: As you may notice in our test folder we have more integration tests than unit tests. The reason is that unit test which is testing in the `Chirp.Core` package have only a few methods compared to the integration test, which is testing in the `Chirp.Infrastructure` package. Normally you have more unit test than integration test. -->
 
 #### End to end test
 
@@ -428,7 +404,7 @@ In case you were using an LLM to support your development, briefly describe when
 Reflect in writing to which degree the responses of the LLM were helpful.
 Discuss briefly if application of LLMs sped up your development or if the contrary was the case. -->
 
-We have used LLMs in two ways: For aid in writing code and for aid in understanding the overall concepts of different frameworks, architectures and concepts. In both cases, this came with both advantages and disadvantages.
+<!--We have used LLMs in two ways: For aid in writing code and for aid in understanding the overall concepts of different frameworks, architectures and concepts. In both cases, this came with both advantages and disadvantages.
 
 When using LLMs (Primarily ChatGPT) for gaining a basic understanding of for instance Entity Framework Core, Docker or Onion architecture, the ability to ask direct questions can be a powerful tool in gaining familiarity with these concepts. On the other hand, LLMs are not always a reliable source of information, meaning that the answers provided by ChatGPT and the knowledge gained had to be approached with a level of scepticism, which was at times more frustrating than helpful. Thus, using LLMs in this way did not mean, that we did not also need to seek out more reliable sources of information and documentation.
 It is also possible that using LLMs in this way at all leads to a more superficial understanding of the core concepts at play, as any question that arises may be quickly answered by the LLM, without the need to seriously engage with ones own confusions or lack of understanding of the area.
@@ -437,4 +413,8 @@ The use of LLMs in generating or helping with the writing of code has also been 
 We have also used GitHub co-pilot for error handling for our code, but it was quite minimal use. It has the feature to autocomplete our code when we write, but frequently the code it suggest is in no use, the only time it was been effective is when we need to write something that was repeating or very predictable, e.g. when we write insert methods in to our database in `DbInitializer.cs`.
 co-pilot also was helpful when writing tests, although we made a point out of not relying too much on it in order to make sure that we fully understood the tests and ensured that they properly tested what needed testing.
 
-In conclusion the use of LLMs has been a useful tool to help with simple repetitive tasks or explaining, analyzing and understanding errors in the code and less helpful in understanding core concepts and ideas, and solving and aiding in complex complex tasks. Overall it is just another addition for a developers toolbox.
+In conclusion the use of LLMs has been a useful tool to help with simple repetitive tasks or explaining, analyzing and understanding errors in the code and less helpful in understanding core concepts and ideas, and solving and aiding in complex complex tasks. Overall it is just another addition for a developers toolbox.-->
+
+<!-- REWORDED FOR BREVITY BY CHATGPT> -->
+
+Utilizing Large Language Models (LLMs), particularly ChatGPT, has proven advantageous for gaining a basic understanding of frameworks like Entity Framework Core, Docker, and Onion architecture through direct questioning. However, reliance on LLMs for information poses a challenge, as the responses must be approached with skepticism, often necessitating validation from more reliable sources. Employing LLMs in code generation has been helpful for explaining errors and facilitating the debugging process, but the generated code is frequently flawed, requiring additional effort in rectification. While GitHub Co-pilot aids in autocomplete and simple repetitive tasks, it may not be as effective for comprehending core concepts, making LLMs a valuable yet limited addition to a developer's toolbox.
