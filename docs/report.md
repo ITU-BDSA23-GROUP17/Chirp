@@ -262,7 +262,7 @@ The integration tests are designed to test how different parts of the applicatio
 ##### AuthorRepositoryTest
 
 - `GetStatusNotNull`: Checks that the AuthorRepository is able to receive a non-null status (string).
-- `GetStatusIsValid`: Checks that the AuthorRepository is able to receive a valid status, i.e., a status which equals ONLINE/OFFLINE/UNAVAILABLE
+- `GetStatusIsValid`: Checks that the AuthorRepository is able to receive a valid status, i.e., a status which equals ONLINE/OFFLINE/UNAVAILABLE.
 - `SetUserStatusOnline`: Checks that the AuthorRepository is able to change the status of a user to ONLINE.
 - `SetUserStatusOffline`: Checks that the AuthorRepository is able to change the status of a user to OFFLINE.
 - `SetUserStatusUnavailable`: Checks that the AuthorRepository is able to change the status of a user to UNAVAILABLE.
