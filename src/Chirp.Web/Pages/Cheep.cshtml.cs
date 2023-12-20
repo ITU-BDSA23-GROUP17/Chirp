@@ -11,9 +11,6 @@ namespace Chirp.Web.Pages
         private IHashtagRepository _hashtagRepository;
         private IHashtagTextRepository _hashtagTextRepository;
 
-        // suppress warnings
-        #pragma warning disable CS8618
-
         public CheepModel(IAuthorRepository authorRepository, IHashtagRepository hashtagRepository, IHashtagTextRepository hashtagTextRepository)
         {
             _authorRepository = authorRepository;
@@ -22,7 +19,7 @@ namespace Chirp.Web.Pages
         }
 
         [BindProperty]
-        public string GetNewCheepText { get; set; }
+        public required string GetNewCheepText { get; set; }
 
 
         public async Task<IActionResult> OnPost()

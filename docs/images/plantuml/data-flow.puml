@@ -1,0 +1,129 @@
+@startuml
+actor User as user
+participant "Web App" as webapp
+participant "CheepRepository" as cheepRepo
+participant "FollowRepository" as followRepo
+participant "ReactionRepository" as reactionRepo
+participant "HashtagRepository" as hashtagRepo
+participant "HashtagTextRepository" as hashtagTextRepo
+participant "AuthorRepository" as authorRepo
+participant "MSSQL Database\n(Chirp-prod) " as db
+participant "Azure AD B2C Tenant\n(ogchirp)" as ogchirp
+participant "GithubClaims" as githubClaims
+participant "GitHub API" as githubApi
+participant "AZURE B2C\n(Graph Api ogchirp)" as userService
+
+
+user -> webapp : Access Web App
+alt User is not authenticated
+    user -> webapp : Sign in to Chirp
+    webapp -> ogchirp : SignIn Request
+    ogchirp -> user : SignIn Page
+    user -> ogchirp : Submit Credentials
+    ogchirp -> webapp : SignIn Response with token claims reference
+    webapp -> user : Display Authenticated Page
+else User is authenticated
+    webapp -> user : Display "Hello @User.Identity?.Name!"
+    user -> webapp : Sign out of Chirp
+    webapp -> ogchirp : SignOut Request
+   ogchirp -> webapp : Redirect to SignOut URL
+   webapp -> user : Redirect User to SignOut Page
+end
+
+user -> webapp : Access Hashtag Timeline
+webapp -> hashtagRepo : GetCheepIDsByHashtagText(currentHashtagText)
+hashtagRepo -> db : Query Cheep IDs by Hashtag
+db -> hashtagRepo : Return Cheep IDs
+hashtagRepo -> webapp : Cheep IDs
+
+webapp -> cheepRepo : GetCheepsByCheepIdsAsync(cheepIds, pageNr)
+cheepRepo -> db : Query Cheeps by IDs
+db -> cheepRepo : Return Cheeps
+cheepRepo -> webapp : Cheeps
+webapp -> user : Display Hashtag Timeline
+
+
+
+user -> webapp : Request PublicTimeline
+webapp -> cheepRepo : GetPublicCheeps()
+cheepRepo -> db : Query Public Cheeps
+db -> cheepRepo : Return Public Cheeps
+cheepRepo -> webapp : Public Cheeps Data
+webapp -> user : Display Public Timeline
+
+user -> webapp : Request UserTimeline
+webapp -> cheepRepo : GetUserCheeps(User OID)
+cheepRepo -> db : Query User Cheeps
+db -> cheepRepo : Return User Cheeps
+cheepRepo -> webapp : User Cheeps Data
+webapp -> user : Display User Timeline
+
+user -> webapp : Follow/Unfollow Author
+webapp -> followRepo : InsertNewFollowAsync / RemoveFollowAsync
+followRepo -> db : Insert/Remove Follow
+db -> followRepo : Confirmation
+followRepo -> webapp : Follow/Unfollow Complete
+webapp -> user : Update Follow Status
+
+user -> webapp : React to Cheep
+webapp -> reactionRepo : CheckIfAuthorReactedToCheep
+reactionRepo -> db : Query Reaction
+db -> reactionRepo : Return Reaction Status
+reactionRepo -> webapp : Reaction Status
+alt User has not reacted
+    webapp -> reactionRepo : InsertNewReactionAsync
+    reactionRepo -> db : Insert Reaction
+    db -> reactionRepo : Confirmation
+else User has reacted
+    webapp -> reactionRepo : RemoveReactionAsync
+    reactionRepo -> db : Remove Reaction
+    db -> reactionRepo : Confirmation
+end
+reactionRepo -> webapp : Reaction Update Complete
+webapp -> user : Update Reaction Status
+
+user -> webapp : Insert New Author
+webapp -> authorRepo : Create New User
+authorRepo -> githubClaims : GetGitHubClaimsAsync(username)
+githubClaims -> githubApi : Request User Claims
+githubApi -> githubClaims : Return User Claims
+githubClaims -> authorRepo : Return Claims JObject
+authorRepo -> db : Insert Author Query
+db -> authorRepo : Author Inserted Confirmation
+
+user -> webapp : Post New Cheep
+webapp -> authorRepo : SendCheepAsync
+authorRepo -> db : Insert New Cheep
+db -> authorRepo : Return CheepID
+authorRepo -> webapp : Cheep Posted
+webapp -> hashtagRepo : InsertNewHashtagCheepPairingAsync
+hashtagRepo -> db : Store Hashtag-Cheep Pair
+db -> hashtagRepo : Confirmation
+hashtagRepo -> webapp : Hashtags Stored
+webapp -> hashtagTextRepo : AddHashtag
+hashtagTextRepo -> db : Store Hashtag Text
+db -> hashtagTextRepo : Confirmation
+hashtagTextRepo -> webapp : Hashtags Text Stored
+webapp -> user : Display Cheep Confirmation
+
+user -> webapp : OnPostForgetUser()
+webapp -> webapp : Get User Claims
+webapp -> authorRepo : DeleteAuthorAsync(name)
+authorRepo -> db : Delete Author Query
+db -> authorRepo : Author Deleted Confirmation
+webapp -> userService : DeleteUserById(User OID)
+userService -> ogchirp : Delete User Request
+ogchirp -> userService : User Deleted Confirmation
+userService -> webapp : User Deletion Complete
+webapp -> ogchirp : SignOut Request
+ogchirp -> webapp : Redirect to SignOut URL
+webapp -> user : Redirect User to SignOut Page
+
+user -> webapp : Delete a Cheep
+webapp -> cheepRepo: Post Delete Cheep(string CheepId)
+cheepRepo-> db: DeleteCheepAsync(string CheepId)
+db-> cheepRepo : Cheep Deleted Confirmation
+
+
+
+@enduml

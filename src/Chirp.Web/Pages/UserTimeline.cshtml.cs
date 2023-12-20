@@ -18,12 +18,9 @@ public class UserTimelineModel : BaseModel
     public int followers;
     public int following;
     public string? authorImage;
-    public AuthorDTO authorDTO { get; set; }
+    public AuthorDTO? authorDTO { get; set; }
 
     private readonly IUserService _userService;
-
-    // suppress warnings
-    #pragma warning disable CS8618
 
     public UserTimelineModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository,
 IReactionRepository reactionRepository, IUserService userService) : base(cheepRepository, authorRepository, followRepository, reactionRepository)
@@ -73,7 +70,9 @@ IReactionRepository reactionRepository, IUserService userService) : base(cheepRe
 
         //source https://stackoverflow.com/questions/6514292/c-sharp-razor-url-parameter-from-view 
         // pages = _service.getPagesHome(true, author);
-        pages = await _cheepRepository.GetPagesUserAsync(authorDTO.Name);
+        if (authorDTO != null){
+            pages = await _cheepRepository.GetPagesUserAsync(authorDTO.Name);
+        }
         pageNr = int.Parse(UrlDecode(Request.Query["page"].FirstOrDefault() ?? "1"));
         if (currentlyLoggedInUser != null)
         {
