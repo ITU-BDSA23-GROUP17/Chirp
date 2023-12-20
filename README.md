@@ -29,7 +29,7 @@ In order to run the application locally, you can either:
 1. clone this repository
 2. run the release version.
 
-#### Prerequisites
+#### Pre requirements  
 
 You need to have dotnet 7.0 installed see [download](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
 
