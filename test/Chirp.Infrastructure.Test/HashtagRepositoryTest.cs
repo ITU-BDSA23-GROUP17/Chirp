@@ -21,6 +21,7 @@ public sealed class HashtagRepositoryTest : IAsyncLifetime
     }
 
     [Fact]
+    [Trait("Category", "Integration")]
     public async Task GetCheepIDsByHashtagText_GetsCheepIDsTiedToHashtag()
     {
         //Arrange
@@ -54,6 +55,7 @@ public sealed class HashtagRepositoryTest : IAsyncLifetime
     }
 
     [Fact]
+    [Trait("Category", "Integration")]
     public async Task InsertNewCheepHashtagPairingAsync_InsertsANewHashtagWithCorrectCheepIdAndHashtagText()
     {
         //Arrange
@@ -107,6 +109,7 @@ public sealed class HashtagRepositoryTest : IAsyncLifetime
     // }
 
     [Fact]
+    [Trait("Category", "Integration")]
     public async Task GetPopulalarHashtags_Returns10PopularHashtags()
     {
 

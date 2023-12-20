@@ -22,6 +22,7 @@ public sealed class AuthorRepositoryUnitTest : IAsyncLifetime
 
 
     [Fact]
+    [Trait("Category", "Integration")]
     public async Task InsertAuthorAddsAuthorToDatabase()
     {
         // Start the container
@@ -47,6 +48,7 @@ public sealed class AuthorRepositoryUnitTest : IAsyncLifetime
     }
 
     [Fact]
+    [Trait("Category", "Integration")]
     public async Task GetAuthorByEmailAsync_ReturnsCorrectAuthor()
     {
         // Start the container
@@ -73,6 +75,7 @@ public sealed class AuthorRepositoryUnitTest : IAsyncLifetime
         await _msSqlContainer.StopAsync();
     }
     [Fact]
+    [Trait("Category", "Integration")]
     public async Task GetAuthorByNameAsync_ReturnsCorrectAuthor()
     {
         // Start the container
@@ -100,6 +103,7 @@ public sealed class AuthorRepositoryUnitTest : IAsyncLifetime
     }
 
     [Fact]
+    [Trait("Category", "Integration")]
     public async Task GetAuthorByIdAsync_ReturnsCorrectAuthor()
     {
         // Start the container
@@ -132,6 +136,7 @@ public sealed class AuthorRepositoryUnitTest : IAsyncLifetime
 
     // Test needs to be fixed
     [Fact]
+    [Trait("Category", "Integration")]
     public async Task GetAuthorsByIdsAsync_ReturnsCorrectAuthors()
     {
         // Start the container
@@ -210,6 +215,7 @@ public sealed class AuthorRepositoryUnitTest : IAsyncLifetime
 
 
     [Fact]
+    [Trait("Category", "Integration")]
     public async Task UpdateAuthorAsync_UpdatesAuthorDetailsCorrectly()
     {
         // Start the container
