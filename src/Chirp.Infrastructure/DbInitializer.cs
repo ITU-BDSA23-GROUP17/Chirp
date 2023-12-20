@@ -1,10 +1,9 @@
-using System;
 namespace Chirp.Infrastructure;
 public static class DbInitializer
 {
-    public static async void SeedDatabase(ChirpDBContext chirpContext)
+    public static void SeedDatabase(ChirpDBContext chirpContext)
     {
-        if (!(chirpContext.Authors.Any()) || !(chirpContext.Cheeps.Any()) || !(chirpContext.Reactions.Any()))
+        if (!chirpContext.Authors.Any() || !chirpContext.Cheeps.Any() || !chirpContext.Reactions.Any())
         {
             #region Authors added
             GithubClaims githubclaims = new GithubClaims();
