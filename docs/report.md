@@ -165,12 +165,22 @@ The diagram below shows the lifecycle of a GitHub issue from it's creating until
 That is, Rasmus or Helge have to know precisely what to do in which order.
 Likely, it is best to describe how we clone your project, which commands we have to execute, and what we are supposed to see then. -->
 
-### Run locally
-
 In order to run the application locally, you can either
 
 1. Clone this repository
 2. Run the release version
+
+#### Pre requirements  
+
+You need to have dotnet 7.0 installed see [download](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
+
+You need to have setup AzureB2C Tenant see the [guide](https://learn.microsoft.com/en-us/azure/active-directory-b2c/tutorial-create-tenant)
+
+You have docker installed see [docker](https://www.docker.com/products/docker-desktop/)
+
+##### Optional pre requirements  
+
+Tenant read and write permission for API [Guide](https://learn.microsoft.com/en-us/azure/active-directory-b2c/add-web-api-application?tabs=app-reg-ga)
 
 ### Clone the repository
 
