@@ -57,7 +57,7 @@ numbersections: true
 Make sure that it is correct and complete.
 In case you are using ASP.NET Identity, make sure to illustrate that accordingly. -->
 
-The domain model reflects the entities and their relationship of the Chirp application, as well as the interfaces of the repositories that allow for accessing and manipulating these different entities and their related data. These entities form the foundation of the business logic of the application.
+The domain model reflects the entities and their relationships in the Chirp application, as well as the interfaces of the repositories that allow for accessing and manipulating these different entities and their related data. These entities form the foundation of the business logic of the application.
 
 The diagram below shows the domain model of the Chirp application.
 
@@ -155,17 +155,20 @@ That is, illustrate the flow of activities in your respective GitHub Actions wor
 
 Describe the illustration briefly, i.e., how your application is built, tested, released, and deployed. -->
 
+We have used Github workflow for automating different tasks relating to building, testing, releasing and deploying the application.
+ 
+The following diagram details the deploy workflow for Azure build, test, release, and deployment. 
+
 ![](./images/github-worflow/azure-d.png)
 
-This workflow is the deploy workflow for azure
+The diagram below shows the Build and Test workflow.
 
 ![](./images/github-worflow/build-test-activity.png)
 
-This workflow is Build and Test workflow
+The diagram below shows the release workflow.
 
 ![](./images/github-worflow/release.png)
 
-This is release workflow
 
 <a id="team-work"> </a>
 
@@ -174,9 +177,9 @@ This is release workflow
 <!-- Show a screenshot of your project board right before hand-in.
 Briefly describe which tasks are still unresolved, i.e., which features are missing from your applications or which functionality is incomplete. -->
 
-Overall, we managed to complete all the features we wanted for the application. These include all the features specified by the requirements of the project and some extra features, such as some UI changes and hashtags.
+Overall, we managed to complete all the features we wanted for the application. These include all the features specified by the requirements of the project and some extra features, such as some UI changes, user status, hashtags etc.
 
-We have one unresolved task in our project board: To make the email unique in the the Authors table, since there was a possibility that an Author could appear twice or more in the table with same name and email but with different id. The reason we did not resolve it, is because of the low priority.
+We have one unresolved task in our project board: To make the email unique in the the Authors table, since there was a possibility that an Author could appear twice or more in the table with same name and email but with a different id. The reason we did not resolve it, is because of the low priority.
 
 The image below shows the project board just before hand-in, with the remaining unresolved issue.
 
@@ -186,7 +189,7 @@ There are of course many more features we could have implemented given time. Som
 
 <!-- Briefly describe and illustrate the flow of activities that happen from the new creation of an issue (task description), over development, etc. until a feature is finally merged into the `main` branch of your repository. -->
 
-The diagram below shows the lifecycle of a GitHub issue from it's creating until it is closed and resolved.
+The diagram below shows the lifecycle of a GitHub issue from it's creation until it is closed and resolved.
 
 ![](./images/uml/issue.drawio.png)
 
