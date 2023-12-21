@@ -91,7 +91,7 @@ There will be a few assets available (including source code), but only one of th
      ```
 
      ```
-     ./Chirp.Web --urls="https://localhost:7102;http://localhost:5273" --clientsecret [your-secret]
+     ./Chirp.Web  --urls="https://localhost:7102;http://localhost:5273" --clientsecret [your-secret] --development
      ```
        
   Upon running the application, a terminal will pop up, indicating in which port (in the localhost) the web-app is up and running
