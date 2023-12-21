@@ -31,7 +31,6 @@ public class UserService : IUserService
 
     public async Task DeleteUserById(string? userId)
     {
-
         Console.WriteLine($"Looking for user with object ID '{userId}'...");
 
         try
@@ -64,24 +63,23 @@ public class UserService : IUserService
 
         try
         {
+            // Get all users (one page)
             if (graphClient != null)
             {
-                // Get all users (one page)
                 var result = await graphClient.Users
                     .Request()
-                     .Select(e => new
-                     {
-                         e.DisplayName,
-                         e.Id,
-                         e.Identities
-                     })
+                    .Select(e => new
+                    {
+                        e.DisplayName,
+                        e.Id,
+                        e.Identities
+                    })
                     .GetAsync();
 
                 foreach (var user in result.CurrentPage)
                 {
                     Console.WriteLine(JsonConvert.SerializeObject(user));
                 }
-
             }
         }
         catch (Exception e)
