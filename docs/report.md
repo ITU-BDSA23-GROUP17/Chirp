@@ -136,7 +136,7 @@ That is, likely for many of you there will be different kinds of "calls" and res
 Some HTTP calls and responses, some calls and responses in C# and likely some more.
 (Note the previous sentence is vague on purpose. I want that you create a complete illustration.) -->
 
-The diagrams below illustrates the flow of messages and data through the Chirp application.
+The diagrams below illustrates the flow of messages and data through Chirp.
 ![](./images/sequences/data-flow-auth.png)
 
 # Process
