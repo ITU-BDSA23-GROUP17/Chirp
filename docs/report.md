@@ -129,44 +129,13 @@ Describe the illustration briefly, i.e., how your application is built, tested, 
 
 This workflow is the deploy workflow for azure
 
-1. The User triggers the workflow on `main` branch or manually dispatching the workflow .
-2. The GitHub repository then triggers the `build` job on the GitHub Actions Runner dedicated to building the app.
-3. The build runner performs the following steps:
-   - Checks out the repository.
-   - Sets up .NET Core SDK version 7.0.x with prerelease versions included.
-   - Builds the ASP.NET Core app from the specified source directory with the Release configuration.
-   - Publishes the app to the output directory.
-   - Uploads the build artifact (Chirp.Web) to GitHub's artifact storage.
-4. Once the build job is complete, the repository triggers the `deploy` job on another GitHub Actions Runner.
-5. The deployment runner downloads the artifact from the storage.
-6. Finally, deployment runner deploys the downloaded artifact to the specified Azure Web App using the given publish profile.
-
 ![](./images/github-worflow/build-test-activity.png)
 
-This workflow is build
-
-1. This workflow is triggered in the same way as the deploy flow, but the build and test flow is also triggered when there is a pull request to `main`
-2. The workflow then checks if there was a change to src or test if no then it stops
-3. The build runner performs the following steps:
-   - Checks out the repository.
-   - Then workflow logs into Docker Hub
-   - Sets up .NET Core SDK with the given version
-   - restores project dependences
-   - Builds the project without restoring dependencies again.
-   - Runs the Integration tests.
-   - Runs the unit tests
+This workflow is Build and Test workflow
 
 ![](./images/github-worflow/release.png)
 
 This is release workflow
-
-- The workflow is triggered when a release is published.
-- The `Matrix_Strategy`
-  - For Linux, the workflow builds and packages the application, creates a ZIP file, and uploads the artifact.
-  - For Windows, the workflow repeats the same steps but tailored for the Windows target.
-  - For macOS, the workflow performs the steps for the macOS target.
-- After the artifacts for all three targets are prepared and uploaded, the `Publish_Release` partition publishes the release assets using the `softprops/action-gh-release@v1` action. This step uses the uploaded artifacts for each target as part of the release.
-- The process ends after the release assets are published.
 
 ## Team work
 
@@ -195,12 +164,22 @@ The diagram below shows the lifecycle of a GitHub issue from it's creating until
 That is, Rasmus or Helge have to know precisely what to do in which order.
 Likely, it is best to describe how we clone your project, which commands we have to execute, and what we are supposed to see then. -->
 
-### Run locally
-
 In order to run the application locally, you can either
 
 1. Clone this repository
 2. Run the release version
+
+#### Pre requirements
+
+You need to have dotnet 7.0 installed see [download](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
+
+You need to have setup AzureB2C Tenant see the [guide](https://learn.microsoft.com/en-us/azure/active-directory-b2c/tutorial-create-tenant)
+
+You have docker installed see [docker](https://www.docker.com/products/docker-desktop/)
+
+##### Optional pre requirements
+
+Tenant read and write permission for API [Guide](https://learn.microsoft.com/en-us/azure/active-directory-b2c/add-web-api-application?tabs=app-reg-ga)
 
 ### Clone the repository
 
@@ -256,7 +235,7 @@ dotnet dev-certs https -t
 ```
 
 ```bash
-./Chirp.Web --urls="https://localhost:7102;http://localhost:5273" 
+./Chirp.Web --urls="https://localhost:7102;http://localhost:5273"
 --clientsecret [your-secret]
 ```
 
@@ -269,7 +248,6 @@ List all necessary steps that Rasmus or Helge have to perform to execute your te
 Here, you can assume that we already cloned your repository in the step above.
 
 Briefly describe what kinds of tests you have in your test suites and what they are testing. -->
-
 
 Ensure that Docker is running on your machine, and in the root folder, run this command to test all the tests.
 
@@ -409,6 +387,10 @@ co-pilot also was helpful when writing tests, although we made a point out of no
 
 In conclusion the use of LLMs has been a useful tool to help with simple repetitive tasks or explaining, analyzing and understanding errors in the code and less helpful in understanding core concepts and ideas, and solving and aiding in complex complex tasks. Overall it is just another addition for a developers toolbox.-->
 
-<!-- REWORDED FOR BREVITY BY CHATGPT> -->
+<!-- REWORDED FOR BREVITY> -->
 
-Utilizing Large Language Models (LLMs), particularly ChatGPT, has proven advantageous for gaining a basic understanding of frameworks like Entity Framework Core, Docker, and Onion architecture through direct questioning. However, reliance on LLMs for information poses a challenge, as the responses must be approached with skepticism, often necessitating validation from more reliable sources. Employing LLMs in code generation has been helpful for explaining errors and facilitating the debugging process, but the generated code is frequently flawed, requiring additional effort in rectification. While GitHub Co-pilot aids in autocomplete and simple repetitive tasks, it may not be as effective for comprehending core concepts, making LLMs a valuable yet limited addition to a developer's toolbox.
+On one hand, using LLMs, particularly ChatGPT for was at times helpful for gaining a basic understanding of frameworks like Entity Framework core, Docker, and Onion architecture through questioning. On the other hand, relying on LLMs for this kind of information and understanding quickly proved disadvantageous in other ways, since the accuracy of the responses is always uncertain and should be approached with a level of skepticism, often necessitating validation from more reliable sources.
+
+The use of LLMs in generating or helping with the writing of code has also been only partially helpful. Sometimes the work with debugging code which relied on a lot of help from LLMs ended up being more work than just researching and properly understanding the problem ourselves. ChatGPT was mostly for explaining errors or explaining the code, and did prove helpful in the debugging process in this regard. GitHub co-pilot was used in a limited extent when writing simple repeating and predictable code, e.g. when we write insert methods in to our database in `DbInitializer.cs`.
+
+Ultimately, LLMs are very capable and have been useful but their utility is also limited. Overall they are just another addition for a developers toolbox
