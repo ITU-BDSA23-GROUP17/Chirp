@@ -13,10 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 var azureAdB2COptions = builder.Configuration.GetSection("AzureADB2C");
 var connectionString = String.Empty;
 
+bool runInDevelopment = args.Contains("--development");
 
-if (builder.Environment.IsDevelopment())
+
+if (runInDevelopment | builder.Environment.IsDevelopment())
 {
-        _msSqlContainer = new MsSqlBuilder().Build();
+    _msSqlContainer = new MsSqlBuilder().Build();
     await _msSqlContainer.StartAsync();
     connectionString = _msSqlContainer.GetConnectionString();
 
