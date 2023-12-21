@@ -125,13 +125,19 @@ That is, illustrate the flow of activities in your respective GitHub Actions wor
 
 Describe the illustration briefly, i.e., how your application is built, tested, released, and deployed. -->
 
+
 ![](./images/github-worflow/azure-d.png)
 
 This workflow is the deploy workflow for azure
 
 
 
+
+![](./images/github-worflow/build-test-activity.png)
+
 This workflow is Build and Test workflow 
+
+
 
 ![](./images/github-worflow/release.png)
 
