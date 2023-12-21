@@ -9,16 +9,15 @@ The developers, known as <b>Group 17</b>, is from the <i>IT-University of Copenh
 - Burak Özdemir (buoe)
 - Hanan Choudhary Hadayat (abha)
 - Joshua James Medilo Calba (jcal)
-- Julius Dalsgaard Bertelsen (jube
+- Julius Dalsgaard Bertelsen (jube)
 - Tan Dang (tanda)
 
 ### Further details</h3>
 A full description of the application and the development process is available at the following PDF: 
 
-[2023_itubdsa_group_17_report.pdf](https://github.com/ITU-BDSA23-GROUP17/Chirp/blob/main/2023_itubdsa_group_17_report.pdf)
+[docs/2023_itubdsa_group_17_report.pdf](https://github.com/ITU-BDSA23-GROUP17/Chirp/blob/main/docs/2023_itubdsa_group_17_report.pdf)
 
-The PDF is available at the root of this repository.
-
+The PDF is available in the docs folder of this repository.
 
 ## How to run
 
