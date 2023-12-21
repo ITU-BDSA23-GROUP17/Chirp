@@ -14,7 +14,7 @@ numbersections: true
 ![](./images/logos/ITU_logo.jpg)
 
 |                |                                            |
-|----------------|--------------------------------------------|
+| -------------- | ------------------------------------------ |
 | Course code    | BSANDSA1KU                                 |
 | Name of course | Analysis, Design and Software Architecture |
 | Course manager | Helge Pfeiffer - ropf@itu.dk               |
@@ -23,9 +23,9 @@ numbersections: true
 | Date           | December 21 2023                           |
 | School         | IT-University of Copenhagen                |
 
-## Design and architecture
+# Design and architecture
 
-### Domain model
+## Domain model
 
 <!-- Provide an illustration of your domain model.
 Make sure that it is correct and complete.
@@ -37,9 +37,7 @@ The diagram below shows the domain model of the Chirp application.
 
 ![](./images/uml/Domain-model-Chirp.Core.drawio.png)
 
-
-
-### Architecture — In the small
+## Architecture — In the small
 
 The application Chirp has been designed with Onion architecture in mind.
 
@@ -49,9 +47,7 @@ The diagram shows the inward flow of dependencies in accordance with Onion archi
 
 Some relationships have been omitted to improve the readability of the diagram.
 
-
 ![](./images/uml/Architecture_in_the_small.drawio.png)
-
 
 The figure below shows a more simplistic view of the onion architecture structure of the components of the application.
 
@@ -61,9 +57,9 @@ The figure below shows a more simplistic view of the onion architecture structur
 That is, illustrate which layers exist in your (onion) architecture.
 Make sure to illustrate which part of your code is residing in which layer. -->
 
-### Architecture of deployed application
+## Architecture of deployed application
 
-The Chirp application is deployed on Microsoft Azure, utilizing Asure services with an Azure SQL database.
+The Chirp application is deployed on Microsoft Azure, utilizing Azure services with an Azure SQL database.
 
 The diagram below shows the interaction between the client component with a user interface allowing the user to make requests and the application deployed on Microsoft Azure as the server component.
 The diagram also shows the interaction of this deployed application with the Azure SQL Database, as well as signing in through a social account (GitHub).
@@ -78,11 +74,9 @@ Illustrate the server component and to where it is deployed, illustrate a client
 - Under this section, provide a brief description of the reason for switching again to SQLite as database.
 - In that description, provide a link to the commit hash in your GitHub repository that points to the latest version of your _Chirp!_ application with hosted database (we look at the entire history of your project, so we see that it was there at some point). -->
 
+![](./images/uml/chirp-client-server.png)
 
-![](./images/uml/chirp-client-server-uml.drawio.png)
-
-
-### User activities
+## User activities
 
 <!-- Illustrate typical scenarios of a user journey through your _Chirp!_ application.
 That is, start illustrating the first page that is presented to a non-authorized user, illustrate what a non-authorized user can do with your _Chirp!_ application, and finally illustrate what a user can do after authentication.
@@ -90,7 +84,6 @@ That is, start illustrating the first page that is presented to a non-authorized
 Make sure that the illustrations are in line with the actual behavior of your application. -->
 
 The diagram below shows a series of typical user activities through the Chirp application while remaining unauthorized and after logging in and becoming authorized.
-
 
 ![](./images/uml/chirp-user-journeys.drawio.png)
 
@@ -102,7 +95,7 @@ The diagram below shows a slightly more detailed view of possible scenarios of a
 
 </div>
 
-### Sequence of functionality/calls trough _Chirp!_
+## Sequence of functionality/calls trough _Chirp!_
 
 <!-- With a UML sequence diagram, illustrate the flow of messages and data through your _Chirp!_ application.
 Start with an HTTP request that is send by an unauthorized user to the root endpoint of your application and end with the completely rendered web-page that is returned to the user.
@@ -122,9 +115,9 @@ The diagrams below illustrates the flow of messages and data through the Chirp a
 
 </div>
 
-## Process
+# Process
 
-### Build, test, release, and deployment
+## Build, test, release, and deployment
 
 <!-- Illustrate with a UML activity diagram how your _Chirp!_ applications are build, tested, released, and deployed.
 That is, illustrate the flow of activities in your respective GitHub Actions workflows.
@@ -174,7 +167,7 @@ This is release workflow
 - After the artifacts for all three targets are prepared and uploaded, the `Publish_Release` partition publishes the release assets using the `softprops/action-gh-release@v1` action. This step uses the uploaded artifacts for each target as part of the release.
 - The process ends after the release assets are published.
 
-### Team work
+## Team work
 
 <!-- Show a screenshot of your project board right before hand-in.
 Briefly describe which tasks are still unresolved, i.e., which features are missing from your applications or which functionality is incomplete. -->
@@ -193,11 +186,9 @@ There are of course many more features we could have implemented given time. Som
 
 The diagram below shows the lifecycle of a GitHub issue from it's creating until it is closed and resolved.
 
-
 ![](./images/uml/issue.drawio.png)
 
-
-### How to make _Chirp!_ work locally
+## How to make _Chirp!_ work locally
 
 <!-- There has to be some documentation on how to come from cloning your project to a running system.
 That is, Rasmus or Helge have to know precisely what to do in which order.
@@ -205,11 +196,12 @@ Likely, it is best to describe how we clone your project, which commands we have
 
 ### Run locally
 
-In order to run the application locally, you can either 
+In order to run the application locally, you can either
+
 1. Clone this repository
 2. Run the release version
 
-#### Clone the repository
+### Clone the repository
 
 In order to run the application locally by cloning the repository, please do as follows:
 
@@ -237,36 +229,38 @@ dotnet run --clientsecret [your-secret]
 
 You should now have access to a localhost with a specific port, in which this web-app can be accessed
 
-#### Run the release
+### Run the release
 
 In order to run the release versions, please do as follows:
 
-On the main page of this repository, click on the ***Releases*** section
-  There will be a few assets available (including source code), but only one of the following three will be relevant for us:
+On the main page of this repository, click on the **_Releases_** section
+There will be a few assets available (including source code), but only one of the following three will be relevant for us:
 
-  - Chirp-win-x64.zip, for Windows users
-  - Chirp-osx-x64.zip, for Mac users
-  - Chirp-linux-x64.zip, for Linux users
+- Chirp-win-x64.zip, for Windows users
+- Chirp-osx-x64.zip, for Mac users
+- Chirp-linux-x64.zip, for Linux users
 
-  Please install and unzip one of the three folders, depending on your operating system
-  Now, there should be the following application available in the extracted folder:
+Please install and unzip one of the three folders, depending on your operating system
+Now, there should be the following application available in the extracted folder:
 
-   - Chirp.Web.exe for Windows users
-   - Chirp.Web for Mac and Linux users
+- Chirp.Web.exe for Windows users
+- Chirp.Web for Mac and Linux users
 
-  Now, you have an runnable (as described in step 4). Depending on your operating system, you can run the web-app as follows:
+Now, you have an runnable (as described in step 4). Depending on your operating system, you can run the web-app as follows:
 
-  Run the following commands:
-  ```bash  
-  dotnet dev-certs https -t
-  ```
-  ```bash
-   ./Chirp.Web --urls="https://localhost:7102;http://localhost:5273" --clientsecret [your-secret]
-  ```
+Run the following commands:
 
-  Upon running the application, a terminal will pop up, indicating in which port (in the localhost) the web-app is up and running
+```bash
+dotnet dev-certs https -t
+```
 
-### How to run test suite locally
+```bash
+ ./Chirp.Web --urls="https://localhost:7102;http://localhost:5273" --clientsecret [your-secret]
+```
+
+Upon running the application, a terminal will pop up, indicating in which port (in the localhost) the web-app is up and running
+
+## How to run test suite locally
 
 <!--
 List all necessary steps that Rasmus or Helge have to perform to execute your test suites.
@@ -284,7 +278,7 @@ Make sure you have docker running in your machine
 
 The following test have been implemented
 
-#### Unit test
+### Unit test
 
 The unit tests are designed to test each individual component of our application by itself.
 
@@ -296,7 +290,7 @@ To run only the unit tests, use the following command in the root folder of the 
 dotnet test --filter Category=Unit
 ```
 
-#### Integration test
+### Integration test
 
 The integration tests are designed to test how different parts of the application interacts with eachother. These tests involves instances of the database containers and checks if the application does the CRUD operations as expected.
 
@@ -349,7 +343,7 @@ dotnet test --filter Category=Integration
 
 <!-- Note: As you may notice in our test folder we have more integration tests than unit tests. The reason is that unit test which is testing in the `Chirp.Core` package have only a few methods compared to the integration test, which is testing in the `Chirp.Infrastructure` package. Normally you have more unit test than integration test. -->
 
-#### End to end test
+### End to end test
 
 The playwright can be going into the folder in which the test is saved:
 
@@ -387,15 +381,15 @@ dotnet test
 
 Which should start the test
 
-## Ethics
+# Ethics
 
-### License
+## License
 
 <!-- State which software license you chose for your application. -->
 
 We chose to use the MIT license for our Chirp application, since it allows other developers to distribute, use and copy our software without imposing significant restrictions.
 
-### LLMs, ChatGPT, CoPilot, and others
+## LLMs, ChatGPT, CoPilot, and others
 
 <!-- State which LLM(s) were used during development of your project.
 In case you were not using any, just state so.
