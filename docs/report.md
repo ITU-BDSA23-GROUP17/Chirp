@@ -48,6 +48,8 @@ The diagram shows the inward flow of dependencies in accordance with Onion archi
 
 Some relationships have been omitted to improve the readability of the diagram.
 
+![](./images/uml/Legend.drawio.png)
+
 ![](./images/uml/Architecture_in_the_small.drawio.png)
 
 The figure below shows a more simplistic view of the onion architecture structure of the components of the application.
@@ -110,11 +112,9 @@ The diagrams below illustrates the flow of messages and data through the Chirp a
 
 ![](./images/sequences/data-flow.png)
 
-<div style="text-align: center; padding: 20px; background-color: white;">
 
 ![](./images/sequences/graph-api.png)
 
-</div>
 
 # Process
 
