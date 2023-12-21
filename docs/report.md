@@ -1,5 +1,5 @@
 ---
-title: Project  __Chirp!__
+title: __Project__  ___Chirp!___
 subtitle: BDSA Group 17
 author:
   - "Burak Özdemir  <buoe@itu.dk>"
@@ -256,7 +256,8 @@ dotnet dev-certs https -t
 ```
 
 ```bash
- ./Chirp.Web --urls="https://localhost:7102;http://localhost:5273" --clientsecret [your-secret]
+ ./Chirp.Web --urls="https://localhost:7102;http://localhost:5273" 
+ --clientsecret [your-secret]
 ```
 
 Upon running the application, a terminal will pop up, indicating in which port (in the localhost) the web-app is up and running
