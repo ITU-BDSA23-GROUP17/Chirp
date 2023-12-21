@@ -125,24 +125,17 @@ That is, illustrate the flow of activities in your respective GitHub Actions wor
 
 Describe the illustration briefly, i.e., how your application is built, tested, released, and deployed. -->
 
-
 ![](./images/github-worflow/azure-d.png)
 
 This workflow is the deploy workflow for azure
 
-
-
-
 ![](./images/github-worflow/build-test-activity.png)
 
-This workflow is Build and Test workflow 
-
-
+This workflow is Build and Test workflow
 
 ![](./images/github-worflow/release.png)
 
 This is release workflow
-
 
 ## Team work
 
@@ -176,7 +169,7 @@ In order to run the application locally, you can either
 1. Clone this repository
 2. Run the release version
 
-#### Pre requirements  
+#### Pre requirements
 
 You need to have dotnet 7.0 installed see [download](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
 
@@ -184,7 +177,7 @@ You need to have setup AzureB2C Tenant see the [guide](https://learn.microsoft.c
 
 You have docker installed see [docker](https://www.docker.com/products/docker-desktop/)
 
-##### Optional pre requirements  
+##### Optional pre requirements
 
 Tenant read and write permission for API [Guide](https://learn.microsoft.com/en-us/azure/active-directory-b2c/add-web-api-application?tabs=app-reg-ga)
 
@@ -242,7 +235,7 @@ dotnet dev-certs https -t
 ```
 
 ```bash
-./Chirp.Web --urls="https://localhost:7102;http://localhost:5273" 
+./Chirp.Web --urls="https://localhost:7102;http://localhost:5273"
 --clientsecret [your-secret]
 ```
 
@@ -255,7 +248,6 @@ List all necessary steps that Rasmus or Helge have to perform to execute your te
 Here, you can assume that we already cloned your repository in the step above.
 
 Briefly describe what kinds of tests you have in your test suites and what they are testing. -->
-
 
 Ensure that Docker is running on your machine, and in the root folder, run this command to test all the tests.
 
@@ -395,6 +387,10 @@ co-pilot also was helpful when writing tests, although we made a point out of no
 
 In conclusion the use of LLMs has been a useful tool to help with simple repetitive tasks or explaining, analyzing and understanding errors in the code and less helpful in understanding core concepts and ideas, and solving and aiding in complex complex tasks. Overall it is just another addition for a developers toolbox.-->
 
-<!-- REWORDED FOR BREVITY BY CHATGPT> -->
+<!-- REWORDED FOR BREVITY> -->
 
-Utilizing Large Language Models (LLMs), particularly ChatGPT, has proven advantageous for gaining a basic understanding of frameworks like Entity Framework Core, Docker, and Onion architecture through direct questioning. However, reliance on LLMs for information poses a challenge, as the responses must be approached with skepticism, often necessitating validation from more reliable sources. Employing LLMs in code generation has been helpful for explaining errors and facilitating the debugging process, but the generated code is frequently flawed, requiring additional effort in rectification. While GitHub Co-pilot aids in autocomplete and simple repetitive tasks, it may not be as effective for comprehending core concepts, making LLMs a valuable yet limited addition to a developer's toolbox.
+On one hand, using LLMs, particularly ChatGPT for was at times helpful for gaining a basic understanding of frameworks like Entity Framework core, Docker, and Onion architecture through questioning. On the other hand, relying on LLMs for this kind of information and understanding quickly proved disadvantageous in other ways, since the accuracy of the responses is always uncertain and should be approached with a level of skepticism, often necessitating validation from more reliable sources.
+
+The use of LLMs in generating or helping with the writing of code has also been only partially helpful. Sometimes the work with debugging code which relied on a lot of help from LLMs ended up being more work than just researching and properly understanding the problem ourselves. ChatGPT was mostly for explaining errors or explaining the code, and did prove helpful in the debugging process in this regard. GitHub co-pilot was used in a limited extent when writing simple repeating and predictable code, e.g. when we write insert methods in to our database in `DbInitializer.cs`.
+
+Ultimately, LLMs are very capable and have been useful but their utility is also limited. Overall they are just another addition for a developers toolbox
