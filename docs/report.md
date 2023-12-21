@@ -24,29 +24,26 @@ numbersections: true
 | Date           | December 21 2023                           |
 | School         | IT-University of Copenhagen                |
 
-## Table of contents:
+# Table of contents:
 
 - [Design and architecture](#design-and-architecture)
-  - [Domain model](#domain-model)
-  - [Architecture — In the small](#architecture--in-the-small)
-  - [Architecture of deployed application](#architecture-of-deployed-application)
-  - [User activities](#user-activities)
-  - [Sequence of functionality/calls trough _Chirp!_](#sequence-of-functionalitycalls-trough-chirp)
+   - [Domain model](#domain-model)
+   - [Architecture - In the small](#architecture-in-the-small)
+   - [Architecture of deployed application](#architecture-of-deployed-application)
+   - [User activities](#user-activities)
+   - [Sequence of functionality/calls trough _Chirp!_](#sequence)
 - [Process](#process)
-  - [Build, test, release, and deployment](#build-test-release-and-deployment)
-  - [Team work](#team-work)
-  - [How to make _Chirp!_ work locally](#how-to-make-chirp-work-locally)
-      - [Pre requirements](#pre-requirements)
-        - [Optional pre requirements](#optional-pre-requirements)
-    - [Clone the repository](#clone-the-repository)
-    - [Run the release](#run-the-release)
-  - [How to run test suite locally](#how-to-run-test-suite-locally)
-    - [Unit test](#unit-test)
-    - [Integration test](#integration-test)
-    - [End to end test](#end-to-end-test)
+   - [Build, test, release, and deployment](#build-test-release-and-deployment)
+   - [Team work](#team-work)
+   - [How to make _Chirp!_ work locally](#work-locally)
+   - [How to make _Chirp!_ work locally](#test-locally)
+      - [Unit test](#unit-test)
+      - [Integration test](#integration-test)
+      - [End to end test](#end-to-end-test)
+
 - [Ethics](#ethics)
   - [License](#license)
-  - [LLMs, ChatGPT, CoPilot, and others](#llms-chatgpt-copilot-and-others)
+  - [LLMs, ChatGPT, CoPilot, and others](#llm)
 
 <a id="design-and-architecture"></a>
 
@@ -65,6 +62,8 @@ The domain model reflects the entities and their relationship of the Chirp appli
 The diagram below shows the domain model of the Chirp application.
 
 ![](./images/uml/Domain-model.png)
+
+<a id="architecture-in-the-small"></a>
 
 ## Architecture — In the small
 
@@ -88,6 +87,8 @@ The figure below shows a more simplistic view of the onion architecture structur
 That is, illustrate which layers exist in your (onion) architecture.
 Make sure to illustrate which part of your code is residing in which layer. -->
 
+<a id="architecture-of-deployed-application"></a>
+
 ## Architecture of deployed application
 
 The Chirp application is deployed on Microsoft Azure, utilizing Azure services with an Azure SQL database.
@@ -105,7 +106,9 @@ Illustrate the server component and to where it is deployed, illustrate a client
 - Under this section, provide a brief description of the reason for switching again to SQLite as database.
 - In that description, provide a link to the commit hash in your GitHub repository that points to the latest version of your _Chirp!_ application with hosted database (we look at the entire history of your project, so we see that it was there at some point). -->
 
-![](./images/uml/chirp-client-server.png)
+![](./images/uml/Chirp client server uml.drawio.png)
+
+<a id="user-activities"></a>
 
 ## User activities
 
@@ -126,6 +129,8 @@ The diagram below shows a slightly more detailed view of possible scenarios of a
 
 </div>
 
+<a id="sequence"> </a>
+
 ## Sequence of functionality/calls trough _Chirp!_
 
 <!-- With a UML sequence diagram, illustrate the flow of messages and data through your _Chirp!_ application.
@@ -136,11 +141,12 @@ That is, likely for many of you there will be different kinds of "calls" and res
 Some HTTP calls and responses, some calls and responses in C# and likely some more.
 (Note the previous sentence is vague on purpose. I want that you create a complete illustration.) -->
 
-The diagrams below illustrates the flow of messages and data through the Chirp application.
-
+The diagrams below illustrates the flow of messages and data through Chirp.
 ![](./images/sequences/data-flow-auth.png)
 
 # Process
+
+<a id="build-test-release-and-deployment"> </a>
 
 ## Build, test, release, and deployment
 
@@ -160,6 +166,8 @@ This workflow is Build and Test workflow
 ![](./images/github-worflow/release.png)
 
 This is release workflow
+
+<a id="team-work"> </a>
 
 ## Team work
 
@@ -182,6 +190,8 @@ The diagram below shows the lifecycle of a GitHub issue from it's creating until
 
 ![](./images/uml/issue.drawio.png)
 
+<a id="work-locally"> </a>
+
 ## How to make _Chirp!_ work locally
 
 <!-- There has to be some documentation on how to come from cloning your project to a running system.
@@ -193,7 +203,7 @@ In order to run the application locally, you can either
 1. Clone this repository
 2. Run the release version
 
-#### Pre requirements
+### Pre requirements
 
 You need to have dotnet 7.0 installed see [download](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
 
@@ -201,7 +211,7 @@ You need to have setup AzureB2C Tenant see the [guide](https://learn.microsoft.c
 
 You have docker installed see [docker](https://www.docker.com/products/docker-desktop/)
 
-##### Optional pre requirements
+#### Optional pre requirements
 
 Tenant read and write permission for API [Guide](https://learn.microsoft.com/en-us/azure/active-directory-b2c/add-web-api-application?tabs=app-reg-ga)
 
@@ -265,6 +275,8 @@ dotnet dev-certs https -t
 
 Upon running the application, a terminal will pop up, indicating in which port (in the localhost) the web-app is up and running
 
+<a id="test-locally"> </a>
+
 ## How to run test suite locally
 
 <!--
@@ -281,6 +293,8 @@ dotnet test
 
 The following test have been implemented
 
+<a id="unit-test"> </a>
+
 ### Unit test
 
 The unit tests are designed to test each individual component of our application by itself.
@@ -292,6 +306,7 @@ To run only the unit tests, use the following command in the root folder of the 
 ```bash
 dotnet test --filter Category=Unit
 ```
+<a id="integration-test"> </a>
 
 ### Integration test
 
@@ -346,6 +361,8 @@ dotnet test --filter Category=Integration
 
 <!-- Note: As you may notice in our test folder we have more integration tests than unit tests. The reason is that unit test which is testing in the `Chirp.Core` package have only a few methods compared to the integration test, which is testing in the `Chirp.Infrastructure` package. Normally you have more unit test than integration test. -->
 
+<a id="end-to-end-test"> </a>
+
 ### End to end test
 
 The playwright can be going into the folder in which the test is saved:
@@ -388,11 +405,15 @@ Which should start the test
 
 # Ethics
 
+<a id="license"></a>
+
 ## License
 
 <!-- State which software license you chose for your application. -->
 
 We chose to use the MIT license for our Chirp application, since it allows other developers to distribute, use and copy our software without imposing significant restrictions.
+
+<a id="llm"></a>
 
 ## LLMs, ChatGPT, CoPilot, and others
 
