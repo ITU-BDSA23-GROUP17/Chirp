@@ -106,7 +106,7 @@ Illustrate the server component and to where it is deployed, illustrate a client
 - Under this section, provide a brief description of the reason for switching again to SQLite as database.
 - In that description, provide a link to the commit hash in your GitHub repository that points to the latest version of your _Chirp!_ application with hosted database (we look at the entire history of your project, so we see that it was there at some point). -->
 
-![](./images/uml/chirp-client-server.png)
+![](./images/uml/Chirp client server uml.drawio.png)
 
 <a id="user-activities"></a>
 
@@ -141,14 +141,8 @@ That is, likely for many of you there will be different kinds of "calls" and res
 Some HTTP calls and responses, some calls and responses in C# and likely some more.
 (Note the previous sentence is vague on purpose. I want that you create a complete illustration.) -->
 
-The diagrams below illustrates the flow of messages and data through the Chirp application.
-
-![](./images/sequences/data-flow.png)
-
-
-![](./images/sequences/graph-api.png)
-
-<a id="process"> </a>
+The diagrams below illustrates the flow of messages and data through Chirp.
+![](./images/sequences/data-flow-auth.png)
 
 # Process
 
