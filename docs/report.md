@@ -1,26 +1,26 @@
-![](./images/ITU_logo.jpg)
+---
+title: Project  __Chirp!__
+subtitle: BDSA Group 17
+author:
+  - "Burak Özdemir  <buoe@itu.dk>"
+  - "Hanan Choudhary Hadayat <abha@itu.dk>"
+  - "Joshua James Medilo Calba <jcal@itu.dk>"
+  - "Julius Dalsgaard Bertelsen <jube@itu.dk>"
+  - "Tan Dang <tanda@itu.dk>"
+numbersections: true
+---
 
-# Project ***Chirp!*** Web Application
+![](./images/ITU_logo.jpg)
 
 |                |                                            |
 |----------------|--------------------------------------------|
 | Course code    | BSANDSA1KU                                 |
 | Name of course | Analysis, Design and Software Architecture |
 | Course manager | Helge Pfeiffer - ropf@itu.dk               |
-| Project title  | _Chirp!_ Web App                           |
+| Project title  | _Chirp!_                                   |
 | Group number   | 17                                         |
 | Date           | December 21 2023                           |
 | School         | IT-University of Copenhagen                |
-
-
-| Group member               | Email        |
-| -------------------------- | ------------ | 
-| Burak Özdemir              | buoe@itu.dk  | 
-| Hanan Choudhary Hadayat    | abha@itu.dk  |
-| Joshua James Medilo Calba  | jcal@itu.dk  |      
-| Julius Dalsgaard Bertelsen | jube@itu.dk  |  
-| Tan Dang                   | tanda@itu.dk |
-
 
 ## Design and architecture
 
