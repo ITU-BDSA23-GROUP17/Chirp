@@ -212,15 +212,15 @@ In order to run the application locally, you can either
 
 ### Pre requirements
 
-You need to have dotnet 7.0 installed see [download](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
+You need to have dotnet 7.0 installed, see [___download___](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
 
-You need to have setup AzureB2C Tenant see the [guide](https://learn.microsoft.com/en-us/azure/active-directory-b2c/tutorial-create-tenant)
+You need to have setup AzureB2C Tenant, see the [___guide___](https://learn.microsoft.com/en-us/azure/active-directory-b2c/tutorial-create-tenant)
 
-You have docker installed see [docker](https://www.docker.com/products/docker-desktop/)
+You have docker installed, see [___Docker___](https://www.docker.com/products/docker-desktop/)
 
 #### Optional pre requirements
 
-Tenant read and write permission for API [Guide](https://learn.microsoft.com/en-us/azure/active-directory-b2c/add-web-api-application?tabs=app-reg-ga)
+Tenant read and write permission for API [___guide___](https://learn.microsoft.com/en-us/azure/active-directory-b2c/add-web-api-application?tabs=app-reg-ga)
 
 ### Clone the repository
 
@@ -241,11 +241,11 @@ cd src/Chirp.Web
 Inside the directory, run one of the following commands:
 
 ```
-dotnet watch --clientsecret [your-secret]
+dotnet watch --clientsecret [your-client-secret]
 ```
 
 ```
-dotnet run --clientsecret [your-secret]
+dotnet run --clientsecret [your-client-secret]
 ```
 
 You should now have access to a localhost with a specific port, in which this web-app can be accessed
@@ -254,20 +254,18 @@ You should now have access to a localhost with a specific port, in which this we
 
 In order to run the release versions, please do as follows:
 
-On the main page of this repository, click on the **_Releases_** section
+On the main page of this repository, click on the [**Releases**](https://github.com/ITU-BDSA23-GROUP17/Chirp/releases) section
 There will be a few assets available (including source code), but only one of the following three will be relevant for us:
 
 - Chirp-win-x64.zip, for Windows users
 - Chirp-osx-x64.zip, for Mac users
 - Chirp-linux-x64.zip, for Linux users
 
-Please install and unzip one of the three folders, depending on your operating system
+Please install and unzip one of the three folders, depending on your operating system.
 Now, there should be the following application available in the extracted folder:
 
 - Chirp.Web.exe for Windows users
 - Chirp.Web for Mac and Linux users
-
-Now, you have a runnable (as described in step 4). Depending on your operating system, you can run the web-app as follows:
 
 Run the following commands:
 
@@ -280,7 +278,7 @@ dotnet dev-certs https -t
 --clientsecret [your-secret] ----development
 ```
 
-Upon running the application, a terminal will pop up, indicating in which port (in the localhost) the web-app is up and running
+Upon running the application, the terminal will indicate in which port (in the localhost) the web-app is up and running.
 
 <a id="test-locally"> </a>
 
@@ -298,7 +296,7 @@ Ensure that Docker is running on your machine, and in the root folder, run this 
 dotnet test
 ```
 
-The following test have been implemented
+The following test have been implemented:
 
 <a id="unit-test"> </a>
 
@@ -313,13 +311,14 @@ To run only the unit tests, use the following command in the root folder of the 
 ```bash
 dotnet test --filter Category=Unit
 ```
+
 <a id="integration-test"> </a>
 
 ### Integration test
 
-The integration tests are designed to test how different parts of the application interacts with eachother. These tests involves instances of the database containers and checks if the application does the CRUD operations as expected.
+The integration tests are designed to test how different parts of the application interacts with each other. These tests involves instances of the database containers and checks if the application does the CRUD operations as expected.
 
-The integration tests test that the repositories classes are able to correctly recieve and modify the relevant data in the database.
+The integration tests test that the repositories classes are able to correctly receive and modify the relevant data in the database.
 
 <!--##### AuthorRepositoryTest
 
@@ -372,7 +371,7 @@ dotnet test --filter Category=Integration
 
 ### End to end test
 
-The playwright can be going into the folder in which the test is saved:
+The playwright can be run by going into the folder in which the test is saved:
 
 ```
 cd test\Chirp.Web.Test\Playwright.Test\PlaywrightTests
@@ -406,7 +405,7 @@ Then in the project you can run:
 dotnet test
 ```
 
-Which should start the test
+Which should start the test.
 
 <a id="ethics"></a>
 
@@ -443,8 +442,8 @@ In conclusion the use of LLMs has been a useful tool to help with simple repetit
 
 <!-- REWORDED FOR BREVITY> -->
 
-On one hand, using LLMs, particularly ChatGPT for was at times helpful for gaining a basic understanding of frameworks like Entity Framework core, Docker, and Onion architecture through questioning. On the other hand, relying on LLMs for this kind of information and understanding quickly proved disadvantageous in other ways, since the accuracy of the responses is always uncertain and should be approached with a level of skepticism, often necessitating validation from more reliable sources.
+On one hand, using LLMs, particularly ChatGPT was at times helpful for gaining a basic understanding of frameworks like Entity Framework core, Docker, and Onion architecture through questioning. On the other hand, relying on LLMs for this kind of information and understanding quickly proved disadvantageous in other ways, since the accuracy of the responses is always uncertain and should be approached with a level of skepticism, often necessitating validation from more reliable sources.
 
-The use of LLMs in generating or helping with the writing of code has also been only partially helpful. Sometimes the work with debugging code which relied on a lot of help from LLMs ended up being more work than just researching and properly understanding the problem ourselves. ChatGPT was mostly for explaining errors or explaining the code, and did prove helpful in the debugging process in this regard. GitHub co-pilot was used in a limited extent when writing simple repeating and predictable code, e.g. when we write insert methods in to our database in `DbInitializer.cs`.
+The use of LLMs in generating or helping with the writing of code has also been only partially helpful. Sometimes the work with debugging code which relied on a lot of help from LLMs ended up being more work than just researching and properly understanding the problem ourselves. ChatGPT was mostly used for explaining errors or explaining the code, and did prove helpful in the debugging process in this regard. GitHub co-pilot was used in a limited extent when writing simple repeating and predictable code, e.g. when we write insert methods in to our database in `DbInitializer.cs`.
 
-Ultimately, LLMs are very capable and have been useful but their utility is also limited. Overall they are just another addition for a developers toolbox
+Ultimately, LLMs are very capable and have been useful but their utility is also limited. Overall they are just another addition to a developers toolbox.
