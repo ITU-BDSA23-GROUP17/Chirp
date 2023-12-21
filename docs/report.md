@@ -1,18 +1,26 @@
 ![](./images/ITU_logo.jpg)
 
-# BDSA GROUP 17 2023
+# Project ***Chirp!*** Web Application
 
-## Course code: BSANDSA1KU
+|                |                                            |
+|----------------|--------------------------------------------|
+| Course code    | BSANDSA1KU                                 |
+| Name of course | Analysis, Design and Software Architecture |
+| Course manager | Helge Pfeiffer - ropf@itu.dk               |
+| Project title  | _Chirp!_ Web App                           |
+| Group number   | 17                                         |
+| Date           | December 21 2023                           |
+| School         | IT-University of Copenhagen                |
 
-## Date: December 21, 2023
 
-| Name                       | Email        | Date of Birth |
-| -------------------------- | ------------ | ------------- |
-| Burak Özdemir              | buoe@itu.dk  |               |
-| Hanan Choudhary Hadayat    | abha@itu.dk  |               |
-| Joshua James Medilo Calba  | jcal@itu.dk  |               |
-| Julius Dalsgaard Bertelsen | jube@itu.dk  |               |
-| Tan Dang                   | tanda@itu.dk |               |
+| Group member               | Email        |
+| -------------------------- | ------------ | 
+| Burak Özdemir              | buoe@itu.dk  | 
+| Hanan Choudhary Hadayat    | abha@itu.dk  |
+| Joshua James Medilo Calba  | jcal@itu.dk  |      
+| Julius Dalsgaard Bertelsen | jube@itu.dk  |  
+| Tan Dang                   | tanda@itu.dk |
+
 
 ## Design and architecture
 
@@ -196,9 +204,11 @@ Likely, it is best to describe how we clone your project, which commands we have
 
 ### Run locally
 
-In order to run the application locally, you can either <b>1. clone this repository</b>, or <b>2. run the release version</b>.
+In order to run the application locally, you can either 
+1. Clone this repository
+2. Run the release version
 
-#### Cloned repository</h4>
+#### Clone the repository
 
 In order to run the application locally by cloning the repository, please do as follows:
 
@@ -226,31 +236,32 @@ dotnet run --clientsecret [your-secret]
 
 You should now have access to a localhost with a specific port, in which this web-app can be accessed
 
-#### Releases
+#### Run the release
 
 In order to run the release versions, please do as follows:
 
-- On the main page of this repository, click on the <b>Releases</b>-section</li>
-  There will be a few assets available (including source code), but only one of the following three will be relevant for us:</li>
+On the main page of this repository, click on the ***Releases*** section
+  There will be a few assets available (including source code), but only one of the following three will be relevant for us:
 
-  - Chirp-win-x64.zip</i>, for Windows users</li>
-  - Chirp-osx-x64.zip</i>, for Mac users</li>
-  - Chirp-linux-x64.zip</i>, for Linux users</li> <br>
+  - Chirp-win-x64.zip, for Windows users
+  - Chirp-osx-x64.zip, for Mac users
+  - Chirp-linux-x64.zip, for Linux users
 
-  Please install and unzip one of the three folders, depending on your operating system</li>
-  Now, there should be the following application available in the extracted folder:</li><br>
+  Please install and unzip one of the three folders, depending on your operating system
+  Now, there should be the following application available in the extracted folder:
 
-       - Chirp.Web.exe</i>, for Windows users</li>
-       - Chirp.Web</i>, for Mac and Linux users</li> <br>
+   - Chirp.Web.exe for Windows users
+   - Chirp.Web for Mac and Linux users
 
-  Now, you have an runnable (as described in step 4). Depending on your operating system, you can run the web-app as follows: </li>
+  Now, you have an runnable (as described in step 4). Depending on your operating system, you can run the web-app as follows:
 
   Run the following commands:
-  `   dotnet dev-certs https -t`
-
-        ```
-        ./Chirp.Web --urls="https://localhost:7102;http://localhost:5273" --clientsecret [your-secret]
-        ```
+  ```bash  
+  dotnet dev-certs https -t
+  ```
+  ```bash
+   ./Chirp.Web --urls="https://localhost:7102;http://localhost:5273" --clientsecret [your-secret]
+  ```
 
   Upon running the application, a terminal will pop up, indicating in which port (in the localhost) the web-app is up and running
 
@@ -284,7 +295,7 @@ To run only the unit tests, use the following command in the root folder of the 
 dotnet test --filter Category=Unit
 ```
 
-##### Integration test
+#### Integration test
 
 The integration tests are designed to test how different parts of the application interacts with eachother. These tests involves instances of the database containers and checks if the application does the CRUD operations as expected.
 
