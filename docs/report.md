@@ -36,7 +36,7 @@ The domain model reflects the entities and their relationship of the Chirp appli
 
 The diagram below shows the domain model of the Chirp application.
 
-![](./images/uml/Domain-model-Chirp.Core.drawio.png)
+![](./images/uml/Domain-model.png)
 
 ## Architecture — In the small
 
@@ -175,7 +175,7 @@ Briefly describe which tasks are still unresolved, i.e., which features are miss
 
 Overall, we managed to complete all the features we wanted for the application. These include all the features specified by the requirements of the project and some extra features, such as some UI changes and hashtags.
 
-We have one unresolved task in our project board: To make the email unique in the the Authors table, since there was a possibility that an Author could appear twice or more in the table with same name and email but with different id. The reason we did not resolve it is the low priority.
+We have one unresolved task in our project board: To make the email unique in the the Authors table, since there was a possibility that an Author could appear twice or more in the table with same name and email but with different id. The reason we did not resolve it, is because of the low priority.
 
 The image below shows the project board just before hand-in, with the remaining unresolved issue.
 
@@ -215,10 +215,10 @@ git clone https://github.com/ITU-BDSA23-GROUP17/Chirp.git
 Change directory into
 
 ```
-cd "src/Chirp.Web"
+cd src/Chirp.Web
 ```
 
-Inside the directory, run <b>one</b> of the following commands: </li>
+Inside the directory, run one of the following commands:
 
 ```
 dotnet watch --clientsecret [your-secret]
@@ -247,7 +247,7 @@ Now, there should be the following application available in the extracted folder
 - Chirp.Web.exe for Windows users
 - Chirp.Web for Mac and Linux users
 
-Now, you have an runnable (as described in step 4). Depending on your operating system, you can run the web-app as follows:
+Now, you have a runnable (as described in step 4). Depending on your operating system, you can run the web-app as follows:
 
 Run the following commands:
 
@@ -256,8 +256,8 @@ dotnet dev-certs https -t
 ```
 
 ```bash
- ./Chirp.Web --urls="https://localhost:7102;http://localhost:5273" 
- --clientsecret [your-secret]
+./Chirp.Web --urls="https://localhost:7102;http://localhost:5273" 
+--clientsecret [your-secret]
 ```
 
 Upon running the application, a terminal will pop up, indicating in which port (in the localhost) the web-app is up and running
@@ -270,13 +270,12 @@ Here, you can assume that we already cloned your repository in the step above.
 
 Briefly describe what kinds of tests you have in your test suites and what they are testing. -->
 
-In the root folder run this command to test all the test
+
+Ensure that Docker is running on your machine, and in the root folder, run this command to test all the tests.
 
 ```bash
 dotnet test
 ```
-
-Make sure you have docker running in your machine
 
 The following test have been implemented
 
