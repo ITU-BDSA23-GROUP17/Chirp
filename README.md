@@ -39,9 +39,9 @@ You need to have setup AzureB2C Tenant see the [guide](https://learn.microsoft.c
 
 You have docker installed see [docker](https://www.docker.com/products/docker-desktop/)
 
-##### optional Pre requirements  
+##### Optional Pre requirements  
 
-You need to have read and write permission for API [Guide](https://learn.microsoft.com/en-us/azure/active-directory-b2c/add-web-api-application?tabs=app-reg-ga)
+Tenant read and write permission for API [Guide](https://learn.microsoft.com/en-us/azure/active-directory-b2c/add-web-api-application?tabs=app-reg-ga)
 
 
 #### Cloned repository</h4>
