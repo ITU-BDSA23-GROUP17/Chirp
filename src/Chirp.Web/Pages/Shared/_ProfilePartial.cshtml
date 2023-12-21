@@ -46,7 +46,7 @@
                 @if (User != null && User.Identity != null && User.Identity.Name != null && User.Identity.IsAuthenticated == true && User.Identity.Name.Equals(Model.getPageName()))
                 {
                     <form method="post" asp-page-handler="StatusUnavailable">
-                        <button type="submit" class="bg-orange-400 hover:bg-gold-700 text-white font-bold py-2 px-4 rounded">
+                        <button type="submit" class="bg-orange-400 hover:bg-red-200 text-white font-bold py-2 px-4 rounded">
                             Set to UNAVAILABLE
                         </button>
                     </form>
@@ -74,13 +74,13 @@
                 @if (User != null && User.Identity != null && User.Identity.Name != null &&  User?.Identity.IsAuthenticated == true && User.Identity.Name.Equals(Model.getPageName()))
                 {
                     <form method="post" asp-page-handler="StatusUnavailable">
-                        <button type="submit" class="bg-orange-dark hover:bg-gold-700 text-white font-bold py-2 px-4 rounded">
+                        <button type="submit" class="bg-orange-400 hover:bg-red-200 text-white font-bold py-2 px-4 rounded">
                             Set to UNAVAILABLE
                         </button>
                     </form>
 
                     <form method="post" asp-page-handler="StatusOnline">
-                        <button type="submit" class="bg-blue-400 hover:bg-dark-blue text-white font-bold py-2 px-4 rounded">
+                        <button type="submit" class="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
                             Set to ONLINE
                         </button>
                     </form>
@@ -108,7 +108,7 @@
                     </form>
 
                     <form method="post" asp-page-handler="StatusOnline">
-                        <button type="submit" class="bg-blue-400 hover:bg-dark-blue text-white font-bold py-2 px-4 rounded">
+                        <button type="submit" class="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
                             Set to ONLINE
                         </button>
                     </form>
