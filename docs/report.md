@@ -26,24 +26,28 @@ numbersections: true
 
 # Table of contents:
 
+- [Table of contents:](#table-of-contents)
 - [Design and architecture](#design-and-architecture)
-   - [Domain model](#domain-model)
-   - [Architecture - In the small](#architecture-in-the-small)
-   - [Architecture of deployed application](#architecture-of-deployed-application)
-   - [User activities](#user-activities)
-   - [Sequence of functionality/calls trough _Chirp!_](#sequence)
+  - [Domain model](#domain-model)
+  - [Architecture — In the small](#architecture--in-the-small)
+  - [Architecture of deployed application](#architecture-of-deployed-application)
+  - [User activities](#user-activities)
+  - [Sequence of functionality/calls trough _Chirp!_](#sequence-of-functionalitycalls-trough-chirp)
 - [Process](#process)
-   - [Build, test, release, and deployment](#build-test-release-and-deployment)
-   - [Team work](#team-work)
-   - [How to make _Chirp!_ work locally](#work-locally)
-   - [How to make _Chirp!_ work locally](#test-locally)
-      - [Unit test](#unit-test)
-      - [Integration test](#integration-test)
-      - [End to end test](#end-to-end-test)
-
+  - [Build, test, release, and deployment](#build-test-release-and-deployment)
+  - [Team work](#team-work)
+  - [How to make _Chirp!_ work locally](#how-to-make-chirp-work-locally)
+    - [Pre requirements](#pre-requirements)
+      - [Optional pre requirements](#optional-pre-requirements)
+    - [Clone the repository](#clone-the-repository)
+    - [Run the release](#run-the-release)
+  - [How to run test suite locally](#how-to-run-test-suite-locally)
+    - [Unit test](#unit-test)
+    - [Integration test](#integration-test)
+    - [End to end test](#end-to-end-test)
 - [Ethics](#ethics)
   - [License](#license)
-  - [LLMs, ChatGPT, CoPilot, and others](#llm)
+  - [LLMs, ChatGPT, CoPilot, and others](#llms-chatgpt-copilot-and-others)
 
 <a id="design-and-architecture"></a>
 
@@ -270,7 +274,7 @@ dotnet dev-certs https -t
 
 ```bash
 ./Chirp.Web --urls="https://localhost:7102;http://localhost:5273"
---clientsecret [your-secret]
+--clientsecret [your-secret] ----development
 ```
 
 Upon running the application, a terminal will pop up, indicating in which port (in the localhost) the web-app is up and running
