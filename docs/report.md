@@ -10,7 +10,8 @@ author:
 numbersections: true
 ---
 
-![](./images/ITU_logo.jpg)
+![](./images/logos/ITU_logo.jpg)
+![](./images/logos/Chirp_logo.png)
 
 |                |                                            |
 |----------------|--------------------------------------------|
