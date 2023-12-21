@@ -24,7 +24,24 @@ numbersections: true
 | Date           | December 21 2023                           |
 | School         | IT-University of Copenhagen                |
 
+## Table of contents:
+
+- [Design and architecture](#design-and-architecture)
+   - [Domain model](#domain-model)
+   - [Architecture - In the small](#architecture-in-the-small)
+   - [Architecture of deployed application](#architecture-of-deployed-application)
+   - [User activities](#user-activities)
+   - [Sequence of functionality/calls trough _Chirp!_](#sequence)
+- [Process](#Process)
+- [Ethics](#ethics)
+  - [License](#license)
+  - [LLMs, ChatGPT, CoPilot, and others](#ai)
+
+<a id="design-and-architecture"></a>
+
 # Design and architecture
+
+<a id="domain-model"></a>
 
 ## Domain model
 
@@ -359,6 +376,8 @@ dotnet test
 ```
 
 Which should start the test
+
+<a id="ethics"></a>
 
 # Ethics
 
