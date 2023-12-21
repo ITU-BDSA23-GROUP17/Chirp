@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 public class UserService : IUserService
 {
 
-    public GraphServiceClient graphClient;
+    public GraphServiceClient? graphClient;
     public UserService(string? ClientID, string? TenantId, string? ClientSecret)
     {
         try
@@ -29,18 +29,22 @@ public class UserService : IUserService
         }
     }
 
-    public async Task DeleteUserById(string userId)
+    public async Task DeleteUserById(string? userId)
     {
 
         Console.WriteLine($"Looking for user with object ID '{userId}'...");
 
         try
         {
-            // Delete user by object ID
-            await graphClient.Users[userId]
-                .Request()
-                .DeleteAsync();
+            if (graphClient != null)
+            {
+                // Delete user by object ID
+                await graphClient.Users[userId]
+                    .Request()
+                    .DeleteAsync();
 
+
+            }
 
             Console.WriteLine($"User with object ID '{userId}' successfully deleted.");
         }
@@ -60,20 +64,24 @@ public class UserService : IUserService
 
         try
         {
-            // Get all users (one page)
-            var result = await graphClient.Users
-                .Request()
-                 .Select(e => new
-                 {
-                     e.DisplayName,
-                     e.Id,
-                     e.Identities
-                 })
-                .GetAsync();
-
-            foreach (var user in result.CurrentPage)
+            if (graphClient != null)
             {
-                Console.WriteLine(JsonConvert.SerializeObject(user));
+                // Get all users (one page)
+                var result = await graphClient.Users
+                    .Request()
+                     .Select(e => new
+                     {
+                         e.DisplayName,
+                         e.Id,
+                         e.Identities
+                     })
+                    .GetAsync();
+
+                foreach (var user in result.CurrentPage)
+                {
+                    Console.WriteLine(JsonConvert.SerializeObject(user));
+                }
+
             }
         }
         catch (Exception e)
